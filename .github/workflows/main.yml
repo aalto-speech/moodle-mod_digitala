@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download Moodle files
+        run: git clone --branch MOODLE_310_STABLE git://git.moodle.org/moodle.git
+      
+      - name: Setup Moodle Docker environment
+        run: |
+          git clone git@github.com:moodlehq/moodle-docker.git
+          cd moodle-docker
+
+          export MOODLE_DOCKER_WWWROOT=../moodle
+          export MOODLE_DOCKER_DB=pgsql
+
+          bin/moodle-docker-compose up -d
+          bin/moodle-docker-wait-for-db
+      
+      - name: Include moodle-puheentunnistus plugin as digitala
+        run: |
+          cd ~/moodle/mod
+          git clone git@github.com:aalto-speech/moodle-puheentunnistus.git
+          mv moodle-puheentunnistus digitala
+
+      - name: Install plugin
+        run: |
+          cd ~/moodle-docker
+          php admin/cli/upgrade.php
+
+      - name: PHPUnit tests
+
+      - name: Behat tests
+
+
+
