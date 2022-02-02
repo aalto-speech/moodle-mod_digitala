@@ -66,11 +66,6 @@ class mod_digitala_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
-        // Adding the rest of mod_digitala settings, spreading all them into this fieldset
-        // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'digitalasettings', get_string('digitalasettings', 'mod_digitala'));
-        $mform->addElement('header', 'digitalafieldset', get_string('digitalafieldset', 'mod_digitala'));
-
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();
 
