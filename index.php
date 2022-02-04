@@ -18,7 +18,7 @@
  * Display information about all the mod_digitala modules in the requested course.
  *
  * @package     mod_digitala
- * @copyright   2022 Name <you@example.com>
+ * @copyright   2022 Name
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

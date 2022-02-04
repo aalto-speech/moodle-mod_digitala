@@ -19,15 +19,16 @@
  *
  * @package     mod_digitala
  * @category    string
- * @copyright   2022 Name <you@example.com>
+ * @copyright   2022 Name
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Digitala'; 
-$string['modulename'] = 'Digitala'; 
-$string['modulenameplural'] = 'Digitalas'; 
-$string['digitalaname'] = 'Assignment name'; 
-$string['digitalaname_help'] = 'Give name for the assignment'; 
-$string['pluginadministration'] = 'Plugin Administration'; 
+$string['pluginname'] = 'Digitala';
+$string['modulename'] = 'Digitala';
+$string['modulenameplural'] = 'Digitalas';
+$string['digitalaname'] = 'Assignment name';
+$string['digitalaname_help'] = 'Give name for the assignment';
+$string['pluginadministration'] = 'Plugin Administration';
+$string['digitala:addinstance'] = 'Add a new digitala';
