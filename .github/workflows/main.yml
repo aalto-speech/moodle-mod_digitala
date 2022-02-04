@@ -98,11 +98,11 @@ jobs:
         run: moodle-plugin-ci behat --profile chrome
 
       - name: Coverage
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
         run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Coveralls upload
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
         run: moodle-plugin-ci coveralls-upload
 
 
