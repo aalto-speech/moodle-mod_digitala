@@ -31,3 +31,6 @@ $string['modulenameplural'] = 'Digitalas';
 $string['digitalaname'] = 'Assignment name'; 
 $string['digitalaname_help'] = 'Give name for the assignment'; 
 $string['pluginadministration'] = 'Plugin Administration'; 
+$string['digitalainfo'] = 'Info';
+$string['digitalaassignment'] = 'Assignment';
+$string['digitalafeedback'] = 'Feedback';
