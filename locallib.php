@@ -39,13 +39,13 @@ function switch_page_button($name, $page, $id, $d, $is_curr) {
 	return $out;
 }
 
-function start_navigation() {
+function start_progress_bar() {
 	$out = html_writer::start_div('card navigation');
 	$out .= html_writer::start_div('row');
 	return $out;
 }
 
-function create_navigation_step($name, $page, $id, $d, $curr_page) {
+function create_progress_bar_step($name, $page, $id, $d, $curr_page) {
 	$is_curr = $page == $curr_page;
 
 	$out = html_writer::start_div('col step');
@@ -54,7 +54,7 @@ function create_navigation_step($name, $page, $id, $d, $curr_page) {
 	return $out;
 }
 
-function end_navigation() {
+function end_progress_bar() {
 	$out = html_writer::end_div();
 	$out .= html_writer::end_div();
 	return $out;

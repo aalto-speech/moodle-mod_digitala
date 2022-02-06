@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class digitala_navigation implements renderable {
+class digitala_progress_bar implements renderable {
 
     public function __construct($id = 0, $d = 0, $curr_page = 0) {
 		$this->id = $id;
