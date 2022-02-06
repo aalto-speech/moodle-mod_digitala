@@ -91,15 +91,11 @@ jobs:
 
       - name: PHPUnit tests
         if: ${{ always() }}
-        run: moodle-plugin-ci phpunit
+        run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Behat features
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
-
-      - name: Coverage
-        if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
-        run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Coveralls upload
         if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
