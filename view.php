@@ -24,6 +24,7 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
+require_once(__DIR__.'/renderable.php');
 
 // Course module id.
 $id = optional_param('id', 0, PARAM_INT);
@@ -58,6 +59,23 @@ $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
+$OUTPUT = $PAGE->get_renderer('mod_digitala');
+
+$pagenum = optional_param('page', 0, PARAM_INT);
+$content = $OUTPUT->render(new digitala_navigation($id, $d, $pagenum));
+
+if ($pagenum == 0) {
+	$content .= $OUTPUT->render(new digitala_info());
+}
+elseif ($pagenum == 1) {
+	$content .= $OUTPUT->render(new digitala_assignment());
+}
+else {
+	$content .= $OUTPUT->render(new digitala_report());
+}
+
 echo $OUTPUT->header();
+
+echo $content;
 
 echo $OUTPUT->footer();
