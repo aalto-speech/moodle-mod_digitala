@@ -36,11 +36,11 @@ require_once(__DIR__.'/locallib.php');
 class mod_digitala_renderer extends plugin_renderer_base {
 	
 	protected function render_digitala_navigation(digitala_navigation $navigation) {
-		$out  = switch_page_button(get_string('digitalainfo', 'digitala'), 0, $navigation->id, $navigation->d);
-		$out .= ' ';
-		$out .= switch_page_button(get_string('digitalaassignment', 'digitala'), 1, $navigation->id, $navigation->d);
-		$out .= ' ';
-		$out .= switch_page_button(get_string('digitalafeedback', 'digitala'), 2, $navigation->id, $navigation->d);
+		$out = start_navigation();
+		$out .= create_navigation_step(get_string('digitalainfo', 'digitala'), 0, $navigation->id, $navigation->d, $navigation->curr_page);
+		$out .= create_navigation_step(get_string('digitalaassignment', 'digitala'), 1, $navigation->id, $navigation->d, $navigation->curr_page);
+		$out .= create_navigation_step(get_string('digitalareport', 'digitala'), 2, $navigation->id, $navigation->d, $navigation->curr_page);
+		$out .= end_navigation();
 		return $out;
 	}
 	
@@ -56,8 +56,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
 		return $this->output->container($out, 'assignment');
 	}
 	
-	protected function render_digitala_feedback() {
-		$out  = $this->output->heading(format_string(get_string('digitalafeedback', 'digitala')), 2);
+	protected function render_digitala_report() {
+		$out  = $this->output->heading(format_string(get_string('digitalareport', 'digitala')), 2);
 		$out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
 		return $this->output->container($out, 'feedback');
 	}

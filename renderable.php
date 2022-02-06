@@ -26,9 +26,10 @@ defined('MOODLE_INTERNAL') || die();
 
 class digitala_navigation implements renderable {
 
-    public function __construct($id = 0, $d = 0) {
+    public function __construct($id = 0, $d = 0, $curr_page = 0) {
 		$this->id = $id;
 		$this->d = $d;
+    $this->curr_page = $curr_page;
     }
 }
 
@@ -36,4 +37,4 @@ class digitala_info implements renderable {}
 
 class digitala_assignment implements renderable {}
 
-class digitala_feedback implements renderable {}
+class digitala_report implements renderable {}

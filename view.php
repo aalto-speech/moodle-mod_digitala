@@ -61,8 +61,9 @@ $PAGE->set_context($modulecontext);
 
 $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
-$content = $OUTPUT->render(new digitala_navigation($id, $d));
 $pagenum = optional_param('page', 0, PARAM_INT);
+$content = $OUTPUT->render(new digitala_navigation($id, $d, $pagenum));
+
 if ($pagenum == 0) {
 	$content .= $OUTPUT->render(new digitala_info());
 }
@@ -70,7 +71,7 @@ elseif ($pagenum == 1) {
 	$content .= $OUTPUT->render(new digitala_assignment());
 }
 else {
-	$content .= $OUTPUT->render(new digitala_feedback());
+	$content .= $OUTPUT->render(new digitala_report());
 }
 
 echo $OUTPUT->header();
