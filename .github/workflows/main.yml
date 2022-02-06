@@ -91,11 +91,18 @@ jobs:
 
       - name: PHPUnit tests
         if: ${{ always() }}
-        run: moodle-plugin-ci phpunit
+        run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Behat features
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
 
+      - name: Coveralls upload
+        if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
+        run: moodle-plugin-ci coveralls-upload
 
-
+      - name: Comment test results into PR
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() }}
+        with:
+          files: coverage.xml
