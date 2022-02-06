@@ -30,32 +30,49 @@ function page_url($name, $page, $id, $d) {
 
 function switch_page_button($name, $page, $id, $d, $is_curr) {
 	$url = page_url($name, $page, $id, $d);
+	$page_out = $page + 1;
 	if ($is_curr) {
-		$out = html_writer::link($url, $page+1, array('class' => 'nav-num active display-6'));
+		$title = '<span class="pb-num active">'.$page_out.'</span>'.$name;
 	} else {
-		$out = html_writer::link($url, $page+1, array('class' => 'nav-num display-6'));
+		$title = '<span class="pb-num">'.$page_out.'</span>'.$name;
 	}
-	$out .= html_writer::link($url, $name, array('class' => 'nav-text display-6'));
+	$out = html_writer::link($url, $title, array('class' => 'display-6'));
 	return $out;
 }
 
 function start_progress_bar() {
-	$out = html_writer::start_div('card navigation');
-	$out .= html_writer::start_div('row');
+	$out = html_writer::start_div('digitala-progress-bar');
 	return $out;
 }
 
 function create_progress_bar_step($name, $page, $id, $d, $curr_page) {
 	$is_curr = $page == $curr_page;
-
-	$out = html_writer::start_div('col step');
+	if ($is_curr) {
+		$out = html_writer::start_div('pb-step active');
+	} else {
+		$out = html_writer::start_div('pb-step');
+	}
+	
 	$out .= switch_page_button($name, $page, $id, $d, $is_curr);
 	$out .= html_writer::end_div();
 	return $out;
 }
 
+function create_spacer($is_curr) {
+	if ($is_curr) {
+		$out = html_writer::start_div('pb-spacer active');
+		$out .= html_writer::div('','pb-spacer-arrow active');
+		$out .= html_writer::end_div();
+	} else {
+		$out = html_writer::start_div('pb-spacer');
+		$out .= html_writer::div('','pb-spacer-arrow');
+		$out .= html_writer::end_div();
+	}
+	
+	return $out;
+}
+
 function end_progress_bar() {
 	$out = html_writer::end_div();
-	$out .= html_writer::end_div();
 	return $out;
 }
