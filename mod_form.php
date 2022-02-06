@@ -18,7 +18,7 @@
  * The main mod_digitala configuration form.
  *
  * @package     mod_digitala
- * @copyright   2022 Name <you@example.com>
+ * @copyright   2022 Name
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
  * Module instance settings form.
  *
  * @package     mod_digitala
- * @copyright   2022 Name <you@example.com>
+ * @copyright   2022 Name
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_digitala_mod_form extends moodleform_mod {
