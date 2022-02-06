@@ -1,0 +1,14 @@
+.nav-num {
+  font-size: xxx-large;
+  margin: 2rem;
+}
+.nav-num.active {
+  font-weight: 1000;
+}
+.nav-text {
+  font-size: xx-large;
+}
+
+.step {
+  margin: auto;
+}

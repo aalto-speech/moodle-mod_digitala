@@ -28,7 +28,34 @@ function page_url($name, $page, $id, $d) {
 	return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page));
 }
 
-function switch_page_button($name, $page, $id, $d) {
+function switch_page_button($name, $page, $id, $d, $is_curr) {
 	$url = page_url($name, $page, $id, $d);
-	return html_writer::link($url, $name);
+	if ($is_curr) {
+		$out = html_writer::link($url, $page+1, array('class' => 'nav-num active display-6'));
+	} else {
+		$out = html_writer::link($url, $page+1, array('class' => 'nav-num display-6'));
+	}
+	$out .= html_writer::link($url, $name, array('class' => 'nav-text display-6'));
+	return $out;
+}
+
+function start_navigation() {
+	$out = html_writer::start_div('card navigation');
+	$out .= html_writer::start_div('row');
+	return $out;
+}
+
+function create_navigation_step($name, $page, $id, $d, $curr_page) {
+	$is_curr = $page == $curr_page;
+
+	$out = html_writer::start_div('col step');
+	$out .= switch_page_button($name, $page, $id, $d, $is_curr);
+	$out .= html_writer::end_div();
+	return $out;
+}
+
+function end_navigation() {
+	$out = html_writer::end_div();
+	$out .= html_writer::end_div();
+	return $out;
 }
