@@ -33,4 +33,4 @@ $string['digitalaname_help'] = 'Give name for the assignment';
 $string['pluginadministration'] = 'Plugin Administration'; 
 $string['digitalainfo'] = 'Info';
 $string['digitalaassignment'] = 'Assignment';
-$string['digitalafeedback'] = 'Feedback';
+$string['digitalareport'] = 'Report';
