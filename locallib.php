@@ -47,6 +47,7 @@ function page_url($page, $id, $d) {
 function create_progress_bar_step_link($name, $page, $id, $d, $iscurrent) {
     $url = page_url($page, $id, $d);
     $pageout = $page + 1;
+    $name = get_string($name, 'digitala');
     if ($iscurrent) {
         $title = '<span class="pb-num active">'.$pageout.'</span>'.$name;
     } else {
@@ -75,7 +76,7 @@ function end_progress_bar() {
 /**
  * Used to create one step of the progress bar.
  *
- * @param string $name name of the step
+ * @param string $name name of the step as lang API compatible id
  * @param number $page number of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
