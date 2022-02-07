@@ -25,11 +25,11 @@
 
 class add_digitala_test extends \advanced_testcase {
 
-    /** 
-     * A test to test testing. 
+    /**
+     * A test to test testing.
      */
     public function test_dummy() {
-        $this->assertEquals(2, 1+1);
+        $this->assertEquals(2, 1 + 1);
     }
 
     /**

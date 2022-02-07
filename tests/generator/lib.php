@@ -42,7 +42,7 @@ class mod_digitala_generator extends testing_module_generator {
 
     /**
      * Create Digitala instance
-     * 
+     *
      */
     public function create_instance($record = null, array $options = null) {
         $record = (object)(array)$record;
