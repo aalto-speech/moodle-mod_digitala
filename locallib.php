@@ -46,28 +46,51 @@ function start_progress_bar() {
 }
 
 function create_progress_bar_step($name, $page, $id, $d, $curr_page) {
+	$classes = 'pb-step';
 	$is_curr = $page == $curr_page;
 	if ($is_curr) {
-		$out = html_writer::start_div('pb-step active');
-	} else {
-		$out = html_writer::start_div('pb-step');
+		$classes .= ' active';
+	}
+	if ($page == 0) {
+		$classes .= ' first';
+	}
+	if ($page == 2) {
+		$classes .= ' last';
 	}
 	
+	$out = html_writer::start_div($classes);
 	$out .= switch_page_button($name, $page, $id, $d, $is_curr);
 	$out .= html_writer::end_div();
 	return $out;
 }
 
-function create_spacer($is_curr) {
-	if ($is_curr) {
-		$out = html_writer::start_div('pb-spacer active');
-		$out .= html_writer::div('','pb-spacer-arrow active');
-		$out .= html_writer::end_div();
+function calculate_spacers($page) {
+	if ($page == 0) {
+		return array('left' => 'right-empty', 'right' => 'nothing');
+	} elseif ($page == 1) {
+		return array('left' => 'left-empty', 'right' => 'right-empty');
 	} else {
-		$out = html_writer::start_div('pb-spacer');
-		$out .= html_writer::div('','pb-spacer-arrow');
-		$out .= html_writer::end_div();
+		return array('left' => 'nothing', 'right' => 'left-empty');
 	}
+}
+
+function create_spacer($mode) {
+
+	
+	$out = html_writer::start_div('pb-spacer');
+	$out .= '<svg width="100%" height="100%" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">';
+	#vasen
+	if ($mode == 'left-empty') {
+		$out .= '<path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/>';
+	}	
+	#oikea
+	if ($mode == 'right-empty') {
+		$out .= '<path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/>';
+	}
+	$out .= '<path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/>';
+	$out .= '</svg>';
+	$out .= html_writer::end_div();
+	
 	
 	return $out;
 }

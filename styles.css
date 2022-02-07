@@ -8,36 +8,28 @@
 .digitala-progress-bar {
   font-size: xx-large;
   display: flex;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  height: 2.5em;
 }
 .pb-step {
   flex: 1;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  background-color: red;
-}
-.pb-step:first-of-type {
-  border-left: 1px solid black;
-}
-.pb-step:last-of-type {
-  border-right: 1px solid black;
-}
-.pb-spacer {
-  background-color: red;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  width: 2em;
-}
-.pb-spacer.active {
-  background-color: red;
-}
-.pb-spacer-arrow {
-  clip-path: polygon(0 0, 0% 100%, 100% 50%);
-  height: 100%;
-  background-color: black;
-}
-.pb-spacer-arrow.active {
-  background-color: lightgray;
+  border-top: 2px solid lightgray;
+  border-bottom: 2px solid lightgray;
 }
 .pb-step.active {
   background-color: lightgray;
+}
+
+.pb-step.active.first {
+  border-radius: 10px 0 0 10px;
+}
+
+.pb-step.active.last {
+  border-radius: 0 10px 10px 0;
+}
+.pb-spacer {
+  width: auto;
+  border-top: 2px solid lightgray;
+  border-bottom: 2px solid lightgray;
 }

@@ -36,11 +36,12 @@ require_once(__DIR__.'/locallib.php');
 class mod_digitala_renderer extends plugin_renderer_base {
 	
 	protected function render_digitala_progress_bar(digitala_progress_bar $progress_bar) {
+		$spacers = calculate_spacers($progress_bar->curr_page);
 		$out = start_progress_bar();
 		$out .= create_progress_bar_step(get_string('digitalainfo', 'digitala'), 0, $progress_bar->id, $progress_bar->d, $progress_bar->curr_page);
-		$out .= create_spacer(0==$progress_bar->curr_page);
+		$out .= create_spacer($spacers['left']);
 		$out .= create_progress_bar_step(get_string('digitalaassignment', 'digitala'), 1, $progress_bar->id, $progress_bar->d, $progress_bar->curr_page);
-		$out .= create_spacer(1==$progress_bar->curr_page);
+		$out .= create_spacer($spacers['right']);
 		$out .= create_progress_bar_step(get_string('digitalareport', 'digitala'), 2, $progress_bar->id, $progress_bar->d, $progress_bar->curr_page);
 		$out .= end_progress_bar();
 		return $out;
