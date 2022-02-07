@@ -119,12 +119,12 @@ function calculate_progress_bar_spacers($page) {
 /**
  * Used to create spacer between steps in the progress bar.
  *
- * @param string $mode defines if extra filling needed in the spacer. 
+ * @param string $mode defines if extra filling needed in the spacer.
  * Knows values 'right-empty' and 'left-empty'. Other strings gives no extra filling.
-*/
+ */
 function create_progress_bar_spacer($mode) {
     $out = html_writer::start_div('pb-spacer');
-    $out .= '<svg width="100%" height="100%" viewBox="0 0 275 500" 
+    $out .= '<svg width="100%" height="100%" viewBox="0 0 275 500"
     style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">';
 
     if ($mode == 'left-empty') {
