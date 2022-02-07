@@ -42,15 +42,15 @@ function page_url($page, $id, $d) {
  * @param number $page number of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
- * @param bool $isCurr true if page is currently active
+ * @param bool $iscurrent true if page is currently active
  */
-function create_progress_bar_step_link($name, $page, $id, $d, $isCurr) {
+function create_progress_bar_step_link($name, $page, $id, $d, $iscurrent) {
     $url = page_url($page, $id, $d);
-    $page_out = $page + 1;
-    if ($isCurr) {
-        $title = '<span class="pb-num active">'.$page_out.'</span>'.$name;
+    $pageout = $page + 1;
+    if ($iscurrent) {
+        $title = '<span class="pb-num active">'.$pageout.'</span>'.$name;
     } else {
-        $title = '<span class="pb-num">'.$page_out.'</span>'.$name;
+        $title = '<span class="pb-num">'.$pageout.'</span>'.$name;
     }
     $out = html_writer::link($url, $title, array('class' => 'display-6'));
     return $out;
@@ -79,12 +79,12 @@ function end_progress_bar() {
  * @param number $page number of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
- * @param number $curr_page number of the active page
+ * @param number $currentpage number of the active page
  */
-function create_progress_bar_step($name, $page, $id, $d, $curr_page) {
+function create_progress_bar_step($name, $page, $id, $d, $currentpage) {
     $classes = 'pb-step';
-    $is_curr = $page == $curr_page;
-    if ($is_curr) {
+    $iscurrent = $page == $currentpage;
+    if ($iscurrent) {
         $classes .= ' active';
     }
     if ($page == 0) {
@@ -95,7 +95,7 @@ function create_progress_bar_step($name, $page, $id, $d, $curr_page) {
     }
 
     $out = html_writer::start_div($classes);
-    $out .= create_progress_bar_step_link($name, $page, $id, $d, $is_curr);
+    $out .= create_progress_bar_step_link($name, $page, $id, $d, $iscurrent);
     $out .= html_writer::end_div();
     return $out;
 }
@@ -108,25 +108,27 @@ function create_progress_bar_step($name, $page, $id, $d, $curr_page) {
 function calculate_progress_bar_spacers($page) {
     if ($page == 0) {
         return array('left' => 'right-empty', 'right' => 'nothing');
-    } elseif ($page == 1) {
+    } else if ($page == 1) {
         return array('left' => 'left-empty', 'right' => 'right-empty');
     } else {
         return array('left' => 'nothing', 'right' => 'left-empty');
     }
 }
 
-/** 
+/**
  * Used to create spacer between steps in the progress bar.
  *
- * @param string $mode defines if extra filling needed in the spacer. Knows values 'right-empty' and 'left-empty'. Other strings gives no extra filling. 
+ * @param string $mode defines if extra filling needed in the spacer. 
+ * Knows values 'right-empty' and 'left-empty'. Other strings gives no extra filling.
 */
 function create_progress_bar_spacer($mode) {
     $out = html_writer::start_div('pb-spacer');
-    $out .= '<svg width="100%" height="100%" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">';
+    $out .= '<svg width="100%" height="100%" viewBox="0 0 275 500" 
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">';
 
     if ($mode == 'left-empty') {
         $out .= '<path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/>';
-    }	
+    }
 
     if ($mode == 'right-empty') {
         $out .= '<path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/>';

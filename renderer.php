@@ -34,34 +34,34 @@ require_once(__DIR__.'/locallib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_digitala_renderer extends plugin_renderer_base {
-	
-	protected function render_digitala_progress_bar(digitala_progress_bar $progress_bar) {
-		$spacers = calculate_progress_bar_spacers($progress_bar->curr_page);
-		$out = start_progress_bar();
-		$out .= create_progress_bar_step(get_string('digitalainfo', 'digitala'), 0, $progress_bar->id, $progress_bar->d, $progress_bar->curr_page);
-		$out .= create_progress_bar_spacer($spacers['left']);
-		$out .= create_progress_bar_step(get_string('digitalaassignment', 'digitala'), 1, $progress_bar->id, $progress_bar->d, $progress_bar->curr_page);
-		$out .= create_progress_bar_spacer($spacers['right']);
-		$out .= create_progress_bar_step(get_string('digitalareport', 'digitala'), 2, $progress_bar->id, $progress_bar->d, $progress_bar->curr_page);
-		$out .= end_progress_bar();
-		return $out;
-	}
-	
-	protected function render_digitala_info() {
-		$out  = $this->output->heading(format_string(get_string('digitalainfo', 'digitala')), 2);
-		$out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
-		return $this->output->container($out, 'info');
-	}
-	
-	protected function render_digitala_assignment() {
-		$out  = $this->output->heading(format_string(get_string('digitalaassignment', 'digitala')), 2);
-		$out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
-		return $this->output->container($out, 'assignment');
-	}
-	
-	protected function render_digitala_report() {
-		$out  = $this->output->heading(format_string(get_string('digitalareport', 'digitala')), 2);
-		$out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
-		return $this->output->container($out, 'feedback');
-	}
+    
+    protected function render_digitala_progress_bar(digitala_progress_bar $progressbar) {
+        $spacers = calculate_progress_bar_spacers($progressbar->curr_page);
+        $out = start_progress_bar();
+        $out .= create_progress_bar_step(get_string('digitalainfo', 'digitala'), 0, $progressbar->id, $progressbar->d, $progressbar->curr_page);
+        $out .= create_progress_bar_spacer($spacers['left']);
+        $out .= create_progress_bar_step(get_string('digitalaassignment', 'digitala'), 1, $progressbar->id, $progressbar->d, $progressbar->curr_page);
+        $out .= create_progress_bar_spacer($spacers['right']);
+        $out .= create_progress_bar_step(get_string('digitalareport', 'digitala'), 2, $progressbar->id, $progressbar->d, $progressbar->curr_page);
+        $out .= end_progress_bar();
+        return $out;
+    }
+    
+    protected function render_digitala_info() {
+        $out  = $this->output->heading(format_string(get_string('digitalainfo', 'digitala')), 2);
+        $out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
+        return $this->output->container($out, 'info');
+    }
+    
+    protected function render_digitala_assignment() {
+        $out  = $this->output->heading(format_string(get_string('digitalaassignment', 'digitala')), 2);
+        $out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
+        return $this->output->container($out, 'assignment');
+    }
+    
+    protected function render_digitala_report() {
+        $out  = $this->output->heading(format_string(get_string('digitalareport', 'digitala')), 2);
+        $out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
+        return $this->output->container($out, 'feedback');
+    }
 }
