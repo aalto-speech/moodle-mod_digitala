@@ -33,6 +33,12 @@ defined('MOODLE_INTERNAL') || die();
  */
 class digitala_progress_bar implements renderable {
 
+    /**
+     * Constructor
+     * @param int $id - Id of the activity
+     * @param int $d - Id of the course
+     * @param int $currpage - Current page number
+     */
     public function __construct($id = 0, $d = 0, $currpage = 0) {
         $this->id = $id;
         $this->d = $d;
@@ -40,14 +46,36 @@ class digitala_progress_bar implements renderable {
     }
 }
 
+/**
+ * Implements a renderable info panel used on the first page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class digitala_info implements renderable {
 
 }
 
+/**
+ * Implements a renderable assignment panel used on the second page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class digitala_assignment implements renderable {
 
 }
 
+
+/**
+ * Implements a renderable report panel used on the last page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class digitala_report implements renderable {
 
 }

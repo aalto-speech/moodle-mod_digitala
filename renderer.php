@@ -35,6 +35,12 @@ require_once(__DIR__.'/locallib.php');
  */
 class mod_digitala_renderer extends plugin_renderer_base {
 
+    /**
+     * Renders the progress bar.
+     *
+     * @param digitala_progress_bar $progressbar - An instance of digitala_progress_bar to render.
+     * @return $out - HTML string to output.
+     */
     protected function render_digitala_progress_bar(digitala_progress_bar $progressbar) {
         $spacers = calculate_progress_bar_spacers($progressbar->curr_page);
         $out = start_progress_bar();
@@ -47,18 +53,33 @@ class mod_digitala_renderer extends plugin_renderer_base {
         return $out;
     }
 
+    /**
+     * Renders the info panel.
+     *
+     * @return $out - HTML string to output.
+     */
     protected function render_digitala_info() {
         $out  = $this->output->heading(format_string(get_string('digitalainfo', 'digitala')), 2);
         $out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
         return $this->output->container($out, 'info');
     }
 
+    /**
+     * Renders the assignment panel.
+     *
+     * @return $out - HTML string to output.
+     */
     protected function render_digitala_assignment() {
         $out  = $this->output->heading(format_string(get_string('digitalaassignment', 'digitala')), 2);
         $out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
         return $this->output->container($out, 'assignment');
     }
 
+    /**
+     * Renders the report panel.
+     *
+     * @return $out - HTML string to output.
+     */
     protected function render_digitala_report() {
         $out  = $this->output->heading(format_string(get_string('digitalareport', 'digitala')), 2);
         $out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
