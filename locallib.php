@@ -79,7 +79,7 @@ function end_progress_bar() {
  * @param number $page number of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
- * @param bool $is_curr true if page is currently active
+ * @param number $curr_page number of the active page
  */
 function create_progress_bar_step($name, $page, $id, $d, $curr_page) {
 	$classes = 'pb-step';

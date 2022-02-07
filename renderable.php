@@ -24,6 +24,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * A custom renderable class that implements the renderable and is used by the digitala module with the progress bar.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class digitala_progress_bar implements renderable {
 
     public function __construct($id = 0, $d = 0, $curr_page = 0) {
