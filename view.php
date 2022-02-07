@@ -66,8 +66,7 @@ $content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
 
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info());
-}
-else if ($pagenum == 1) {
+} else if ($pagenum == 1) {
     $content .= $OUTPUT->render(new digitala_assignment());
 } else {
     $content .= $OUTPUT->render(new digitala_report());
