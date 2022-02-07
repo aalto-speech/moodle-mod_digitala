@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Digitala'; 
 $string['modulename'] = 'Digitala'; 
+$string['digitala:addinstance'] = 'Add new Digitala activity';
 $string['modulenameplural'] = 'Digitalas'; 
 $string['digitalaname'] = 'Assignment name'; 
 $string['digitalaname_help'] = 'Give name for the assignment'; 

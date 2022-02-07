@@ -289,9 +289,3 @@ function digitala_extend_navigation($digitalanode, $course, $module, $cm) {
  */
 function digitala_extend_settings_navigation($settingsnav, $digitalanode = null) {
 }
-
-function digitala_get_fontawesome_icon_map() {
-    return [
-        'mod_digitala:i/arrow-right' => 'fa-arrow-right',
-    ];
-}
