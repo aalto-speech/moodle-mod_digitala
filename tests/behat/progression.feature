@@ -21,7 +21,7 @@ Feature: Student can see current progress in the assignment.
     And I log out
     And I log in as "student1"
 
-  Scenario: Assignment 
+  Scenario: Assignment progress shown in second phase
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Assignment" "link"

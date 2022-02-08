@@ -22,8 +22,7 @@
  * @copyright   2022 Name
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-class mod_digitala_generator extends testing_module_generator {
+ class mod_digitala_generator extends testing_module_generator {
     /**
      * @var int keep track of how many Digitalas have been created.
      */
@@ -42,7 +41,9 @@ class mod_digitala_generator extends testing_module_generator {
 
     /**
      * Create Digitala instance
-     *
+     * @param stdClass $record
+     * @param array $options
+     * @return stdClass
      */
     public function create_instance($record = null, array $options = null) {
         $record = (object)(array)$record;

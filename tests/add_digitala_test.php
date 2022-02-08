@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace mod_digitala;
+
+defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
+
+global $CFG;
+
 /**
  * Unit tests for adding a digitala plugin
  *
@@ -22,7 +28,6 @@
  * @copyright   2022 Name
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class add_digitala_test extends \advanced_testcase {
 
     /**
