@@ -1,5 +1,5 @@
 @mod @mod_digitala
-Feature: Student can see the phases of the whole assignment.
+Feature: Student can see current progress in the assignment.
 
   Background:
     Given the following "users" exist:
@@ -21,13 +21,8 @@ Feature: Student can see the phases of the whole assignment.
     And I log out
     And I log in as "student1"
 
-  Scenario: The digitala activity is shown on course page
-    When I am on "Course 1" course homepage
-    Then I should see "Test digitala name"
-
-  Scenario: All the phases of activity are shown
+  Scenario: Assignment 
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
-    Then I should see "Info"
-    And I should see "Assignment"
-    And I should see "Report"
+    And I click on "Assignment" "link"
+    Then I should see "Assignment"
