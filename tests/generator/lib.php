@@ -22,7 +22,7 @@
  * @copyright   2022 Name
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- class mod_digitala_generator extends testing_module_generator {
+class mod_digitala_generator extends testing_module_generator {
     /**
      * @var int keep track of how many Digitalas have been created.
      */
