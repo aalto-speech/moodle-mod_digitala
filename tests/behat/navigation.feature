@@ -1,4 +1,4 @@
-@mod @mod_digitala
+@mod @mod_digitala @javascript
 Feature: Student can see the phases of the whole assignment.
 
   Background:
