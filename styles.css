@@ -1,14 +1,36 @@
-.nav-num {
-  font-size: xxx-large;
-  margin: 2rem;
+.pb-num {
+    font-size: xxx-large;
+    margin: 2rem;
 }
-.nav-num.active {
-  font-weight: 1000;
+.pb-num.active {
+    font-weight: 1000;
 }
-.nav-text {
-  font-size: xx-large;
+.digitala-progress-bar {
+    font-size: xx-large;
+    display: flex;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    height: 2.5em;
+}
+.pb-step {
+    flex: 1;
+    border-top: 2px solid lightgray;
+    border-bottom: 2px solid lightgray;
+    text-align: center;
+}
+.pb-step.active {
+    background-color: lightgray;
 }
 
-.step {
-  margin: auto;
+.pb-step.active.first {
+    border-radius: 10px 0 0 10px;
+}
+
+.pb-step.active.last {
+    border-radius: 0 10px 10px 0;
+}
+.pb-spacer {
+    width: auto;
+    border-top: 2px solid lightgray;
+    border-bottom: 2px solid lightgray;
 }

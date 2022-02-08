@@ -24,17 +24,58 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class digitala_navigation implements renderable {
+/**
+ * A custom renderable class that implements the renderable and is used by the digitala module with the progress bar.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class digitala_progress_bar implements renderable {
 
-    public function __construct($id = 0, $d = 0, $curr_page = 0) {
-		$this->id = $id;
-		$this->d = $d;
-    $this->curr_page = $curr_page;
+    /**
+     * Constructor
+     * @param int $id - Id of the activity
+     * @param int $d - Id of the course
+     * @param int $currpage - Current page number
+     */
+    public function __construct($id = 0, $d = 0, $currpage = 0) {
+        $this->id = $id;
+        $this->d = $d;
+        $this->currpage = $currpage;
     }
 }
 
-class digitala_info implements renderable {}
+/**
+ * Implements a renderable info panel used on the first page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class digitala_info implements renderable {
 
-class digitala_assignment implements renderable {}
+}
 
-class digitala_report implements renderable {}
+/**
+ * Implements a renderable assignment panel used on the second page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class digitala_assignment implements renderable {
+
+}
+
+
+/**
+ * Implements a renderable report panel used on the last page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class digitala_report implements renderable {
+
+}

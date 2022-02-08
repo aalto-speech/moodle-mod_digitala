@@ -23,7 +23,6 @@
  */
 
 namespace mod_digitala\event;
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * The mod_digitala course module viewed event class.

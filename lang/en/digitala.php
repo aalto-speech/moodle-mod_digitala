@@ -25,12 +25,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Digitala'; 
-$string['modulename'] = 'Digitala'; 
-$string['modulenameplural'] = 'Digitalas'; 
-$string['digitalaname'] = 'Assignment name'; 
-$string['digitalaname_help'] = 'Give name for the assignment'; 
-$string['pluginadministration'] = 'Plugin Administration'; 
+$string['pluginname'] = 'Digitala';
+$string['modulename'] = 'Digitala';
+$string['digitala:addinstance'] = 'Add new Digitala activity';
+$string['modulenameplural'] = 'Digitalas';
+$string['digitalaname'] = 'Assignment name';
+$string['digitalaname_help'] = 'Give name for the assignment';
+$string['pluginadministration'] = 'Plugin Administration';
 $string['digitalainfo'] = 'Info';
 $string['digitalaassignment'] = 'Assignment';
 $string['digitalareport'] = 'Report';
