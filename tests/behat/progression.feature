@@ -21,7 +21,7 @@ Feature: Student can see current progress in the assignment.
     And I click on "Test digitala name" "link"
     Then ".pb-step.active" "css_element" should exist in the ".pb-step.first" "css_element"
     And ".pb-step.active" "css_element" should not exist in the ".pb-step.last" "css_element"
-  
+
   Scenario: On report page only report progress is shown on progress bar
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
