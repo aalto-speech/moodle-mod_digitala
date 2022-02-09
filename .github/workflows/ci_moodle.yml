@@ -1,4 +1,4 @@
-name: Moodle Plugin CI for Moodle 3.9
+name: Moodle Plugin CI for Moodle 3.9 and 3.11
 
 on: [push, pull_request]
 
@@ -22,6 +22,12 @@ jobs:
         php: ['7.3', '7.4']
         moodle-branch: ['MOODLE_39_STABLE']
         database: [pgsql]
+        experimental: [false]
+        include:
+          - php: '8.0'
+            moodle-branch: 'MOODLE_311_STABLE'
+            database: pgsql
+            experimental: true
 
     steps:
       - name: Check out repository code
@@ -89,8 +95,8 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0
 
-      - name: PHPUnit tests
-        if: ${{ always() }}
+      - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
+        if: ${{ !matrix.experimental }}
         run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Behat features
@@ -100,9 +106,3 @@ jobs:
       - name: Coveralls upload
         if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
         run: moodle-plugin-ci coveralls-upload
-
-      - name: Comment test results into PR
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: ${{ always() }}
-        with:
-          files: coverage.xml
