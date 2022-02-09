@@ -16,8 +16,15 @@ Feature: Student can see current progress in the assignment.
       | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 |
     And I log in as "student1"
 
-  Scenario: Assignment progress is shown (dummy)
+  Scenario: On first page only info progress is active on progress bar
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
-    And I click on "Assignment" "link"
-    Then I should see "Assignment"
+    Then ".pb-step.active" "css_element" should exist in the ".pb-step.first" "css_element"
+    And ".pb-step.active" "css_element" should not exist in the ".pb-step.last" "css_element"
+  
+  Scenario: On report page only report progress is shown on progress bar
+    When I am on "Course 1" course homepage
+    And I click on "Test digitala name" "link"
+    And I click on "Report" "link"
+    Then ".pb-step.active" "css_element" should exist in the ".pb-step.last" "css_element"
+    And ".pb-step.active" "css_element" should not exist in the ".pb-step.first" "css_element"
