@@ -66,7 +66,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
     /**
      * Renders the assignment panel.
-     * 
+     *
      * @param digitala_assignment $assignment - An instance of digitala_assignment to render.
      * @return $out - HTML string to output.
      */

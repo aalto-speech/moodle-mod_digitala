@@ -142,7 +142,7 @@ function create_progress_bar_spacer($mode) {
 
 /**
  * Used to create step content container.
- * 
+ *
  * @param string $classname steps classname for css styling
  */
 function start_container($classname) {
@@ -170,6 +170,9 @@ function start_column() {
     return $out;
 }
 
+/**
+ * Used to close column
+ */
 function end_column() {
     $out = html_writer::end_div();
     return $out;
@@ -177,7 +180,7 @@ function end_column() {
 
 /**
  * Used to create content card inside content container column
- * 
+ *
  * @param string $header text for card's header
  * @param string $text content for the card as html
  */
