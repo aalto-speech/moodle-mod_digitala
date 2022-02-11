@@ -69,6 +69,8 @@ class digitala_assignment implements renderable {
      * Constructor
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
+     * @param string $assignmenttext - Assignment text for the assignment
+     * @param string $resourcetext - Resource text for the assignment
      */
     public function __construct($id = 0, $d = 0, $assignmenttext = '', $resourcetext = '') {
         $this->id = $id;

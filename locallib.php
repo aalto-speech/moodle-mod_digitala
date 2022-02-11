@@ -140,6 +140,11 @@ function create_progress_bar_spacer($mode) {
     return $out;
 }
 
+/**
+ * Used to create step content container.
+ * 
+ * @param string $classname steps classname for css styling
+ */
 function start_container($classname) {
     $out = html_writer::start_div($classname);
     $out .= html_writer::start_div('container-fluid');
@@ -147,6 +152,9 @@ function start_container($classname) {
     return $out;
 }
 
+/**
+ * Used to close step content container
+ */
 function end_container() {
     $out = html_writer::end_div();
     $out .= html_writer::end_div();
@@ -154,6 +162,9 @@ function end_container() {
     return $out;
 }
 
+/**
+ * Used to create column inside content container
+ */
 function start_column() {
     $out = html_writer::start_div('col digitala-column');
     return $out;
@@ -164,6 +175,12 @@ function end_column() {
     return $out;
 }
 
+/**
+ * Used to create content card inside content container column
+ * 
+ * @param string $header text for card's header
+ * @param string $text content for the card as html
+ */
 function create_card($header, $text) {
     $out = html_writer::start_div('card row');
     $out .= html_writer::start_div('card-body');
