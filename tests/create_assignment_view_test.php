@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-//namespace mod_digitala;
+namespace mod_digitala;
 
 defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 
@@ -31,7 +31,7 @@ require_once($CFG->dirroot . '/mod/digitala/renderable.php');
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class create_assignment_view_test extends \advanced_testcase {
-    
+
     /**
      * Test creating new assignment object.
      */

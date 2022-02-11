@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-//namespace mod_digitala;
+namespace mod_digitala;
 
 defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 
@@ -22,7 +22,7 @@ global $CFG;
 require_once($CFG->dirroot . '/mod/digitala/locallib.php');
 
 /**
- * Unit tests for view creation helpers: container, card and column. 
+ * Unit tests for view creation helpers: container, card and column.
  *
  * @package     mod_digitala
  * @category    test
@@ -30,24 +30,26 @@ require_once($CFG->dirroot . '/mod/digitala/locallib.php');
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class view_helper_functions_test extends \advanced_testcase {
-    
+
     /**
      * Test creating new assignment object.
      */
     public function test_container_html_output_right() {
         $result = start_container('some_step_of_digitala');
-        $result .= end_container();    
-        $this->assertEquals('<div class="some_step_of_digitala"><div class="container-fluid"><div class="row"></div></div></div>', $result);
+        $result .= end_container();
+        $this->assertEquals('<div class="some_step_of_digitala"><div class="container-fluid">'.
+            '<div class="row"></div></div></div>', $result);
     }
 
     public function test_column_html_output_right() {
         $result = start_column();
-        $result .= end_column();    
+        $result .= end_column();
         $this->assertEquals('<div class="col digitala-column"></div>', $result);
-    }    
-    
-    public function test_card_html_output_right() {
-        $result = create_card('pluginname', 'Some text here');   
-        $this->assertEquals('<div class="card row"><div class="card-body"><h5 class="card-title">Digitala</h5><div class="card-body">Some text here</div></div></div>', $result);
     }
-}  
+
+    public function test_card_html_output_right() {
+        $result = create_card('pluginname', 'Some text here');
+        $this->assertEquals('<div class="card row"><div class="card-body"><h5 class="card-title">Digitala</h5>'.
+            '<div class="card-text">Some text here</div></div></div>', $result);
+    }
+}
