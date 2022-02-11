@@ -71,8 +71,8 @@ $resourcetext = '<iframe width="100%" src="https://www.youtube.com/embed/dQw4w9W
     autoplay; clipboard-write; encrypted-media; gyroscope; 
     picture-in-picture" allowfullscreen></iframe>
     <p>Lyrics should be here?!<br><img width="100%" 
-    src="https://images.pexels.com/photos/730896/pexels-photo-730896.jpeg
-    ?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"></img></p>';
+    src="https://images.pexels.com/photos/730896/pexels-photo-730896.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260">
+    </img></p>';
 
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info());
