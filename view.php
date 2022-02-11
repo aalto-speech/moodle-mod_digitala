@@ -64,10 +64,14 @@ $OUTPUT = $PAGE->get_renderer('mod_digitala');
 $pagenum = optional_param('page', 0, PARAM_INT);
 $content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
 
+// temporary text fields for assignment waiting for teacher edit capability
+$assignmenttext = "<h1>Testing lyfe</h1><p>Tell me about Rick's lyfe.</p>";
+$resourcetext = '<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p>Lyrics should be here?!</p>';
+
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info());
 } else if ($pagenum == 1) {
-    $content .= $OUTPUT->render(new digitala_assignment());
+    $content .= $OUTPUT->render(new digitala_assignment($id, $d, $assignmenttext, $resourcetext));
 } else {
     $content .= $OUTPUT->render(new digitala_report());
 }

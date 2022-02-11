@@ -69,10 +69,20 @@ class mod_digitala_renderer extends plugin_renderer_base {
      *
      * @return $out - HTML string to output.
      */
-    protected function render_digitala_assignment() {
-        $out  = $this->output->heading(format_string(get_string('digitalaassignment', 'digitala')), 2);
-        $out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
-        return $this->output->container($out, 'assignment');
+    protected function render_digitala_assignment(digitala_assignment $assignment) {
+        $out = start_container('digitala-assignment');
+
+        $out .= start_column();
+        $out .= create_card('digitalaassignment', $assignment->assignmenttext);
+        $out .= end_column();
+
+        $out .= start_column();
+        $out .= create_card('digitalaassignmentresource', $assignment->resourcetext);
+        // microphone comes here as a card plz
+        $out .= end_column();
+
+        $out .= end_container();
+        return $out;
     }
 
     /**

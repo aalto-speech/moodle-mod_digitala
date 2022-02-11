@@ -65,7 +65,17 @@ class digitala_info implements renderable {
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_assignment implements renderable {
-
+    /**
+     * Constructor
+     * @param int $id - Id of the activity
+     * @param int $d - Id of the course
+     */
+    public function __construct($id = 0, $d = 0, $assignmenttext = '', $resourcetext = '') {
+        $this->id = $id;
+        $this->d = $d;
+        $this->assignmenttext = $assignmenttext;
+        $this->resourcetext = $resourcetext;
+    }
 }
 
 

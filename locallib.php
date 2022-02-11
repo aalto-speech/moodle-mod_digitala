@@ -139,3 +139,41 @@ function create_progress_bar_spacer($mode) {
     $out .= html_writer::end_div();
     return $out;
 }
+
+function start_container($classname) {
+    $out = html_writer::start_div($classname);
+    $out .= html_writer::start_div('container-fluid');
+    $out .= html_writer::start_div('row');
+    return $out;
+}
+
+function end_container() {
+    $out = html_writer::end_div();
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+    return $out;
+}
+
+function start_column() {
+    $out = html_writer::start_div('col');
+    return $out;
+}
+
+function end_column() {
+    $out = html_writer::end_div();
+    return $out;
+}
+
+function create_card($header, $text) {
+    $out = html_writer::start_div('card row');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string($header, 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::div($text, 'card-body');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
