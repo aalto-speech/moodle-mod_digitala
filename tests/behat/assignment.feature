@@ -28,4 +28,3 @@ Feature: Student can see assignment text and resources
     And I click on "Assignment" "link"
     Then I should see "Resources"
     And I should see "Lyrics"
-    
