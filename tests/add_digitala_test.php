@@ -23,6 +23,7 @@ global $CFG;
 /**
  * Unit tests for adding a digitala plugin
  *
+ * @group mod_digitala
  * @package     mod_digitala
  * @category    test
  * @copyright   2022 Name
