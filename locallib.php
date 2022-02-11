@@ -155,7 +155,7 @@ function end_container() {
 }
 
 function start_column() {
-    $out = html_writer::start_div('col');
+    $out = html_writer::start_div('col digitala-column');
     return $out;
 }
 
