@@ -189,7 +189,7 @@ function create_card($header, $text) {
     $out .= html_writer::start_div('card-body');
 
     $out .= html_writer::tag('h5', get_string($header, 'digitala'), array("class" => 'card-title'));
-    $out .= html_writer::div($text, 'card-body');
+    $out .= html_writer::div($text, 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
