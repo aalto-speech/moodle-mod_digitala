@@ -181,7 +181,7 @@ function end_column() {
 /**
  * Used to create content card inside content container column
  *
- * @param string $header text for card's header
+ * @param string $header text for card's header as lang file id
  * @param string $text content for the card as html
  */
 function create_card($header, $text) {
