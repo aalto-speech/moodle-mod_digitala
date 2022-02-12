@@ -34,3 +34,7 @@
     border-top: 2px solid lightgray;
     border-bottom: 2px solid lightgray;
 }
+
+.digitala-column {
+    margin: 1vh;
+}
