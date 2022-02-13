@@ -206,14 +206,14 @@ function create_card($header, $text) {
 function create_report_stars($filled, $total) {
     $out = '';
 
-    for($i = 1; $i <= $total; $i++) {
-        if($i <= $filled) {
+    for ($i = 1; $i <= $total; $i++) {
+        if ($i <= $filled) {
             $out .= "\u{2605}";
         } else {
             $out .= "\u{2606}";
         }
     }
-    
+
     return $out;
 }
 
@@ -227,10 +227,10 @@ function create_report_grading($report) {
     $out .= html_writer::start_div('card-body');
 
     $out .= html_writer::tag('h5', $report->name, array("class" => 'card-title'));
-    
+
     $out .= html_writer::tag('h5', create_report_stars($report->grade, $report->maxgrade), array("class" => 'grade-stars'));
     $out .= html_writer::tag('h6', $report->grade . '/' . $report->maxgrade, array("class" => 'grade-number'));
-    
+
     $out .= html_writer::div($report->reporttext, 'card-text');
 
     $out .= html_writer::end_div();

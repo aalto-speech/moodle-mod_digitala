@@ -97,11 +97,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         $out .= start_column();
         $gradings = '';
-        foreach($report->report as $grading) {
+        foreach ($report->report as $grading) {
             $gradings .= create_report_grading($grading);
         }
 
-        if($gradings == '') {
+        if ($gradings == '') {
             $out .= create_card('digitalareport', get_string('digitalareportnotavailable', 'digitala'));
         } else {
             $out .= create_card('digitalareport', '');

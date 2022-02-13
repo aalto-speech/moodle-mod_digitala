@@ -75,11 +75,11 @@ $resourcetext = '<iframe width="100%" height="500" src="https://www.youtube.com/
     </img></p>';
 
 // Temporary output of the report we receive. Format could/will change as we do not yet have access to the server.
-$reportoutput = '[{"name": "Completing the task", "grade": 3, "maxgrade": 3, "reporttext": "Excellent, there are no significant shortcomings in the assignment."},
+$reportoutput = '[{"name": "Completing the task", "grade": 3, "maxgrade": 3, "reporttext": "No significant shortcomings."},
 {"name": "Fluency", "grade": 2, "maxgrade": 4, "reporttext": "Moderately smooth; some breaks, repetitions, and hesitations."},
 {"name": "Pronounciation", "grade": 1, "maxgrade": 4, "reporttext": "Weak, difficult to understand."},
 {"name": "Scope of expression", "grade": 3, "maxgrade": 3, "reporttext": "Narrow."},
-{"name": "Vocabulary and grammar accuracy ", "grade": 4, "maxgrade": 4, "reporttext": "No vocabulary or grammar errors, or the speaker corrects the errors."}]';
+{"name": "Vocabulary and grammar accuracy ", "grade": 4, "maxgrade": 4, "reporttext": "No vocabulary or grammar errors."}]';
 
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info());

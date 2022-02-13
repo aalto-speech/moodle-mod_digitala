@@ -93,7 +93,7 @@ class digitala_report implements renderable {
      * Constructor
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
-     * @param string $report - JSON string that gets converted to a mixed object 
+     * @param string $report - JSON string that gets converted to a mixed object
      */
     public function __construct($id = 0, $d = 0, $report = '') {
         $this->id = $id;
