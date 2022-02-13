@@ -89,5 +89,15 @@ class digitala_assignment implements renderable {
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_report implements renderable {
-
+    /**
+     * Constructor
+     * @param int $id - Id of the activity
+     * @param int $d - Id of the course
+     * @param string $report - JSON string that gets converted to a mixed object
+     */
+    public function __construct($id = 0, $d = 0, $report = '') {
+        $this->id = $id;
+        $this->d = $d;
+        $this->report = json_decode($report);
+    }
 }

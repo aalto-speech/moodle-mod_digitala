@@ -89,11 +89,27 @@ class mod_digitala_renderer extends plugin_renderer_base {
     /**
      * Renders the report panel.
      *
+     * @param digitala_report $report - An instance of digitala_report to render.
      * @return $out - HTML string to output.
      */
-    protected function render_digitala_report() {
-        $out  = $this->output->heading(format_string(get_string('digitalareport', 'digitala')), 2);
-        $out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
-        return $this->output->container($out, 'feedback');
+    protected function render_digitala_report(digitala_report $report) {
+        $out = start_container('digitala-report');
+
+        $out .= start_column();
+        $gradings = '';
+        foreach ($report->report as $grading) {
+            $gradings .= create_report_grading($grading);
+        }
+
+        if ($gradings == '') {
+            $out .= create_card('digitalareport', get_string('digitalareportnotavailable', 'digitala'));
+        } else {
+            $out .= create_card('digitalareport', '');
+            $out .= $gradings;
+        }
+        $out .= end_column();
+
+        $out .= end_container();
+        return $out;
     }
 }
