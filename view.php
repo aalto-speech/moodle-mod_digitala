@@ -82,7 +82,7 @@ $reportoutput = '[{"name": "Completing the task", "grade": 3, "maxgrade": 3, "re
 {"name": "Vocabulary and grammar accuracy ", "grade": 4, "maxgrade": 4, "reporttext": "No vocabulary or grammar errors."}]';
 
 if ($pagenum == 0) {
-    $content .= $OUTPUT->render(new digitala_info());
+    $content .= $OUTPUT->render(new digitala_info($id, $d));
 } else if ($pagenum == 1) {
     $content .= $OUTPUT->render(new digitala_assignment($id, $d, $assignmenttext, $resourcetext));
 } else {
