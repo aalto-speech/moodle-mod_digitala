@@ -49,7 +49,7 @@ class view_helper_functions_test extends \advanced_testcase {
 
     public function test_card_html_output_right() {
         $result = create_card('pluginname', 'Some text here');
-        $this->assertEquals('<div class="card row"><div class="card-body"><h5 class="card-title">Digitala</h5>'.
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Digitala</h5>'.
             '<div class="card-text">Some text here</div></div></div>', $result);
     }
 
@@ -63,7 +63,7 @@ class view_helper_functions_test extends \advanced_testcase {
         $report->maxgrade = 0;
         $report->reporttext = "Test report";
         $result = create_report_grading($report);
-        $this->assertEquals('<div class="card row"><div class="card-body"><h5 class="card-title">Grading</h5>'.
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Grading</h5>'.
             '<h5 class="grade-stars"></h5><h6 class="grade-number">0/0</h6>'.
             '<div class="card-text">Test report</div></div></div>', $result);
     }
