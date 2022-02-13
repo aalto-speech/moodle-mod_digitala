@@ -75,7 +75,7 @@ $resourcetext = '<iframe width="100%" height="500" src="https://www.youtube.com/
     </img></p>';
 
 if ($pagenum == 0) {
-    $content .= $OUTPUT->render(new digitala_info());
+    $content .= $OUTPUT->render(new digitala_info($id, $d));
 } else if ($pagenum == 1) {
     $content .= $OUTPUT->render(new digitala_assignment($id, $d, $assignmenttext, $resourcetext));
 } else {

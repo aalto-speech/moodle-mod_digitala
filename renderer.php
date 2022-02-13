@@ -58,10 +58,17 @@ class mod_digitala_renderer extends plugin_renderer_base {
      *
      * @return $out - HTML string to output.
      */
-    protected function render_digitala_info() {
-        $out  = $this->output->heading(format_string(get_string('digitalainfo', 'digitala')), 2);
-        $out .= $this->output->container(format_text('', FORMAT_HTML), 'content');
-        return $this->output->container($out, 'info');
+    protected function render_digitala_info(digitala_info $info) {
+        $out = start_container('digitala-info');
+        
+        // for the info text and microphone
+        $out .= start_column();
+        $out .= create_card('digitalainfo', get_string('digitalainfotext', 'digitala'));
+        // microphone here
+        $out .= end_column();
+
+        $out .= end_container();
+        return $out;
     }
 
     /**

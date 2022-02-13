@@ -54,7 +54,10 @@ class digitala_progress_bar implements renderable {
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_info implements renderable {
-
+    public function __construct($id = 0, $d = 0) {
+        $this->id = $id;
+        $this->d = $d;
+    }
 }
 
 /**
