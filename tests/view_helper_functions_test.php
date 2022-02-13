@@ -52,4 +52,18 @@ class view_helper_functions_test extends \advanced_testcase {
         $this->assertEquals('<div class="card row"><div class="card-body"><h5 class="card-title">Digitala</h5>'.
             '<div class="card-text">Some text here</div></div></div>', $result);
     }
+
+    /**
+     * Test creating report view specific helper object.
+     */
+    public function test_grading_html_output() {
+        $report->name = "Grading";
+        $report->grade = 0;
+        $report->maxgrade = 0;
+        $report->reporttext = "Test report";
+        $result = create_report_grading($report);
+        $this->assertEquals('<div class="card row"><div class="card-body"><h5 class="card-title">Grading</h5>'.
+            '<h5 class="grade-stars"></h5><h6 class="grade-number">0/0</h6>'.
+            '<div class="card-text">Test report</div></div></div>', $result);
+    }
 }
