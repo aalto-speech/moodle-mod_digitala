@@ -56,15 +56,16 @@ class mod_digitala_renderer extends plugin_renderer_base {
     /**
      * Renders the info panel.
      *
+     * @param digitala_info $info - An instance of digitala_info to render.
      * @return $out - HTML string to output.
      */
     protected function render_digitala_info(digitala_info $info) {
         $out = start_container('digitala-info');
-        
-        // for the info text and microphone
+
+        // For the info text and microphone
         $out .= start_column();
         $out .= create_card('digitalainfo', get_string('digitalainfotext', 'digitala'));
-        // microphone here
+        // Microphone here
         $out .= end_column();
 
         $out .= end_container();
