@@ -57,6 +57,7 @@ class view_helper_functions_test extends \advanced_testcase {
      * Test creating report view specific helper object.
      */
     public function test_grading_html_output() {
+        $report = new \stdClass();
         $report->name = "Grading";
         $report->grade = 0;
         $report->maxgrade = 0;
