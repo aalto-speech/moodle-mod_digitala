@@ -223,7 +223,7 @@ function create_report_stars($filled, $total) {
  * @param mixed $report object containing the report
  */
 function create_report_grading($report) {
-    $out = html_writer::start_div('card row');
+    $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
     $out .= html_writer::tag('h5', $report->name, array("class" => 'card-title'));
