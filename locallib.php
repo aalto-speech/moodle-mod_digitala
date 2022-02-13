@@ -197,3 +197,44 @@ function create_card($header, $text) {
     return $out;
 }
 
+/**
+ * Draws star gradings
+ *
+ * @param int $filled number of filled stars to draw
+ * @param int $total number of to draw in totaldraw_report
+ */
+function create_report_stars($filled, $total) {
+    $out = '';
+
+    for($i = 1; $i <= $total; $i++) {
+        if($i <= $filled) {
+            $out .= "\u{2605}";
+        } else {
+            $out .= "\u{2606}";
+        }
+    }
+    
+    return $out;
+}
+
+/**
+ * Creates grading information container from report
+ *
+ * @param mixed $report object containing the report
+ */
+function create_report_grading($report) {
+    $out = html_writer::start_div('card row');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', $report->name, array("class" => 'card-title'));
+    
+    $out .= html_writer::tag('h5', create_report_stars($report->grade, $report->maxgrade), array("class" => 'grade-stars'));
+    $out .= html_writer::tag('h6', $report->grade . '/' . $report->maxgrade, array("class" => 'grade-number'));
+    
+    $out .= html_writer::div($report->reporttext, 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
