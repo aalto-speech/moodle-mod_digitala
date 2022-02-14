@@ -13,3 +13,4 @@ Työryhmälle muistutukseksi Definition of Done:
 * yksikkö- ja integraatiotestit ominaisuudelle on tehty
 * tyyli noudattaa yhdessä sovittuja muotoilusääntöjä
 
+
