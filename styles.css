@@ -44,8 +44,9 @@
     margin-bottom: 1vh;
 }
 
-.scrollbox {
+.scrollbox200 {
     height: 200px;
+    line-height: 2em;
     overflow: auto;
     padding: 5px;
 }

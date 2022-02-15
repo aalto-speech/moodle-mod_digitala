@@ -250,10 +250,8 @@ function create_report_transcription($transcription) {
 
     $out .= html_writer::tag('h5', get_string('digitalatranscription', 'digitala'), array('class' => 'card-title'));
 
-    $out .= html_writer::div($transcription->transtext, 'card-text scrollbox');
+    $out .= html_writer::div($transcription->transtext, 'card-text scrollbox200');
 
-    //$out .= html_writer::div('scrollbox');
-    //$out .= html_writer::end_div();
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
 
