@@ -104,8 +104,12 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out = start_container('digitala-report');
 
         $out .= start_column();
+        $transcriptinfo = '';
         $gradings = '';
-        foreach ($report->report as $grading) {
+        foreach ($report->report->transcription as $tscript) {
+            $transcriptinfo .= create_report_transcription($tscript);
+        }
+        foreach ($report->report->grades as $grading) {
             $gradings .= create_report_grading($grading);
         }
 
@@ -113,6 +117,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_card('digitalareport', get_string('digitalareportnotavailable', 'digitala'));
         } else {
             $out .= create_card('digitalareport', '');
+            $out .= $transcriptinfo;
             $out .= $gradings;
         }
         $out .= end_column();

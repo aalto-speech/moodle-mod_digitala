@@ -238,3 +238,22 @@ function create_report_grading($report) {
 
     return $out;
 }
+
+/**
+ * Creates transcription container from report
+ *
+ * @param mixed $report object containing the report
+ */
+function create_report_transcription($transcription) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('digitalatranscription', 'digitala'), array('class' => 'card-title'));
+
+    $out .= html_writer::div($transcription->transtext, 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
