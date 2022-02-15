@@ -220,7 +220,7 @@ function create_report_stars($filled, $total) {
 /**
  * Creates grading information container from report
  *
- * @param mixed $report object containing the report
+ * @param mixed $report object containing grading part of report
  */
 function create_report_grading($report) {
     $out = html_writer::start_div('card row digitala-card');
@@ -242,7 +242,7 @@ function create_report_grading($report) {
 /**
  * Creates transcription container from report
  *
- * @param mixed $report object containing the report
+ * @param mixed $transcription object containing the transcription part of report
  */
 function create_report_transcription($transcription) {
     $out = html_writer::start_div('card row digitala-card');
