@@ -43,3 +43,9 @@
     margin-top: 1vh;
     margin-bottom: 1vh;
 }
+
+.scrollbox {
+    height: 200px;
+    overflow: auto;
+    padding: 5px;
+}
