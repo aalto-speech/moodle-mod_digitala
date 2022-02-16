@@ -7,7 +7,7 @@
 
 export const init = () => {
 
-    document.addEventListener('click', e => {
+        document.addEventListener('click', e => {
         const record = e.target.closest('.record');
         const stopRecord = e.target.closest('.stopRecord');
         if (record) {
