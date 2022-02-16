@@ -1,6 +1,6 @@
 name: Moodle Plugin CI for Moodle 3.9 and 3.11
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   test:
@@ -103,6 +103,10 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
 
-      - name: Coveralls upload
-        if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
-        run: moodle-plugin-ci coveralls-upload
+      - name: Codecov upload
+        uses: codecov/codecov-action@v2
+        if: ${{ !matrix.experimental }} # Skip in PHP 8.0 since tests are not run at the moment
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: true
+          name: ${{ matrix.moodle-branch }} (${{ matrix.php }})
