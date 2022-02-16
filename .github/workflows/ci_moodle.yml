@@ -92,7 +92,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ always() }}
+        if: ${{ false }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0
 
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
@@ -100,35 +100,11 @@ jobs:
         run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Behat features
-        if: ${{ always() }}
+        if: ${{ false }}
         run: moodle-plugin-ci behat --profile chrome
-
-      - name: ls
-        run: ls -Al
-
-      - name: ls echo
-        run: echo $(ls -Al)
-
-      - name: ls build
-        run: ls -Al ./build
-
-      - name: ls build echo
-        run: echo $(ls -Al ./build)
-
-      - name: ls build logs
-        run: ls -Al ./build/logs
-
-      - name: ls build logs echo
-        run: echo $(ls -Al ./build/logs)
-
-      - name: cat
-        run: cat ./build/logs/clover.xml
-
-      - name: cat echo
-        run: echo $(cat ./build/logs/clover.xml)
 
       - name: Coveralls upload
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./build/logs/clover.xml
+          path-to-lcov: ./coverage.xml
