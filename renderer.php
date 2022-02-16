@@ -66,6 +66,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
         $out .= create_card('digitalainfo', get_string('digitalainfotext', 'digitala'));
         // Microphone here.
+        $out .= create_microphone();
+        //$PAGE->requires->js_call_amd('mod_digitala/amd/src/helloworld', 'init');
+
         $out .= end_column();
 
         $out .= end_container();

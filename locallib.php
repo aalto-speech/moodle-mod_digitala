@@ -257,3 +257,14 @@ function create_report_transcription($transcription) {
 
     return $out;
 }
+
+function create_microphone() {
+    $out = html_writer::start_tag('button', array('class' => 'record', 'id' => 'record'));
+    $out .= html_writer::end_tag('button');
+    $out .= html_writer::start_tag('button', array('class' => 'stopRecord', 'id' => 'stopRecord'));
+    $out .= html_writer::end_tag('button');
+    $out .= html_writer::start_tag('audio', array('class' => 'recordedAudio'));
+    $out .= html_writer::end_tag('audio');
+
+    return $out;
+}
