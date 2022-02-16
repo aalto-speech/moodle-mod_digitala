@@ -103,8 +103,10 @@ jobs:
         if: ${{ false }}
         run: moodle-plugin-ci behat --profile chrome
 
-      - name: Coveralls upload
-        uses: coverallsapp/github-action@master
+      - name: Codecov upload
+        uses: codecov/codecov-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./coverage.xml
+          files: ./coverage.xml
+          fail_ci_if_error: true
+          verbose: true
