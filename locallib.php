@@ -220,7 +220,7 @@ function create_report_stars($filled, $total) {
 /**
  * Creates grading information container from report
  *
- * @param mixed $report object containing the report
+ * @param mixed $report object containing grading part of report
  */
 function create_report_grading($report) {
     $out = html_writer::start_div('card row digitala-card');
@@ -232,6 +232,25 @@ function create_report_grading($report) {
     $out .= html_writer::tag('h6', $report->grade . '/' . $report->maxgrade, array("class" => 'grade-number'));
 
     $out .= html_writer::div($report->reporttext, 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates transcription container from report
+ *
+ * @param mixed $transcription object containing the transcription part of report
+ */
+function create_report_transcription($transcription) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('digitalatranscription', 'digitala'), array('class' => 'card-title'));
+
+    $out .= html_writer::div($transcription->transtext, 'card-text scrollbox200');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();

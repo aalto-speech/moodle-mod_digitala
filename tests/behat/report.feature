@@ -1,5 +1,5 @@
 @mod @mod_digitala
-Feature: Student can see report and gradings
+Feature: Student can see report with transcription and gradings
 
   Background:
     Given the following "users" exist:
@@ -27,3 +27,10 @@ Feature: Student can see report and gradings
     And I click on "Test digitala name" "link"
     And I click on "Report" "link"
     Then I should not see "A report for this assignment is not available yet."
+
+  Scenario: On a graded report page the transcription is shown
+    When I am on "Course 1" course homepage
+    And I click on "Test digitala name" "link"
+    And I click on "Report" "link"
+    Then I should see "Transcription"
+    And I should see "Lorem ipsum"

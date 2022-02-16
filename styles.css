@@ -43,3 +43,10 @@
     margin-top: 1vh;
     margin-bottom: 1vh;
 }
+
+.scrollbox200 {
+    height: 200px;
+    line-height: 2em;
+    overflow: auto;
+    padding: 5px;
+}

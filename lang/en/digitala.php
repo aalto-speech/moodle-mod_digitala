@@ -38,3 +38,4 @@ $string['digitalaassignment'] = 'Assignment';
 $string['digitalaassignmentresource'] = 'Resources';
 $string['digitalareport'] = 'Report';
 $string['digitalareportnotavailable'] = 'A report for this assignment is not available yet.';
+$string['digitalatranscription'] = 'Transcription';
