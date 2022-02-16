@@ -92,7 +92,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ false }}
+        if: ${{ always() }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0
 
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
@@ -100,13 +100,12 @@ jobs:
         run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Behat features
-        if: ${{ false }}
+        if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
+        if: ${{ !matrix.experimental }} # Skip in PHP 8.0 since tests are not run at the moment
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           files: ./coverage.xml
           fail_ci_if_error: true
-          verbose: true

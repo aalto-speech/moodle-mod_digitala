@@ -1,4 +1,4 @@
-# moodle-puheentunnistus
+# moodle-puheentunnistus [![Moodle Plugin CI for Moodle 3.9 and 3.11](https://github.com/aalto-speech/moodle-puheentunnistus/actions/workflows/ci_moodle.yml/badge.svg)](https://github.com/aalto-speech/moodle-puheentunnistus/actions/workflows/ci_moodle.yml)[![codecov](https://codecov.io/gh/aalto-speech/moodle-puheentunnistus/branch/main/graph/badge.svg?token=TC3ZZJNEQO)](https://codecov.io/gh/aalto-speech/moodle-puheentunnistus)
 Moodlen plugin, jolla voi tehdä automaattisesti arvioitavia suullisia kokeita.
 
 Backlogit:
