@@ -103,6 +103,30 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
 
+      - name: ls
+        run: ls -Al
+
+      - name: ls echo
+        run: echo $(ls -Al)
+
+      - name: ls build
+        run: ls -Al ./build
+
+      - name: ls build echo
+        run: echo $(ls -Al ./build)
+
+      - name: ls build logs
+        run: ls -Al ./build/logs
+
+      - name: ls build logs echo
+        run: echo $(ls -Al ./build/logs)
+
+      - name: cat
+        run: cat ./build/logs/clover.xml
+
+      - name: cat echo
+        run: echo $(cat ./build/logs/clover.xml)
+
       - name: Coveralls upload
         uses: coverallsapp/github-action@master
         with:
