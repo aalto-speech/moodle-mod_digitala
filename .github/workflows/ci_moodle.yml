@@ -1,6 +1,6 @@
 name: Moodle Plugin CI for Moodle 3.9 and 3.11
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   test:
