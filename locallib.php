@@ -261,7 +261,7 @@ function create_report_transcription($transcription) {
 /**
  * Creates a button with identical id and class
  *
- * @param int $id
+ * @param string $id
  * @param string $text of the button
  */
 function create_button($id, $text) {
