@@ -257,3 +257,15 @@ function create_report_transcription($transcription) {
 
     return $out;
 }
+
+function create_button($id, $text) {
+    $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $id));
+    return $out;
+}
+
+function create_microphone() {
+    $out = create_button('record', 'Start');
+    $out .= create_button('stopRecord', 'Stop');
+
+    return $out;
+}
