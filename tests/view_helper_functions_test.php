@@ -80,9 +80,9 @@ class view_helper_functions_test extends \advanced_testcase {
      */
     public function test_transcription_html_output() {
         $testtranscription = new \stdClass();
-        $testtranscription->transtext = "Lorem ipsum test text";  
+        $testtranscription->transtext = "Lorem ipsum test text";
         $result = create_report_transcription($testtranscription);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcription</h5>'. 
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcription</h5>'.
             '<div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result);
     }
 }
