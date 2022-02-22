@@ -50,6 +50,7 @@ jobs:
           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
+
       - name: Install moodle-plugin-ci
         run: |
           moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
@@ -98,6 +99,8 @@ jobs:
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
         if: ${{ !matrix.experimental }}
         run: moodle-plugin-ci phpunit --coverage-clover
+        env: # Ignore coverage from specified files
+          PHPUNIT_IGNORE_PATHS: /^(grade|index|mod_form|renderer|view)\.php/,classes/event
 
       - name: Behat features
         if: ${{ always() }}
