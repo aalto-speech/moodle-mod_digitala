@@ -272,10 +272,13 @@ function create_button($id, $text) {
 /**
  * Creates an instance of microphone with start and stop button
  *
+ * @param string $id
  */
-function create_microphone() {
-    $out = create_button('record', 'Start');
+function create_microphone($id) {
+    $out = html_writer::tag('br', '');
+    $out .= create_button('record', 'Start');
     $out .= create_button('stopRecord', 'Stop');
+    $out .= create_button('listenButton', 'Listen recording');
 
     return $out;
 }
