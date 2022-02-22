@@ -60,6 +60,7 @@ $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
 $PAGE->requires->js_call_amd('mod_digitala/mic', 'init');
+$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone');
 
 $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
