@@ -23,14 +23,14 @@ Feature: Student can record with the microphone
     Then "record" "button" should be visible
     And "stopRecord" "button" should be visible
     And "listenButton" "button" should not be visible
-  
+
   Scenario: Listening button not visible after recording start
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Info" "link"
     And I click on "record" "button"
     Then "listenButton" "button" should not be visible
-  
+
   Scenario: Listening button visible after recording stopped
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
