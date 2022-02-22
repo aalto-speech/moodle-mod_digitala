@@ -41,9 +41,8 @@ class microphone_test extends \advanced_testcase {
     }
 
     public function test_create_microphone() {
-        $result = create_microphone();
-        $this->assertEquals('<button id="record" class="record">Start</button>'.
-        '<button id="stopRecord" class="stopRecord">Stop</button>', $result);
+        $result = create_microphone('testmic');
+        $this->assertEquals('<br></br><button id="record" class="record">Start</button><button id="stopRecord" class="stopRecord">Stop</button><button id="listenButton" class="listenButton">Listen recording</button>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
 }
