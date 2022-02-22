@@ -2,6 +2,7 @@ ignore:
   - "classes/event/*"
   - "grade.php"
   - "index.php"
+  - "lib.php"
   - "mod_form.php"
   - "renderer.php"
   - "view.php"
