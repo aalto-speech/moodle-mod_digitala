@@ -24,6 +24,7 @@ require_once($CFG->dirroot . '/mod/digitala/locallib.php');
 /**
  * Unit tests for view creation helpers: container, card and column.
  *
+ * @group mod_digitala
  * @package     mod_digitala
  * @category    test
  * @copyright   2022 Name
@@ -32,7 +33,7 @@ require_once($CFG->dirroot . '/mod/digitala/locallib.php');
 class view_helper_functions_test extends \advanced_testcase {
 
     /**
-     * Test creating new assignment object.
+     * Test creating new container object.
      */
     public function test_container_html_output_right() {
         $result = start_container('some_step_of_digitala');
@@ -41,12 +42,18 @@ class view_helper_functions_test extends \advanced_testcase {
             '<div class="row"></div></div></div>', $result);
     }
 
+    /**
+     * Test creating new column object.
+     */
     public function test_column_html_output_right() {
         $result = start_column();
         $result .= end_column();
         $this->assertEquals('<div class="col digitala-column"></div>', $result);
     }
 
+    /**
+     * Test creating new card object.
+     */
     public function test_card_html_output_right() {
         $result = create_card('pluginname', 'Some text here');
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Digitala</h5>'.
@@ -66,5 +73,16 @@ class view_helper_functions_test extends \advanced_testcase {
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Grading</h5>'.
             '<h5 class="grade-stars"></h5><h6 class="grade-number">0/0</h6>'.
             '<div class="card-text">Test report</div></div></div>', $result);
+    }
+
+    /**
+     * Test creating report view specific transcription object.
+     */
+    public function test_transcription_html_output() {
+        $testtranscription = new \stdClass();
+        $testtranscription->transtext = "Lorem ipsum test text";
+        $result = create_report_transcription($testtranscription);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcription</h5>'.
+            '<div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result);
     }
 }
