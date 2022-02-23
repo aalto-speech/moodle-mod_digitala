@@ -59,6 +59,10 @@ $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
+$config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC',
+],'waitSeconds' => 40, 'enforceDefine' => false];
+$requirejs = 'require.config(' . json_encode($config) . ')';
+$PAGE->requires->js_amd_inline($requirejs);
 $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone');
 
 $OUTPUT = $PAGE->get_renderer('mod_digitala');

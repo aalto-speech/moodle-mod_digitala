@@ -4,10 +4,10 @@
  * @copyright  2022 Name
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+import RecordRTC from 'RecordRTC';
 
 let recorder;
 let isRecording = false;
-let audioChunks = [];
 let audio;
 
 const startStopRecording = () => {
@@ -15,22 +15,18 @@ const startStopRecording = () => {
         case false:
             navigator.mediaDevices.getUserMedia({audio: true})
                 .then(stream => {
-                    recorder = new MediaRecorder(stream);
+                    const options = {
+                        audioBitsPerSecond: 16000,
+                        type: 'audio',
+                        recorderType: RecordRTC.StereoAudioRecorder,
+                        mimeType: 'audio/wav'
+                    };
+                    recorder = new RecordRTC(stream, options);
                     isRecording = true;
-                    audioChunks = [];
-                    recorder.start();
+
+                    recorder.startRecording();
                     window.console.log('started to record');
 
-                    recorder.addEventListener("dataavailable", event => {
-                        audioChunks.push(event.data);
-                    });
-
-                    recorder.addEventListener('stop', () => {
-                        const audioBlob = new Blob(audioChunks);
-                        const audioUrl = URL.createObjectURL(audioBlob);
-                        audio = new Audio(audioUrl);
-                        window.console.log('audioUrl', audioUrl);
-                    });
                     return;
                 })
                 .catch((err) => {
@@ -40,7 +36,14 @@ const startStopRecording = () => {
 
         case true:
             isRecording = false;
-            recorder.stop();
+            recorder.stopRecording(() => {
+                const audioBlob = recorder.getBlob();
+                window.console.log('audioBlob:', audioBlob);
+
+                const audioUrl = URL.createObjectURL(audioBlob);
+                audio = new Audio(audioUrl);
+                window.console.log('audioUrl', audioUrl);
+            });
             window.console.log('recording stopped');
             break;
     }
