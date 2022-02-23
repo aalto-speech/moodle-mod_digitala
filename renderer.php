@@ -82,11 +82,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         $out .= start_column();
         $out .= create_card('digitalaassignment', $assignment->assignmenttext);
+        $out .= create_card('digitalaassignmentrecord', create_microphone('assignment'));
         $out .= end_column();
 
         $out .= start_column();
         $out .= create_card('digitalaassignmentresource', $assignment->resourcetext);
-        // Microphone comes here as a card plz?
         $out .= end_column();
 
         $out .= end_container();
