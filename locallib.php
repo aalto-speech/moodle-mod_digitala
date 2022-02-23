@@ -257,3 +257,28 @@ function create_report_transcription($transcription) {
 
     return $out;
 }
+
+/**
+ * Creates a button with identical id and class
+ *
+ * @param string $id
+ * @param string $text of the button
+ */
+function create_button($id, $text) {
+    $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $id));
+    return $out;
+}
+
+/**
+ * Creates an instance of microphone with start and stop button
+ *
+ * @param string $id
+ */
+function create_microphone($id) {
+    $out = html_writer::tag('br', '');
+    $out .= create_button('record', 'Start');
+    $out .= create_button('stopRecord', 'Stop');
+    $out .= create_button('listenButton', 'Listen recording');
+
+    return $out;
+}
