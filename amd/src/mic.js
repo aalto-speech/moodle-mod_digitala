@@ -10,7 +10,7 @@ let recorder;
 let isRecording = false;
 let audio;
 
-const startStopRecording = () => {
+const startStopRecording = (pagenum) => {
     switch (isRecording) {
         case false:
             navigator.mediaDevices.getUserMedia({audio: true})
@@ -43,6 +43,16 @@ const startStopRecording = () => {
                 const audioUrl = URL.createObjectURL(audioBlob);
                 audio = new Audio(audioUrl);
                 window.console.log('audioUrl', audioUrl);
+
+                if (pagenum === 1) {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(audioBlob);
+
+                    reader.onload = () => {
+                        window.console.log('>', reader.result);
+                        document.forms.answerrecording[0].value = reader.result;
+                    };
+                }
             });
             window.console.log('recording stopped');
             break;
@@ -55,19 +65,21 @@ const listenRecording = () => {
     }
 };
 
-export const initializeMicrophone = () => {
+export const initializeMicrophone = (pagenum) => {
     const recButton = document.getElementById('record');
     const stopButton = document.getElementById('stopRecord');
     const listenButton = document.getElementById('listenButton');
     stopButton.disabled = true;
     listenButton.disabled = true;
 
+    window.console.log('page number', pagenum);
+
     recButton.onclick = () => {
         recButton.style.backgroundColor = "blue";
         recButton.disabled = true;
         stopButton.disabled = false;
         listenButton.style.display = 'none';
-        startStopRecording();
+        startStopRecording(pagenum);
     };
     stopButton.onclick = () => {
         recButton.style.backgroundColor = "red";
@@ -75,7 +87,7 @@ export const initializeMicrophone = () => {
         stopButton.disabled = true;
         listenButton.disabled = false;
         listenButton.style.display = 'inline-block';
-        startStopRecording();
+        startStopRecording(pagenum);
     };
     listenButton.onclick = () => {
         listenRecording();

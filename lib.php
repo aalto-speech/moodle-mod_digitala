@@ -258,11 +258,30 @@ function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedow
     global $DB, $CFG;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
-        send_file_not_found();
+        return false;
+    }
+
+    if ($filearea !== 'recordings') {
+        return false;
     }
 
     require_login($course, true, $cm);
-    send_file_not_found();
+
+    $itemid = array_shift($args);
+
+    $filename = array_pop($args);
+    if (!$args) {
+        $filepath = '/';
+    } else {
+        $filepath = '/'.implode('/', $args).'/';
+    }
+
+    $fs = get_file_storage();
+    $file = $fs->get_file($context->id, 'mod_digitala', $filearea, $itemid, $filepath, $filename);
+    if (!$file) {
+        return false;
+    }
+    send_stored_file($file, 86400, 0, $forcedownload, $options);
 }
 
 /**

@@ -40,3 +40,4 @@ $string['digitalareport'] = 'Report';
 $string['digitalareportnotavailable'] = 'A report for this assignment is not available yet.';
 $string['digitalatranscription'] = 'Transcription';
 $string['digitalaassignmentrecord'] = 'Record your answer';
+$string['digitalasubmitanswer'] = 'Submit answer';
