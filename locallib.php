@@ -197,8 +197,13 @@ function create_card($header, $text) {
     return $out;
 }
 
+/**
+ * Used to create text inside assignment card - helper function for box sizing
+ *
+ * @param string $content text inside assignment text card
+ */
 function create_assignment($content) {
-    $out .= html_writer::start_div('card-body');
+    $out = html_writer::start_div('card-body');
     $out .= html_writer::tag('h5', '', array('class' => 'card-title'));
     $out .= html_writer::div($content, 'card-text scrollbox200');
     $out .= html_writer::end_div();
@@ -206,8 +211,13 @@ function create_assignment($content) {
     return $out;
 }
 
+/**
+ * Used to create text inside resource card - helper function for box sizing
+ *
+ * @param string $content text inside resource text card
+ */
 function create_resource($content) {
-    $out .= html_writer::start_div('card-body');
+    $out = html_writer::start_div('card-body');
     $out .= html_writer::tag('h5', '', array('class' => 'card-title'));
     $out .= html_writer::div($content, 'card-text scrollbox400');
     $out .= html_writer::end_div();
