@@ -81,12 +81,12 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out = start_container('digitala-assignment');
 
         $out .= start_column();
-        $out .= create_card('digitalaassignment', $assignment->assignmenttext);
+        $out .= create_card('digitalaassignment', create_assignment($assignment->assignmenttext));
         $out .= create_card('digitalaassignmentrecord', create_microphone('assignment'));
         $out .= end_column();
 
         $out .= start_column();
-        $out .= create_card('digitalaassignmentresource', $assignment->resourcetext);
+        $out .= create_card('digitalaassignmentresource', create_resource($assignment->resourcetext));
         $out .= end_column();
 
         $out .= end_container();

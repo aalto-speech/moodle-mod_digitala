@@ -197,6 +197,24 @@ function create_card($header, $text) {
     return $out;
 }
 
+function create_assignment($content) {
+    $out .= html_writer::start_div('card-body');
+    $out .= html_writer::tag('h5', '', array('class' => 'card-title'));
+    $out .= html_writer::div($content, 'card-text scrollbox200');
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+function create_resource($content) {
+    $out .= html_writer::start_div('card-body');
+    $out .= html_writer::tag('h5', '', array('class' => 'card-title'));
+    $out .= html_writer::div($content, 'card-text scrollbox400');
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
 /**
  * Draws star gradings
  *
