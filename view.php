@@ -66,7 +66,7 @@ $pagenum = optional_param('page', 0, PARAM_INT);
 $content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
 
 $config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC',
-],'waitSeconds' => 40, 'enforceDefine' => false];
+], 'waitSeconds' => 40, 'enforceDefine' => false];
 $requirejs = 'require.config(' . json_encode($config) . ')';
 $PAGE->requires->js_amd_inline($requirejs);
 $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum));
@@ -112,7 +112,7 @@ echo $OUTPUT->header();
 echo $content;
 
 if ($pagenum == 1) {
-    $mform = new answerrecording_form();
+    $mform = new answerrecording_form($id, $d, 1);
     if ($fromform = $mform->get_data()) {
         $fs = get_file_storage();
 
