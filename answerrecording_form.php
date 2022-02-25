@@ -43,7 +43,8 @@ class answerrecording_form extends moodleform {
      */
     public function __construct($id, $d, $pagenum) {
         $url = '/mod/digitala/view.php/?id=' . $id . '&d=' . $d . '&page=' . $pagenum;
-        parent::__construct($url, null, 'post', '', 'id="answerrecording"');
+        $url = new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $pagenum));
+        parent::__construct($url->out_as_local_url(false), null, 'post', '', 'id="answerrecording"');
     }
 
     /**
