@@ -61,6 +61,14 @@ class view_helper_functions_test extends \advanced_testcase {
     }
 
     /**
+     * Test drawing stars for the report view.
+     */
+    public function test_report_stars_output() {
+        $result = create_report_stars(1, 3);
+        $this->assertEquals('★☆☆', $result);
+    }
+
+    /**
      * Test creating report view specific helper object.
      */
     public function test_grading_html_output() {
