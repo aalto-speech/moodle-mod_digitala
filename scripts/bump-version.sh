@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd ..
 old_version=$(cat version.php | grep '$plugin->version = ')
 old_version=${old_version/\$plugin->version = /}
 old_version=${old_version/;/}
