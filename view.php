@@ -27,6 +27,8 @@ require_once(__DIR__.'/lib.php');
 require_once(__DIR__.'/renderable.php');
 require_once(__DIR__.'/answerrecording_form.php');
 
+global $USER;
+
 // Course module id.
 $id = optional_param('id', 0, PARAM_INT);
 
@@ -123,19 +125,19 @@ if ($pagenum == 1) {
             'filearea' => 'recordings',
             'itemid' => 0,
             'filepath' => '/',
-            'filename' => 'audio-new.wav'
+            'filename' => 'answer-'.$id.'-'.$USER->id.'-'.$USER->username.'-'.time().'.wav'
         );
 
-        // This part of code will be removed after getting proper filename.
         $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
-        $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
+                                $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
         if ($file) {
             $file->delete();
         }
-        // To here.
 
         $data = explode( ',', $fromform->audiostring);
-        // Add confirmation of right file format from data[0].
+        if ($data[0] != 'data:audio/wav;base64') {
+            echo 'Wait a second...';
+        }
         $fs->create_file_from_string($fileinfo, base64_decode($data[1]));
 
         $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
