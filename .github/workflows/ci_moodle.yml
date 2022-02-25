@@ -123,7 +123,9 @@ jobs:
           path: plugin
 
       - name: Run bump-version.sh
-        run: ./plugin/scripts/bump-version.sh
+        run: |
+          chmod +x ./plugin/scripts/bump-version.sh
+          ./plugin/scripts/bump-version.sh
 
       - uses: EndBug/add-and-commit@v8
         with:
