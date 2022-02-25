@@ -74,7 +74,8 @@ $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($
 
 
 // Temporary text fields for assignment waiting for teacher edit capability!
-$assignmenttext = "<p>Tell me about Rick's lyfe.</p>";
+$assignmenttextraw = "Tell me about Rick's lyfe.";
+$assignmenttext = "<p>" . $assignmenttextraw . "</p>";
 $resourcetext = '<iframe width="100%" height="500" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
     title="YouTube video player" frameborder="0" allow="accelerometer;
     autoplay; clipboard-write; encrypted-media; gyroscope;
@@ -144,6 +145,13 @@ if ($pagenum == 1) {
 
         $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(),
             $file->get_itemid(), $file->get_filepath(), $file->get_filename(), true);
+
+        $c = new curl;
+        $curlurl = 'http://digitalamoodle.aalto.fi:5000';
+        $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang=fin&task=freeform&key=aalto';
+        $curlparams = array('file'=>$file);
+        $json = $c->post($curlurl . $curladd, $curlparams);
+        echo '<br>' . $json;
         echo '<br>'.$url.'<br>';
     } else {
         echo $mform->render();
