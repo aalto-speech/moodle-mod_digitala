@@ -113,7 +113,7 @@ jobs:
 
   version:
     runs-on: ubuntu-18.04
-    #if: ${{ github.ref == 'ci-version-bump' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: test
 
     steps:
