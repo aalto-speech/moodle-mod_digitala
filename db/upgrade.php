@@ -52,7 +52,6 @@ function xmldb_digitala_upgrade($oldversion) {
         $table->add_field('lexicalprofile', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
         $table->add_field('nativeity', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
         $table->add_field('holistic', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
-        $table->add_field('usermodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
         $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
         $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
 
@@ -60,7 +59,6 @@ function xmldb_digitala_upgrade($oldversion) {
         $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
         $table->add_key('digitala', XMLDB_KEY_FOREIGN, ['digitala'], 'digitala', ['id']);
         $table->add_key('userid', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
-        $table->add_key('usermodified', XMLDB_KEY_FOREIGN, ['usermodified'], 'user', ['id']);
 
         // Conditionally launch create table for digitala_attempts.
         if (!$dbman->table_exists($table)) {

@@ -34,7 +34,6 @@
         <FIELD NAME="lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
         <FIELD NAME="nativeity" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
         <FIELD NAME="holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
-        <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
@@ -42,7 +41,6 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="digitala" TYPE="foreign" FIELDS="digitala" REFTABLE="digitala" REFFIELDS="id"/>
         <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
-        <KEY NAME="usermodified" TYPE="foreign" FIELDS="usermodified" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>
