@@ -44,6 +44,8 @@ const startStopRecording = (pagenum) => {
                 audio = new Audio(audioUrl);
                 window.console.log('audioUrl', audioUrl);
 
+                document.getElementById('id_submitbutton').style.display = '';
+
                 if (pagenum === 1) {
                     let reader = new FileReader();
                     reader.readAsDataURL(audioBlob);

@@ -58,8 +58,7 @@ class answerrecording_form extends moodleform {
         $mform->addElement('hidden', 'audiostring', $this->_formname);
         $mform->setType('audiostring', PARAM_RAW);
 
-        $buttonarray = array();
-        $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('digitalasubmitanswer', 'digitala'));
-        $mform->addGroup($buttonarray, 'buttons', '', ' ', false);
+        $mform->addElement('submit', 'submitbutton', get_string('digitalasubmitanswer', 'digitala'), 'style="display: none;"');
+
     }
 }

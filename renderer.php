@@ -23,7 +23,6 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
 require_once(__DIR__.'/locallib.php');
 
 /**
@@ -82,7 +81,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         $out .= start_column();
         $out .= create_card('digitalaassignment', create_assignment($assignment->assignmenttext));
-        $out .= create_card('digitalaassignmentrecord', create_microphone('assignment'));
+        $out .= create_card('digitalaassignmentrecord', create_microphone('assignment').'<br>'.
+                create_answerrecording_form($assignment));
         $out .= end_column();
 
         $out .= start_column();

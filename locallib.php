@@ -310,3 +310,66 @@ function create_microphone($id) {
 
     return $out;
 }
+
+function send_answerrecording_for_evaluation($file, $assignmenttext) {
+    $assignmenttextraw = format_string($assignmenttext);
+    $c = new curl;
+    $curlurl = 'http://digitalamoodle.aalto.fi:5000';
+    $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang=fin&task=freeform&key=aalto';
+    $curlparams = array('file'=>$file);
+    $json = $c->post($curlurl . $curladd, $curlparams);
+
+    return $json;
+}
+
+function save_answerrecording($formdata, $assignment) {
+    $fs = get_file_storage();
+
+    $fileinfo = array(
+        'contextid' => $assignment->contextid,
+        'component' => 'mod_digitala',
+        'filearea' => 'recordings',
+        'itemid' => 0,
+        'filepath' => '/',
+        'filename' => 'answer-'.$assignment->id.'-'.$assignment->userid.'-'.$assignment->username.'-'.time().'.wav'
+    );
+
+    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
+                            $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
+    if ($file) {
+        $file->delete();
+    }
+
+    $data = explode( ',', $formdata->audiostring);
+    if ($data[0] != 'data:audio/wav;base64') {
+        return 'Unexpected error occured';
+    }
+    $fs->create_file_from_string($fileinfo, base64_decode($data[1]));
+
+    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
+                          $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
+
+    $out = '<audio controls><source src="'.$formdata->audiostring.'"></audio>';
+    $out .= '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
+                                                                    $file->get_filearea(),$file->get_itemid(),
+                                                                    $file->get_filepath(),$file->get_filename(), true).'<br>';
+
+    $out .= '<br> <b>Server response:</b> '.send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
+
+    return $out;
+}
+
+/**
+ * Handles answer recording form's actions
+ *
+ * @param digitala_assignment $assignment
+ */
+function create_answerrecording_form($assignment) {
+    if ($formdata = $assignment->form->get_data()) {
+        $out = save_answerrecording($formdata, $assignment);
+    } else {
+        $out = $assignment->form->render();
+    }
+    return $out;
+
+}
