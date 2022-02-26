@@ -76,6 +76,7 @@ class digitala_info implements renderable {
 class digitala_assignment implements renderable {
     /**
      * Constructor
+     * @param int $instanceid - Instance id of the activty
      * @param int $contextid - Context id of the activty
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
@@ -84,7 +85,8 @@ class digitala_assignment implements renderable {
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      */
-    public function __construct($contextid, $id = 0, $d = 0, $userid, $username, $assignmenttext = '', $resourcetext = '') {
+    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $userid, $username, $assignmenttext = '', $resourcetext = '') {
+        $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
         $this->d = $d;

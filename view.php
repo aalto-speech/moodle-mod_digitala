@@ -105,7 +105,7 @@ $reportoutput = '{
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info($id, $d));
 } else if ($pagenum == 1) {
-    $content .= $OUTPUT->render(new digitala_assignment($modulecontext->id, $id, $d,
+    $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $id, $d,
                                 $USER->id, $USER->username, $assignmenttext, $resourcetext));
 } else {
     $content .= $OUTPUT->render(new digitala_report($id, $d, $reportoutput));

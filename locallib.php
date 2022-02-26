@@ -329,6 +329,42 @@ function send_answerrecording_for_evaluation($file, $assignmenttext) {
 }
 
 /**
+ * Save the attempt to the database.
+ *
+ * @param digitala_asssignment $assignment - assignment includes needed identifications
+ * @param string $filename - file name of the recording
+ * @param mixed $evaluation - mixed object containing evaluation info
+ */
+function save_attempt($assignment, $filename, $evaluation) {
+    global $DB;
+
+    if ($DB->record_exists('digitala_attempts', array('digitala'=>$assignment->instanceid,
+                                                      'userid'=>$assignment->userid)))
+        return;
+
+    $attempt = new stdClass();
+    $attempt->digitala = $assignment->instanceid;
+    $attempt->userid = $assignment->userid;
+    $attempt->file = $filename;
+    $attempt->transcript = $evaluation->Transcript;
+    $attempt->fluency = $evaluation->Fluency->score;
+    $attempt->fluencymean = $evaluation->Fluency->mean_f1;
+    $attempt->speechrate = $evaluation->Fluency->speech_rate;
+    $attempt->taskachievement = $evaluation->TaskAchievement;
+    $attempt->accuracy = $evaluation->Accuracy->score;
+    $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
+    $attempt->nativeity = $evaluation->Accuracy->nativeity;
+    $attempt->holistic = $evaluation->Holistic;
+
+    $timenow = time();
+
+    $attempt->timecreated = $timenow;
+    $attempt->timemodified = $timenow;
+
+    $DB->insert_record('digitala_attempts', $attempt);
+}
+
+/**
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
  * @param array $formdata - form data includes audio as base64 encoded string
@@ -366,7 +402,11 @@ function save_answerrecording($formdata, $assignment) {
                                                                     $file->get_filearea(), $file->get_itemid(),
                                                                     $file->get_filepath(), $file->get_filename(), true).'<br>';
 
-    $out .= '<br> <b>Server response:</b> '.send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
+    $evaluation = send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
+
+    $out .= '<br> <b>Server response:</b> '.$evaluation;
+
+    save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
 
     return $out;
 }
