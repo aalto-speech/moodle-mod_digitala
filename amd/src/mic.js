@@ -44,6 +44,7 @@ const startStopRecording = (pagenum) => {
                 audio = new Audio(audioUrl);
                 window.console.log('audioUrl', audioUrl);
 
+                window.console.log('Enable submit button');
                 document.getElementById('id_submitbutton').style.display = '';
 
                 if (pagenum === 1) {
