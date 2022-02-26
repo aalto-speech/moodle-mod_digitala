@@ -4,7 +4,14 @@ old_version=$(cat version.php | grep '$plugin->version = ')
 old_version=${old_version/\$plugin->version = /}
 old_version=${old_version/;/}
 
-new_version=$((old_version + 1))
+curr_date=$(date '+%Y%m%d')00
+
+if [ $curr_date -gt $old_version ]
+then
+    new_version=$curr_date
+else
+    new_version=$((old_version + 1))
+fi
 
 sed -i "s+${old_version}+${new_version}+g" version.php
 
