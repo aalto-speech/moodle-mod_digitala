@@ -319,7 +319,7 @@ function create_microphone($id) {
  */
 function send_answerrecording_for_evaluation($file, $assignmenttext) {
     $assignmenttextraw = format_string($assignmenttext);
-    $c = new curl;
+    $c = new curl(array('ignoresecurity' => true));
     $curlurl = 'http://digitalamoodle.aalto.fi:5000';
     $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang=fin&task=freeform&key=aalto';
     $curlparams = array('file' => $file);
