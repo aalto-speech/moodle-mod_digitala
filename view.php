@@ -105,7 +105,8 @@ $reportoutput = '{
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info($id, $d));
 } else if ($pagenum == 1) {
-    $content .= $OUTPUT->render(new digitala_assignment($modulecontext->id, $id, $d, $USER->id, $USER->username, $assignmenttext, $resourcetext));
+    $content .= $OUTPUT->render(new digitala_assignment($modulecontext->id, $id, $d,
+                                $USER->id, $USER->username, $assignmenttext, $resourcetext));
 } else {
     $content .= $OUTPUT->render(new digitala_report($id, $d, $reportoutput));
 }
@@ -113,47 +114,5 @@ if ($pagenum == 0) {
 echo $OUTPUT->header();
 
 echo $content;
-
-// if ($pagenum == 1) {
-//     $mform = new answerrecording_form($id, $d, 1);
-//     if ($fromform = $mform->get_data()) {
-//         $fs = get_file_storage();
-
-//         $fileinfo = array(
-//             'contextid' => $modulecontext->id,
-//             'component' => 'mod_digitala',
-//             'filearea' => 'recordings',
-//             'itemid' => 0,
-//             'filepath' => '/',
-//             'filename' => 'answer-'.$id.'-'.$USER->id.'-'.$USER->username.'-'.time().'.wav'
-//         );
-
-//         $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
-//                                 $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
-//         if ($file) {
-//             $file->delete();
-//         }
-
-//         $data = explode( ',', $fromform->audiostring);
-//         if ($data[0] != 'data:audio/wav;base64') {
-//             echo 'Wait a second...';
-//         }
-//         $fs->create_file_from_string($fileinfo, base64_decode($data[1]));
-
-//         $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
-//                       $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
-
-//         echo '<audio controls><source src="'.$fromform->audiostring.'"></audio>';
-
-//         $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(),
-//             $file->get_itemid(), $file->get_filepath(), $file->get_filename(), true);
-
-//
-//         echo '<br>' . $json;
-//         echo '<br>'.$url.'<br>';
-//     } else {
-//         echo $mform->render();
-//     }
-// }
 
 echo $OUTPUT->footer();
