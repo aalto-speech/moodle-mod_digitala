@@ -25,6 +25,9 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once(__DIR__.'/renderable.php');
+require_once(__DIR__.'/answerrecording_form.php');
+
+global $USER;
 
 // Course module id.
 $id = optional_param('id', 0, PARAM_INT);
@@ -59,15 +62,22 @@ $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
-$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone');
-
 $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
 $pagenum = optional_param('page', 0, PARAM_INT);
 $content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
 
+$config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC',
+], 'waitSeconds' => 40, 'enforceDefine' => false];
+$requirejs = 'require.config(' . json_encode($config) . ')';
+$PAGE->requires->js_amd_inline($requirejs);
+$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum));
+
+
+
 // Temporary text fields for assignment waiting for teacher edit capability!
-$assignmenttext = "<p>Tell me about Rick's lyfe.</p>";
+$assignmenttextraw = "Tell me about Rick's lyfe.";
+$assignmenttext = "<p>" . $assignmenttextraw . "</p>";
 $resourcetext = '<iframe width="100%" height="500" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
     title="YouTube video player" frameborder="0" allow="accelerometer;
     autoplay; clipboard-write; encrypted-media; gyroscope;
@@ -95,7 +105,8 @@ $reportoutput = '{
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info($id, $d));
 } else if ($pagenum == 1) {
-    $content .= $OUTPUT->render(new digitala_assignment($id, $d, $assignmenttext, $resourcetext));
+    $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $id, $d,
+                                $USER->id, $USER->username, $assignmenttext, $resourcetext));
 } else {
     $content .= $OUTPUT->render(new digitala_report($id, $d, $reportoutput));
 }

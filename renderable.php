@@ -23,6 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__.'/answerrecording_form.php');
 
 /**
  * A custom renderable class that implements the renderable and is used by the digitala module with the progress bar.
@@ -75,16 +76,26 @@ class digitala_info implements renderable {
 class digitala_assignment implements renderable {
     /**
      * Constructor
+     * @param int $instanceid - Instance id of the activty
+     * @param int $contextid - Context id of the activty
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
+     * @param int $userid - Id of the current active user
+     * @param string $username - Username of the current active user
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      */
-    public function __construct($id = 0, $d = 0, $assignmenttext = '', $resourcetext = '') {
+    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $userid, $username,
+        $assignmenttext = '', $resourcetext = '') {
+        $this->instanceid = $instanceid;
+        $this->contextid = $contextid;
         $this->id = $id;
         $this->d = $d;
+        $this->userid = $userid;
+        $this->username = $username;
         $this->assignmenttext = $assignmenttext;
         $this->resourcetext = $resourcetext;
+        $this->form = new answerrecording_form($id, $d, 1);
     }
 }
 

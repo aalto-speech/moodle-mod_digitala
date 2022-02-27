@@ -198,6 +198,34 @@ function create_card($header, $text) {
 }
 
 /**
+ * Used to create text inside assignment card - helper function for box sizing
+ *
+ * @param string $content text inside assignment text card
+ */
+function create_assignment($content) {
+    $out = html_writer::start_div('card-body');
+    $out .= html_writer::tag('h5', '', array('class' => 'card-title'));
+    $out .= html_writer::div($content, 'card-text scrollbox200');
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Used to create text inside resource card - helper function for box sizing
+ *
+ * @param string $content text inside resource text card
+ */
+function create_resource($content) {
+    $out = html_writer::start_div('card-body');
+    $out .= html_writer::tag('h5', '', array('class' => 'card-title'));
+    $out .= html_writer::div($content, 'card-text scrollbox400');
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
  * Draws star gradings
  *
  * @param int $filled number of filled stars to draw
@@ -281,4 +309,120 @@ function create_microphone($id) {
     $out .= create_button('listenButton', 'Listen recording');
 
     return $out;
+}
+
+/**
+ * Send user audio file to Aalto ASR for evaluation.
+ *
+ * @param stored_file $file - audio file to be sent for evaluation
+ * @param string $assignmenttext - assignment text given for students
+ */
+function send_answerrecording_for_evaluation($file, $assignmenttext) {
+    $assignmenttextraw = format_string($assignmenttext);
+    $c = new curl(array('ignoresecurity' => true));
+    $curlurl = 'http://digitalamoodle.aalto.fi:5000';
+    $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang=fin&task=freeform&key=aalto';
+    $curlparams = array('file' => $file);
+    $json = $c->post($curlurl . $curladd, $curlparams);
+
+    return $json;
+}
+
+/**
+ * Save the attempt to the database.
+ *
+ * @param digitala_asssignment $assignment - assignment includes needed identifications
+ * @param string $filename - file name of the recording
+ * @param mixed $evaluation - mixed object containing evaluation info
+ */
+function save_attempt($assignment, $filename, $evaluation) {
+    global $DB;
+
+    if ($DB->record_exists('digitala_attempts', array('digitala' => $assignment->instanceid,
+                                                      'userid' => $assignment->userid))) {
+        return;
+    }
+
+    $attempt = new stdClass();
+    $attempt->digitala = $assignment->instanceid;
+    $attempt->userid = $assignment->userid;
+    $attempt->file = $filename;
+    $attempt->transcript = $evaluation->Transcript;
+    $attempt->fluency = $evaluation->Fluency->score;
+    $attempt->fluencymean = $evaluation->Fluency->mean_f1;
+    $attempt->speechrate = $evaluation->Fluency->speech_rate;
+    $attempt->taskachievement = $evaluation->TaskAchievement;
+    $attempt->accuracy = $evaluation->Accuracy->score;
+    $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
+    $attempt->nativeity = $evaluation->Accuracy->nativeity;
+    $attempt->holistic = $evaluation->Holistic;
+
+    $timenow = time();
+
+    $attempt->timecreated = $timenow;
+    $attempt->timemodified = $timenow;
+
+    $DB->insert_record('digitala_attempts', $attempt);
+}
+
+/**
+ * Save user recored audio to server and send it to Aalto ASR for evaluation.
+ *
+ * @param array $formdata - form data includes audio as base64 encoded string
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ */
+function save_answerrecording($formdata, $assignment) {
+    $fs = get_file_storage();
+
+    $fileinfo = array(
+        'contextid' => $assignment->contextid,
+        'component' => 'mod_digitala',
+        'filearea' => 'recordings',
+        'itemid' => 0,
+        'filepath' => '/',
+        'filename' => 'answer-'.$assignment->id.'-'.$assignment->userid.'-'.$assignment->username.'-'.time().'.wav'
+    );
+
+    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
+                            $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
+    if ($file) {
+        $file->delete();
+    }
+
+    $data = explode( ',', $formdata->audiostring);
+    if ($data[0] != 'data:audio/wav;base64') {
+        return 'Unexpected error occured';
+    }
+    $fs->create_file_from_string($fileinfo, base64_decode($data[1]));
+
+    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
+                          $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
+
+    $out = '<audio controls><source src="'.$formdata->audiostring.'"></audio>';
+    $out .= '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
+                                                                    $file->get_filearea(), $file->get_itemid(),
+                                                                    $file->get_filepath(), $file->get_filename(), true).'<br>';
+
+    $evaluation = send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
+
+    $out .= '<br> <b>Server response:</b> '.$evaluation;
+
+    save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
+
+    return $out;
+}
+
+/**
+ * Handles answer recording form's actions
+ *
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ */
+function create_answerrecording_form($assignment) {
+    if ($formdata = $assignment->form->get_data()) {
+        $out = save_answerrecording($formdata, $assignment);
+    } else {
+        $out = $assignment->form->render();
+    }
+    return $out;
+
 }

@@ -48,7 +48,12 @@
     height: 200px;
     line-height: 2em;
     overflow: auto;
-    padding: 5px;
+}
+
+.scrollbox400 {
+    height: 408px;
+    line-height: 2em;
+    overflow: auto;
 }
 
 .record {
