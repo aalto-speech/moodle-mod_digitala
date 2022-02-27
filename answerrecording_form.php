@@ -42,9 +42,10 @@ class answerrecording_form extends moodleform {
      * @param int $pagenum - page number of the activity
      */
     public function __construct($id, $d, $pagenum) {
-        $url = '/mod/digitala/view.php/?id=' . $id . '&d=' . $d . '&page=' . $pagenum;
-        $url = new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $pagenum));
-        parent::__construct($url->out_as_local_url(false), null, 'post', '', 'id="answerrecording"');
+        $url = '?id=' . $id . '&d=' . $d . '&page=' . $pagenum;
+        // Old $url = new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $pagenum));.
+        // And $url->out_as_local_url(false) .
+        parent::__construct($url, null, 'post', '', 'id="answerrecording"');
     }
 
     /**
