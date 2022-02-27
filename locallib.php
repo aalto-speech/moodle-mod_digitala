@@ -338,9 +338,10 @@ function send_answerrecording_for_evaluation($file, $assignmenttext) {
 function save_attempt($assignment, $filename, $evaluation) {
     global $DB;
 
-    if ($DB->record_exists('digitala_attempts', array('digitala'=>$assignment->instanceid,
-                                                      'userid'=>$assignment->userid)))
+    if ($DB->record_exists('digitala_attempts', array('digitala' => $assignment->instanceid,
+                                                      'userid' => $assignment->userid))) {
         return;
+    }
 
     $attempt = new stdClass();
     $attempt->digitala = $assignment->instanceid;

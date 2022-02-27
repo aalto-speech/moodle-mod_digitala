@@ -85,7 +85,8 @@ class digitala_assignment implements renderable {
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      */
-    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $userid, $username, $assignmenttext = '', $resourcetext = '') {
+    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $userid, $username,
+        $assignmenttext = '', $resourcetext = '') {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;

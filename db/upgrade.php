@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Digitala module upgrade function.
  * @param string $oldversion the version we are upgrading from.
@@ -33,7 +31,7 @@ function xmldb_digitala_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-   if ($oldversion < 2022022500) {
+    if ($oldversion < 2022022500) {
 
         // Define table digitala_attempts to be created.
         $table = new xmldb_table('digitala_attempts');
