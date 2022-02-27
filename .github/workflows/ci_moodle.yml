@@ -111,3 +111,26 @@ jobs:
           files: ./coverage.xml
           fail_ci_if_error: true
           name: ${{ matrix.moodle-branch }} (${{ matrix.php }})
+
+  version:
+    runs-on: ubuntu-18.04
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: test
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          path: plugin
+
+      - name: Run bump-version.sh
+        run: |
+          chmod +x ./plugin/scripts/bump-version.sh
+          ./plugin/scripts/bump-version.sh
+
+      - uses: EndBug/add-and-commit@v8
+        with:
+          add: version.php
+          message: 'Bump version'
+          cwd: './plugin'
+          default_author: user_info
