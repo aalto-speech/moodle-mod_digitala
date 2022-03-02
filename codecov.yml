@@ -3,10 +3,10 @@ fixes:
 
 ignore:
   - "classes/event/*"
+  - "tests/*"
   - "answerrecording_form.php"
   - "grade.php"
   - "index.php"
-  - "lib.php"
   - "mod_form.php"
   - "renderer.php"
   - "renderable.php"
