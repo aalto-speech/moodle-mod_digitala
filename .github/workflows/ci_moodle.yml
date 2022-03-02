@@ -93,7 +93,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ always() }}
+        if: ${{ false }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0
 
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
@@ -101,12 +101,8 @@ jobs:
         run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Behat features
-        if: ${{ always() }}
+        if: ${{ false }}
         run: moodle-plugin-ci behat --profile chrome
-
-      - name: Remove path from coverage
-        if: ${{ always() }}
-        run: sed -i "s+/moodle/mod/digitala++g" coverage.xml
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
