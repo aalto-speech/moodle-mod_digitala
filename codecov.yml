@@ -2,8 +2,8 @@ fixes:
   - "moodle/mod/digitala/::"
 
 ignore:
-  - "classes/event/*"
-  - "tests/*"
+  - "classes/event"
+  - "tests"
   - "answerrecording_form.php"
   - "grade.php"
   - "index.php"
