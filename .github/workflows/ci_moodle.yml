@@ -104,9 +104,9 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
 
-      - name: cat
+      - name: Remove path from coverage
         if: ${{ always() }}
-        run: cat ./coverage.xml
+        run: sed -i "s+/moodle/mod/digitala++g" coverage.xml
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
