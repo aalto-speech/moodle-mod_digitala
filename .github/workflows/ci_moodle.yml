@@ -103,6 +103,10 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
 
+      - name: cat
+        if: ${{ always() }}
+        run: cat ./coverage.xml
+
       - name: Codecov upload
         uses: codecov/codecov-action@v2
         if: ${{ !matrix.experimental }} # Skip in PHP 8.0 since tests are not run at the moment
