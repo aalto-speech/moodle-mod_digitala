@@ -357,7 +357,7 @@ function send_answerrecording_for_evaluation($file, $assignmenttext) {
 /**
  * Save the attempt to the database.
  *
- * @param digitala_asssignment $assignment - assignment includes needed identifications
+ * @param digitala_assignment $assignment - assignment includes needed identifications
  * @param string $filename - file name of the recording
  * @param mixed $evaluation - mixed object containing evaluation info
  */

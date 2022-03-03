@@ -8,14 +8,15 @@
 let button1;
 let button2;
 let url = window.location.href;
-let newUrl = url.slice(0, -1);
+let idx = url.search('id');
+let newUrl = url.slice(0, idx);
 
-export const initializeNavbuttons = (pagenum) => {
+export const initializeNavbuttons = (courseid, digitalaid, pagenum) => {
     switch (pagenum) {
         case 0:
             button1 = document.getElementById('nextButton');
             button1.onclick = () => {
-                newUrl = newUrl.concat('', '1');
+                newUrl = newUrl.concat('', 'id=', courseid, '&d=', digitalaid, '&page=1');
                 window.location = newUrl;
             };
             break;
@@ -23,7 +24,7 @@ export const initializeNavbuttons = (pagenum) => {
         case 1:
             button1 = document.getElementById('prevButton');
             button1.onclick = () => {
-                newUrl = newUrl.concat('', '0');
+                newUrl = newUrl.concat('', 'id=', courseid, '&d=', digitalaid, '&page=0');
                 window.location = newUrl;
             };
             break;
@@ -32,7 +33,7 @@ export const initializeNavbuttons = (pagenum) => {
             button1 = document.getElementById('tryAgainButton');
             button2 = document.getElementById('feedbackButton');
             button1.onclick = () => {
-                newUrl = newUrl.concat('', '0');
+                newUrl = newUrl.concat('', 'id=', courseid, '&d=', digitalaid, '&page=0');
                 window.location = newUrl;
 
             };
