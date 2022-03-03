@@ -59,6 +59,14 @@ class mod_digitala_mod_form extends moodleform_mod {
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('name', 'digitalaname', 'mod_digitala');
 
+        // Adding the "attemptlang" field. Tells what language info we send with the audio file.
+        $options = array(
+                'fin'=>get_string('digitalafinnish', 'mod_digitala'),
+                'sv'=>get_string('digitalaswedish', 'mod_digitala'),
+		);
+        $mform->addElement('select', 'attemptlang', get_string('digitalaattemptlang', 'mod_digitala'), $options);
+        $mform->addHelpButton('attemptlang', 'digitalaattemptlang', 'mod_digitala');
+
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
             $this->standard_intro_elements();
