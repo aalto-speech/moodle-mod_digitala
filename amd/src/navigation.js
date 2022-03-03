@@ -7,20 +7,24 @@
 
 let button1;
 let button2;
+let url = window.location.href;
+let newUrl = url.slice(0, -1);
 
 export const initializeNavbuttons = (pagenum) => {
     switch (pagenum) {
         case 0:
             button1 = document.getElementById('nextButton');
             button1.onclick = () => {
-            window.console.log('page number from button', pagenum);
+                newUrl = newUrl.concat('', '1');
+                window.location = newUrl;
             };
             break;
 
         case 1:
             button1 = document.getElementById('prevButton');
             button1.onclick = () => {
-            window.console.log('page number from button', pagenum);
+                newUrl = newUrl.concat('', '0');
+                window.location = newUrl;
             };
             break;
 
@@ -28,10 +32,13 @@ export const initializeNavbuttons = (pagenum) => {
             button1 = document.getElementById('tryAgainButton');
             button2 = document.getElementById('feedbackButton');
             button1.onclick = () => {
-                window.console.log('You wanna try again?');
+                window.alert('Are you sure you want to start again?');
+                newUrl = newUrl.concat('', '0');
+                window.location = newUrl;
             };
             button2.onclick = () => {
-                window.console.log('Your feedback received');
+                window.alert('The feedback will open to another window');
+                window.open('https://educationhelsinki.eu.qualtrics.com/jfe/form/SV_9Lw5rKlwlpuFcWO', '_blank');
             };
             break;
     }
