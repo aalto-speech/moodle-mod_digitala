@@ -60,12 +60,20 @@ class mod_digitala_mod_form extends moodleform_mod {
         $mform->addHelpButton('name', 'digitalaname', 'mod_digitala');
 
         // Adding the "attemptlang" field. Tells what language info we send with the audio file.
-        $options = array(
+        $langoptions = array(
                 'fin' => get_string('digitalafinnish', 'mod_digitala'),
                 'sv' => get_string('digitalaswedish', 'mod_digitala'),
         );
-        $mform->addElement('select', 'attemptlang', get_string('digitalaattemptlang', 'mod_digitala'), $options);
+        $mform->addElement('select', 'attemptlang', get_string('digitalaattemptlang', 'mod_digitala'), $langoptions);
         $mform->addHelpButton('attemptlang', 'digitalaattemptlang', 'mod_digitala');
+
+        // Adding the "attempttype" field. Tells what task type we send with the audio file.
+        $typeoptions = array(
+                'readaloud' => get_string('digitalareadaloud', 'mod_digitala'),
+                'freeform' => get_string('digitalafreeform', 'mod_digitala'),
+        );
+        $mform->addElement('select', 'attempttype', get_string('digitalaattempttype', 'mod_digitala'), $typeoptions);
+        $mform->addHelpButton('attempttype', 'digitalaattempttype', 'mod_digitala');
 
         // Adding the "assignment" field.
         $mform->addElement('editor', 'assignment', get_string("digitalaassignment", "mod_digitala"), array('rows' => 10));
