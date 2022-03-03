@@ -300,8 +300,7 @@ function create_button($id, $text) {
 /**
  * Creates navigation buttons with identical id and class
  *
- * @param string $id id and class of the button
- * @param string $text of the button
+ * @param string $phase name of the phase of the assignment
  */
 function create_nav_buttons($phase) {
     $out = html_writer::start_div('navbuttons');

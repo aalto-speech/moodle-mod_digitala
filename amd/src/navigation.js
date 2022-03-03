@@ -32,12 +32,11 @@ export const initializeNavbuttons = (pagenum) => {
             button1 = document.getElementById('tryAgainButton');
             button2 = document.getElementById('feedbackButton');
             button1.onclick = () => {
-                window.alert('Are you sure you want to start again?');
                 newUrl = newUrl.concat('', '0');
                 window.location = newUrl;
+
             };
             button2.onclick = () => {
-                window.alert('The feedback will open to another window');
                 window.open('https://educationhelsinki.eu.qualtrics.com/jfe/form/SV_9Lw5rKlwlpuFcWO', '_blank');
             };
             break;
