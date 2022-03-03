@@ -66,6 +66,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= create_card('digitalainfo', get_string('digitalainfotext', 'digitala') . create_microphone('info'));
         $out .= end_column();
 
+        $out .= create_nav_buttons('info');
+
         $out .= end_container();
         return $out;
     }
@@ -88,6 +90,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
         $out .= create_card('digitalaassignmentresource', create_resource($assignment->resourcetext));
         $out .= end_column();
+
+        $out .= create_nav_buttons('assignment');
 
         $out .= end_container();
         return $out;
@@ -120,6 +124,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= $gradings;
         }
         $out .= end_column();
+
+        $out .= create_nav_buttons('report');
 
         $out .= end_container();
         return $out;

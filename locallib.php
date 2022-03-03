@@ -289,11 +289,32 @@ function create_report_transcription($transcription) {
 /**
  * Creates a button with identical id and class
  *
- * @param string $id
+ * @param string $id id and class of the button
  * @param string $text of the button
  */
 function create_button($id, $text) {
     $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $id));
+    return $out;
+}
+
+/**
+ * Creates navigation buttons with identical id and class
+ *
+ * @param string $id id and class of the button
+ * @param string $text of the button
+ */
+function create_nav_buttons($phase) {
+    $out = html_writer::start_div('navbuttons');
+    if ($phase == 'info') {
+        $out .= create_button('nextButton', 'Next >');
+    } else if ($phase == 'assignment') {
+        $out .= create_button('prevButton', '< Previous');
+    } else if ($phase == 'report') {
+        $out .= create_button('tryAgainButton', 'Try again from start');
+        $out .= create_button('feedbackButton', 'End and give feedback');
+    }
+    $out .= html_writer::end_div();
+
     return $out;
 }
 
