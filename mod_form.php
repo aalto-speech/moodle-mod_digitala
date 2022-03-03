@@ -67,6 +67,19 @@ class mod_digitala_mod_form extends moodleform_mod {
         $mform->addElement('select', 'attemptlang', get_string('digitalaattemptlang', 'mod_digitala'), $options);
         $mform->addHelpButton('attemptlang', 'digitalaattemptlang', 'mod_digitala');
 
+        // Adding the "assignment" field.
+        $mform->addElement('editor', 'assignment', get_string("digitalaassignment", "mod_digitala"), array('rows' => 10));
+
+        $mform->setType('assignment', PARAM_TEXT);
+        $mform->addRule('assignment', null, 'required', null, 'client');
+        $mform->addHelpButton('assignment', 'digitalaassignment', 'mod_digitala');
+
+        // Adding the "resources" field.
+        $mform->addElement('editor', 'resources', get_string("digitalaassignmentresource", "mod_digitala"), array('rows' => 10));
+
+        $mform->setType('resources', PARAM_RAW);
+        $mform->addHelpButton('resources', 'digitalaassignmentresource', 'mod_digitala');
+
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
             $this->standard_intro_elements();
