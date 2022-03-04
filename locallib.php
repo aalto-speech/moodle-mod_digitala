@@ -424,16 +424,27 @@ function save_answerrecording($formdata, $assignment) {
     $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
                           $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
 
+    // Debugging prints for development purposes
+    /*
     $out = '<audio controls><source src="'.$formdata->audiostring.'"></audio>';
     $out .= '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
                                                                     $file->get_filearea(), $file->get_itemid(),
                                                                     $file->get_filepath(), $file->get_filename(), true).'<br>';
-
+    */
     $evaluation = send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
 
-    $out .= '<br> <b>Server response:</b> '.$evaluation;
+    //$out .= '<br> <b>Server response:</b> '.$evaluation;
 
-    save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
+    $out;
+
+    if (is_null($evaluation)) {
+        $out .= 'No evaluation was found. Please return to previous page.';
+    } else {
+        save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
+        $url = $_SERVER['REQUEST_URI'];
+        $new_url = str_replace('page=1', 'page=2', $url);
+        $out .= header('Location: ' . $new_url);
+    }
 
     return $out;
 }

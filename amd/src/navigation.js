@@ -23,6 +23,7 @@ export const initializeNavbuttons = (courseid, digitalaid, pagenum) => {
 
         case 1:
             button1 = document.getElementById('prevButton');
+            button2 = document.getElementById('id_submitbutton');
             button1.onclick = () => {
                 newUrl = newUrl.concat('', 'id=', courseid, '&d=', digitalaid, '&page=0');
                 window.location = newUrl;
