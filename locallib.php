@@ -424,16 +424,19 @@ function save_answerrecording($formdata, $assignment) {
     $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
                           $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
 
-    // Debugging prints for development purposes
-    /*
-    $out = '<audio controls><source src="'.$formdata->audiostring.'"></audio>';
-    $out .= '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
+    // Debugging prints for development purposes - now wrapping them up in variables, if they are usable for example as parameteres.
+
+    // These two are currently unused.
+    $audioplayer = '<audio controls><source src="'.$formdata->audiostring.'"></audio>';
+    $audiofileurl = '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
                                                                     $file->get_filearea(), $file->get_itemid(),
                                                                     $file->get_filepath(), $file->get_filename(), true).'<br>';
-    */
+
+    // This is a keeper! In use!
     $evaluation = send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
 
-    //$out .= '<br> <b>Server response:</b> '.$evaluation;
+    // This one is unused.
+    $serverresponseprint = '<br> <b>Server response:</b> '.$evaluation;
 
     $out;
 
@@ -442,8 +445,8 @@ function save_answerrecording($formdata, $assignment) {
     } else {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
         $url = $_SERVER['REQUEST_URI'];
-        $new_url = str_replace('page=1', 'page=2', $url);
-        $out .= header('Location: ' . $new_url);
+        $newurl = str_replace('page=1', 'page=2', $url);
+        $out .= header('Location: ' . $newurl);
     }
 
     return $out;
