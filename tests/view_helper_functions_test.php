@@ -99,11 +99,15 @@ class view_helper_functions_test extends \advanced_testcase {
      */
     public function test_navbuttons_html_output() {
         $result = create_nav_buttons('info');
-        $this->assertEquals('<div class="navbuttons"><button id="nextButton" class="nextButton">Next ></button></div>', $result);
+        $this->assertEquals('<div class="navbuttons"><button id="nextButton" class="nextButton">Next ></button></div>',
+            $result);
         $result = create_nav_buttons('assignment');
-        $this->assertEquals('<div class="navbuttons"><button id="prevButton" class="prevButton">< Previous</button></div>', $result);
+        $this->assertEquals('<div class="navbuttons"><button id="prevButton" class="prevButton">< Previous</button></div>',
+            $result);
         $result = create_nav_buttons('report');
-        $this->assertEquals('<div class="navbuttons"><button id="tryAgainButton" class="tryAgainButton">Try again from start</button>' .
-            '<button id="feedbackButton" class="feedbackButton">End and give feedback</button></div>', $result);
+        $this->assertEquals('<div class="navbuttons"><button id="tryAgainButton" class="tryAgainButton">' .
+            'Try again from start</button><button id="feedbackButton" class="feedbackButton">' .
+            'End and give feedback</button></div>',
+            $result);
     }
 }
