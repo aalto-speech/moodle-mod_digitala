@@ -15,16 +15,11 @@ Feature: Student can send answer and receive assessment from Aalto ASR
       | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat |
       | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               |
     And I log in as "student1"
-    And I am on "Course 1" course homepage
+
+  Scenario: On assignment page a submit button is shown after recording
+    When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Assignment" "link"
     And I click on "record" "button"
-    Then I wait 2 seconds
     And I click on "stopRecord" "button"
-
-  Scenario: On assignment page a submit button is shown after recording
     Then ".btn" "css_element" should be visible
-
-  Scenario: After successful submission and assessment response the user is redirected to report page
-    When I click on ".btn" "css_element"
-    Then I should see "Transcription"
