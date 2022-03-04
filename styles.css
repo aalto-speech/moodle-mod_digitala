@@ -55,9 +55,8 @@
 }
 
 .navbuttons {
-    position: absolute;
+    position: relative;
     left: 45%;
-    bottom: 70px;
 }
 
 .scrollbox200 {
