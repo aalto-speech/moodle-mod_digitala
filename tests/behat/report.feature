@@ -1,5 +1,5 @@
 @mod @mod_digitala
-Feature: Student can see report with transcription and gradings
+Feature: Student can see report with transcript, numeric gradings and verbal feedback
 
   Background:
     Given the following "users" exist:
@@ -21,6 +21,7 @@ Feature: Student can see report with transcription and gradings
     And I click on "Test digitala name" "link"
     And I click on "Report" "link"
     Then I should see "No significant shortcomings."
+    And I should see "3/3"
 
   Scenario: On a graded report page the report not available text is not shown
     When I am on "Course 1" course homepage
