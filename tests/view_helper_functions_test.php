@@ -93,4 +93,17 @@ class view_helper_functions_test extends \advanced_testcase {
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcription</h5>'.
             '<div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result);
     }
+
+    /**
+     * Test creating navigation buttons for view
+     */
+    public function test_navbuttons_html_output() {
+        $result = create_nav_buttons('info');
+        $this->assertEquals('<div class="navbuttons"><button id="nextButton" class="nextButton">Next ></button></div>', $result);
+        $result = create_nav_buttons('assignment');
+        $this->assertEquals('<div class="navbuttons"><button id="prevButton" class="prevButton">< Previous</button></div>', $result);
+        $result = create_nav_buttons('report');
+        $this->assertEquals('<div class="navbuttons"><button id="tryAgainButton" class="tryAgainButton">Try again from start</button>' .
+            '<button id="feedbackButton" class="feedbackButton">End and give feedback</button></div>', $result);
+    }
 }
