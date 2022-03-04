@@ -19,9 +19,8 @@ Feature: Student can send answer and receive assessment from Aalto ASR
     And I click on "Test digitala name" "link"
     And I click on "Assignment" "link"
     And I click on "record" "button"
-    And I wait for "2000"
+    Then I wait 2 seconds
     And I click on "stopRecord" "button"
-
 
   Scenario: On assignment page a submit button is shown after recording
     Then ".btn" "css_element" should be visible
