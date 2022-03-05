@@ -294,12 +294,12 @@ function create_report_transcription($transcription) {
  */
 function create_report_tabs($gradings, $holistic) {
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-tabs', array('id'=>'nav-tab', 'role' => 'tablist'));
-    $out .= html_writer::tag('button','Task Grades', array('class' => "nav-link active ml-2", 'id' =>
-                                                            'report-grades-tab', 'data-toggle' => 'tab',
+    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::tag('button', 'Task Grades', array('class' => "nav-link active ml-2",
+                                                            'id' => 'report-grades-tab', 'data-toggle' => 'tab',
                                                             'href' => '#report-grades', 'role' => 'tab',
                                                             'aria-controls' => 'report-grades', 'aria-selected' => 'true'));
-    $out .= html_writer::tag('button','Holistic', array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab',
+    $out .= html_writer::tag('button', 'Holistic', array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab',
                                                         'data-toggle' => 'tab', 'href' => '#report-holistic',
                                                         'role' => 'tab', 'aria-controls' => 'report-holistic',
                                                         'aria-selected' => 'false'));
