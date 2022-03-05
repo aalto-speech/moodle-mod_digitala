@@ -40,7 +40,8 @@
     margin-left: auto;
 }
 
-.pb-spacer-left > svg, .pb-spacer-right > svg {
+.pb-spacer-left > svg,
+.pb-spacer-right > svg {
     width: auto;
 }
 
