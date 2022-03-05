@@ -89,16 +89,15 @@ $resourcetext = '<iframe width="100%" height="500" src="https://www.youtube.com/
 // Temporary output of the report we receive. Format could/will change as we do not yet have access to the server.
 // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
 $reportoutput = '{
-    "transcription": [
-        {"transtext": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
-    ],
+    "transcription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     "grades": [
         {"name": "Completing the task", "grade": 3, "maxgrade": 3, "reporttext": "No significant shortcomings."},
         {"name": "Fluency", "grade": 2, "maxgrade": 4, "reporttext": "Moderately smooth; some breaks, repetitions, and hesitations."},
         {"name": "Pronounciation", "grade": 1, "maxgrade": 4, "reporttext": "Weak, difficult to understand."},
         {"name": "Scope of expression", "grade": 3, "maxgrade": 3, "reporttext": "Narrow."},
         {"name": "Vocabulary and grammar accuracy ", "grade": 4, "maxgrade": 4, "reporttext": "No vocabulary or grammar errors."}
-    ]
+    ],
+    "holistic": 2.4
 }';
 // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 

@@ -105,9 +105,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
         $transcriptinfo = '';
         $gradings = '';
-        foreach ($report->report->transcription as $tscript) {
-            $transcriptinfo .= create_report_transcription($tscript);
-        }
+        $holistic = create_card('modulename', 'Your holistic: '.$report->report->holistic);
+        $transcriptinfo .= create_report_transcription($report->report->transcription);
+
         foreach ($report->report->grades as $grading) {
             $gradings .= create_report_grading($grading);
         }
@@ -117,8 +117,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
         } else {
             $out .= create_card('digitalareport', '');
             $out .= $transcriptinfo;
-            $out .= $gradings;
         }
+        $out .= create_report_tabs($gradings, $holistic);
         $out .= end_column();
 
         $out .= end_container();

@@ -278,7 +278,7 @@ function create_report_transcription($transcription) {
 
     $out .= html_writer::tag('h5', get_string('digitalatranscription', 'digitala'), array('class' => 'card-title'));
 
-    $out .= html_writer::div($transcription->transtext, 'card-text scrollbox200');
+    $out .= html_writer::div($transcription, 'card-text scrollbox200');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -287,7 +287,41 @@ function create_report_transcription($transcription) {
 }
 
 /**
- * Creates a button with identical id and class
+ * Creates tab navigation and contents for report view
+ *
+ * @param string $gradings html content of gradings shown
+ * @param string $holistic html content of holistic shown
+ */
+function create_report_tabs($gradings, $holistic) {
+    $out = html_writer::start_tag('nav');
+    $out .= html_writer::start_div('nav nav-tabs', array('id'=>'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::tag('button','Task Grades', array('class' => "nav-link active ml-2", 'id' =>
+                                                            'report-grades-tab', 'data-toggle' => 'tab',
+                                                            'href' => '#report-grades', 'role' => 'tab',
+                                                            'aria-controls' => 'report-grades', 'aria-selected' => 'true'));
+    $out .= html_writer::tag('button','Holistic', array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab',
+                                                        'data-toggle' => 'tab', 'href' => '#report-holistic',
+                                                        'role' => 'tab', 'aria-controls' => 'report-holistic',
+                                                        'aria-selected' => 'false'));
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_tag('nav');
+
+    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
+    $out .= html_writer::div($gradings, 'tab-pane fade show active',
+                            array('id' => 'report-grades', 'role' => 'tabpanel', 'aria-labelledby' => 'report-grades-tab'));
+    $out .= html_writer::div($holistic, 'tab-pane fade',
+                            array('id' => 'report-holistic', 'role' => 'tabpanel', 'aria-labelledby' => 'report-holistic-tab'));
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates a button with identical id and
+
+/**
+ * Send user audio file to Aalto ASR for evaluation.
+ * class
  *
  * @param string $id
  * @param string $text of the button
