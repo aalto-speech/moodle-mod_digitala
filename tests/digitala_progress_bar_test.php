@@ -126,12 +126,14 @@ class digitala_progress_bar_test extends \advanced_testcase {
         $rightempty = create_progress_bar_spacer('right-empty');
         $leftempty = create_progress_bar_spacer('left-empty');
         $nothing = create_progress_bar_spacer('nothing');
-        $this->assertEquals($rightempty, '<div class="pb-spacer"><svg width="100%" height="100%" viewBox="0 0 275 500"
-    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-        $this->assertEquals($leftempty, '<div class="pb-spacer"><svg width="100%" height="100%" viewBox="0 0 275 500"
-    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($rightempty, '<div class="pb-spacer pb-spacer-right"><svg width="100%" height="100%" viewBox="0 0 275 500"
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>');
+        $this->assertEquals($leftempty, '<div class="pb-spacer pb-spacer-left"><svg width="100%" height="100%" viewBox="0 0 275 500"
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>');
         $this->assertEquals($nothing, '<div class="pb-spacer"><svg width="100%" height="100%" viewBox="0 0 275 500"
-    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>');
+        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
     }
 
 }
