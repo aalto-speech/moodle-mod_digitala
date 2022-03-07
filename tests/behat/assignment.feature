@@ -12,8 +12,8 @@ Feature: Student can see assignment text and resources
       | user     | course | role           |
       | student1 | C1     | student        |
     And the following "activities" exist:
-      | activity    | name               | intro               | course | idnumber  |
-      | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 |
+      | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     |
+      | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text |
     And I log in as "student1"
 
   Scenario: On assignment page the assignment text is shown

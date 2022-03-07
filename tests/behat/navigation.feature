@@ -11,9 +11,9 @@ Feature: Student can see the phases of the whole assignment.
     And the following "course enrolments" exist:
       | user     | course | role           |
       | student1 | C1     | student        |
-    And the following "activities" exist:
-      | activity    | name               | intro               | course | idnumber  |
-      | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 |
+     And the following "activities" exist:
+      | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     |
+      | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text |
     And I log in as "student1"
 
   Scenario: The digitala activity is shown on course page
