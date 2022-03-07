@@ -11,7 +11,7 @@ Feature: Student can see report with transcription and gradings
     And the following "course enrolments" exist:
       | user     | course | role           |
       | student1 | C1     | student        |
-     And the following "activities" exist:
+    And the following "activities" exist:
       | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     |
       | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text |
     And I log in as "student1"
