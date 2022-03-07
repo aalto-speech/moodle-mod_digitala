@@ -103,5 +103,29 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022030702, 'digitala');
     }
 
+    if ($oldversion < 2022030703) {
+
+        // Define field assignmentformat to be added to digitala.
+        $table = new xmldb_table('digitala');
+        $field = new xmldb_field('assignmentformat', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'assignment');
+
+        // Conditionally launch add field attemptlang.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field assignmentformat to be added to digitala.
+        $table = new xmldb_table('digitala');
+        $field = new xmldb_field('resourcesformat', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'resources');
+
+        // Conditionally launch add field attemptlang.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Digitala savepoint reached.
+        upgrade_mod_savepoint(true, 2022030703, 'digitala');
+    }
+
     return true;
 }
