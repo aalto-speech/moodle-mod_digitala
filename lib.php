@@ -54,12 +54,12 @@ function digitala_add_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timecreated = time();
+
+    $moduleinstance->assignmentformat = $moduleinstance->assignment['format'];
+    $moduleinstance->assignment = $moduleinstance->assignment['text'];
+    $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
+    $moduleinstance->resources = $moduleinstance->resources['text'];
     
-    $formdata = $mform->get_data();
-    $moduleinstance->assignment = $formdata->assignment['text'];
-    $moduleinstance->assignmentformat = $formdata->assignment['format'];
-    $moduleinstance->resources = $formdata->resources['text'];
-    $moduleinstance->resourcesformat = $formdata->resources['format'];
 
     $id = $DB->insert_record('digitala', $moduleinstance);
 

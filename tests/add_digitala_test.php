@@ -65,8 +65,8 @@ class add_digitala_test extends \advanced_testcase {
                 'name' => 'new_digitala',
                 'attemptlang' => 'fin',
                 'attempttype' => 'freeform',
-                'assignment' => 'Assignment text',
-                'resources' => 'Resourcetext',
+                'assignment' => array('text' => 'Assignment text', 'format' => 1),
+                'resources' => array('text' => 'Resource text', 'format' => 1),
             ]);
     }
 }
