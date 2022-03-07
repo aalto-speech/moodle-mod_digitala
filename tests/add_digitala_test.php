@@ -61,8 +61,12 @@ class add_digitala_test extends \advanced_testcase {
     private function create_digitala() {
         $course = $this->course;
         return $this->getDataGenerator()->create_module('digitala', [
-                'course' => $course->id,
-                'name' => 'new_digitala'
-        ]);
+                'course' => $this->course->id,
+                'name' => 'new_digitala',
+                'attemptlang' => 'fin',
+                'attempttype' => 'freeform',
+                'assignment' => 'Assignment text',
+                'resources' => 'Resourcetext',
+            ]);
     }
 }
