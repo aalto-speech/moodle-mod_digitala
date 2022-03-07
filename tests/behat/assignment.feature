@@ -20,11 +20,11 @@ Feature: Student can see assignment text and resources
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Assignment" "link"
-    Then I should see "Tell me about Rick's"
+    Then I should see "Assignment text"
 
   Scenario: On assignment page the resources box is shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Assignment" "link"
     Then I should see "Resources"
-    And I should see "Lyrics"
+    And I should see "Resource text"
