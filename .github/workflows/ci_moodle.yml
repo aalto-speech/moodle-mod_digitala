@@ -28,6 +28,10 @@ jobs:
             moodle-branch: 'MOODLE_311_STABLE'
             database: pgsql
             experimental: true
+          - php: '8.0'
+            moodle-branch: 'master'
+            database: pgsql
+            experimental: true
 
     steps:
       - name: Check out repository code
