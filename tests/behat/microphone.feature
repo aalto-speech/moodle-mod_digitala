@@ -12,7 +12,7 @@ Feature: Student can record with the microphone
       | user     | course | role           |
       | student1 | C1     | student        |
     And the following "activities" exist:
-      | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | 
+      | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat |
       | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               |
     And I log in as "student1"
 
