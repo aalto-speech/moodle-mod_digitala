@@ -39,7 +39,8 @@ export const initializeNavbuttons = (courseid, digitalaid, pagenum) => {
 
             };
             button2.onclick = () => {
-                window.open('https://educationhelsinki.eu.qualtrics.com/jfe/form/SV_9Lw5rKlwlpuFcWO', '_blank');
+                window.open('https://link.webropolsurveys.com/Participation/Public/'
+                    + '2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048', '_blank');
             };
             break;
     }
