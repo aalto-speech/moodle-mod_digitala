@@ -12,19 +12,19 @@ Feature: Student can see assignment text and resources
       | user     | course | role           |
       | student1 | C1     | student        |
     And the following "activities" exist:
-      | activity    | name               | intro               | course | idnumber  |
-      | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 |
+      | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat |
+      | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               |
     And I log in as "student1"
 
   Scenario: On assignment page the assignment text is shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Assignment" "link"
-    Then I should see "Tell me about Rick's"
+    Then I should see "Assignment text"
 
   Scenario: On assignment page the resources box is shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Assignment" "link"
     Then I should see "Resources"
-    And I should see "Lyrics"
+    And I should see "Resource text"
