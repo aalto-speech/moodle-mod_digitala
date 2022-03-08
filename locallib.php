@@ -380,32 +380,24 @@ function save_attempt($assignment, $filename, $evaluation) {
 function save_answerrecording($formdata, $assignment) {
     $fs = get_file_storage();
 
+    $audiofile = json_decode($formdata->audiostring);
+
     $fileinfo = array(
         'contextid' => $assignment->contextid,
         'component' => 'mod_digitala',
         'filearea' => 'recordings',
         'itemid' => 0,
         'filepath' => '/',
-        'filename' => 'answer-'.$assignment->id.'-'.$assignment->userid.'-'.$assignment->username.'-'.time().'.wav'
+        'filename' => $audiofile->file
     );
 
-    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
-                            $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
-    if ($file) {
-        $file->delete();
-    }
-
-    $data = explode( ',', $formdata->audiostring);
-    if ($data[0] != 'data:audio/wav;base64') {
-        return 'Unexpected error occured';
-    }
-    $fs->create_file_from_string($fileinfo, base64_decode($data[1]));
+    file_save_draft_area_files($audiofile->id, $fileinfo['contextid'], $fileinfo['component'],
+                                $fileinfo['filearea'], $fileinfo['itemid']);
 
     $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
                           $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
 
-    $out = '<audio controls><source src="'.$formdata->audiostring.'"></audio>';
-    $out .= '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
+    $out = '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
                                                                     $file->get_filearea(), $file->get_itemid(),
                                                                     $file->get_filepath(), $file->get_filename(), true).'<br>';
 
