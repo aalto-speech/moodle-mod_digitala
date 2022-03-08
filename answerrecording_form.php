@@ -54,8 +54,7 @@ class answerrecording_form extends moodleform {
         global $CFG;
         $mform = $this->_form;
 
-        $mform->addElement('hidden', 'audiostring', $this->_formname);
-        $mform->setType('audiostring', PARAM_RAW);
+        $mform->addElement('html', '<input type="file" id="audiofile" style="display: none;">');
 
         $mform->addElement('submit', 'submitbutton', get_string('digitalasubmitanswer', 'digitala'), 'style="display: none;"');
 

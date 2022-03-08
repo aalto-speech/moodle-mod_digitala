@@ -48,15 +48,17 @@ const startStopRecording = (pagenum) => {
                 document.getElementById('id_submitbutton').style.display = '';
 
                 if (pagenum === 1) {
-                    let reader = new FileReader();
-                    reader.readAsDataURL(audioBlob);
-
-                    reader.onload = () => {
-                        window.console.log('>', reader.result);
-                        document.forms.answerrecording[0].value = reader.result;
-                    };
+                    const form = new FormData();
+                    form.append('repo_id', '');
+                    form.append('ctx_id', '');
+                    form.append('itemid', '');
+                    form.append('savepath', '/');
+                    form.append('sesskey', M.cfg.sesskey);
+                    form.append('repo_upload_file', audioBlob, 'tottoroo.wav');
+                    form.append('overwrite', '1');
                 }
             });
+            window.console.log(M.cfg);
             window.console.log('recording stopped');
             break;
     }
