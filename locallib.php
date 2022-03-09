@@ -306,17 +306,28 @@ function create_button($id, $text) {
 /**
  * Creates navigation buttons with identical id and class
  *
- * @param string $phase name of the phase of the assignment
+ * @param number $page number of the step
+ * @param number $id id of the course module
+ * @param number $d id of the activity instance
  */
-function create_nav_buttons($phase) {
+function create_nav_buttons($page, $id, $d) {
     $out = html_writer::start_div('navbuttons');
-    if ($phase == 'info') {
-        $out .= create_button('nextButton', 'Next >');
-    } else if ($phase == 'assignment') {
-        $out .= create_button('prevButton', '< Previous');
-    } else if ($phase == 'report') {
-        $out .= create_button('tryAgainButton', 'Try again from start');
-        $out .= create_button('feedbackButton', 'End and give feedback');
+    if ($page == 0) {
+        $newurl = page_url(1, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavnext', 'digitala'),
+                array('id' => 'nextButton', 'class' => 'btn btn-primary'));
+    } else if ($page == 1) {
+        $newurl = page_url(0, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavprevious', 'digitala'),
+                array('id' => 'prevButton', 'class' => 'btn btn-primary'));
+    } else if ($page == 2) {
+        $newurl = page_url(0, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavstartagain', 'digitala'),
+                array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
+        $out .= html_writer::tag('a href=' .
+                'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048' .
+                'target=_blank', get_string('digitalanavfeedback', 'digitala'),
+                array('id' => 'feedbackButton', 'class' => 'btn btn-primary'));
     }
     $out .= html_writer::end_div();
 
@@ -424,19 +435,7 @@ function save_answerrecording($formdata, $assignment) {
     $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
                           $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
 
-    // Debugging prints for development purposes - now wrapping them up in variables, if they are usable for example as parameteres.
-
-    // These two are currently unused.
-    $audioplayer = '<audio controls><source src="'.$formdata->audiostring.'"></audio>';
-    $audiofileurl = '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
-                                                                    $file->get_filearea(), $file->get_itemid(),
-                                                                    $file->get_filepath(), $file->get_filename(), true).'<br>';
-
-    // This is a keeper! In use!
     $evaluation = send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
-
-    // This one is unused.
-    $serverresponseprint = '<br> <b>Server response:</b> '.$evaluation;
 
     $out;
 

@@ -98,16 +98,14 @@ class view_helper_functions_test extends \advanced_testcase {
      * Test creating navigation buttons for view
      */
     public function test_navbuttons_html_output() {
-        $result = create_nav_buttons('info');
-        $this->assertEquals('<div class="navbuttons"><button id="nextButton" class="nextButton">Next ></button></div>',
+        $result = create_nav_buttons(0, 1, 2);
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
             $result);
-        $result = create_nav_buttons('assignment');
-        $this->assertEquals('<div class="navbuttons"><button id="prevButton" class="prevButton">< Previous</button></div>',
+        $result = create_nav_buttons(1, 1, 2);
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0 id="prevButton" class="btn btn-primary">< Previous</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0></div>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
             $result);
-        $result = create_nav_buttons('report');
-        $this->assertEquals('<div class="navbuttons"><button id="tryAgainButton" class="tryAgainButton">' .
-            'Try again from start</button><button id="feedbackButton" class="feedbackButton">' .
-            'End and give feedback</button></div>',
+        $result = create_nav_buttons(2, 1, 2);
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0 id="tryAgainButton" class="btn btn-primary">Try again from start</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0><a href=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048target=_blank id="feedbackButton" class="btn btn-primary">Give feedback</a href=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048target=_blank></div>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
             $result);
     }
 }

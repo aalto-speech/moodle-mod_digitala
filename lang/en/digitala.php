@@ -51,3 +51,7 @@ $string['digitalareportnotavailable'] = 'A report for this assignment is not ava
 $string['digitalatranscription'] = 'Transcription';
 $string['digitalaassignmentrecord'] = 'Record your answer';
 $string['digitalasubmitanswer'] = 'Submit answer';
+$string['digitalanavnext'] = 'Next >';
+$string['digitalanavprevious'] = '< Previous';
+$string['digitalanavstartagain'] = 'Try again from start';
+$string['digitalanavfeedback'] = 'Give feedback';
