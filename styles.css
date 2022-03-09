@@ -54,6 +54,11 @@
     margin-bottom: 1vh;
 }
 
+.navbuttons {
+    position: relative;
+    left: 45%;
+}
+
 .scrollbox200 {
     height: 200px;
     line-height: 2em;

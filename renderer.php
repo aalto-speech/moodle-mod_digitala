@@ -64,6 +64,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         // For the info text and microphone.
         $out .= start_column();
         $out .= create_card('digitalainfo', get_string('digitalainfotext', 'digitala') . create_microphone('info'));
+        $out .= create_nav_buttons(0, $info->id, $info->d);
         $out .= end_column();
 
         $out .= end_container();
@@ -83,6 +84,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= create_card('digitalaassignment', create_assignment($assignment->assignmenttext));
         $out .= create_card('digitalaassignmentrecord', create_microphone('assignment').'<br>'.
                 create_answerrecording_form($assignment));
+        $out .= create_nav_buttons(1, $assignment->id, $assignment->d);
         $out .= end_column();
 
         $out .= start_column();
@@ -119,6 +121,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= $transcriptinfo;
             $out .= $gradings;
         }
+        $out .= create_nav_buttons(2, $report->id, $report->d);
         $out .= end_column();
 
         $out .= end_container();

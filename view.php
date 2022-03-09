@@ -73,7 +73,6 @@ $requirejs = 'require.config(' . json_encode($config) . ')';
 $PAGE->requires->js_amd_inline($requirejs);
 $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum));
 
-
 // Temporary output of the report we receive. Format could/will change as we do not yet have access to the server.
 // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
 $reportoutput = '{
