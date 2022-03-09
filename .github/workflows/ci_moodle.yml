@@ -101,7 +101,7 @@ jobs:
         run: moodle-plugin-ci grunt --max-lint-warnings 0
 
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
-        if: ${{ matrix.php != "8.0" }}
+        if: ${{ matrix.php != '8.0' }}
         run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Behat features
@@ -110,7 +110,7 @@ jobs:
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
-        if: ${{ matrix.php != "8.0" }} # Skip in PHP 8.0 since tests are not run at the moment
+        if: ${{ matrix.php != '8.0' }} # Skip in PHP 8.0 since tests are not run at the moment
         with:
           files: ./coverage.xml
           fail_ci_if_error: true
