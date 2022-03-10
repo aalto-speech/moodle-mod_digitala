@@ -295,8 +295,10 @@ function create_report_transcription($transcription) {
 /**
  * Creates a button with identical id and class
  *
- * @param string $id id and class of the button
+ * @param string $id of the button
+ * @param string $class of the button
  * @param string $text of the button
+ *
  */
 function create_button($id, $class, $text) {
     $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class));
@@ -350,6 +352,8 @@ function create_microphone($id) {
 
 /**
  * Creates the microphone icon for the microphone view
+ *
+ * @param string $id
  */
 function create_microphone_icon($id) {
     $out = '<div id="microphoneIconBox"></div><img src="pix/mic.svg" id="microphoneIcon">';

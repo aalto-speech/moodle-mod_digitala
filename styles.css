@@ -76,7 +76,7 @@
 }
 
 .btn.btn-primary.stopRecord-btn {
-    display: inline-block;
+    display: none;
 }
 
 .btn.btn-primary.listen-btn {
