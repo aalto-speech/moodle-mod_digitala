@@ -71,62 +71,43 @@
     overflow: auto;
 }
 
-.record {
-    background-color: red;
-    border-width: medium;
-    border-color: black;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
+.btn.btn-primary.record-btn {
     display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    max-width: 50%;
-    max-height: 15%;
-    border-radius: 50%;
-    left: 100px;
-    right: 100px;
+}
+
+.btn.btn-primary.stopRecord-btn {
+    display: inline-block;
+}
+
+.btn.btn-primary.listen-btn {
+    display: inline-block;
+}
+
+#microphoneIcon {
+    margin: auto;
     position: relative;
 }
 
-.stopRecord {
-    background-color: green;
-    border-width: medium;
-    border-color: black;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    max-width: 50%;
-    max-height: 15%;
+#microphoneIconBox {
+    display: flex;
+    position: absolute;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    left: 100px;
-    right: 100px;
-    position: relative;
+    border: 2.5px dashed transparent;
+    animation: spin 60s linear infinite;
 }
 
-.listenButton {
-    background-color: gray;
-    border-width: medium;
-    border-color: black;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: none;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    max-width: 50%;
-    max-height: 15%;
-    border-radius: 50%;
-    left: 100px;
-    right: 100px;
-    position: relative;
+#microphoneIconBox.green {
+    background-color: transparent;
+}
+
+#microphoneIconBox.red {
+    background-color: transparent;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotateZ(360deg);
+    }
 }

@@ -63,8 +63,12 @@ const startStopRecording = (pagenum) => {
 };
 
 const listenRecording = () => {
+    const microphoneIcon = document.getElementById('microphoneIconBox');
     if (audio !== undefined) {
         audio.play();
+        microphoneIcon.style.border = '2.5px dashed green';
+    } else {
+        microphoneIcon.style.border = '2.5px dashed red';
     }
 };
 
@@ -72,24 +76,24 @@ export const initializeMicrophone = (pagenum) => {
     const recButton = document.getElementById('record');
     const stopButton = document.getElementById('stopRecord');
     const listenButton = document.getElementById('listenButton');
-    stopButton.disabled = true;
     listenButton.disabled = true;
 
     window.console.log('page number', pagenum);
 
     recButton.onclick = () => {
-        recButton.style.backgroundColor = "blue";
         recButton.disabled = true;
         stopButton.disabled = false;
-        listenButton.style.display = 'none';
+        listenButton.disabled = true;
+        recButton.style.display = 'none';
+        stopButton.style.display = 'inline-block';
         startStopRecording(pagenum);
     };
     stopButton.onclick = () => {
-        recButton.style.backgroundColor = "red";
         recButton.disabled = false;
         stopButton.disabled = true;
         listenButton.disabled = false;
-        listenButton.style.display = 'inline-block';
+        recButton.style.display = 'inline-block';
+        stopButton.style.display = 'none';
         startStopRecording(pagenum);
     };
     listenButton.onclick = () => {
