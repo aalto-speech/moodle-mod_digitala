@@ -41,7 +41,11 @@ class digitala_progress_bar_test extends \advanced_testcase {
         $this->course = $this->getDataGenerator()->create_course();
         $this->digitala = $this->getDataGenerator()->create_module('digitala', [
             'course' => $this->course->id,
-            'name' => 'new_digitala'
+            'name' => 'new_digitala',
+            'attemptlang' => 'fin',
+            'attempttype' => 'freeform',
+            'assignment' => array('text' => 'Assignment text', 'format' => 1),
+            'resources' => array('text' => 'Resource text', 'format' => 1),
         ]);
     }
     /**

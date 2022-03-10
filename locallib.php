@@ -295,11 +295,42 @@ function create_report_transcription($transcription) {
 /**
  * Creates a button with identical id and class
  *
- * @param string $id
+ * @param string $id id and class of the button
  * @param string $text of the button
  */
 function create_button($id, $text) {
     $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $id));
+    return $out;
+}
+
+/**
+ * Creates navigation buttons with identical id and class
+ *
+ * @param number $page number of the step
+ * @param number $id id of the course module
+ * @param number $d id of the activity instance
+ */
+function create_nav_buttons($page, $id, $d) {
+    $out = html_writer::start_div('navbuttons');
+    if ($page == 0) {
+        $newurl = page_url(1, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavnext', 'digitala'),
+                array('id' => 'nextButton', 'class' => 'btn btn-primary'));
+    } else if ($page == 1) {
+        $newurl = page_url(0, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavprevious', 'digitala'),
+                array('id' => 'prevButton', 'class' => 'btn btn-primary'));
+    } else if ($page == 2) {
+        $newurl = page_url(0, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavstartagain', 'digitala'),
+                array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
+        $out .= html_writer::tag('a href=' .
+                'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048' .
+                'target=_blank', get_string('digitalanavfeedback', 'digitala'),
+                array('id' => 'feedbackButton', 'class' => 'btn btn-primary'));
+    }
+    $out .= html_writer::end_div();
+
     return $out;
 }
 
@@ -337,7 +368,7 @@ function send_answerrecording_for_evaluation($file, $assignmenttext) {
 /**
  * Save the attempt to the database.
  *
- * @param digitala_asssignment $assignment - assignment includes needed identifications
+ * @param digitala_assignment $assignment - assignment includes needed identifications
  * @param string $filename - file name of the recording
  * @param mixed $evaluation - mixed object containing evaluation info
  */
@@ -403,9 +434,16 @@ function save_answerrecording($formdata, $assignment) {
 
     $evaluation = send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
 
-    $out .= '<br> <b>Server response:</b> '.$evaluation;
+    $out;
 
-    save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
+    if (is_null($evaluation)) {
+        $out .= 'No evaluation was found. Please return to previous page.';
+    } else {
+        save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
+        $url = $_SERVER['REQUEST_URI'];
+        $newurl = str_replace('page=1', 'page=2', $url);
+        $out .= header('Location: ' . $newurl);
+    }
 
     return $out;
 }
