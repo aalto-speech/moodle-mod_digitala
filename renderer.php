@@ -103,22 +103,24 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out = start_container('digitala-report');
 
         $out .= start_column();
-        $transcriptinfo = '';
-        $gradings = '';
-        $holistic = create_card('modulename', 'Your holistic: '.$report->report->holistic);
-        $transcriptinfo .= create_report_transcription($report->report->transcription);
 
-        foreach ($report->report->grades as $grading) {
-            $gradings .= create_report_grading($grading);
-        }
+        $attempt = get_attempt($report->instanceid);
 
-        if ($gradings == '') {
+        if (is_null(attempt)) {
             $out .= create_card('digitalareport', get_string('digitalareportnotavailable', 'digitala'));
         } else {
-            $out .= create_card('digitalareport', '');
-            $out .= $transcriptinfo;
+            $gradings = create_report_grading('Fluency', $attempt->fluency, 4);
+            $gradings .= create_report_grading('Speech rate', $attempt->speechrate, 4);
+            $gradings .= create_report_grading('Task achievement', $attempt->taskachievement, 4);
+            $gradings .= create_report_grading('Accuracy', $attempt->accuracy, 4);
+            $gradings .= create_report_grading('Lexical profile', $attempt->lexicalprofile, 4);
+            $gradings .= create_report_grading('Nativeity', $attempt->nativeity, 4);
+
+            $holistic = create_report_grading('Holistic', $attempt->holistic, 4);
+
+            $out .= create_report_transcription($attempt->transcript);
+            $out .= create_report_tabs($gradings, $holistic);
         }
-        $out .= create_report_tabs($gradings, $holistic);
         $out .= end_column();
 
         $out .= end_container();

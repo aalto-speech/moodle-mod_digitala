@@ -109,14 +109,14 @@ class digitala_assignment implements renderable {
  */
 class digitala_report implements renderable {
     /**
-     * Constructor
+     * Constructors
+     * @param int $instanceid - Instance id of the activty
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
-     * @param string $report - JSON string that gets converted to a mixed object
      */
-    public function __construct($id = 0, $d = 0, $report = '') {
+    public function __construct($instanceid, $id = 0, $d = 0) {
+        $this->instanceid = $instanceid;
         $this->id = $id;
         $this->d = $d;
-        $this->report = json_decode($report);
     }
 }

@@ -248,18 +248,18 @@ function create_report_stars($filled, $total) {
 /**
  * Creates grading information container from report
  *
- * @param mixed $report object containing grading part of report
+ * @param string $name name of the graded 
  */
-function create_report_grading($report) {
+function create_report_grading($name, $grade, $maxgrade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', $report->name, array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', $name, array("class" => 'card-title'));
 
-    $out .= html_writer::tag('h5', create_report_stars($report->grade, $report->maxgrade), array("class" => 'grade-stars'));
-    $out .= html_writer::tag('h6', $report->grade . '/' . $report->maxgrade, array("class" => 'grade-number'));
+    $out .= html_writer::tag('h5', create_report_stars($grade, $maxgrade), array("class" => 'grade-stars'));
+    $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
 
-    $out .= html_writer::div($report->reporttext, 'card-text');
+    $out .= html_writer::div('Grading information will be shown here once they\'re available.', 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -397,6 +397,23 @@ function save_attempt($assignment, $filename, $evaluation) {
     $attempt->timemodified = $timenow;
 
     $DB->insert_record('digitala_attempts', $attempt);
+}
+
+/**
+ * Load current users attempt from the database.
+ *
+ * @return mixed $attempt - object containing attempt information
+ */
+function get_attempt($instanceid) {
+    global $DB, $USER;
+    
+    if (!$DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id))) {
+        return;
+    }
+
+    $attempt = $DB->get_record('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id));
+
+    return $attempt;
 }
 
 /**
