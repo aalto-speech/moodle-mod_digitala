@@ -71,7 +71,8 @@ $config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/Re
 ], 'waitSeconds' => 40, 'enforceDefine' => false];
 $requirejs = 'require.config(' . json_encode($config) . ')';
 $PAGE->requires->js_amd_inline($requirejs);
-$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum));
+
+$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum, $id, $USER->id, $USER->username));
 
 // Temporary output of the report we receive. Format could/will change as we do not yet have access to the server.
 // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
