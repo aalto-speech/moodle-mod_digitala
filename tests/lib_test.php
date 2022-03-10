@@ -29,7 +29,7 @@ global $CFG;
  * @copyright   2022 Name
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class add_digitala_test extends \advanced_testcase {
+class lib_test extends \advanced_testcase {
 
     /**
      * A test to test testing.
@@ -102,7 +102,7 @@ class add_digitala_test extends \advanced_testcase {
         $passed = digitala_update_instance($digitala);
 
         // Check that the digitala instance update returned true.
-        $this->assertEquals(True, $passed);
+        $this->assertEquals(true, $passed);
     }
 
     /**
