@@ -356,7 +356,9 @@ function create_microphone($id) {
  * @param string $id
  */
 function create_microphone_icon($id) {
-    $out = '<div id="microphoneIconBox"></div><img src="pix/mic.svg" id="microphoneIcon">';
+    $out = html_writer::start_div('', array('id' => 'microphoneIconBox'));
+    $out .= html_writer::end_div();
+    $out .= html_writer::tag('img src=' . 'pix/mic.svg', '', array('id' => 'microphoneIcon'));
     return $out;
 }
 

@@ -98,14 +98,6 @@
     animation: spin 60s linear infinite;
 }
 
-#microphoneIconBox.green {
-    background-color: transparent;
-}
-
-#microphoneIconBox.red {
-    background-color: transparent;
-}
-
 @keyframes spin {
     100% {
         transform: rotateZ(360deg);
