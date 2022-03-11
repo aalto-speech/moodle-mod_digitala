@@ -436,7 +436,7 @@ function save_answerrecording($formdata, $assignment) {
 
     $out;
 
-    if (is_null($evaluation)) {
+    if (!isset(json_decode($evaluation)->prompt)) {
         $out .= 'No evaluation was found. Please return to previous page.';
     } else {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
