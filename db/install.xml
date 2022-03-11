@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/digitala/db" VERSION="20220225" COMMENT="XMLDB file for Moodle mod_digitala"
+<XMLDB PATH="mod/digitala/db" VERSION="20220307" COMMENT="XMLDB file for Moodle mod_digitala"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -13,6 +13,10 @@
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Timestamp of when the instance was last modified."/>
         <FIELD NAME="intro" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Activity description."/>
         <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The format of the intro field."/>
+        <FIELD NAME="attemptlang" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="attempttype" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="assignment" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="resources" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
