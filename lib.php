@@ -79,7 +79,6 @@ function digitala_update_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timemodified = time();
-    $moduleinstance->id = $moduleinstance->instance;
 
     return $DB->update_record('digitala', $moduleinstance);
 }

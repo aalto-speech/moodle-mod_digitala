@@ -29,7 +29,7 @@ global $CFG;
  * @copyright   2022 Name
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class add_digitala_test extends \advanced_testcase {
+class lib_test extends \advanced_testcase {
 
     /**
      * A test to test testing.
@@ -69,4 +69,54 @@ class add_digitala_test extends \advanced_testcase {
                 'resources' => array('text' => 'Resource text', 'format' => 1),
             ]);
     }
+
+    /**
+     * Test deleting a digitala instance.
+     */
+    public function test_digitala_delete_instance() {
+        global $DB;
+
+        // Get the created digitala course.
+        $course = $this->course;
+
+        $digitala = $this->create_digitala();
+
+        digitala_delete_instance($digitala->course);
+
+        // Check that the digitala course instance was removed.
+        $count = $DB->count_records('digitala', array('id' => $digitala->course));
+        $this->assertEquals(0, $count);
+    }
+
+    /**
+     * Test updating a digitala instance.
+     */
+    public function test_digitala_update_instance() {
+        global $DB;
+
+        // Get the created digitala course.
+        $course = $this->course;
+
+        $digitala = $this->create_digitala();
+
+        $passed = digitala_update_instance($digitala);
+
+        // Check that the digitala instance update returned true.
+        $this->assertEquals(true, $passed);
+    }
+
+    /**
+     * Test digitala file areas dummy function.
+     */
+    public function test_digitala_get_file_areas() {
+        $this->assertEquals(array(), digitala_get_file_areas(null, null, null));
+    }
+
+    /**
+     * Test digitala get file info dummy function.
+     */
+    public function test_digitala_get_file_info() {
+        $this->assertEquals(null, digitala_get_file_info(null, null, null, null, null, null, null, null, null));
+    }
+
 }
