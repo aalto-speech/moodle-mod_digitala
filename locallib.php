@@ -404,7 +404,8 @@ function save_attempt($assignment, $filename, $evaluation) {
 /**
  * Load current users attempt from the database.
  *
- * @return int $instanceid - instance id of this digitala activity
+ * @param int $instanceid - instance id of this digitala activity
+ * @return mixed $attempt - object containing attempt information
  */
 function get_attempt($instanceid) {
     global $DB, $USER;
