@@ -465,10 +465,8 @@ function create_answerrecording_form($assignment) {
 
 /**
  * Creates a canvas.
- * 
  */
 function create_canvas() {
     $out = html_writer::tag('canvas', '', array('id' => 'kaavio', 'height' => '40px'));
-    //$out .= html_writer::tag('');
     return $out;
 }

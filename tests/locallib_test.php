@@ -22,7 +22,7 @@ global $CFG;
 require_once($CFG->dirroot . '/mod/digitala/locallib.php');
 
 /**
- * Unit tests for view creation helpers: container, card and column.
+ * Unit tests for locallib.
  *
  * @group       mod_digitala
  * @package     mod_digitala
@@ -41,7 +41,11 @@ class locallib_test extends \advanced_testcase {
         $this->course = $this->getDataGenerator()->create_course();
         $this->digitala = $this->getDataGenerator()->create_module('digitala', [
             'course' => $this->course->id,
-            'name' => 'new_digitala'
+            'name' => 'new_digitala',
+            'attemptlang' => 'fin',
+            'attempttype' => 'freeform',
+            'assignment' => array('text' => 'Assignment text', 'format' => 1),
+            'resources' => array('text' => 'Resource text', 'format' => 1),
         ]);
     }
     /**
@@ -126,12 +130,11 @@ class locallib_test extends \advanced_testcase {
         $rightempty = create_progress_bar_spacer('right-empty');
         $leftempty = create_progress_bar_spacer('left-empty');
         $nothing = create_progress_bar_spacer('nothing');
-        $this->assertEquals($rightempty, '<div class="pb-spacer"><svg width="100%" height="100%" viewBox="0 0 275 500"
-    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-        $this->assertEquals($leftempty, '<div class="pb-spacer"><svg width="100%" height="100%" viewBox="0 0 275 500"
-    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-        $this->assertEquals($nothing, '<div class="pb-spacer"><svg width="100%" height="100%" viewBox="0 0 275 500"
-    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($rightempty, '<div class="pb-spacer pb-spacer-right"><svg width="100%" height="100%" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($leftempty, '<div class="pb-spacer pb-spacer-left"><svg width="100%" height="100%" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($nothing, '<div class="pb-spacer"><svg width="100%" height="100%" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
     }
 
 
@@ -218,7 +221,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_assignment() {
         $result = create_assignment('testassignment');
-        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox200">testassignment</div></div>', $result);
+        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox200">testassignment</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -226,7 +229,25 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_resource() {
         $result = create_resource('testresource');
-        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result);
+        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
+    /**
+     * Test sending answerrecording for evaluation.
+     */
+    public function test_send_answerrecording_for_evaluation() {
+        $file = new file('');
+        $assignmenttextraw = 'abc';
+        $result = send_answerrecording_for_evaluation($file, $assignmenttextraw);
+        $this->assertEquals('', $result);
+    }
+
+    /**
+     * Test saving attempt.
+     */
+    public function test_save_attempt() {
+        global $DB;
+        save_attempt();
+
+    }
 }
