@@ -353,12 +353,15 @@ function create_microphone($id) {
  *
  * @param stored_file $file - audio file to be sent for evaluation
  * @param string $assignmenttext - assignment text given for students
+ * @param string $lang - language (fin or sve) chosen for the assignment
+ * @param string $type - type of assignment (readaloud or freeform)
+ * @param string $key - keystring for server communication
  */
-function send_answerrecording_for_evaluation($file, $assignmenttext) {
+function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $type, $key) {
     $assignmenttextraw = format_string($assignmenttext);
     $c = new curl(array('ignoresecurity' => true));
     $curlurl = 'http://digitalamoodle.aalto.fi:5000';
-    $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang=fin&task=freeform&key=aalto';
+    $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang='. $lang . '&task=' . $type . '&key=' . $key;
     $curlparams = array('file' => $file);
     $json = $c->post($curlurl . $curladd, $curlparams);
 
@@ -432,11 +435,18 @@ function save_answerrecording($formdata, $assignment) {
                                                                     $file->get_filearea(), $file->get_itemid(),
                                                                     $file->get_filepath(), $file->get_filename(), true).'<br>';
 
-    $evaluation = send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
+    // Change key to a hidden value later on.
+    $key = 'aalto';
+    $evaluation = send_answerrecording_for_evaluation(
+            $file,
+            $assignment->assignmenttext,
+            $assignment->attemptlang,
+            $assignment->attempttype, $key
+        );
 
     $out;
 
-    if (is_null($evaluation)) {
+    if (!isset(json_decode($evaluation)->prompt)) {
         $out .= 'No evaluation was found. Please return to previous page.';
     } else {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
