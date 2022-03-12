@@ -9,7 +9,7 @@ import chart from 'chart';
 
 export const init = (pagenum) => {
     window.console.log('töttöröö', pagenum);
-    window.console.log('>>',chart);
+    window.console.log('>>', chart);
     if (pagenum == 2) {
         const horLine = {
             afterDraw: (chart) => {
@@ -77,7 +77,7 @@ export const init = (pagenum) => {
                     },
                     yAxes: [{
                         ticks: {
-                            beginAtZero:true,
+                            beginAtZero: true,
                         }
                     }]
                 }
