@@ -7,12 +7,25 @@
 
 import chart from 'chart';
 
-
 export const init = (pagenum) => {
     window.console.log('töttöröö', pagenum);
-
+    window.console.log('>>',chart);
     if (pagenum == 2) {
-        
+        const horLine = {
+            afterDraw: (chart) => {
+                const ctx = chart.ctx;
+                ctx.lineWidth = 3.5;
+                const scale = chart.chartArea.width / 4;
+                const curr = chart.config._config.options.lineAt;
+                const place = chart.chartArea.left + (scale * curr);
+
+                ctx.beginPath();
+                ctx.moveTo(place, chart.chartArea.top);
+                ctx.lineTo(place, chart.chartArea.bottom);
+                ctx.closePath();
+                ctx.stroke();
+            }
+        };
 
         const kaavio = document.getElementById('kaavio').getContext('2d');
         const myChart = new chart.Chart(kaavio, {
@@ -21,34 +34,39 @@ export const init = (pagenum) => {
                 labels: [""],
                 datasets: [
                 {
-                    label: 'Tottoroo 1',
+                    type: 'bar',
+                    label: '0-1',
                     data: [1],
                     backgroundColor: 'rgba(255, 99, 132, 0.2)'
                 },
                 {
-                    label: 'Tottoroo 2',
+                    type: 'bar',
+                    label: '1-2',
                     data: [1],
                     backgroundColor: 'rgba(54, 162, 235, 0.2)'
                 },
                 {
-                    label: 'Tottoroo 3',
+                    type: 'bar',
+                    label: '2-3',
                     data: [1],
                     backgroundColor: 'rgba(255, 206, 86, 0.2)'
                 },
                 {
-                    label: 'Tottoroo 4',
+                    type: 'bar',
+                    label: '3-4',
                     data: [1],
                     backgroundColor: 'rgba(75, 192, 192, 0.2)'
                 },
                 ]
             },
+            plugins: [horLine],
             options: {
                 plugins: {
                     legend: {
                       display: false
                     }
                 },
-                lineAt: 14,
+                lineAt: 2.3,
                 indexAxis: 'y',
                 scales: {
                     x: {
@@ -59,7 +77,7 @@ export const init = (pagenum) => {
                     },
                     yAxes: [{
                         ticks: {
-                            beginAtZero:true
+                            beginAtZero:true,
                         }
                     }]
                 }
