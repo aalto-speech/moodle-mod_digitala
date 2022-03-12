@@ -117,7 +117,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         if ($gradings == '') {
             $out .= create_card('digitalareport', get_string('digitalareportnotavailable', 'digitala'));
         } else {
-            $out .= create_card('digitalareport', '');
+            $out .= create_card('digitalareport', create_canvas());
             $out .= $transcriptinfo;
             $out .= $gradings;
         }
