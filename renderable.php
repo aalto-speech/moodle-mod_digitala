@@ -109,7 +109,7 @@ class digitala_assignment implements renderable {
  */
 class digitala_report implements renderable {
     /**
-     * Constructors
+     * Constructor
      * @param int $instanceid - Instance id of the activty
      * @param int $id - Id of the activity
      * @param int $d - Id of the course

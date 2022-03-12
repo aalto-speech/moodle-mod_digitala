@@ -106,7 +106,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         $attempt = get_attempt($report->instanceid);
 
-        if (is_null(attempt)) {
+        if (is_null($attempt)) {
             $out .= create_card('digitalareport', get_string('digitalareportnotavailable', 'digitala'));
         } else {
             $gradings = create_report_grading('Fluency', $attempt->fluency, 4);

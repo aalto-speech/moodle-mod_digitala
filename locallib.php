@@ -248,7 +248,9 @@ function create_report_stars($filled, $total) {
 /**
  * Creates grading information container from report
  *
- * @param string $name name of the graded 
+ * @param string $name name of the grading
+ * @param int $grade grading number given by the server
+ * @param int $maxgrade maximum number of this grade
  */
 function create_report_grading($name, $grade, $maxgrade) {
     $out = html_writer::start_div('card row digitala-card');
@@ -402,13 +404,13 @@ function save_attempt($assignment, $filename, $evaluation) {
 /**
  * Load current users attempt from the database.
  *
- * @return mixed $attempt - object containing attempt information
+ * @return int $instanceid - instance id of this digitala activity
  */
 function get_attempt($instanceid) {
     global $DB, $USER;
-    
+
     if (!$DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id))) {
-        return;
+        return null;
     }
 
     $attempt = $DB->get_record('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id));

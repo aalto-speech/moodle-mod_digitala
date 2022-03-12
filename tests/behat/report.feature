@@ -16,21 +16,21 @@ Feature: Student can see report with transcription and gradings
       | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 |
     And I log in as "student1"
 
-  Scenario: On a graded report page the gradings are shown
+  Scenario: On a non graded report page the grading tabs are not shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Report" "link"
-    Then I should see "No significant shortcomings."
+    Then I should not see "Task Grades"
+    And I should not see "Fluency"
 
-  Scenario: On a graded report page the report not available text is not shown
+  Scenario: On a non graded report page the report not available text is shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Report" "link"
-    Then I should not see "A report for this assignment is not available yet."
+    Then I should see "A report for this assignment is not available yet."
 
-  Scenario: On a graded report page the transcription is shown
+  Scenario: On a non graded report page the transcription is not shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Report" "link"
-    Then I should see "Transcription"
-    And I should see "Lorem ipsum"
+    Then I should not see "Transcription"
