@@ -71,26 +71,14 @@ $config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/Re
 ], 'waitSeconds' => 40, 'enforceDefine' => false];
 $requirejs = 'require.config(' . json_encode($config) . ')';
 $PAGE->requires->js_amd_inline($requirejs);
-$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum));
 
-
-
-// Temporary text fields for assignment waiting for teacher edit capability!
-$assignmenttextraw = "Tell me about Rick's lyfe.";
-$assignmenttext = "<p>" . $assignmenttextraw . "</p>";
-$resourcetext = '<iframe width="100%" height="500" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-    title="YouTube video player" frameborder="0" allow="accelerometer;
-    autoplay; clipboard-write; encrypted-media; gyroscope;
-    picture-in-picture" allowfullscreen></iframe>
-    <p>Lyrics should be here?!<br><img width="100%"
-    src="https://images.pexels.com/photos/730896/pexels-photo-730896.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260">
-    </img></p>';
+$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum, $id, $USER->id, $USER->username));
 
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info($id, $d));
 } else if ($pagenum == 1) {
     $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $id, $d,
-                                $USER->id, $USER->username, $assignmenttext, $resourcetext));
+                                $USER->id, $USER->username, $moduleinstance->assignment, $moduleinstance->resources));
 } else {
     $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $id, $d));
 }
