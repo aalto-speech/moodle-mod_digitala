@@ -79,6 +79,22 @@ class view_helper_functions_test extends \advanced_testcase {
     }
 
     /**
+     * Test creating report view tab creation helper.
+     */
+    public function test_tabs_html_output() {
+        $result = create_report_tabs('', '');
+        $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist">'.
+            '<button class="nav-link active ml-2" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" '.
+            'aria-controls="report-grades" aria-selected="true">Task Grades</button>'.
+            '<button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" '.
+            'aria-controls="report-holistic" aria-selected="false">Holistic</button>'.
+            '</div></nav><div class="tab-content" id="nav-tabContent">'.
+            '<div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div>'.
+            '<div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab">'.
+            '</div></div>', $result);
+    }
+
+    /**
      * Test creating report view specific transcription object.
      */
     public function test_transcription_html_output() {
