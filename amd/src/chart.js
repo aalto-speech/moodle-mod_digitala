@@ -8,8 +8,6 @@
 import chart from 'chart';
 
 export const init = (pagenum) => {
-    window.console.log('töttöröö', pagenum);
-    window.console.log('>>', chart);
     if (pagenum == 2) {
         const horLine = {
             afterDraw: (chart) => {
@@ -28,7 +26,7 @@ export const init = (pagenum) => {
         };
 
         const kaavio = document.getElementById('kaavio').getContext('2d');
-        const myChart = new chart.Chart(kaavio, {
+        new chart.Chart(kaavio, {
             type: 'bar',
             data: {
                 labels: [""],
@@ -83,6 +81,5 @@ export const init = (pagenum) => {
                 }
             }
         });
-        window.console.log('myChart', myChart);
     }
 };
