@@ -259,14 +259,20 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('accessed without internet successful', $result);
     }
 
-    // /**
-    //  * Test creating answerrecording form without form data. Should render form.
-    //  */
-    // public function test_create_answerrecording_form_wo_data() {
-    //     $assignment = new stdClass();
-    //     $result = create_answerrecording_form($assignment);
-    //     $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result);
-    // }
+    /**
+     * Test creating answerrecording form without form data. Should render form.
+     */
+    public function test_create_answerrecording_form_wo_data() {
+        global $USER;
+
+        $context = \context_module::instance($this->digitala->cmid);
+        $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
+
+        $result = create_answerrecording_form($assignment);
+        $this->assertRegExp('/form id="anserrecording"/i', $result);
+        $this->assertRegExp('/action="?id=1&amp;d=1&amp;page=1"/i', $result);
+        $this->assertRegExp('/input name="audiostring" type="hidden" value="answerrecording_form"/i', $result);
+    }
 
     // /**
     //  * Test creating answerrecording form without form data. Should not render form.
