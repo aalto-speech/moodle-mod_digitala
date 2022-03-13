@@ -266,19 +266,28 @@ class locallib_test extends \advanced_testcase {
         global $USER;
 
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
+        $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $result = create_answerrecording_form($assignment);
-        $this->assertRegExp('/form id="anserrecording"/i', $result);
-        $this->assertRegExp('/action="?id=1&amp;d=1&amp;page=1"/i', $result);
-        $this->assertRegExp('/input name="audiostring" type="hidden" value="answerrecording_form"/i', $result);
+        $this->assertMatchesRegularExpression('/form id="answerrecording"/', $result);
+        $this->assertMatchesRegularExpression('/id=4/', $result);
+        $this->assertMatchesRegularExpression('/d=5/', $result);
+        $this->assertMatchesRegularExpression('/page=1/', $result);
+        $this->assertMatchesRegularExpression('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
     }
 
     // /**
     //  * Test creating answerrecording form without form data. Should not render form.
     //  */
     // public function test_create_answerrecording_form_with_data() {
-    //     $assignment = new stdClass();
+    //     global $USER;
+
+    //     $context = \context_module::instance($this->digitala->cmid);
+    //     $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
+
+    //     var_dump($assignment->form);
+    //     $assignment->form->set_data(array('audiostring' => 'audiostring'));
+
     //     $result = create_answerrecording_form($assignment);
     //     $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result);
     // }
