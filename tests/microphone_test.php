@@ -42,9 +42,9 @@ class microphone_test extends \advanced_testcase {
 
     public function test_create_microphone() {
         $result = create_microphone('testmic');
-        $this->assertEquals('<br></br><button id="record" class="btn btn-primary record-btn">Start</button><button id="stopRecord" '.
-            'class="btn btn-primary stopRecord-btn">Stop</button><button id="listenButton" class="btn btn-primary listen-btn">'.
-            'Listen recording</button>', $result);
+        $this->assertEquals('<br></br><button id="record" class="btn btn-primary record-btn">Start</button>'.
+            '<button id="stopRecord" class="btn btn-primary stopRecord-btn">Stop</button><button id="listenButton" '.
+            'class="btn btn-primary listen-btn">Listen recording</button>', $result);
     }
 
 }
