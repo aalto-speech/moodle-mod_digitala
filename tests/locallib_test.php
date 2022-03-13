@@ -20,6 +20,7 @@ defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 
 global $CFG;
 require_once($CFG->dirroot . '/mod/digitala/locallib.php');
+require_once($CFG->dirroot . '/mod/digitala/renderable.php');
 
 /**
  * Unit tests for view creation helpers: container, card and column.
@@ -229,4 +230,50 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result);
     }
 
+    /**
+     * Test saving answer recording.
+     */
+    public function test_save_answerrecording() {
+        global $USER;
+
+        $context = \context_module::instance($this->digitala->cmid);
+        $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
+
+        $fileinfo = array(
+            'contextid' => context_user::instance($USER->id)->id,
+            'component' => 'user',
+            'filearea' => 'draft',
+            'itemid' => 0,
+            'filepath' => '/',
+            'filename' => 'testing.wav',
+            'userid' => $USER->id,
+        );
+        $fs = get_file_storage();
+        $fs->create_file_from_string($fileinfo, 'I`m an audio file, cool right!?');
+        $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
+                          $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
+
+        $formdata = new stdClass();
+        $formdata->audiostring = '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'; // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $result = save_answerrecording($formdata, $assignment);
+        $this->assertEquals('accessed without internet successful', $result);
+    }
+
+    // /**
+    //  * Test creating answerrecording form without form data. Should render form.
+    //  */
+    // public function test_create_answerrecording_form_wo_data() {
+    //     $assignment = new stdClass();
+    //     $result = create_answerrecording_form($assignment);
+    //     $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result);
+    // }
+
+    // /**
+    //  * Test creating answerrecording form without form data. Should not render form.
+    //  */
+    // public function test_create_answerrecording_form_with_data() {
+    //     $assignment = new stdClass();
+    //     $result = create_answerrecording_form($assignment);
+    //     $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result);
+    // }
 }

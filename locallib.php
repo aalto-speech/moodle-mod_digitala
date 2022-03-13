@@ -479,15 +479,12 @@ function save_answerrecording($formdata, $assignment) {
         'filename' => $audiofile->file
     );
 
+
     file_save_draft_area_files($audiofile->id, $fileinfo['contextid'], $fileinfo['component'],
                                 $fileinfo['filearea'], $fileinfo['itemid']);
 
     $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
                           $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
-
-    $out = '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
-                                                                    $file->get_filearea(), $file->get_itemid(),
-                                                                    $file->get_filepath(), $file->get_filename(), true).'<br>';
 
     // Change key to a hidden value later on.
     $key = 'aalto';
@@ -498,15 +495,18 @@ function save_answerrecording($formdata, $assignment) {
             $assignment->attempttype, $key
         );
 
-    $out;
-
     if (!isset(json_decode($evaluation)->prompt)) {
-        $out .= 'No evaluation was found. Please return to previous page.';
+        $out = 'No evaluation was found. Please return to previous page.';
     } else {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
-        $url = $_SERVER['REQUEST_URI'];
-        $newurl = str_replace('page=1', 'page=2', $url);
-        $out .= header('Location: ' . $newurl);
+        if (isset($_SERVER['REQUEST_URI'])){
+            $url = $_SERVER['REQUEST_URI'];
+            $newurl = str_replace('page=1', 'page=2', $url);
+            $out = header('Location: ' . $newurl);
+        } else {
+            $out = 'accessed without internet successful';
+        }
+
     }
 
     return $out;
