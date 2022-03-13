@@ -111,6 +111,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
         if (is_null($attempt)) {
             $out .= create_card('digitalareport', get_string('digitalareportnotavailable', 'digitala'));
         } else {
+            $out .= create_card('digitalareport', create_canvas());
+
             $gradings = create_report_grading('Fluency', $attempt->fluency, 4);
             $gradings .= create_report_grading('Speech rate', $attempt->speechrate, 4);
             $gradings .= create_report_grading('Task achievement', $attempt->taskachievement, 4);
