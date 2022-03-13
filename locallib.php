@@ -254,18 +254,20 @@ function create_report_stars($filled, $total) {
 /**
  * Creates grading information container from report
  *
- * @param mixed $report object containing grading part of report
+ * @param string $name name of the grading
+ * @param int $grade grading number given by the server
+ * @param int $maxgrade maximum number of this grade
  */
-function create_report_grading($report) {
+function create_report_grading($name, $grade, $maxgrade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', $report->name, array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', $name, array("class" => 'card-title'));
 
-    $out .= html_writer::tag('h5', create_report_stars($report->grade, $report->maxgrade), array("class" => 'grade-stars'));
-    $out .= html_writer::tag('h6', $report->grade . '/' . $report->maxgrade, array("class" => 'grade-number'));
+    $out .= html_writer::tag('h5', create_report_stars($grade, $maxgrade), array("class" => 'grade-stars'));
+    $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
 
-    $out .= html_writer::div($report->reporttext, 'card-text');
+    $out .= html_writer::div('Grading information will be shown here once they\'re available.', 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -284,7 +286,7 @@ function create_report_transcription($transcription) {
 
     $out .= html_writer::tag('h5', get_string('digitalatranscription', 'digitala'), array('class' => 'card-title'));
 
-    $out .= html_writer::div($transcription->transtext, 'card-text scrollbox200');
+    $out .= html_writer::div($transcription, 'card-text scrollbox200');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -293,7 +295,41 @@ function create_report_transcription($transcription) {
 }
 
 /**
- * Creates a button with identical id and class
+ * Creates tab navigation and contents for report view
+ *
+ * @param string $gradings html content of gradings shown
+ * @param string $holistic html content of holistic shown
+ */
+function create_report_tabs($gradings, $holistic) {
+    $out = html_writer::start_tag('nav');
+    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::tag('button', 'Task Grades', array('class' => "nav-link active ml-2",
+                                                            'id' => 'report-grades-tab', 'data-toggle' => 'tab',
+                                                            'href' => '#report-grades', 'role' => 'tab',
+                                                            'aria-controls' => 'report-grades', 'aria-selected' => 'true'));
+    $out .= html_writer::tag('button', 'Holistic', array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab',
+                                                        'data-toggle' => 'tab', 'href' => '#report-holistic',
+                                                        'role' => 'tab', 'aria-controls' => 'report-holistic',
+                                                        'aria-selected' => 'false'));
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_tag('nav');
+
+    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
+    $out .= html_writer::div($gradings, 'tab-pane fade show active',
+                            array('id' => 'report-grades', 'role' => 'tabpanel', 'aria-labelledby' => 'report-grades-tab'));
+    $out .= html_writer::div($holistic, 'tab-pane fade',
+                            array('id' => 'report-holistic', 'role' => 'tabpanel', 'aria-labelledby' => 'report-holistic-tab'));
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates a button with identical id and
+
+/**
+ * Send user audio file to Aalto ASR for evaluation.
+ * class
  *
  * @param string $id of the button
  * @param string $class of the button
@@ -367,12 +403,15 @@ function create_microphone_icon($id) {
  *
  * @param stored_file $file - audio file to be sent for evaluation
  * @param string $assignmenttext - assignment text given for students
+ * @param string $lang - language (fin or sve) chosen for the assignment
+ * @param string $type - type of assignment (readaloud or freeform)
+ * @param string $key - keystring for server communication
  */
-function send_answerrecording_for_evaluation($file, $assignmenttext) {
+function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $type, $key) {
     $assignmenttextraw = format_string($assignmenttext);
     $c = new curl(array('ignoresecurity' => true));
     $curlurl = 'http://digitalamoodle.aalto.fi:5000';
-    $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang=fin&task=freeform&key=aalto';
+    $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang='. $lang . '&task=' . $type . '&key=' . $key;
     $curlparams = array('file' => $file);
     $json = $c->post($curlurl . $curladd, $curlparams);
 
@@ -417,6 +456,24 @@ function save_attempt($assignment, $filename, $evaluation) {
 }
 
 /**
+ * Load current users attempt from the database.
+ *
+ * @param int $instanceid - instance id of this digitala activity
+ * @return mixed $attempt - object containing attempt information
+ */
+function get_attempt($instanceid) {
+    global $DB, $USER;
+
+    if (!$DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id))) {
+        return null;
+    }
+
+    $attempt = $DB->get_record('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id));
+
+    return $attempt;
+}
+
+/**
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
  * @param array $formdata - form data includes audio as base64 encoded string
@@ -425,35 +482,39 @@ function save_attempt($assignment, $filename, $evaluation) {
 function save_answerrecording($formdata, $assignment) {
     $fs = get_file_storage();
 
+    $audiofile = json_decode($formdata->audiostring);
+
     $fileinfo = array(
         'contextid' => $assignment->contextid,
         'component' => 'mod_digitala',
         'filearea' => 'recordings',
         'itemid' => 0,
         'filepath' => '/',
-        'filename' => 'answer-'.$assignment->id.'-'.$assignment->userid.'-'.$assignment->username.'-'.time().'.wav'
+        'filename' => $audiofile->file
     );
 
-    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
-                            $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
-    if ($file) {
-        $file->delete();
-    }
-
-    $data = explode( ',', $formdata->audiostring);
-    if ($data[0] != 'data:audio/wav;base64') {
-        return 'Unexpected error occured';
-    }
-    $fs->create_file_from_string($fileinfo, base64_decode($data[1]));
+    file_save_draft_area_files($audiofile->id, $fileinfo['contextid'], $fileinfo['component'],
+                                $fileinfo['filearea'], $fileinfo['itemid']);
 
     $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
                           $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
 
-    $evaluation = send_answerrecording_for_evaluation($file, $assignment->assignmenttext);
+    $out = '<br> <b>File URL:</b> '.moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
+                                                                    $file->get_filearea(), $file->get_itemid(),
+                                                                    $file->get_filepath(), $file->get_filename(), true).'<br>';
+
+    // Change key to a hidden value later on.
+    $key = 'aalto';
+    $evaluation = send_answerrecording_for_evaluation(
+            $file,
+            $assignment->assignmenttext,
+            $assignment->attemptlang,
+            $assignment->attempttype, $key
+        );
 
     $out;
 
-    if (is_null($evaluation)) {
+    if (!isset(json_decode($evaluation)->prompt)) {
         $out .= 'No evaluation was found. Please return to previous page.';
     } else {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
@@ -478,4 +539,12 @@ function create_answerrecording_form($assignment) {
     }
     return $out;
 
+}
+
+/**
+ * Creates a canvas.
+ */
+function create_canvas() {
+    $out = html_writer::tag('canvas', '', array('id' => 'kaavio', 'height' => '40px'));
+    return $out;
 }
