@@ -331,11 +331,13 @@ function create_report_tabs($gradings, $holistic) {
  * Send user audio file to Aalto ASR for evaluation.
  * class
  *
- * @param string $id id and class of the button
+ * @param string $id of the button
+ * @param string $class of the button
  * @param string $text of the button
+ *
  */
-function create_button($id, $text) {
-    $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $id));
+function create_button($id, $class, $text) {
+    $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class));
     return $out;
 }
 
@@ -377,10 +379,22 @@ function create_nav_buttons($page, $id, $d) {
  */
 function create_microphone($id) {
     $out = html_writer::tag('br', '');
-    $out .= create_button('record', 'Start');
-    $out .= create_button('stopRecord', 'Stop');
-    $out .= create_button('listenButton', 'Listen recording');
+    $out .= create_button('record', 'btn btn-primary record-btn', 'Start');
+    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', 'Stop');
+    $out .= create_button('listenButton', 'btn btn-primary listen-btn', 'Listen recording');
 
+    return $out;
+}
+
+/**
+ * Creates the microphone icon for the microphone view
+ *
+ * @param string $id
+ */
+function create_microphone_icon($id) {
+    $out = html_writer::start_div('', array('id' => 'microphoneIconBox'));
+    $out .= html_writer::end_div();
+    $out .= html_writer::tag('img src=' . 'pix/mic.svg', '', array('id' => 'microphoneIcon'));
     return $out;
 }
 
