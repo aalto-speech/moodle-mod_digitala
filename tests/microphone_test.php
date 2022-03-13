@@ -36,13 +36,15 @@ class microphone_test extends \advanced_testcase {
      * Test creating new assignment object.
      */
     public function test_create_button() {
-        $result = create_button('buttonId', 'buttonText');
-        $this->assertEquals('<button id="buttonId" class="buttonId">buttonText</button>', $result);
+        $result = create_button('buttonId', 'buttonClass', 'buttonText');
+        $this->assertEquals('<button id="buttonId" class="buttonClass">buttonText</button>', $result);
     }
 
     public function test_create_microphone() {
         $result = create_microphone('testmic');
-        $this->assertEquals('<br></br><button id="record" class="record">Start</button><button id="stopRecord" class="stopRecord">Stop</button><button id="listenButton" class="listenButton">Listen recording</button>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<br></br><button id="record" class="btn btn-primary record-btn">Start</button><button id="stopRecord" '.
+            'class="btn btn-primary stopRecord-btn">Stop</button><button id="listenButton" class="btn btn-primary listen-btn">'.
+            'Listen recording</button>', $result);
     }
 
 }
