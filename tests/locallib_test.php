@@ -21,6 +21,7 @@ defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 global $CFG;
 require_once($CFG->dirroot . '/mod/digitala/locallib.php');
 require_once($CFG->dirroot . '/mod/digitala/renderable.php');
+require_once($CFG->dirroot . '/mod/digitala/answerrecording_form.php');
 
 /**
  * Unit tests for view creation helpers: container, card and column.
@@ -276,19 +277,16 @@ class locallib_test extends \advanced_testcase {
         $this->assertMatchesRegularExpression('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
     }
 
-    // /**
-    //  * Test creating answerrecording form without form data. Should not render form.
-    //  */
-    // public function test_create_answerrecording_form_with_data() {
-    //     global $USER;
+    /**
+     * Test creating answerrecording form without form data. Should not render form.
+     */
+    public function test_create_answerrecording_form_with_data() {
+        global $USER;
+        answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form');
+        $context = \context_module::instance($this->digitala->cmid);
+        $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
-    //     $context = \context_module::instance($this->digitala->cmid);
-    //     $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
-
-    //     var_dump($assignment->form);
-    //     $assignment->form->set_data(array('audiostring' => 'audiostring'));
-
-    //     $result = create_answerrecording_form($assignment);
-    //     $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result);
-    // }
+        $result = create_answerrecording_form($assignment);
+        $this->assertEquals('No evaluation was found. Please return to previous page.', $result);
+    }
 }
