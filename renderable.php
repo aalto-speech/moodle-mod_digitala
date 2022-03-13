@@ -84,9 +84,11 @@ class digitala_assignment implements renderable {
      * @param string $username - Username of the current active user
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
+     * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
+     * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
      */
     public function __construct($instanceid, $contextid, $id = 0, $d = 0, $userid, $username,
-        $assignmenttext = '', $resourcetext = '') {
+        $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
@@ -95,6 +97,8 @@ class digitala_assignment implements renderable {
         $this->username = $username;
         $this->assignmenttext = $assignmenttext;
         $this->resourcetext = $resourcetext;
+        $this->attempttype = $attempttype;
+        $this->attemptlang = $attemptlang;
         $this->form = new answerrecording_form($id, $d, 1);
     }
 }
@@ -110,13 +114,13 @@ class digitala_assignment implements renderable {
 class digitala_report implements renderable {
     /**
      * Constructor
+     * @param int $instanceid - Instance id of the activty
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
-     * @param string $report - JSON string that gets converted to a mixed object
      */
-    public function __construct($id = 0, $d = 0, $report = '') {
+    public function __construct($instanceid, $id = 0, $d = 0) {
+        $this->instanceid = $instanceid;
         $this->id = $id;
         $this->d = $d;
-        $this->report = json_decode($report);
     }
 }

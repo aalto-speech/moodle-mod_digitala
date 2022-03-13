@@ -72,23 +72,33 @@ class view_helper_functions_test extends \advanced_testcase {
      * Test creating report view specific helper object.
      */
     public function test_grading_html_output() {
-        $report = new \stdClass();
-        $report->name = "Grading";
-        $report->grade = 0;
-        $report->maxgrade = 0;
-        $report->reporttext = "Test report";
-        $result = create_report_grading($report);
+        $result = create_report_grading("Grading", 0, 0);
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Grading</h5>'.
             '<h5 class="grade-stars"></h5><h6 class="grade-number">0/0</h6>'.
-            '<div class="card-text">Test report</div></div></div>', $result);
+            '<div class="card-text">Grading information will be shown here once they\'re available.</div></div></div>', $result);
+    }
+
+    /**
+     * Test creating report view tab creation helper.
+     */
+    public function test_tabs_html_output() {
+        $result = create_report_tabs('', '');
+        $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist">'.
+            '<button class="nav-link active ml-2" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" '.
+            'aria-controls="report-grades" aria-selected="true">Task Grades</button>'.
+            '<button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" '.
+            'aria-controls="report-holistic" aria-selected="false">Holistic</button>'.
+            '</div></nav><div class="tab-content" id="nav-tabContent">'.
+            '<div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div>'.
+            '<div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab">'.
+            '</div></div>', $result);
     }
 
     /**
      * Test creating report view specific transcription object.
      */
     public function test_transcription_html_output() {
-        $testtranscription = new \stdClass();
-        $testtranscription->transtext = "Lorem ipsum test text";
+        $testtranscription = "Lorem ipsum test text";
         $result = create_report_transcription($testtranscription);
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcription</h5>'.
             '<div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result);
