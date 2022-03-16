@@ -581,7 +581,7 @@ function create_answerrecording_form($assignment) {
     if ($formdata = $assignment->form->get_data()) {
         $out = save_answerrecording($formdata, $assignment);
     } else {
-        $out .= $assignment->form->render();
+        $out = $assignment->form->render();
     }
     return $out;
 
