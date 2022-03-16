@@ -282,16 +282,15 @@ function create_report_grading($name, $grade, $maxgrade) {
  * @param int $grade grading number given by the server
  * @param int $maxgrade maximum number of this grade
  */
-function create_report_holistic($name, $grade) {
+function create_report_holistic($grade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', $name, array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('holistic', 'digitala'), array("class" => 'card-title'));
 
-    $out .= html_writer::tag('h5', create_report_stars($grade, $maxgrade), array("class" => 'grade-stars'));
-    $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
+    $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array("class" => 'grade-number'));
 
-    $out .= html_writer::div('Grading information will be shown here once they\'re available.', 'card-text');
+    $out .= html_writer::div(get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -302,19 +301,17 @@ function create_report_holistic($name, $grade) {
 /**
  * Creates grading information container from report
  *
- * @param string $name name of the grading
  * @param int $grade grading number given by the server
- * @param int $maxgrade maximum number of this grade
  */
-function create_report_gop($name, $grade) {
+function create_report_gop($grade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string($name, 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array("class" => 'card-title'));
 
     $out .= html_writer::tag('h6', $grade * 100 . '/100', array("class" => 'grade-number'));
 
-    $out .= html_writer::div(get_string($name.'_score-'.floor($grade*10), 'digitala'), 'card-text');
+    $out .= html_writer::div(get_string('gop_score-'.floor($grade*10), 'digitala'), 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -485,7 +482,7 @@ function save_attempt($assignment, $filename, $evaluation) {
     if (isset($evaluation->Transcript)) {
         $attempt->transcript = $evaluation->Transcript;
     }
-    if (isset($attempt->fluency)) {
+    if (isset($evaluation->Fluency)) {
         $attempt->fluency = $evaluation->Fluency->score;
         $attempt->fluencymean = $evaluation->Fluency->mean_f1;
         $attempt->speechrate = $evaluation->Fluency->speech_rate;
@@ -571,7 +568,7 @@ function save_answerrecording($formdata, $assignment) {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
         $url = $_SERVER['REQUEST_URI'];
         $newurl = str_replace('page=1', 'page=2', $url);
-        $out .= header('Location: ' . $newurl);
+        $out = header('Location: ' . $newurl);
     }
 
     return $out;
@@ -586,7 +583,7 @@ function create_answerrecording_form($assignment) {
     if ($formdata = $assignment->form->get_data()) {
         $out = save_answerrecording($formdata, $assignment);
     } else {
-        $out = $assignment->form->render();
+        $out .= $assignment->form->render();
     }
     return $out;
 

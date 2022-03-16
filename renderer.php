@@ -120,12 +120,12 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
                 $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
 
-                $holistic = create_report_holistic('holistic', $attempt->holistic);
+                $holistic = create_report_holistic(floor($attempt->holistic));
 
                 $out .= create_report_transcription($attempt->transcript);
                 $out .= create_report_tabs($gradings, $holistic);
             } else {
-                $out .= create_report_gop('gop', $attempt->gop_score);
+                $out .= create_report_gop($attempt->gop_score);
             }
         }
         $out .= create_nav_buttons(2, $report->id, $report->d);
