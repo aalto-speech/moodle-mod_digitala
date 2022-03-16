@@ -127,5 +127,20 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022030703, 'digitala');
     }
 
+    if ($oldversion < 2022031601) {
+
+        // Define field gop_score to be added to digitala_attempts.
+        $table = new xmldb_table('digitala_attempts');
+        $field = new xmldb_field('gop_score', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'holistic');
+
+        // Conditionally launch add field gop_score.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Digitala savepoint reached.
+        upgrade_mod_savepoint(true, 2022031601, 'digitala');
+    }
+
     return true;
 }

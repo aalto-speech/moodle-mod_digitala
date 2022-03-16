@@ -69,13 +69,31 @@ class view_helper_functions_test extends \advanced_testcase {
     }
 
     /**
-     * Test creating report view specific helper object.
+     * Test creating report view grading helper object.
      */
     public function test_grading_html_output() {
-        $result = create_report_grading("Grading", 0, 0);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Grading</h5>'.
+        $result = create_report_grading("fluency", 0, 0);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5>'.
             '<h5 class="grade-stars"></h5><h6 class="grade-number">0/0</h6>'.
-            '<div class="card-text">Grading information will be shown here once they\'re available.</div></div></div>', $result);
+            '<div class="card-text">Fluency score is 0, red score.</div></div></div>', $result);
+    }
+
+    /**
+     * Test creating report view holistic helper object.
+     */
+    public function test_holistic_html_output() {
+        $result = create_report_holistic(3);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Holistic</h5>'.
+            '<h6 class="grade-number">B1</h6><div class="card-text">Holistic score is 3, yellow score.</div></div></div>', $result);
+    }
+
+    /**
+     * Test creating report view GOP helper object.
+     */
+    public function test_gop_html_output() {
+        $result = create_report_gop(0.72);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronounciation</h5>'. // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+            '<h6 class="grade-number">72/100</h6><div class="card-text">Pronounciation score is 7, big pink score.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -85,7 +103,7 @@ class view_helper_functions_test extends \advanced_testcase {
         $result = create_report_tabs('', '');
         $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist">'.
             '<button class="nav-link active ml-2" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" '.
-            'aria-controls="report-grades" aria-selected="true">Task Grades</button>'.
+            'aria-controls="report-grades" aria-selected="true">Task grades</button>'.
             '<button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" '.
             'aria-controls="report-holistic" aria-selected="false">Holistic</button>'.
             '</div></nav><div class="tab-content" id="nav-tabContent">'.
