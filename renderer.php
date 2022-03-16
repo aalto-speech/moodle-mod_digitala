@@ -114,7 +114,6 @@ class mod_digitala_renderer extends plugin_renderer_base {
         } else {
             $out .= create_card('digitalareport', create_canvas());
 
-            var_dump($attempt);
             if ($report->attempttype == "freeform") {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 3);
                 $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);

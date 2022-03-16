@@ -373,8 +373,6 @@ function create_report_tabs($gradings, $holistic) {
 
 /**
  * Creates a button with identical id and
-
-/**
  * Send user audio file to Aalto ASR for evaluation.
  * class
  *
@@ -566,9 +564,6 @@ function save_answerrecording($formdata, $assignment) {
         );
 
     $out;
-
-    // var_dump($evaluation);
-    // die();
 
     if (!isset(json_decode($evaluation)->prompt)) {
         $out .= 'No evaluation was found. Please return to previous page.';
