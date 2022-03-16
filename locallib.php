@@ -24,6 +24,7 @@
 
 
 
+
 /**
  * Used to generate page urls for digitala module.
  *
@@ -232,26 +233,6 @@ function create_resource($content) {
 }
 
 /**
- * Draws star gradings
- *
- * @param int $filled number of filled stars to draw
- * @param int $total number of to draw in totaldraw_report
- */
-function create_report_stars($filled, $total) {
-    $out = '';
-
-    for ($i = 1; $i <= $total; $i++) {
-        if ($i <= $filled) {
-            $out .= "\u{2605}";
-        } else {
-            $out .= "\u{2606}";
-        }
-    }
-
-    return $out;
-}
-
-/**
  * Creates grading information container from report
  *
  * @param string $name name of the grading
@@ -264,7 +245,7 @@ function create_report_grading($name, $grade, $maxgrade) {
 
     $out .= html_writer::tag('h5', get_string($name, 'digitala'), array("class" => 'card-title'));
 
-    $out .= html_writer::tag('h5', create_report_stars($grade, $maxgrade), array("class" => 'grade-stars'));
+    $out .= create_chart($name, $grade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
 
     $out .= html_writer::div(get_string($name.'_score-' . floor($grade), 'digitala'), 'card-text');
@@ -566,7 +547,7 @@ function save_answerrecording($formdata, $assignment) {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
         $url = $_SERVER['REQUEST_URI'];
         $newurl = str_replace('page=1', 'page=2', $url);
-        $out = header('Location: ' . $newurl);
+         $out = header('Location: ' . $newurl);
     }
 
     return $out;
@@ -588,9 +569,15 @@ function create_answerrecording_form($assignment) {
 }
 
 /**
- * Creates a canvas.
+ * Creates a chart.
+ * 
+ * @param string $id of the chart
+ * @param mixed $value of the chart
  */
-function create_canvas() {
-    $out = html_writer::tag('canvas', '', array('id' => 'kaavio', 'height' => '40px'));
+function create_chart($id, $value) {
+    $out = html_writer::tag('canvas', '', array('id' => $id, 'value' => $value, 'class' => 'report-chart', 'height' => '40px'));
     return $out;
 }
+
+
+
