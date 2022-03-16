@@ -87,6 +87,7 @@ export const init = (pagenum) => {
     if (pagenum === 2) {
         const allCanvases = document.getElementsByClassName('report-chart');
         window.console.log('allCanvases >', allCanvases);
+        window.console.log('create', createChart);
         // createChart(id, value);
     }
 };
