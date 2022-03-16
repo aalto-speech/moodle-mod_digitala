@@ -31,14 +31,14 @@ $string['digitala:addinstance'] = 'Add new Digitala activity';
 $string['modulenameplural'] = 'Digitalas';
 $string['pluginadministration'] = 'Plugin Administration';
 
-$string['assignmentname'] = 'Assignment name';
+$string['assignmentname'] = 'Name';
 $string['assignmentname_help'] = 'Give name for the assignment';
 $string['attemptlang'] = 'Attempt language';
 $string['attemptlang_help'] = 'The language that users will be attempting this assignment in.';
 $string['finnish'] = 'Finnish';
 $string['swedish'] = 'Swedish';
 $string['attempttype'] = 'Attempt type';
-$string['attempttype_help'] = 'In read aloud type the user will attempt to read the assignment text. In free-form the user may speak about anything indicated on the assignment text.';
+$string['attempttype_help'] = 'In read aloud type the user will attempt to read the given resource text. In free-form the user may speak about anything indicated on the assignment text.';
 $string['readaloud'] = 'Read aloud';
 $string['freeform'] = 'Free-form';
 $string['assignment'] = 'Assignment';
@@ -60,18 +60,18 @@ $string['transcription'] = 'Transcription';
 
 $string['task_grades'] = 'Task grades';
 
-$string['gop'] = 'Goodness of pronounciation';
-$string['gop_score-0'] = 'Pronounciation score is 0, red score.';
-$string['gop_score-1'] = 'Pronounciation score is 1, light red score.';
-$string['gop_score-2'] = 'Pronounciation score is 2, pink score.';
-$string['gop_score-3'] = 'Pronounciation score is 3, brown score.';
-$string['gop_score-4'] = 'Pronounciation score is 4, light yellow score.';
-$string['gop_score-5'] = 'Pronounciation score is 5, yellow score.';
-$string['gop_score-6'] = 'Pronounciation score is 6, teal score.';
-$string['gop_score-7'] = 'Pronounciation score is 7, big pink score.';
-$string['gop_score-8'] = 'Pronounciation score is 8, cyan score.';
-$string['gop_score-9'] = 'Pronounciation score is 9, light green score.';
-$string['gop_score-10'] = 'Pronounciation score is 10, green score.';
+$string['gop'] = 'Goodness of pronunciation';
+$string['gop_score-0'] = 'Pronunciation score is 0, red score.';
+$string['gop_score-1'] = 'Pronunciation score is 1, light red score.';
+$string['gop_score-2'] = 'Pronunciation score is 2, pink score.';
+$string['gop_score-3'] = 'Pronunciation score is 3, brown score.';
+$string['gop_score-4'] = 'Pronunciation score is 4, light yellow score.';
+$string['gop_score-5'] = 'Pronunciation score is 5, yellow score.';
+$string['gop_score-6'] = 'Pronunciation score is 6, teal score.';
+$string['gop_score-7'] = 'Pronunciation score is 7, big pink score.';
+$string['gop_score-8'] = 'Pronunciation score is 8, cyan score.';
+$string['gop_score-9'] = 'Pronunciation score is 9, light green score.';
+$string['gop_score-10'] = 'Pronunciation score is 10, green score.';
 
 $string['holistic'] = 'Holistic';
 $string['holistic_level-0'] = 'Below A1';
