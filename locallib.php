@@ -284,7 +284,7 @@ function create_report_transcription($transcription) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string('digitalatranscription', 'digitala'), array('class' => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('transcription', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::div($transcription, 'card-text scrollbox200');
 
@@ -352,19 +352,19 @@ function create_nav_buttons($page, $id, $d) {
     $out = html_writer::start_div('navbuttons');
     if ($page == 0) {
         $newurl = page_url(1, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavnext', 'digitala'),
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navnext', 'digitala'),
                 array('id' => 'nextButton', 'class' => 'btn btn-primary'));
     } else if ($page == 1) {
         $newurl = page_url(0, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavprevious', 'digitala'),
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navprevious', 'digitala'),
                 array('id' => 'prevButton', 'class' => 'btn btn-primary'));
     } else if ($page == 2) {
         $newurl = page_url(0, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavstartagain', 'digitala'),
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navstartagain', 'digitala'),
                 array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
         $out .= html_writer::tag('a href=' .
                 'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048' .
-                'target=_blank', get_string('digitalanavfeedback', 'digitala'),
+                'target=_blank', get_string('navfeedback', 'digitala'),
                 array('id' => 'feedbackButton', 'class' => 'btn btn-primary'));
     }
     $out .= html_writer::end_div();
