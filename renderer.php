@@ -114,17 +114,20 @@ class mod_digitala_renderer extends plugin_renderer_base {
         } else {
             $out .= create_card('digitalareport', create_canvas());
 
-            $gradings = create_report_grading('Fluency', $attempt->fluency, 4);
-            $gradings .= create_report_grading('Speech rate', $attempt->speechrate, 4);
-            $gradings .= create_report_grading('Task achievement', $attempt->taskachievement, 4);
-            $gradings .= create_report_grading('Accuracy', $attempt->accuracy, 4);
-            $gradings .= create_report_grading('Lexical profile', $attempt->lexicalprofile, 4);
-            $gradings .= create_report_grading('Nativeity', $attempt->nativeity, 4);
+            var_dump($attempt);
+            if ($report->attempttype == "freeform") {
+                $gradings = create_report_grading('fluency', $attempt->fluency, 3);
+                $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
+                $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
+                $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
 
-            $holistic = create_report_grading('Holistic', $attempt->holistic, 4);
+                $holistic = create_report_holistic('holistic', $attempt->holistic);
 
-            $out .= create_report_transcription($attempt->transcript);
-            $out .= create_report_tabs($gradings, $holistic);
+                $out .= create_report_transcription($attempt->transcript);
+                $out .= create_report_tabs($gradings, $holistic);
+            } else {
+                $out .= create_report_gop('gop', $attempt->gop_score);
+            }
         }
         $out .= create_nav_buttons(2, $report->id, $report->d);
         $out .= end_column();

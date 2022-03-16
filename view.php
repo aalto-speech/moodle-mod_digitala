@@ -82,7 +82,7 @@ if ($pagenum == 0) {
                                 $USER->id, $USER->username, $moduleinstance->assignment, $moduleinstance->resources,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang));
 } else {
-    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $id, $d));
+    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $id, $d, $moduleinstance->attempttype, $moduleinstance->attemptlang));
 }
 
 echo $OUTPUT->header();

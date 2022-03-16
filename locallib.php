@@ -276,6 +276,53 @@ function create_report_grading($name, $grade, $maxgrade) {
 }
 
 /**
+ * Creates grading information container from report
+ *
+ * @param string $name name of the grading
+ * @param int $grade grading number given by the server
+ * @param int $maxgrade maximum number of this grade
+ */
+function create_report_holistic($name, $grade) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', $name, array("class" => 'card-title'));
+
+    $out .= html_writer::tag('h5', create_report_stars($grade, $maxgrade), array("class" => 'grade-stars'));
+    $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
+
+    $out .= html_writer::div('Grading information will be shown here once they\'re available.', 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates grading information container from report
+ *
+ * @param string $name name of the grading
+ * @param int $grade grading number given by the server
+ * @param int $maxgrade maximum number of this grade
+ */
+function create_report_gop($name, $grade) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string($name, 'digitala'), array("class" => 'card-title'));
+
+    $out .= html_writer::tag('h6', $grade * 100 . '/100', array("class" => 'grade-number'));
+
+    $out .= html_writer::div(get_string($name.'_score-'.floor($grade*10), 'digitala'), 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
  * Creates transcription container from report
  *
  * @param mixed $transcription object containing the transcription part of report
@@ -437,15 +484,21 @@ function save_attempt($assignment, $filename, $evaluation) {
     $attempt->digitala = $assignment->instanceid;
     $attempt->userid = $assignment->userid;
     $attempt->file = $filename;
-    $attempt->transcript = $evaluation->Transcript;
-    $attempt->fluency = $evaluation->Fluency->score;
-    $attempt->fluencymean = $evaluation->Fluency->mean_f1;
-    $attempt->speechrate = $evaluation->Fluency->speech_rate;
-    $attempt->taskachievement = $evaluation->TaskAchievement;
-    $attempt->accuracy = $evaluation->Accuracy->score;
-    $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
-    $attempt->nativeity = $evaluation->Accuracy->nativeity;
-    $attempt->holistic = $evaluation->Holistic;
+    if (isset($evaluation->Transcript)) {
+        $attempt->transcript = $evaluation->Transcript;
+    }
+    if (isset($attempt->fluency)) {
+        $attempt->fluency = $evaluation->Fluency->score;
+        $attempt->fluencymean = $evaluation->Fluency->mean_f1;
+        $attempt->speechrate = $evaluation->Fluency->speech_rate;
+        $attempt->taskachievement = $evaluation->TaskAchievement;
+        $attempt->accuracy = $evaluation->Accuracy->score;
+        $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
+        $attempt->nativeity = $evaluation->Accuracy->nativeity;
+        $attempt->holistic = $evaluation->Holistic;
+    } else {
+        $attempt->gop_score = $evaluation->GOP_score;
+    }
 
     $timenow = time();
 
@@ -513,6 +566,9 @@ function save_answerrecording($formdata, $assignment) {
         );
 
     $out;
+
+    // var_dump($evaluation);
+    // die();
 
     if (!isset(json_decode($evaluation)->prompt)) {
         $out .= 'No evaluation was found. Please return to previous page.';
