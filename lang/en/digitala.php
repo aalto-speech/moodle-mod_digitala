@@ -55,6 +55,9 @@ $string['digitalanavnext'] = 'Next >';
 $string['digitalanavprevious'] = '< Previous';
 $string['digitalanavstartagain'] = 'Try again from start';
 $string['digitalanavfeedback'] = 'Give feedback';
+
+$string['task_grades'] = 'Task grades';
+
 $string['gop'] = 'Goodness of pronounciation';
 $string['gop_score-0'] = 'Pronounciation score is 0, red score.';
 $string['gop_score-1'] = 'Pronounciation score is 1, light red score.';
@@ -67,6 +70,7 @@ $string['gop_score-7'] = 'Pronounciation score is 7, big pink score.';
 $string['gop_score-8'] = 'Pronounciation score is 8, cyan score.';
 $string['gop_score-9'] = 'Pronounciation score is 9, light green score.';
 $string['gop_score-10'] = 'Pronounciation score is 10, green score.';
+
 $string['holistic'] = 'Holistic';
 $string['holistic_level-0'] = 'Below A1';
 $string['holistic_level-1'] = 'A1';
@@ -82,3 +86,30 @@ $string['holistic_score-3'] = 'Holistic score is 3, yellow score.';
 $string['holistic_score-4'] = 'Holistic score is 4, light yellow score.';
 $string['holistic_score-5'] = 'Holistic score is 5, light green score.';
 $string['holistic_score-6'] = 'Holistic score is 6, green score.';
+
+$string['fluency'] = 'Fluency';
+$string['fluency_score-0'] = 'Fluency score is 0, red score.';
+$string['fluency_score-1'] = 'Fluency score is 1, light red score.';
+$string['fluency_score-2'] = 'Fluency score is 2, yellow score.';
+$string['fluency_score-3'] = 'Fluency score is 3, light green score.';
+$string['fluency_score-4'] = 'Fluency score is 4, green score.';
+
+$string['accuracy'] = 'Accuracy';
+$string['accuracy_score-0'] = 'Accuracy score is 0, red score.';
+$string['accuracy_score-1'] = 'Accuracy score is 1, light red score.';
+$string['accuracy_score-2'] = 'Accuracy score is 2, yellow score.';
+$string['accuracy_score-3'] = 'Accuracy score is 3, light green score.';
+$string['accuracy_score-4'] = 'Accuracy score is 4, green score.';
+
+$string['lexicalprofile'] = 'Lexical profile';
+$string['lexicalprofile_score-0'] = 'Lexical profile score is 0, red score.';
+$string['lexicalprofile_score-1'] = 'Lexical profile is 1, light red score.';
+$string['lexicalprofile_score-2'] = 'Lexical profile is 2, yellow score.';
+$string['lexicalprofile_score-3'] = 'Lexical profile is 3, green score.';
+
+$string['nativeity'] = 'Nativeity';
+$string['nativeity_score-0'] = 'Nativeity score is 0, red score.';
+$string['nativeity_score-1'] = 'Nativeity score is 1, light red score.';
+$string['nativeity_score-2'] = 'Nativeity score is 2, yellow score.';
+$string['nativeity_score-3'] = 'Nativeity score is 3, light green score.';
+$string['nativeity_score-4'] = 'Nativeity score is 4, green score.';

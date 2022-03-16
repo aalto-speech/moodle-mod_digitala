@@ -115,10 +115,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_card('digitalareport', create_canvas());
 
             if ($report->attempttype == "freeform") {
-                $gradings = create_report_grading('fluency', $attempt->fluency, 3);
-                $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
+                $gradings = create_report_grading('fluency', $attempt->fluency, 4);
+                $gradings .= create_report_grading('accuracy', $attempt->accuracy, 4);
                 $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
-                $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
+                $gradings .= create_report_grading('nativeity', $attempt->nativeity, 4);
 
                 $holistic = create_report_holistic(floor($attempt->holistic));
 
