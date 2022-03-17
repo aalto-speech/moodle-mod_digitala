@@ -37,3 +37,10 @@ Feature: Full activity workflow from creating acitivty to students' answering
               And I should see "Läs följande avsnitt högt."
               And I should see "Resources"
               And I should see "Hejsan, jag heter Jonne-Peter och imppar Eri Keeper."
+             Then I click on "Start" "button"
+              And I wait "10" seconds
+             Then I click on "Stop" "button"
+              And I wait "5" seconds
+             Then I click on "Listen recording" "button"
+              And I wait "30" seconds
+             Then I press "id_submitbutton"
