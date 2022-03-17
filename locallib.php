@@ -419,9 +419,9 @@ function create_nav_buttons($page, $id, $d) {
  */
 function create_microphone($id) {
     $out = html_writer::tag('br', '');
-    $out .= create_button('record', 'btn btn-primary record-btn', 'Start');
-    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', 'Stop');
-    $out .= create_button('listenButton', 'btn btn-primary listen-btn', 'Listen recording');
+    $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala'));
+    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala'));
+    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala'));
 
     return $out;
 }
