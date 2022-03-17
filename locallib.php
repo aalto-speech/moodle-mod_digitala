@@ -556,7 +556,6 @@ function save_answerrecording($formdata, $assignment) {
         $texttoaalto = $assignment->resourcetext;
     }
 
-
     $evaluation = send_answerrecording_for_evaluation(
             $file,
             $texttoaalto,
