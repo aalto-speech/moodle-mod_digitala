@@ -58,7 +58,7 @@ $string['listenbutton'] = 'Kuuntele nauhoitus';
 $string['assignmentrecord'] = 'Nauhoita vastauksesi.';
 $string['submit'] = 'Palauta vastaus';
 $string['report'] = 'Raportti';
-$string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
+$string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saataville.';
 $string['transcription'] = 'Puheen litterointi';
 
 $string['task_grades'] = 'Osa-arviot';
