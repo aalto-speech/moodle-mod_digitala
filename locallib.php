@@ -551,9 +551,14 @@ function save_answerrecording($formdata, $assignment) {
 
     // Change key to a hidden value later on.
     $key = 'aalto';
+    $texttoaalto = $assignment->assignmenttext;
+    if ($assignment->attempttype == 'readaloud') {
+        $texttoaalto = $assignment->resourcetext;
+    }
+
     $evaluation = send_answerrecording_for_evaluation(
             $file,
-            $assignment->assignmenttext,
+            $texttoaalto,
             $assignment->attemptlang,
             $assignment->attempttype, $key
         );
