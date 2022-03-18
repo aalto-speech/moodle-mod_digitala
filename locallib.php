@@ -262,12 +262,54 @@ function create_report_grading($name, $grade, $maxgrade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', $name, array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string($name, 'digitala'), array("class" => 'card-title'));
 
     $out .= html_writer::tag('h5', create_report_stars($grade, $maxgrade), array("class" => 'grade-stars'));
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
 
-    $out .= html_writer::div('Grading information will be shown here once they\'re available.', 'card-text');
+    $out .= html_writer::div(get_string($name.'_score-' . floor($grade), 'digitala'), 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates grading information container from report
+ *
+ * @param int $grade grading number given by the server
+ */
+function create_report_holistic($grade) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('holistic', 'digitala'), array("class" => 'card-title'));
+
+    $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array("class" => 'grade-number'));
+
+    $out .= html_writer::div(get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates grading information container from report
+ *
+ * @param int $grade grading number given by the server
+ */
+function create_report_gop($grade) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array("class" => 'card-title'));
+
+    $out .= html_writer::tag('h6', $grade * 100 . '/100', array("class" => 'grade-number'));
+
+    $out .= html_writer::div(get_string('gop_score-'.floor($grade * 10), 'digitala'), 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -303,14 +345,14 @@ function create_report_transcription($transcription) {
 function create_report_tabs($gradings, $holistic) {
     $out = html_writer::start_tag('nav');
     $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
-    $out .= html_writer::tag('button', 'Task Grades', array('class' => "nav-link active ml-2",
-                                                            'id' => 'report-grades-tab', 'data-toggle' => 'tab',
-                                                            'href' => '#report-grades', 'role' => 'tab',
-                                                            'aria-controls' => 'report-grades', 'aria-selected' => 'true'));
-    $out .= html_writer::tag('button', 'Holistic', array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab',
-                                                        'data-toggle' => 'tab', 'href' => '#report-holistic',
-                                                        'role' => 'tab', 'aria-controls' => 'report-holistic',
-                                                        'aria-selected' => 'false'));
+    $out .= html_writer::tag('button', get_string('task_grades', 'digitala'),
+                             array('class' => "nav-link active ml-2", 'id' => 'report-grades-tab', 'data-toggle' => 'tab',
+                                   'href' => '#report-grades', 'role' => 'tab', 'aria-controls' => 'report-grades',
+                                   'aria-selected' => 'true'));
+    $out .= html_writer::tag('button', get_string('holistic', 'digitala'),
+                             array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab', 'data-toggle' => 'tab',
+                                   'href' => '#report-holistic', 'role' => 'tab', 'aria-controls' => 'report-holistic',
+                                   'aria-selected' => 'false'));
     $out .= html_writer::end_div();
     $out .= html_writer::end_tag('nav');
 
@@ -326,8 +368,6 @@ function create_report_tabs($gradings, $holistic) {
 
 /**
  * Creates a button with identical id and
-
-/**
  * Send user audio file to Aalto ASR for evaluation.
  * class
  *
@@ -437,15 +477,21 @@ function save_attempt($assignment, $filename, $evaluation) {
     $attempt->digitala = $assignment->instanceid;
     $attempt->userid = $assignment->userid;
     $attempt->file = $filename;
-    $attempt->transcript = $evaluation->Transcript;
-    $attempt->fluency = $evaluation->Fluency->score;
-    $attempt->fluencymean = $evaluation->Fluency->mean_f1;
-    $attempt->speechrate = $evaluation->Fluency->speech_rate;
-    $attempt->taskachievement = $evaluation->TaskAchievement;
-    $attempt->accuracy = $evaluation->Accuracy->score;
-    $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
-    $attempt->nativeity = $evaluation->Accuracy->nativeity;
-    $attempt->holistic = $evaluation->Holistic;
+    if (isset($evaluation->Transcript)) {
+        $attempt->transcript = $evaluation->Transcript;
+    }
+    if (isset($evaluation->Fluency)) {
+        $attempt->fluency = $evaluation->Fluency->score;
+        $attempt->fluencymean = $evaluation->Fluency->mean_f1;
+        $attempt->speechrate = $evaluation->Fluency->speech_rate;
+        $attempt->taskachievement = $evaluation->TaskAchievement;
+        $attempt->accuracy = $evaluation->Accuracy->score;
+        $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
+        $attempt->nativeity = $evaluation->Accuracy->nativeity;
+        $attempt->holistic = $evaluation->Holistic;
+    } else {
+        $attempt->gop_score = $evaluation->GOP_score;
+    }
 
     $timenow = time();
 
@@ -505,9 +551,14 @@ function save_answerrecording($formdata, $assignment) {
 
     // Change key to a hidden value later on.
     $key = 'aalto';
+    $texttoaalto = $assignment->assignmenttext;
+    if ($assignment->attempttype == 'readaloud') {
+        $texttoaalto = $assignment->resourcetext;
+    }
+
     $evaluation = send_answerrecording_for_evaluation(
             $file,
-            $assignment->assignmenttext,
+            $texttoaalto,
             $assignment->attemptlang,
             $assignment->attempttype, $key
         );
@@ -520,7 +571,7 @@ function save_answerrecording($formdata, $assignment) {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
         $url = $_SERVER['REQUEST_URI'];
         $newurl = str_replace('page=1', 'page=2', $url);
-        $out .= header('Location: ' . $newurl);
+        $out = header('Location: ' . $newurl);
     }
 
     return $out;

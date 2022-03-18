@@ -52,10 +52,6 @@ class mod_digitala_generator extends testing_module_generator {
             $record->name = 'digitala ' . $this->digitalacount;
         }
 
-        if (!isset($record->assignment["format"])) {
-            $record->assignment = array('text' => $record->assignment, 'format' => $record->assignmentformat);
-        }
-
         if (!isset($record->resources["format"])) {
             $record->resources = array('text' => $record->resources, 'format' => $record->resourcesformat);
         }
