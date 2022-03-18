@@ -43,11 +43,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_progress_bar(digitala_progress_bar $progressbar) {
         $spacers = calculate_progress_bar_spacers($progressbar->currpage);
         $out = start_progress_bar();
-        $out .= create_progress_bar_step('digitalainfo', 0, $progressbar->id, $progressbar->d, $progressbar->currpage);
+        $out .= create_progress_bar_step('info', 0, $progressbar->id, $progressbar->d, $progressbar->currpage);
         $out .= create_progress_bar_spacer($spacers['left']);
-        $out .= create_progress_bar_step('digitalaassignment', 1, $progressbar->id, $progressbar->d, $progressbar->currpage);
+        $out .= create_progress_bar_step('assignment', 1, $progressbar->id, $progressbar->d, $progressbar->currpage);
         $out .= create_progress_bar_spacer($spacers['right']);
-        $out .= create_progress_bar_step('digitalareport', 2, $progressbar->id, $progressbar->d, $progressbar->currpage);
+        $out .= create_progress_bar_step('report', 2, $progressbar->id, $progressbar->d, $progressbar->currpage);
         $out .= end_progress_bar();
         return $out;
     }
@@ -63,8 +63,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         // For the info text and microphone.
         $out .= start_column();
-        $out .= create_card('digitalainfo', create_microphone_icon('info'));
-        $out .= create_card('digitalainfo', get_string('digitalainfotext', 'digitala') . create_microphone('info'));
+        $out .= create_card('info', create_microphone_icon('info'));
+        $out .= create_card('info', get_string('infotext', 'digitala') . create_microphone('info'));
         $out .= create_nav_buttons(0, $info->id, $info->d);
         $out .= end_column();
 
@@ -82,14 +82,14 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out = start_container('digitala-assignment');
 
         $out .= start_column();
-        $out .= create_card('digitalaassignment', create_assignment($assignment->assignmenttext));
-        $out .= create_card('digitalaassignmentrecord', create_microphone('assignment').'<br>'.
+        $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
+        $out .= create_card('assignmentrecord', create_microphone('assignment').'<br>'.
                 create_answerrecording_form($assignment));
         $out .= create_nav_buttons(1, $assignment->id, $assignment->d);
         $out .= end_column();
 
         $out .= start_column();
-        $out .= create_card('digitalaassignmentresource', create_resource($assignment->resourcetext));
+        $out .= create_card('assignmentresource', create_resource($assignment->resourcetext));
         $out .= end_column();
 
         $out .= end_container();
@@ -110,9 +110,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $attempt = get_attempt($report->instanceid);
 
         if (is_null($attempt)) {
-            $out .= create_card('digitalareport', get_string('digitalareportnotavailable', 'digitala'));
+            $out .= create_card('report', get_string('reportnotavailable', 'digitala'));
         } else {
-            $out .= create_card('digitalareport', create_canvas());
+            $out .= create_card('report', create_canvas());
 
             if ($report->attempttype == "freeform") {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 4);
