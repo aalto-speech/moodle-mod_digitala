@@ -77,7 +77,7 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         // Adding the "assignment" field.
         $mform->addElement('editor', 'assignment', get_string("assignment", "mod_digitala"), array('rows' => 10));
-        
+
         $mform->setType('assignment', PARAM_TEXT);
         $mform->addRule('assignment', null, 'required', null, 'client');
         $mform->addHelpButton('assignment', 'assignment', 'mod_digitala');
