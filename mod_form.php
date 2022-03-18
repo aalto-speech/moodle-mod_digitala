@@ -76,14 +76,18 @@ class mod_digitala_mod_form extends moodleform_mod {
         $mform->addHelpButton('attempttype', 'attempttype', 'mod_digitala');
 
         // Adding the "assignment" field.
-        $mform->addElement('editor', 'assignment', get_string("assignment", "mod_digitala"), array('rows' => 10));
+        $mform->addElement('textarea', 'assignment', get_string("assignment", "mod_digitala"),
+                array('rows' => 10, 'cols' => '64'));
 
         $mform->setType('assignment', PARAM_TEXT);
         $mform->addRule('assignment', null, 'required', null, 'client');
         $mform->addHelpButton('assignment', 'assignment', 'mod_digitala');
 
         // Adding the "resources" field.
-        $mform->addElement('editor', 'resources', get_string("assignmentresource", "mod_digitala"), array('rows' => 10));
+        $textfieldoptions = array('trusttext' => false, 'subdirs' => true, 'maxfiles' => -1, 'maxbytes' => $CFG->maxbytes,
+                                  'context' => $this->context, 'changeformat' => true, 'noclean' => true);
+        $mform->addElement('editor', 'resources', get_string("assignmentresource", "mod_digitala"),
+                           array('rows' => 10), $textfieldoptions);
 
         $mform->setType('resources', PARAM_RAW);
         $mform->addHelpButton('resources', 'assignmentresource', 'mod_digitala');
