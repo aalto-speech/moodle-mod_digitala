@@ -129,6 +129,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             }
         }
         $out .= create_nav_buttons(2, $report->id, $report->d);
+        $out .= create_fixed_box();
         $out .= end_column();
 
         $out .= end_container();

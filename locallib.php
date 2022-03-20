@@ -599,3 +599,15 @@ function create_canvas() {
     $out = html_writer::tag('canvas', '', array('id' => 'kaavio', 'height' => '40px'));
     return $out;
 }
+
+/**
+ * Creates a fixed feedback box.
+ */
+function create_fixed_box() {
+    $out = html_writer::div('Give feedback by pressing the button below', 'xcontainer');
+    $out .= html_writer::tag('button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="collapser"', 'Feedback');
+    $out .= html_writer::div('', 'collapse', array('id' => 'demo'));
+    $out .= html_writer::tag('iframe src=' . 'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048', '', array('id' => 'demo', 'class' => 'collapse', 'width' => '400px', 'height' => '800px'));
+    return $out;
+}
+

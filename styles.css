@@ -103,3 +103,37 @@
         transform: rotateZ(360deg);
     }
 }
+
+.xcontainer {
+    position: fixed;
+    text-align: center;
+    vertical-align: text-top;
+    border-radius: 25px;
+    border-color: 5px solid red;
+    line-height: 3em;
+    bottom: 1em;
+    right: 1em;
+    height: 5em;
+    width: 30em;
+    background-color: lavender;
+}
+
+#collapser {
+    position: fixed;
+    border-radius: 12px 12px 25px 25px;
+    height: 2em;
+    width: 30em;
+    display: inline-block;
+    bottom: 1em;
+    right: 1em;
+    z-index: 1;
+}
+
+#demo {
+    position: fixed;
+    bottom: 2em;
+    right: 1em;
+    height: 50em;
+    width: 30em;
+    z-index: 0;
+}
