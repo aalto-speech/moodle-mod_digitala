@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @_file_upload @onlyone
+@mod @mod_digitala @javascript @_file_upload
 Feature: Create new digitala
 
         Background:
@@ -13,6 +13,7 @@ Feature: Create new digitala
                   | ossi | C1     | manager |
               And I log in as "ossi"
 
+        @onlyone
         Scenario: On course page add freeform task in Swedish and add local image to resources
              When I follow "Manage private files..."
               And I upload "mod/digitala/tests/fixtures/pic-1.png" file to "Files" filemanager
@@ -42,3 +43,5 @@ Feature: Create new digitala
               And I should see "Resources"
               And I should see "Här är filmen om tiger."
               And "//img[@alt='nää on liikennevalot XD']" "xpath_element" should exist
+              And the image at "//img[@alt='nää on liikennevalot XD']" "xpath_element" should be identical to "mod/digitala/tests/fixtures/pic-1.png"
+
