@@ -39,6 +39,14 @@ jobs:
         with:
           path: plugin
 
+      - name: bubble gum network
+        run: docker network create REPLACE_THIS
+
+      - name: add to same network as postgres
+        run: |
+          export network=$(docker network ls -f name=local-api --format "{{.Name}}")
+          sed -i "s+REPLACE_THIS+${network}+g" ./plugin/scripts/local-api/docker-compose.yml
+
       - name: Setup API-container for testing
         run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d
 
@@ -47,11 +55,6 @@ jobs:
 
       - name: list all networks in docker
         run: docker network ls
-
-      - name: add to same network as postgres
-        run: |
-          export network=$(docker network ls -f name=local-api --format "{{.Name}}")
-          sed -i "s+REPLACE_THIS+${network}+g" ./plugin/scripts/local-api/docker-compose.yml
 
       - name: logs out API-container
         run: echo $(docker logs digitala-api)
