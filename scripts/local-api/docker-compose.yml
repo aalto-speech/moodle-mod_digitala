@@ -17,3 +17,8 @@ services:
 
 volumes:
     node_modules:
+
+networks:
+    default:
+        name: REPLACE_THIS
+        external: true
