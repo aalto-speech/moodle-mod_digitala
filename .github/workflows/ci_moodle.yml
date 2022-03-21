@@ -57,12 +57,10 @@ jobs:
       - name: list all networks in docker
         run: docker network ls
 
+      - name: list container port
+
       - name: logs out API-container
         run: echo $(docker logs digitala-api)
-
-      - name: test finding api
-        continue-on-error: true
-        run: curl http://digitala-api:3000/
 
       - name: test finding api 2
         continue-on-error: true
@@ -71,6 +69,9 @@ jobs:
       - name: test finding api 2.5
         continue-on-error: true
         run: curl http://localhost:3000/
+
+      - name: logs out API-container
+        run: echo $(docker logs digitala-api)
 
       - name: test finding api 3
         continue-on-error: false
