@@ -57,8 +57,6 @@ jobs:
       - name: list all networks in docker
         run: docker network ls
 
-      - name: list container port
-
       - name: logs out API-container
         run: echo $(docker logs digitala-api)
 
