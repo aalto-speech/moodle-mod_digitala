@@ -191,7 +191,7 @@ function end_column() {
  * @param string $text content for the card as html
  */
 function create_card($header, $text) {
-    $out = html_writer::start_div('card row digitala-card '.$header);
+    $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
     $out .= html_writer::tag('h5', get_string($header, 'digitala'), array("class" => 'card-title'));
