@@ -42,6 +42,9 @@ jobs:
       - name: Setup API-container for testing
         run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d
 
+      - name: debug docker
+        run: docker ps -a
+
       - name: test finding api
         run: curl localhost:3000
 
