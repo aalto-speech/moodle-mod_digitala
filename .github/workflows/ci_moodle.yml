@@ -52,7 +52,7 @@ jobs:
         run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d
 
       - name: ls docker API-container
-        run: docker exec -it digitala-api ls
+        run: docker exec -i digitala-api ls
 
       - name: debug docker
         run: docker ps -a
