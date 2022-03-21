@@ -49,7 +49,17 @@ jobs:
         run: echo $(docker logs digitala-api)
 
       - name: test finding api
-        run: curl http://digitala-api:3000
+        continue-on-error: true
+        run: curl http://digitala-api:3000/
+
+      - name: test finding api 2
+        continue-on-error: true
+        run: curl http://127.0.0.1:3000/
+
+      - name: test finding api 3
+        continue-on-error: false
+        run: curl http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' digitala-api):3000/
+
 
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2

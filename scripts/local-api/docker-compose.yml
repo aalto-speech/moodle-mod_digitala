@@ -11,6 +11,8 @@ services:
         volumes:
             - node_modules:/api/node_modules/
         network_mode: "host"
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
 
 volumes:
     node_modules:
