@@ -78,16 +78,16 @@ class digitala_assignment implements renderable {
      * Constructor
      * @param int $instanceid - Instance id of the activty
      * @param int $contextid - Context id of the activty
-     * @param int $id - Id of the activity
-     * @param int $d - Id of the course
      * @param int $userid - Id of the current active user
      * @param string $username - Username of the current active user
+     * @param int $id - Id of the activity
+     * @param int $d - Id of the course
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
      */
-    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $userid, $username,
+    public function __construct($instanceid, $contextid, $userid, $username, $id = 0, $d = 0,
         $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
