@@ -39,6 +39,12 @@ jobs:
         with:
           path: plugin
 
+      - name: Setup API-container for testing
+        run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d
+
+      - name: test finding api
+        run: curl localhost:3000
+
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
