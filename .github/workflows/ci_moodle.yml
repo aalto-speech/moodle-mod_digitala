@@ -49,7 +49,7 @@ jobs:
         run: echo $(docker logs digitala-api)
 
       - name: test finding api
-        run: curl http://localhost:3000
+        run: curl http://127.0.0.1:3000
 
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
