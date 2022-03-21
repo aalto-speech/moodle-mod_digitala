@@ -62,16 +62,16 @@ class digitala_progress_bar_test extends \advanced_testcase {
      * Test generating progress bar step link as non active and active
      */
     public function test_create_progress_bar_step_link() {
-        $info = create_progress_bar_step_link('digitalainfo', 0, 1, 1, false);
-        $assignment = create_progress_bar_step_link('digitalaassignment', 1, 1, 1, false);
-        $report = create_progress_bar_step_link('digitalareport', 2, 1, 1, false);
+        $info = create_progress_bar_step_link('info', 0, 1, 1, false);
+        $assignment = create_progress_bar_step_link('assignment', 1, 1, 1, false);
+        $report = create_progress_bar_step_link('report', 2, 1, 1, false);
         $this->assertEquals($info, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span>Info</a>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $this->assertEquals($assignment, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span>Assignment</a>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $this->assertEquals($report, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span>Report</a>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
-        $infoactive = create_progress_bar_step_link('digitalainfo', 0, 1, 1, true);
-        $assignmentactive = create_progress_bar_step_link('digitalaassignment', 1, 1, 1, true);
-        $reportactive = create_progress_bar_step_link('digitalareport', 2, 1, 1, true);
+        $infoactive = create_progress_bar_step_link('info', 0, 1, 1, true);
+        $assignmentactive = create_progress_bar_step_link('assignment', 1, 1, 1, true);
+        $reportactive = create_progress_bar_step_link('report', 2, 1, 1, true);
         $this->assertEquals($infoactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num active">1</span>Info</a>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $this->assertEquals($assignmentactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num active">2</span>Assignment</a>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $this->assertEquals($reportactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num active">3</span>Report</a>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
@@ -97,12 +97,12 @@ class digitala_progress_bar_test extends \advanced_testcase {
      * Test generating whole step in the progress bar
      */
     public function test_create_progress_bar_step() {
-        $info = create_progress_bar_step('digitalainfo', 0, 1, 1, 1);
-        $assignment = create_progress_bar_step('digitalaassignment', 1, 1, 1, 0);
-        $report = create_progress_bar_step('digitalareport', 2, 1, 1, 0);
-        $infoactive = create_progress_bar_step('digitalainfo', 0, 1, 1, 0);
-        $assignmentactive = create_progress_bar_step('digitalaassignment', 1, 1, 1, 1);
-        $reportactive = create_progress_bar_step('digitalareport', 2, 1, 1, 2);
+        $info = create_progress_bar_step('info', 0, 1, 1, 1);
+        $assignment = create_progress_bar_step('assignment', 1, 1, 1, 0);
+        $report = create_progress_bar_step('report', 2, 1, 1, 0);
+        $infoactive = create_progress_bar_step('info', 0, 1, 1, 0);
+        $assignmentactive = create_progress_bar_step('assignment', 1, 1, 1, 1);
+        $reportactive = create_progress_bar_step('report', 2, 1, 1, 2);
         $this->assertEquals($info, '<div class="pb-step first"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span>Info</a></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $this->assertEquals($assignment, '<div class="pb-step"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span>Assignment</a></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $this->assertEquals($report, '<div class="pb-step last"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span>Report</a></div>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
