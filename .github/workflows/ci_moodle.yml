@@ -44,7 +44,7 @@ jobs:
 
       - name: add to same network as postgres
         run: |
-          export network=$(docker network ls -f name=local-api --format "{{.Name}}")
+          export network=$(docker network ls -f name=github --format "{{.Name}}")
           sed -i "s+REPLACE_THIS+${network}+g" ./plugin/scripts/local-api/docker-compose.yml
           cat ./plugin/scripts/local-api/docker-compose.yml
 
