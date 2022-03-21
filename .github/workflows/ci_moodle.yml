@@ -51,35 +51,21 @@ jobs:
       - name: Setup API-container for testing
         run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d
 
-      - name: ls docker API-container
-        run: docker exec -i digitala-api ls
-
-      - name: debug docker
-        run: docker ps -a
-
-      - name: list all networks in docker
-        run: docker network ls
-
       - name: logs out API-container
         run: echo $(docker logs digitala-api)
 
-      - name: test finding api 2
-        continue-on-error: true
-        run: curl http://127.0.0.1:3000/
+      - name: Test API is reachable 2
+        run: |
+          curl http://digitala-api:3000/
 
-      - name: test finding api 2.5
-        continue-on-error: true
-        run: curl http://localhost:3000/
-
-      - name: logs out API-container
-        run: echo $(docker logs digitala-api)
-
-      - name: test finding api 3
-        continue-on-error: false
+      - name: Test API is reachable
         run: |
           export ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' digitala-api)
           echo ${ip}
           curl http://${ip}:3000/
+
+      - name: logs out API-container
+        run: echo $(docker logs digitala-api)
 
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
