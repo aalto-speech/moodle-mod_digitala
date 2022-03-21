@@ -54,15 +54,21 @@ jobs:
       - name: logs out API-container
         run: echo $(docker logs digitala-api)
 
-      - name: Test API is reachable 2
-        run: |
-          curl http://digitala-api:3000/
-
       - name: Test API is reachable
         run: |
           export ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' digitala-api)
           echo ${ip}
           curl http://${ip}:3000/
+
+      - name: Add digitala-api to /etc/hosts
+        run: |
+          export ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' digitala-api)
+          echo ${ip}
+          sudo echo "${ip} digitala-api" | sudo tee -a /etc/hosts
+
+      - name: Test API is reachable 2
+        run: |
+          curl http://digitala-api:3000/
 
       - name: logs out API-container
         run: echo $(docker logs digitala-api)
