@@ -46,6 +46,7 @@ jobs:
         run: |
           export network=$(docker network ls -f name=local-api --format "{{.Name}}")
           sed -i "s+REPLACE_THIS+${network}+g" ./plugin/scripts/local-api/docker-compose.yml
+          cat ./plugin/scripts/local-api/docker-compose.yml
 
       - name: Setup API-container for testing
         run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d
