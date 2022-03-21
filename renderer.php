@@ -114,6 +114,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
         } else {
             $out .= create_card('report', create_canvas());
 
+            $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
+                    $attempt->file, false);
+            $out .= '<audio controls><source src='.$audiourl.'></audio><br>';
+
             if ($report->attempttype == "freeform") {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 4);
                 $gradings .= create_report_grading('accuracy', $attempt->accuracy, 4);
