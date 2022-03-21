@@ -39,9 +39,6 @@ jobs:
         with:
           path: plugin
 
-      - name: bubble gum network
-        run: docker network create REPLACE_THIS
-
       - name: add to same network as postgres
         run: |
           export network=$(docker network ls -f name=github --format "{{.Name}}")
@@ -51,7 +48,7 @@ jobs:
       - name: Setup API-container for testing
         run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d
 
-      - name: logs out API-container
+      - name: Print out API-containers logs
         run: echo $(docker logs digitala-api)
 
       - name: Test API is reachable
@@ -66,11 +63,11 @@ jobs:
           echo ${ip}
           sudo echo "${ip} digitala-api" | sudo tee -a /etc/hosts
 
-      - name: Test API is reachable 2
+      - name: Test API is reachable via hostname digitala-api
         run: |
           curl http://digitala-api:3000/
 
-      - name: logs out API-container
+      - name: Print out API-containers logs
         run: echo $(docker logs digitala-api)
 
       - name: Setup PHP ${{ matrix.php }}

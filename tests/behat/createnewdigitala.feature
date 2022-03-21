@@ -36,7 +36,6 @@ Feature: Create new digitala
       | SWE Freeform  | Swedish     | Free-form   | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                |
       | FIN Freeform  | Finnish     | Free-form   | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
 
-
   Scenario: On course page add freeform task in Swedish and add local image to resources
     When I follow "Manage private files..."
     And I upload "mod/digitala/tests/fixtures/pic-1.png" file to "Files" filemanager
@@ -185,7 +184,6 @@ Feature: Create new digitala
     And I should see "Här är filmen om tiger."
     And "//audio[@title='töttöröö :D']" "xpath_element" should exist
 
-@onlyone
   Scenario: On course page add freeform task in Swedish and add local audio to resources
     When I am on the "C1" "Course" page
     And I turn editing mode on
