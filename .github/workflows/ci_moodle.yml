@@ -45,6 +45,9 @@ jobs:
       - name: debug docker
         run: docker ps -a
 
+      - name: logs out API-container
+        run: docker logs digitala-api
+
       - name: test finding api
         run: curl http://127.0.0.1:3000
 

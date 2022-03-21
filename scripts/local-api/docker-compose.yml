@@ -6,8 +6,8 @@ services:
             context: ./
             dockerfile: ./Dockerfile
         working_dir: /api
-        image: digitala-test-api
-        container_name: digitala-test-api
+        image: digitala-api
+        container_name: digitala-api
         volumes:
             - node_modules:/api/node_modules/
         ports:
