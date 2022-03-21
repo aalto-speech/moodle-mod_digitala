@@ -11,7 +11,7 @@ services:
         volumes:
             - node_modules:/api/node_modules/
         ports:
-            - 3000
+            - 3000:3000
         extra_hosts:
             - "host.docker.internal:host-gateway"
 
