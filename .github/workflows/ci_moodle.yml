@@ -40,7 +40,7 @@ jobs:
           path: plugin
 
       - name: Setup API-container for testing
-        run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d
+        run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d --network "host"
 
       - name: debug docker
         run: docker ps -a
