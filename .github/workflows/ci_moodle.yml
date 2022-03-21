@@ -56,9 +56,16 @@ jobs:
         continue-on-error: true
         run: curl http://127.0.0.1:3000/
 
+      - name: test finding api 2.5
+        continue-on-error: true
+        run: curl http://localhost:3000/
+
       - name: test finding api 3
         continue-on-error: false
-        run: curl http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' digitala-api):3000/
+        run: |
+          export ip $(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' digitala-api)
+          echo ${ip}
+          curl http://${ip}:3000/
 
 
       - name: Setup PHP ${{ matrix.php }}

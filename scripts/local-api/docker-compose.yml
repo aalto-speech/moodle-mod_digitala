@@ -10,7 +10,8 @@ services:
         container_name: digitala-api
         volumes:
             - node_modules:/api/node_modules/
-        network_mode: "host"
+        ports:
+            - 3000
         extra_hosts:
             - "host.docker.internal:host-gateway"
 
