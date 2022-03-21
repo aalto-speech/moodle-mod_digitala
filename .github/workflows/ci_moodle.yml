@@ -80,7 +80,6 @@ jobs:
           echo ${ip}
           curl http://${ip}:3000/
 
-
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
