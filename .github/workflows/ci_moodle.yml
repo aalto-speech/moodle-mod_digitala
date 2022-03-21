@@ -46,7 +46,7 @@ jobs:
         run: docker ps -a
 
       - name: test finding api
-        run: curl 0.0.0.0:3000
+        run: curl 127.0.0.1:3000
 
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
