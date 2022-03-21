@@ -60,6 +60,13 @@ jobs:
       - name: logs out API-container
         run: echo $(docker logs digitala-api)
 
+      - name: wait for api to be up
+        run: |
+          while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://127.0.0.1:3000/)" != "420" ]];
+              echo 'Not ready, waiting';
+              do sleep 1;
+          done
+
       - name: test finding api 2
         continue-on-error: true
         run: curl http://127.0.0.1:3000/
