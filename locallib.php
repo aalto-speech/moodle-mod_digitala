@@ -418,10 +418,13 @@ function create_nav_buttons($page, $id, $d) {
  * @param string $id
  */
 function create_microphone($id) {
+    $starticon = file_get_contents('pix/play.svg');
+    $stopicon = file_get_contents('pix/stop.svg');
+    $listenicon = file_get_contents('pix/listen.svg');
     $out = html_writer::tag('br', '');
-    $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala'));
-    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala'));
-    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala'));
+    $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . $starticon);
+    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . $stopicon);
+    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . $listenicon);
 
     return $out;
 }
@@ -604,10 +607,11 @@ function create_canvas() {
  * Creates a fixed feedback box.
  */
 function create_fixed_box() {
-    $out = html_writer::div('Give feedback by pressing the button below', 'xcontainer');
-    $out .= html_writer::tag('button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="collapser"', 'Feedback');
-    $out .= html_writer::div('', 'collapse', array('id' => 'demo'));
-    $out .= html_writer::tag('iframe src=' . 'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048', '', array('id' => 'demo', 'class' => 'collapse', 'width' => '400px', 'height' => '800px'));
+    $chaticon = file_get_contents('pix/feedback.svg');
+    $out = html_writer::div('Give feedback', 'feedbackcontainer');
+    $out .= html_writer::tag('button type="button" class="btn btn-info" data-toggle="collapse" data-target="#feedbacksite" id="collapser"', $chaticon);
+    $out .= html_writer::div('', 'collapse', array('id' => 'feedbacksite'));
+    $out .= html_writer::tag('iframe src=' . 'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048', '', array('id' => 'feedbacksite', 'class' => 'collapse'));
     return $out;
 }
 
