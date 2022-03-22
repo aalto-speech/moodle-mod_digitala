@@ -98,6 +98,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->course;
 
         $digitala = $this->create_digitala();
+        $digitala->instance = 2;
 
         $passed = digitala_update_instance($digitala);
 
