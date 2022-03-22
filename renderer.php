@@ -65,7 +65,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
         $out .= create_card('info', create_microphone_icon('info'));
         $out .= create_card('info', get_string('infotext', 'digitala') . create_microphone('info'));
-        $out .= create_nav_buttons(0, $info->id, $info->d);
+        $out .= create_nav_buttons('info', $info->id, $info->d);
         $out .= end_column();
 
         $out .= end_container();
@@ -83,9 +83,17 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         $out .= start_column();
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
-        $out .= create_card('assignmentrecord', create_microphone('assignment').'<br>'.
+
+        $attempt = get_attempt($assignment->instanceid);
+
+        if (isset($attempt)) {
+            $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
+            $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
+        } else {
+            $out .= create_card('assignmentrecord', create_microphone('assignment').'<br>'.
                 create_answerrecording_form($assignment));
-        $out .= create_nav_buttons(1, $assignment->id, $assignment->d);
+            $out .= create_nav_buttons('assignmentprev', $assignment->id, $assignment->d);
+        }
         $out .= end_column();
 
         $out .= start_column();
@@ -114,6 +122,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
         } else {
             $out .= create_card('report', create_canvas());
 
+            $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
+                    $attempt->file, false);
+            $out .= '<audio controls><source src='.$audiourl.'></audio><br>';
+
             if ($report->attempttype == "freeform") {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 4);
                 $gradings .= create_report_grading('accuracy', $attempt->accuracy, 4);
@@ -128,7 +140,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $out .= create_report_gop($attempt->gop_score);
             }
         }
-        $out .= create_nav_buttons(2, $report->id, $report->d);
+        $out .= create_nav_buttons('report', $report->id, $report->d);
         $out .= end_column();
 
         $out .= end_container();
