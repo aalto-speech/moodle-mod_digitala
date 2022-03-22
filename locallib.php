@@ -402,10 +402,6 @@ function create_nav_buttons($page, $id, $d) {
         $newurl = page_url(0, $id, $d);
         $out .= html_writer::tag('a href=' . $newurl, get_string('navstartagain', 'digitala'),
                 array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
-        $out .= html_writer::tag('a href=' .
-                'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048' .
-                'target=_blank', get_string('navfeedback', 'digitala'),
-                array('id' => 'feedbackButton', 'class' => 'btn btn-primary'));
     }
     $out .= html_writer::end_div();
 
@@ -609,9 +605,12 @@ function create_canvas() {
 function create_fixed_box() {
     $chaticon = file_get_contents('pix/feedback.svg');
     $out = html_writer::div('Give feedback', 'feedbackcontainer');
-    $out .= html_writer::tag('button type="button" class="btn btn-info" data-toggle="collapse" data-target="#feedbacksite" id="collapser"', $chaticon);
+    $out .= html_writer::tag('button type="button" class="btn btn-info" .
+    data-toggle="collapse" data-target="#feedbacksite" id="collapser"', $chaticon);
     $out .= html_writer::div('', 'collapse', array('id' => 'feedbacksite'));
-    $out .= html_writer::tag('iframe src=' . 'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048', '', array('id' => 'feedbacksite', 'class' => 'collapse'));
+    $out .= html_writer::tag('iframe src=' . 
+    'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048', 
+    '', array('id' => 'feedbacksite', 'class' => 'collapse'));
     return $out;
 }
 
