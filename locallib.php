@@ -402,6 +402,10 @@ function create_nav_buttons($page, $id, $d) {
         $newurl = page_url(0, $id, $d);
         $out .= html_writer::tag('a href=' . $newurl, get_string('navstartagain', 'digitala'),
                 array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
+        $out .= html_writer::tag('a href=' .
+                'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
+                get_string('navfeedback', 'digitala'),
+                array('id' => 'feedbackButton', 'class' => 'btn btn-primary', 'target' => 'blank'));
     }
     $out .= html_writer::end_div();
 
