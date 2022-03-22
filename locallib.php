@@ -608,8 +608,8 @@ function create_fixed_box() {
     $out .= html_writer::tag('button type="button" class="btn btn-info" .
     data-toggle="collapse" data-target="#feedbacksite" id="collapser"', $chaticon);
     $out .= html_writer::div('', 'collapse', array('id' => 'feedbacksite'));
-    $out .= html_writer::tag('iframe src=' . 
-    'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048', 
+    $out .= html_writer::tag('iframe src=' .
+    'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
     '', array('id' => 'feedbacksite', 'class' => 'collapse'));
     return $out;
 }
