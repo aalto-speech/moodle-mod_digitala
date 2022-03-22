@@ -99,7 +99,7 @@ class lib_test extends \advanced_testcase {
 
         $digitala = $this->create_digitala();
         $digitala->instance = 2;
-        $digitala->resources = array('text' => 'Resource text', 'format' => 1;
+        $digitala->resources = array('text' => 'Resource text', 'format' => 1);
 
         $passed = digitala_update_instance($digitala);
 
