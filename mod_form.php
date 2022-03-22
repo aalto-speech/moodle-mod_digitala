@@ -42,6 +42,7 @@ class mod_digitala_mod_form extends moodleform_mod {
         global $CFG;
 
         $mform = $this->_form;
+        $current = $this->current;
 
         // Adding the "general" fieldset, where all the common settings are shown.
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -91,6 +92,7 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         $mform->setType('resources', PARAM_RAW);
         $mform->addHelpButton('resources', 'assignmentresource', 'mod_digitala');
+        $mform->getElement('resources')->setValue(array('text' => $current->resources, 'format' => $current->resourcesformat));
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
