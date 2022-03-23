@@ -18,6 +18,11 @@
 
 defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 
+use PHPUnit\Runner\Version as PHPUnitVersion;
+if (PHPUnitVersion::series() < 9) {
+    die();
+}
+
 global $CFG;
 require_once($CFG->dirroot . '/mod/digitala/locallib.php');
 require_once($CFG->dirroot . '/mod/digitala/renderable.php');
@@ -327,7 +332,7 @@ class locallib_test extends \advanced_testcase {
         $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
         $result = create_answerrecording_form($assignment);
-        $this->assertMatchesRegularExpression('/form id="answerrecording"/', $result);
+        $this->assertRegExp('/form id="answerrecording"/', $result);
         $this->assertMatchesRegularExpression('/id=4/', $result);
         $this->assertMatchesRegularExpression('/d=5/', $result);
         $this->assertMatchesRegularExpression('/page=1/', $result);
