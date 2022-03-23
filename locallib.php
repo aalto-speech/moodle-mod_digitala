@@ -458,7 +458,7 @@ function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $typ
     $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang='. $lang . '&task=' . $type . '&key=' . $key;
     $curlparams = array('file' => $file);
     $json = $c->post($curlurl . $curladd, $curlparams);
-
+    var_dump($json);
     return $json;
 }
 
