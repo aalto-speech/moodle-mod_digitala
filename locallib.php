@@ -245,7 +245,7 @@ function create_report_grading($name, $grade, $maxgrade) {
 
     $out .= html_writer::tag('h5', get_string($name, 'digitala'), array("class" => 'card-title'));
 
-    $out .= create_chart($name, $grade);
+    $out .= create_chart($name, $grade, $maxgrade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
 
     $out .= html_writer::div(get_string($name.'_score-' . floor($grade), 'digitala'), 'card-text');
@@ -580,11 +580,13 @@ function create_answerrecording_form($assignment) {
 /**
  * Creates a chart.
  *
- * @param string $id of the chart
- * @param mixed $value of the chart
+ * @param string $name of the chart
+ * @param mixed $grade of the chart
+ * @param mixed $maxgrade of the chart
  */
-function create_chart($id, $value) {
-    $out = html_writer::tag('canvas', '', array('id' => $id, 'value' => $value, 'class' => 'report-chart', 'height' => '40px'));
+function create_chart($name, $grade, $maxgrade) {
+    $out = html_writer::tag('canvas', '', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
+                                                'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart', 'height' => '40px'));
     return $out;
 }
 
