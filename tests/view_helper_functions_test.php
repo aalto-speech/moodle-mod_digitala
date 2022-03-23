@@ -92,8 +92,7 @@ class view_helper_functions_test extends \advanced_testcase {
      */
     public function test_gop_html_output() {
         $result = create_report_gop(0.72);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronounciation</h5>'. // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-            '<h6 class="grade-number">72/100</h6><div class="card-text">Pronounciation score is 7, big pink score.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72/100</h6><div class="card-text">Pronunciation score is 7, big pink score.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -126,14 +125,17 @@ class view_helper_functions_test extends \advanced_testcase {
      * Test creating navigation buttons for view
      */
     public function test_navbuttons_html_output() {
-        $result = create_nav_buttons(0, 1, 2);
+        $result = create_nav_buttons('info', 1, 2);
         $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
             $result);
-        $result = create_nav_buttons(1, 1, 2);
+        $result = create_nav_buttons('assignmentprev', 1, 2);
         $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0 id="prevButton" class="btn btn-primary">< Previous</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0></div>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
             $result);
-        $result = create_nav_buttons(2, 1, 2);
-        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0 id="tryAgainButton" class="btn btn-primary">Try again from start</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0><a href=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048target=_blank id="feedbackButton" class="btn btn-primary">Give feedback</a href=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048target=_blank></div>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $result = create_nav_buttons('assignmentnext', 1, 2);
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2></div>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+            $result);
+        $result = create_nav_buttons('report', 1, 2);
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="tryAgainButton" class="btn btn-primary">See the assignment</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1><a href=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048 id="feedbackButton" class="btn btn-primary" target="blank">Give feedback</a href=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048></div>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
             $result);
     }
 }

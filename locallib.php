@@ -307,7 +307,7 @@ function create_report_transcription($transcription) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string('digitalatranscription', 'digitala'), array('class' => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('transcription', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::div($transcription, 'card-text scrollbox200');
 
@@ -365,28 +365,32 @@ function create_button($id, $class, $text) {
 /**
  * Creates navigation buttons with identical id and class
  *
- * @param number $page number of the step
+ * @param string $buttonlocation location (info, assignmentprev, assignmentnext report) of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
  */
-function create_nav_buttons($page, $id, $d) {
+function create_nav_buttons($buttonlocation, $id, $d) {
     $out = html_writer::start_div('navbuttons');
-    if ($page == 0) {
+    if ($buttonlocation == 'info') {
         $newurl = page_url(1, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavnext', 'digitala'),
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navnext', 'digitala'),
                 array('id' => 'nextButton', 'class' => 'btn btn-primary'));
-    } else if ($page == 1) {
+    } else if ($buttonlocation == 'assignmentprev') {
         $newurl = page_url(0, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavprevious', 'digitala'),
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navprevious', 'digitala'),
                 array('id' => 'prevButton', 'class' => 'btn btn-primary'));
-    } else if ($page == 2) {
-        $newurl = page_url(0, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavstartagain', 'digitala'),
+    } else if ($buttonlocation == 'assignmentnext') {
+        $newurl = page_url(2, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navnext', 'digitala'),
+                array('id' => 'nextButton', 'class' => 'btn btn-primary'));
+    } else if ($buttonlocation == 'report') {
+        $newurl = page_url(1, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navstartagain', 'digitala'),
                 array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
         $out .= html_writer::tag('a href=' .
-                'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048' .
-                'target=_blank', get_string('digitalanavfeedback', 'digitala'),
-                array('id' => 'feedbackButton', 'class' => 'btn btn-primary'));
+                'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
+                get_string('navfeedback', 'digitala'),
+                array('id' => 'feedbackButton', 'class' => 'btn btn-primary', 'target' => 'blank'));
     }
     $out .= html_writer::end_div();
 
@@ -400,9 +404,9 @@ function create_nav_buttons($page, $id, $d) {
  */
 function create_microphone($id) {
     $out = html_writer::tag('br', '');
-    $out .= create_button('record', 'btn btn-primary record-btn', 'Start');
-    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', 'Stop');
-    $out .= create_button('listenButton', 'btn btn-primary listen-btn', 'Listen recording');
+    $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala'));
+    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala'));
+    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala'));
 
     return $out;
 }
@@ -532,9 +536,14 @@ function save_answerrecording($formdata, $assignment) {
 
     // Change key to a hidden value later on.
     $key = 'aalto';
+    $texttoaalto = $assignment->assignmenttext;
+    if ($assignment->attempttype == 'readaloud') {
+        $texttoaalto = $assignment->resourcetext;
+    }
+
     $evaluation = send_answerrecording_for_evaluation(
             $file,
-            $assignment->assignmenttext,
+            $texttoaalto,
             $assignment->attemptlang,
             $assignment->attempttype, $key
         );
@@ -547,7 +556,7 @@ function save_answerrecording($formdata, $assignment) {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
         $url = $_SERVER['REQUEST_URI'];
         $newurl = str_replace('page=1', 'page=2', $url);
-         $out = header('Location: ' . $newurl);
+        redirect($newurl);
     }
 
     return $out;
@@ -570,7 +579,7 @@ function create_answerrecording_form($assignment) {
 
 /**
  * Creates a chart.
- * 
+ *
  * @param string $id of the chart
  * @param mixed $value of the chart
  */
