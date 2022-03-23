@@ -92,7 +92,17 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         $mform->setType('resources', PARAM_RAW);
         $mform->addHelpButton('resources', 'assignmentresource', 'mod_digitala');
-        $mform->getElement('resources')->setValue(array('text' => $current->resources, 'format' => $current->resourcesformat));
+        if(isset($current->resources)) {
+            $text = $current->resources;
+        } else {
+            $text = '';
+        }
+        if(isset($current->resourcesformat)) {
+            $format = $current->resourcesformat;
+        } else {
+            $format = 1;
+        }
+        $mform->getElement('resources')->setValue(array('text' => $text, 'format' => $format));
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {

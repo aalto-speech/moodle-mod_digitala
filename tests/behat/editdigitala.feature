@@ -1,4 +1,4 @@
-@mod @mod_digitala
+@mod @mod_digitala @javascript
 Feature: Edit digitala activity
 
   Background:
@@ -17,13 +17,18 @@ Feature: Edit digitala activity
     And I log in as "ossi"
 
   Scenario Outline: Edit a task on course page
-    Given I am on the "Test digitala name" "mod_digitala > Edit" page logged in as "ossi"
-    Then I add a "digitala" to section "2" and I fill the form with:
+    When I am on the "C1" "Course" page
+    And I turn editing mode on
+    Then I open "Test digitala name" actions menu
+    Then I choose "Edit settings" in the open action menu
+    And I wait until the page is ready
+    Then I set the following fields to these values:
       | Name             | <name>           |
       | Attempt language | <attemptlang>    |
       | Attempt type     | <attempttype>    |
       | Assignment       | <assignmenttext> |
       | Resources        | <resourcestext>  |
+    And I press "Save and display"
     And I click on "<name>" "link"
     And I click on "Next" "link"
     Then I should see "Assignment"
