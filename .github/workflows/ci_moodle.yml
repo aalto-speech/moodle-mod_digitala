@@ -39,6 +39,37 @@ jobs:
         with:
           path: plugin
 
+      - name: add to same network as postgres
+        run: |
+          export network=$(docker network ls -f name=github --format "{{.Name}}")
+          sed -i "s+REPLACE_THIS+${network}+g" ./plugin/scripts/local-api/docker-compose.yml
+          cat ./plugin/scripts/local-api/docker-compose.yml
+
+      - name: Setup API-container for testing
+        run: docker-compose -f ./plugin/scripts/local-api/docker-compose.yml up -d
+
+      - name: Print out API-containers logs
+        run: echo $(docker logs digitala-api)
+
+      - name: Test API is reachable
+        run: |
+          export ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' digitala-api)
+          echo ${ip}
+          curl http://${ip}:3000/
+
+      - name: Add digitala-api to /etc/hosts
+        run: |
+          export ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' digitala-api)
+          echo ${ip}
+          sudo echo "${ip} digitala-api" | sudo tee -a /etc/hosts
+
+      - name: Test API is reachable via hostname digitala-api
+        run: |
+          curl http://digitala-api:3000/
+
+      - name: Print out API-containers logs
+        run: echo $(docker logs digitala-api)
+
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
