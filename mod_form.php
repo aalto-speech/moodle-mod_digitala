@@ -92,12 +92,12 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         $mform->setType('resources', PARAM_RAW);
         $mform->addHelpButton('resources', 'assignmentresource', 'mod_digitala');
-        if(isset($current->resources)) {
+        if (isset($current->resources)) {
             $text = $current->resources;
         } else {
             $text = '';
         }
-        if(isset($current->resourcesformat)) {
+        if (isset($current->resourcesformat)) {
             $format = $current->resourcesformat;
         } else {
             $format = 1;
