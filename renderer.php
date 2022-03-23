@@ -120,15 +120,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
         if (is_null($attempt)) {
             $out .= create_card('report', get_string('reportnotavailable', 'digitala'));
         } else {
-<<<<<<< HEAD
-            $out .= create_card('digitalareport', '');
-=======
             $out .= create_card('report', create_canvas());
 
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
             $out .= '<audio controls><source src='.$audiourl.'></audio><br>';
->>>>>>> main
 
             if ($report->attempttype == "freeform") {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 4);
