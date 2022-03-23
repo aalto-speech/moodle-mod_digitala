@@ -40,6 +40,8 @@ class locallib_test extends \advanced_testcase {
      * Setup for unit test.
      */
     protected function setUp(): void {
+        gc_disable();
+        ini_set('memory_limit', -1);
         $this->setAdminUser();
         $this->resetAfterTest();
         $this->course = $this->getDataGenerator()->create_course();
