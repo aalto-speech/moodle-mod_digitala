@@ -149,3 +149,9 @@
     width: 25vw;
     z-index: 500;
 }
+
+#feedback {
+    position: fixed;
+    bottom: 2.5vw;
+    right: 2.5vw;
+}
