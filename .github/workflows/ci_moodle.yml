@@ -39,7 +39,7 @@ jobs:
         with:
           path: plugin
 
-      - name: add to same network as postgres
+      - name: Edit API Docker-compose to use same network as Postgres
         run: |
           export network=$(docker network ls -f name=github --format "{{.Name}}")
           sed -i "s+REPLACE_THIS+${network}+g" ./plugin/scripts/local-api/docker-compose.yml
