@@ -16,25 +16,36 @@ Feature: Student can record with the microphone
       | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               |
     And I log in as "student1"
 
-  Scenario: Start and stop buttons are visible but listening button is not
+  Scenario: Start button is visible but stop button is not before starting recording
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Info" "link"
     Then "record" "button" should be visible
-    And "stopRecord" "button" should be visible
-    And "listenButton" "button" should not be visible
+    And "stopRecord" "button" should not be visible
 
-  Scenario: Listening button not visible after recording start
+  Scenario: Stop button is visible but start button is not after starting recording
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Info" "link"
     And I click on "record" "button"
-    Then "listenButton" "button" should not be visible
+    Then "record" "button" should not be visible
+    And "stopRecord" "button" should be visible
 
-  Scenario: Listening button visible after recording stopped
+  Scenario: Listening button should always be visible
+    When I am on "Course 1" course homepage
+    And I click on "Test digitala name" "link"
+    And I click on "Info" "link"
+    Then "listenButton" "button" should be visible
+    And I click on "record" "button"
+    Then "listenButton" "button" should be visible
+    And I click on "stopRecord" "button"
+    Then "listenButton" "button" should be visible
+
+  Scenario: Microphone border should be visible
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Info" "link"
     And I click on "record" "button"
     And I click on "stopRecord" "button"
-    Then "listenButton" "button" should be visible
+    And I click on "listenButton" "button"
+    Then "microphoneIconBox" "region" should exist

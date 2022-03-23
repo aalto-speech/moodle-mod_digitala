@@ -262,12 +262,54 @@ function create_report_grading($name, $grade, $maxgrade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', $name, array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string($name, 'digitala'), array("class" => 'card-title'));
 
     $out .= html_writer::tag('h5', create_report_stars($grade, $maxgrade), array("class" => 'grade-stars'));
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
 
-    $out .= html_writer::div('Grading information will be shown here once they\'re available.', 'card-text');
+    $out .= html_writer::div(get_string($name.'_score-' . floor($grade), 'digitala'), 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates grading information container from report
+ *
+ * @param int $grade grading number given by the server
+ */
+function create_report_holistic($grade) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('holistic', 'digitala'), array("class" => 'card-title'));
+
+    $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array("class" => 'grade-number'));
+
+    $out .= html_writer::div(get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates grading information container from report
+ *
+ * @param int $grade grading number given by the server
+ */
+function create_report_gop($grade) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array("class" => 'card-title'));
+
+    $out .= html_writer::tag('h6', $grade * 100 . '/100', array("class" => 'grade-number'));
+
+    $out .= html_writer::div(get_string('gop_score-'.floor($grade * 10), 'digitala'), 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -284,7 +326,7 @@ function create_report_transcription($transcription) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string('digitalatranscription', 'digitala'), array('class' => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('transcription', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::div($transcription, 'card-text scrollbox200');
 
@@ -303,14 +345,14 @@ function create_report_transcription($transcription) {
 function create_report_tabs($gradings, $holistic) {
     $out = html_writer::start_tag('nav');
     $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
-    $out .= html_writer::tag('button', 'Task Grades', array('class' => "nav-link active ml-2",
-                                                            'id' => 'report-grades-tab', 'data-toggle' => 'tab',
-                                                            'href' => '#report-grades', 'role' => 'tab',
-                                                            'aria-controls' => 'report-grades', 'aria-selected' => 'true'));
-    $out .= html_writer::tag('button', 'Holistic', array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab',
-                                                        'data-toggle' => 'tab', 'href' => '#report-holistic',
-                                                        'role' => 'tab', 'aria-controls' => 'report-holistic',
-                                                        'aria-selected' => 'false'));
+    $out .= html_writer::tag('button', get_string('task_grades', 'digitala'),
+                             array('class' => "nav-link active ml-2", 'id' => 'report-grades-tab', 'data-toggle' => 'tab',
+                                   'href' => '#report-grades', 'role' => 'tab', 'aria-controls' => 'report-grades',
+                                   'aria-selected' => 'true'));
+    $out .= html_writer::tag('button', get_string('holistic', 'digitala'),
+                             array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab', 'data-toggle' => 'tab',
+                                   'href' => '#report-holistic', 'role' => 'tab', 'aria-controls' => 'report-holistic',
+                                   'aria-selected' => 'false'));
     $out .= html_writer::end_div();
     $out .= html_writer::end_tag('nav');
 
@@ -326,44 +368,48 @@ function create_report_tabs($gradings, $holistic) {
 
 /**
  * Creates a button with identical id and
-
-/**
  * Send user audio file to Aalto ASR for evaluation.
  * class
  *
- * @param string $id id and class of the button
+ * @param string $id of the button
+ * @param string $class of the button
  * @param string $text of the button
+ *
  */
-function create_button($id, $text) {
-    $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $id));
+function create_button($id, $class, $text) {
+    $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class));
     return $out;
 }
 
 /**
  * Creates navigation buttons with identical id and class
  *
- * @param number $page number of the step
+ * @param string $buttonlocation location (info, assignmentprev, assignmentnext report) of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
  */
-function create_nav_buttons($page, $id, $d) {
+function create_nav_buttons($buttonlocation, $id, $d) {
     $out = html_writer::start_div('navbuttons');
-    if ($page == 0) {
+    if ($buttonlocation == 'info') {
         $newurl = page_url(1, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavnext', 'digitala'),
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navnext', 'digitala'),
                 array('id' => 'nextButton', 'class' => 'btn btn-primary'));
-    } else if ($page == 1) {
+    } else if ($buttonlocation == 'assignmentprev') {
         $newurl = page_url(0, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavprevious', 'digitala'),
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navprevious', 'digitala'),
                 array('id' => 'prevButton', 'class' => 'btn btn-primary'));
-    } else if ($page == 2) {
-        $newurl = page_url(0, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('digitalanavstartagain', 'digitala'),
+    } else if ($buttonlocation == 'assignmentnext') {
+        $newurl = page_url(2, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navnext', 'digitala'),
+                array('id' => 'nextButton', 'class' => 'btn btn-primary'));
+    } else if ($buttonlocation == 'report') {
+        $newurl = page_url(1, $id, $d);
+        $out .= html_writer::tag('a href=' . $newurl, get_string('navstartagain', 'digitala'),
                 array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
         $out .= html_writer::tag('a href=' .
-                'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048' .
-                'target=_blank', get_string('digitalanavfeedback', 'digitala'),
-                array('id' => 'feedbackButton', 'class' => 'btn btn-primary'));
+                'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
+                get_string('navfeedback', 'digitala'),
+                array('id' => 'feedbackButton', 'class' => 'btn btn-primary', 'target' => 'blank'));
     }
     $out .= html_writer::end_div();
 
@@ -377,10 +423,22 @@ function create_nav_buttons($page, $id, $d) {
  */
 function create_microphone($id) {
     $out = html_writer::tag('br', '');
-    $out .= create_button('record', 'Start');
-    $out .= create_button('stopRecord', 'Stop');
-    $out .= create_button('listenButton', 'Listen recording');
+    $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala'));
+    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala'));
+    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala'));
 
+    return $out;
+}
+
+/**
+ * Creates the microphone icon for the microphone view
+ *
+ * @param string $id
+ */
+function create_microphone_icon($id) {
+    $out = html_writer::start_div('', array('id' => 'microphoneIconBox'));
+    $out .= html_writer::end_div();
+    $out .= html_writer::tag('img src=' . 'pix/mic.svg', '', array('id' => 'microphoneIcon'));
     return $out;
 }
 
@@ -423,15 +481,21 @@ function save_attempt($assignment, $filename, $evaluation) {
     $attempt->digitala = $assignment->instanceid;
     $attempt->userid = $assignment->userid;
     $attempt->file = $filename;
-    $attempt->transcript = $evaluation->Transcript;
-    $attempt->fluency = $evaluation->Fluency->score;
-    $attempt->fluencymean = $evaluation->Fluency->mean_f1;
-    $attempt->speechrate = $evaluation->Fluency->speech_rate;
-    $attempt->taskachievement = $evaluation->TaskAchievement;
-    $attempt->accuracy = $evaluation->Accuracy->score;
-    $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
-    $attempt->nativeity = $evaluation->Accuracy->nativeity;
-    $attempt->holistic = $evaluation->Holistic;
+    if (isset($evaluation->Transcript)) {
+        $attempt->transcript = $evaluation->Transcript;
+    }
+    if (isset($evaluation->Fluency)) {
+        $attempt->fluency = $evaluation->Fluency->score;
+        $attempt->fluencymean = $evaluation->Fluency->mean_f1;
+        $attempt->speechrate = $evaluation->Fluency->speech_rate;
+        $attempt->taskachievement = $evaluation->TaskAchievement;
+        $attempt->accuracy = $evaluation->Accuracy->score;
+        $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
+        $attempt->nativeity = $evaluation->Accuracy->nativeity;
+        $attempt->holistic = $evaluation->Holistic;
+    } else {
+        $attempt->gop_score = $evaluation->GOP_score;
+    }
 
     $timenow = time();
 
@@ -488,9 +552,14 @@ function save_answerrecording($formdata, $assignment) {
 
     // Change key to a hidden value later on.
     $key = 'aalto';
+    $texttoaalto = $assignment->assignmenttext;
+    if ($assignment->attempttype == 'readaloud') {
+        $texttoaalto = $assignment->resourcetext;
+    }
+
     $evaluation = send_answerrecording_for_evaluation(
             $file,
-            $assignment->assignmenttext,
+            $texttoaalto,
             $assignment->attemptlang,
             $assignment->attempttype, $key
         );
@@ -502,11 +571,10 @@ function save_answerrecording($formdata, $assignment) {
         if (isset($_SERVER['REQUEST_URI'])){
             $url = $_SERVER['REQUEST_URI'];
             $newurl = str_replace('page=1', 'page=2', $url);
-            $out = header('Location: ' . $newurl);
+            redirect($newurl);
         } else {
             $out = 'accessed without internet successful';
         }
-
     }
 
     return $out;
@@ -525,4 +593,12 @@ function create_answerrecording_form($assignment) {
     }
     return $out;
 
+}
+
+/**
+ * Creates a canvas.
+ */
+function create_canvas() {
+    $out = html_writer::tag('canvas', '', array('id' => 'kaavio', 'height' => '40px'));
+    return $out;
 }

@@ -47,7 +47,7 @@ class mod_digitala_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('digitalaname', 'mod_digitala'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('assignmentname', 'mod_digitala'), array('size' => '64'));
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -57,36 +57,40 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('name', 'digitalaname', 'mod_digitala');
+        $mform->addHelpButton('name', 'assignmentname', 'mod_digitala');
 
         // Adding the "attemptlang" field. Tells what language info we send with the audio file.
         $langoptions = array(
-                'fin' => get_string('digitalafinnish', 'mod_digitala'),
-                'sv' => get_string('digitalaswedish', 'mod_digitala'),
+                'fin' => get_string('finnish', 'mod_digitala'),
+                'sv' => get_string('swedish', 'mod_digitala'),
         );
-        $mform->addElement('select', 'attemptlang', get_string('digitalaattemptlang', 'mod_digitala'), $langoptions);
-        $mform->addHelpButton('attemptlang', 'digitalaattemptlang', 'mod_digitala');
+        $mform->addElement('select', 'attemptlang', get_string('attemptlang', 'mod_digitala'), $langoptions);
+        $mform->addHelpButton('attemptlang', 'attemptlang', 'mod_digitala');
 
         // Adding the "attempttype" field. Tells what task type we send with the audio file.
         $typeoptions = array(
-                'readaloud' => get_string('digitalareadaloud', 'mod_digitala'),
-                'freeform' => get_string('digitalafreeform', 'mod_digitala'),
+                'readaloud' => get_string('readaloud', 'mod_digitala'),
+                'freeform' => get_string('freeform', 'mod_digitala'),
         );
-        $mform->addElement('select', 'attempttype', get_string('digitalaattempttype', 'mod_digitala'), $typeoptions);
-        $mform->addHelpButton('attempttype', 'digitalaattempttype', 'mod_digitala');
+        $mform->addElement('select', 'attempttype', get_string('attempttype', 'mod_digitala'), $typeoptions);
+        $mform->addHelpButton('attempttype', 'attempttype', 'mod_digitala');
 
         // Adding the "assignment" field.
-        $mform->addElement('editor', 'assignment', get_string("digitalaassignment", "mod_digitala"), array('rows' => 10));
+        $mform->addElement('textarea', 'assignment', get_string("assignment", "mod_digitala"),
+                array('rows' => 10, 'cols' => '64'));
 
         $mform->setType('assignment', PARAM_TEXT);
         $mform->addRule('assignment', null, 'required', null, 'client');
-        $mform->addHelpButton('assignment', 'digitalaassignment', 'mod_digitala');
+        $mform->addHelpButton('assignment', 'assignment', 'mod_digitala');
 
         // Adding the "resources" field.
-        $mform->addElement('editor', 'resources', get_string("digitalaassignmentresource", "mod_digitala"), array('rows' => 10));
+        $textfieldoptions = array('trusttext' => false, 'subdirs' => true, 'maxfiles' => -1, 'maxbytes' => $CFG->maxbytes,
+                                  'context' => $this->context, 'changeformat' => true, 'noclean' => true);
+        $mform->addElement('editor', 'resources', get_string("assignmentresource", "mod_digitala"),
+                           array('rows' => 10), $textfieldoptions);
 
         $mform->setType('resources', PARAM_RAW);
-        $mform->addHelpButton('resources', 'digitalaassignmentresource', 'mod_digitala');
+        $mform->addHelpButton('resources', 'assignmentresource', 'mod_digitala');
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {

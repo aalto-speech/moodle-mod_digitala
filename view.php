@@ -68,11 +68,12 @@ $pagenum = optional_param('page', 0, PARAM_INT);
 $content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
 
 $config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC',
-], 'waitSeconds' => 40, 'enforceDefine' => false];
+'chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'], 'waitSeconds' => 40, 'enforceDefine' => false];
 $requirejs = 'require.config(' . json_encode($config) . ')';
 $PAGE->requires->js_amd_inline($requirejs);
 
 $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum, $id, $USER->id, $USER->username));
+$PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($pagenum));
 
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info($id, $d));
@@ -81,7 +82,8 @@ if ($pagenum == 0) {
                                 $USER->id, $USER->username, $id, $d, $moduleinstance->assignment, $moduleinstance->resources,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang));
 } else {
-    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $id, $d));
+    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
+                                $moduleinstance->attempttype, $moduleinstance->attemptlang));
 }
 
 echo $OUTPUT->header();
