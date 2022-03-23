@@ -543,7 +543,6 @@ function save_answerrecording($formdata, $assignment) {
         'filename' => $audiofile->file
     );
 
-
     file_save_draft_area_files($audiofile->id, $fileinfo['contextid'], $fileinfo['component'],
                                 $fileinfo['filearea'], $fileinfo['itemid']);
 
@@ -568,7 +567,7 @@ function save_answerrecording($formdata, $assignment) {
         $out = 'No evaluation was found. Please return to previous page.';
     } else {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
-        if (isset($_SERVER['REQUEST_URI'])){
+        if (isset($_SERVER['REQUEST_URI'])) {
             $url = $_SERVER['REQUEST_URI'];
             $newurl = str_replace('page=1', 'page=2', $url);
             redirect($newurl);

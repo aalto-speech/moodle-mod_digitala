@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// namespace mod_digitala;
+namespace mod_digitala;
 
 defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 
@@ -277,7 +277,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_assignment() {
         $result = create_assignment('testassignment');
-        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox200">testassignment</div></div>', $result);
+        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox200">testassignment</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -285,7 +285,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_resource() {
         $result = create_resource('testresource');
-        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result);
+        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -307,7 +307,7 @@ class locallib_test extends \advanced_testcase {
             'userid' => $USER->id,
         );
         $fs = get_file_storage();
-        $fs->create_file_from_string($fileinfo, 'I`m an audio file, cool right!?');
+        $fs->create_file_from_string($fileinfo, 'I\'m an audio file, cool right!?');
         $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
                           $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
 
@@ -324,7 +324,7 @@ class locallib_test extends \advanced_testcase {
         global $USER;
 
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
         $result = create_answerrecording_form($assignment);
         $this->assertMatchesRegularExpression('/form id="answerrecording"/', $result);
@@ -339,9 +339,9 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_answerrecording_form_with_data() {
         global $USER;
-        answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form');  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
         $result = create_answerrecording_form($assignment);
         $this->assertEquals('No evaluation was found. Please return to previous page.', $result);
