@@ -27,8 +27,8 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('digitala/api',
-        get_string('api', 'mod_digitala'), get_string('api_help', 'mod_digitala'), 'http://digitala-api:3000', PARAM_TEXT, 50));
+        get_string('api', 'mod_digitala'), get_string('api_help', 'mod_digitala'), 'http://digitala-api:3000', PARAM_TEXT, 128));
 
     $settings->add(new admin_setting_configtext('digitala/key',
-        get_string('key', 'mod_digitala'), get_string('key_help', 'mod_digitala'), 'digitala', PARAM_TEXT, 50));
+        get_string('key', 'mod_digitala'), get_string('key_help', 'mod_digitala'), 'digitala', PARAM_TEXT, 64));
 }

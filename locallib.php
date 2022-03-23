@@ -456,13 +456,9 @@ function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $typ
     $c = new curl(array('ignoresecurity' => true));
     $curlurl = get_config('digitala', 'api');
     $key = get_config('digitala', 'key');
-    var_dump($curlurl);
-    var_dump($key);
     $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang='. $lang . '&task=' . $type . '&key=' . $key;
     $curlparams = array('file' => $file);
     $json = $c->post($curlurl . $curladd, $curlparams);
-    var_dump($json);
-    die();
     return $json;
 }
 
