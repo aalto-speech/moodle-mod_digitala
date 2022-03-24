@@ -103,3 +103,56 @@
         transform: rotateZ(360deg);
     }
 }
+
+.feedbackcontainer {
+    position: fixed;
+    text-align: left;
+    vertical-align: middle;
+    text-indent: 2em;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 35px 50px 50px 35px;
+    line-height: 4vw;
+    bottom: 1vw;
+    right: 1vw;
+    height: 4vw;
+    width: 15vw;
+    max-height: 4vw;
+    max-width: 15vw;
+    z-index: 4;
+    background-color: lavender;
+}
+
+#collapser {
+    text-align: center;
+    vertical-align: middle;
+    position: fixed;
+    text-indent: -0.5em;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 50px 50px 50px 50px;
+    height: 4vw;
+    width: 4vw;
+    max-height: 4vw;
+    max-width: 4vw;
+    display: inline-block;
+    bottom: 1vw;
+    right: 1vw;
+    z-index: 5;
+    background-color: rgb(0, 114, 178);
+}
+
+#feedbacksite {
+    position: fixed;
+    bottom: 6vw;
+    right: 1vw;
+    height: 40vw;
+    width: 25vw;
+    z-index: 6;
+}
+
+#feedback {
+    position: fixed;
+    bottom: 2.5vw;
+    right: 2.5vw;
+}

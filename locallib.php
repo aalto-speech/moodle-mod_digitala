@@ -406,10 +406,6 @@ function create_nav_buttons($buttonlocation, $id, $d) {
         $newurl = page_url(1, $id, $d);
         $out .= html_writer::tag('a href=' . $newurl, get_string('navstartagain', 'digitala'),
                 array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
-        $out .= html_writer::tag('a href=' .
-                'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
-                get_string('navfeedback', 'digitala'),
-                array('id' => 'feedbackButton', 'class' => 'btn btn-primary', 'target' => 'blank'));
     }
     $out .= html_writer::end_div();
 
@@ -422,10 +418,27 @@ function create_nav_buttons($buttonlocation, $id, $d) {
  * @param string $id
  */
 function create_microphone($id) {
+    $starticon = '<svg width="16" height="16" fill="currentColor"' .
+    'class="bi bi-play-fill" viewBox="0 0 16 16">' .
+    '<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.' .
+    '697V4.308c0-.63.692-1.01 1.233-.696l6.363' .
+    ' 3.692a.802.802 0 0 1 0 1.393z"/></svg>';
+    $stopicon = '<svg width="16" height="16" fill="currentColor"' .
+    'class="bi bi-stop-fill" viewBox="0 0 16 16">' .
+    '<path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5' .
+    ' 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/>' .
+    '</svg>';
+    $listenicon = '<svg width="16" height="16" fill="currentColor"' .
+    'class="bi bi-volume-down-fill" viewBox="0 0 16 16">' .
+    '<path d="M9 4a.5.5 0 0 0-.812-.39L5.825' .
+    ' 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363' .
+    ' 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10' .
+    ' 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486' .
+    ' 4.486 0 0 1 12.025 8z"/></svg>';
     $out = html_writer::tag('br', '');
-    $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala'));
-    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala'));
-    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala'));
+    $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
+    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . ' ' . $stopicon);
+    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon);
 
     return $out;
 }
@@ -603,3 +616,25 @@ function create_canvas() {
     $out = html_writer::tag('canvas', '', array('id' => 'kaavio', 'height' => '40px'));
     return $out;
 }
+
+/**
+ * Creates a fixed feedback box.
+ */
+function create_fixed_box() {
+    $chaticon = '<svg id="feedback" width="16" height="16" fill="currentColor"' .
+    'class="bi bi-chat-text-fill" viewBox="0 0 16 16">' .
+    '<path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.' .
+    '584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.' .
+    '836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8' .
+    ' 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5' .
+    ' 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"/></svg>';
+    $out = html_writer::div('Give feedback', 'feedbackcontainer');
+    $out .= html_writer::tag('button type="button" class="btn btn-info" .
+    data-toggle="collapse" data-target="#feedbacksite" id="collapser"', $chaticon);
+    $out .= html_writer::div('', 'collapse', array('id' => 'feedbacksite'));
+    $out .= html_writer::tag('iframe src=' .
+    'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
+    '', array('id' => 'feedbacksite', 'class' => 'collapse'));
+    return $out;
+}
+

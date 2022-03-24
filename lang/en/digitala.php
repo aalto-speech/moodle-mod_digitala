@@ -51,6 +51,7 @@ $string['navprevious'] = '< Previous';
 $string['navstartagain'] = 'See the assignment';
 $string['navfeedback'] = 'Give feedback';
 $string['info'] = 'Info';
+$string['microphone'] = 'Test your microphone here';
 $string['infotext'] = 'Try the microphone before moving on to the assignment';
 $string['startbutton'] = 'Start';
 $string['stopbutton'] = 'Stop';
