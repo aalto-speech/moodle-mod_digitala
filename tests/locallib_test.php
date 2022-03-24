@@ -366,10 +366,10 @@ class locallib_test extends \advanced_testcase {
     public function test_save_attempt_readaloud() {
         global $DB;
 
-        $assignment = new stdClass();
+        $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 0;
-        $evaluation = new stdClass();
+        $evaluation = new \stdClass();
         $evaluation->Transcript = 'transcript';
         $evaluation->Fluency->score = 1;
         $evaluation->Fluency->mean_f1 = 1;
@@ -397,10 +397,10 @@ class locallib_test extends \advanced_testcase {
     public function test_save_attempt_freeform() {
         global $DB;
 
-        $assignment = new stdClass();
+        $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 1;
-        $evaluation = new stdClass();
+        $evaluation = new \stdClass();
         $evaluation->GOP_score = 4;
 
         save_attempt($assignment, 'filename', $evaluation);
@@ -423,7 +423,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(null, $result);
 
         $timenow = time();
-        $attempt = new stdClass();
+        $attempt = new \stdClass();
         $attempt->instanceid = 2;
         $attempt->userid = $USER->id;
         $attempt->filename = 'filename';
