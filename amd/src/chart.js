@@ -51,7 +51,7 @@ const createChart = async (id, grade, maxgrade) => {
                 data: [length],
                 backgroundColor: 'rgba(255,0,0,1)',
                 showLine: true,
-                pointRadius: 5,
+                pointRadius: 7.5,
             }
         ];
     }
@@ -60,18 +60,21 @@ const createChart = async (id, grade, maxgrade) => {
         ...lineSet,
         {
             type: 'bar',
+            title: 'toot',
             label: 'noshow',
             data: [1],
             backgroundColor: 'rgba(182, 182, 182, 0.3)'
         },
         {
             type: 'bar',
+            title: 'toot',
             label: 'noshow',
             data: [1],
             backgroundColor: 'rgba(123, 123, 123, 0.3)'
         },
         {
             type: 'bar',
+            title: 'toot',
             label: 'noshow',
             data: [1],
             backgroundColor: 'rgba(182, 182, 182, 0.3)'
@@ -103,13 +106,70 @@ const createChart = async (id, grade, maxgrade) => {
                     display: false
                 },
                 tooltip: {
-                    filter: (tooltipItem) => {
-                        window.console.log('label', tooltipItem);
-                        return tooltipItem.dataset.type !== "bar";
-                    },
+                    enabled: false,
                     external: (tooltipModel) => {
-                        window.console.log(tooltipModel.chart.canvas.attributes['data-eval-name'].value);
-                        window.console.log(tooltipModel);
+                        window.console.log('>>',tooltipModel);
+
+                        const name = tooltipModel.chart.canvas.attributes['data-eval-name'].value;
+                        const tooltip = tooltipModel.tooltip;
+                        const getBody = (bodyItem) => {
+                            return bodyItem.lines;
+                        };
+                        let tooltipBox = document.getElementById(`grade-tooltip-${name}`);
+
+                        if (!tooltipBox) {
+                            tooltipBox = document.createElement('div');
+                            tooltipBox.classList.add('tooltip-box');
+                            tooltipBox.id = `grade-tooltip-${name}`;
+                            document.body.appendChild(tooltipBox);
+                        }
+
+                        if (tooltip.body) {
+                            const bodyLines = tooltip.body.map(getBody);
+                            if (bodyLines[0][0].split(':')[0] === "noshow") {
+                                tooltipBox.style.opacity = 0;
+                                return;
+                            }
+                        }
+
+                        if (tooltip.opacity === 0) {
+                            tooltipBox.style.opacity = 0;
+                            return;
+                        }
+
+                        tooltipBox.classList.remove('above', 'below', 'no-transform');
+                        if (tooltip.yAlign) {
+                            tooltipBox.classList.add(tooltip.yAlign);
+                        } else {
+                            tooltipBox.classList.add('no-transform');
+                        }
+
+
+
+                        if (tooltip.body) {
+                            const bodyLines = tooltip.body.map(getBody);
+
+                            bodyLines.forEach((body, i) => {
+                                window.console.log(body, i);
+
+                                tooltipBox.innerHTML = '<p class="tooltip-text">' + body[0].split(':')[0] + '</p>';
+                                window.console.log(tooltipBox);
+                            });
+
+                        }
+                        const position = tooltipModel.chart.canvas.getBoundingClientRect();
+                        // const bodyFont = chart.Chart.helpers.toFont(tooltip.options.bodyFont);
+
+                        // Display, position, and set styles for font
+                        tooltipBox.style.opacity = 1;
+                        tooltipBox.style.position = 'absolute';
+                        let left = tooltip.xAlign === "right"
+                            ? position.left + window.pageXOffset - 200 + tooltip.caretX
+                            : position.left + window.pageXOffset + tooltip.caretX;
+                        tooltipBox.style.left = left + 'px';
+                        tooltipBox.style.top = position.top + window.pageYOffset + tooltip.caretY + 'px';
+
+                        tooltipBox.style.pointerEvents = 'none';
                     }
                 }
             },
