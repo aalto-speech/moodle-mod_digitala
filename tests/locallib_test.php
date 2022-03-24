@@ -371,10 +371,12 @@ class locallib_test extends \advanced_testcase {
         $assignment->userid = 0;
         $evaluation = new \stdClass();
         $evaluation->Transcript = 'transcript';
+        $evaluation->Fluency = new \stdClass();
         $evaluation->Fluency->score = 1;
         $evaluation->Fluency->mean_f1 = 1;
         $evaluation->Fluency->speech_rate = 2;
         $evaluation->TaskAchievement = 2;
+        $evaluation->Accuracy = new \stdClass();
         $evaluation->Accuracy->score = 3;
         $evaluation->Accuracy->lexical_profile = 3;
         $evaluation->Accuracy->nativeity = 4;
@@ -424,9 +426,9 @@ class locallib_test extends \advanced_testcase {
 
         $timenow = time();
         $attempt = new \stdClass();
-        $attempt->instanceid = 2;
+        $attempt->digitala = 2;
         $attempt->userid = $USER->id;
-        $attempt->filename = 'filename';
+        $attempt->file = 'filename';
         $attempt->gop_score = 4;
         $attempt->timecreated = $timenow;
         $attempt->timemodified = $timenow;
