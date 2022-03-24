@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: ./
+            dockerfile: ./Dockerfile
+        working_dir: /api
+        image: digitala-api
+        container_name: digitala-api
+        volumes:
+            - node_modules:/api/node_modules/
+        ports:
+            - 3000:3000
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        networks:
+            default:
+                aliases:
+                  - "digitala-api"
+
+volumes:
+    node_modules:
+
+networks:
+    default:
+        name: REPLACE_THIS
+        external: true

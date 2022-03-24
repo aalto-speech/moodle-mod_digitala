@@ -48,7 +48,7 @@ $string['assignmentresource_help'] = 'Resources that the user can see before and
 
 $string['navnext'] = 'Next >';
 $string['navprevious'] = '< Previous';
-$string['navstartagain'] = 'Try again from start';
+$string['navstartagain'] = 'See the assignment';
 $string['navfeedback'] = 'Give feedback';
 $string['info'] = 'Info';
 $string['microphone'] = 'Test your microphone here';
@@ -58,6 +58,7 @@ $string['stopbutton'] = 'Stop';
 $string['listenbutton'] = 'Listen recording';
 $string['assignmentrecord'] = 'Record your answer';
 $string['submit'] = 'Submit answer';
+$string['alreadysubmitted'] = "Your answer has already been submitted. Move to next page to see the report.";
 $string['report'] = 'Report';
 $string['reportnotavailable'] = 'A report for this assignment is not available yet.';
 $string['transcription'] = 'Transcription';

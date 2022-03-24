@@ -48,7 +48,7 @@ $string['assignmentresource_help'] = 'Aineisto voidaan liittää tähän. Lue ä
 
 $string['navnext'] = 'Seuraava >';
 $string['navprevious'] = '< Edellinen';
-$string['navstartagain'] = 'Aloita alusta';
+$string['navstartagain'] = 'Katso tehtävää';
 $string['navfeedback'] = 'Anna palautetta';
 $string['info'] = 'Aloitus';
 $string['infotext'] = 'Kokeile mikrofonin toimintaa ennen tehtävän tekemistä.';
@@ -57,6 +57,7 @@ $string['stopbutton'] = 'Pysäytä';
 $string['listenbutton'] = 'Kuuntele nauhoitus';
 $string['assignmentrecord'] = 'Nauhoita vastauksesi.';
 $string['submit'] = 'Palauta vastaus';
+$string['alreadysubmitted'] = "Olet jo palauttanut vastauksen. Siirry seuraavalle sivulle nähdäksesi raportin.";
 $string['report'] = 'Raportti';
 $string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
 $string['transcription'] = 'Puheen litterointi';
