@@ -78,8 +78,8 @@ $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($pagenum));
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info($id, $d));
 } else if ($pagenum == 1) {
-    $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $id, $d,
-                                $USER->id, $USER->username, $moduleinstance->assignment, $moduleinstance->resources,
+    $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id, $USER->username,
+                                $id, $d, $moduleinstance->assignment, $moduleinstance->resources,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang));
 } else {
     $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
