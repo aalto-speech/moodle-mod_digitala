@@ -346,4 +346,80 @@ class locallib_test extends \advanced_testcase {
         $result = create_answerrecording_form($assignment);
         $this->assertEquals('No evaluation was found. Please return to previous page.', $result);
     }
+
+    /**
+     * Test saving a readaloud attempt to database.
+     */
+    public function test_save_attempt_readaloud() {
+        global $DB;
+
+        $assignment = new stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 0;
+        $evaluation = new stdClass();
+        $evaluation->Transcript = 'transcript';
+        $evaluation->Fluency->score = 1;
+        $evaluation->Fluency->mean_f1 = 1;
+        $evaluation->Fluency->speech_rate = 2;
+        $evaluation->TaskAchievement = 2;
+        $evaluation->Accuracy->score = 3;
+        $evaluation->Accuracy->lexical_profile = 3;
+        $evaluation->Accuracy->nativeity = 4;
+        $evaluation->Holistic = 4;
+
+        save_attempt($assignment, 'filename', $evaluation);
+
+        $result = $DB->record_exists('digitala_attempts',
+                                     array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(true, $result);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals($evaluation->Transcript, $record->transcript);
+        $this->assertEquals($evaluation->Holistic, $record->holistic);
+    }
+
+    /**
+     * Test saving a freeform attempt to database.
+     */
+    public function test_save_attempt_freeform() {
+        global $DB;
+
+        $assignment = new stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $evaluation = new stdClass();
+        $evaluation->GOP_score = 4;
+
+        save_attempt($assignment, 'filename', $evaluation);
+
+        $result = $DB->record_exists('digitala_attempts',
+                                     array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(true, $result);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals($evaluation->GOP_score, $record->gop_score);
+    }
+
+    /**
+     * Test reading an attempt from database.
+     */
+    public function test_get_attempt() {
+        global $DB, $USER;
+
+        $result = get_attempt(2)
+        $this->assertEquals(null, $result);
+
+        $timenow = time();
+        $attempt = new stdClass();
+        $attempt->instanceid = 2;
+        $attempt->userid = $USER->id;
+        $attempt->filename = 'filename';
+        $attempt->gop_score = 4;
+        $attempt->timecreated = $timenow;
+        $attempt->timemodified = $timenow;
+        $DB->insert_record('digitala_attempts', $attempt);
+
+        $result = get_attempt(2)
+        $this->assertEquals($attempt->gop_score, $result->gop_score);
+    }
 }
