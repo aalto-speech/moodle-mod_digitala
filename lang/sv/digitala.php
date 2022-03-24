@@ -155,3 +155,8 @@ $string['nativeity_score-1'] = 'Heikko, vaikea ymmärtää, paljon ongelmia ää
 $string['nativeity_score-2'] = 'Kohtalainen, melko helppo ymmärtää, mutta joitakin ongelmia ääntämisessä.';
 $string['nativeity_score-3'] = 'Hyvä, ymmärrettävä, ei suurempia ongelmia ääntämisessä.';
 $string['nativeity_score-4'] = 'Todella hyvä, selkeä ja luonteva ääntäminen.';
+
+$string['api'] = 'API-palvelimen osoite';
+$string['api_help'] = 'Anna API-palvelimen osoite.';
+$string['key'] = 'API-palvelimen avain';
+$string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';

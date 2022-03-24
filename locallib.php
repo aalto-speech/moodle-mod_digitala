@@ -454,11 +454,11 @@ function create_microphone_icon($id) {
 function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $type, $key) {
     $assignmenttextraw = format_string($assignmenttext);
     $c = new curl(array('ignoresecurity' => true));
-    $curlurl = 'http://digitalamoodle.aalto.fi:5000';
+    $curlurl = get_config('digitala', 'api');
+    $key = get_config('digitala', 'key');
     $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang='. $lang . '&task=' . $type . '&key=' . $key;
     $curlparams = array('file' => $file);
     $json = $c->post($curlurl . $curladd, $curlparams);
-
     return $json;
 }
 
