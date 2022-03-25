@@ -140,12 +140,10 @@ const createChart = async (id, grade, maxgrade) => {
                             tooltipBox.classList.add('no-transform');
                         }
 
-
-
                         if (tooltip.body) {
                             const bodyLines = tooltip.body.map(getBody);
 
-                            bodyLines.forEach((body, i) => {
+                            bodyLines.forEach((body) => {
                                 tooltipBox.innerHTML = '<p class="tooltip-text">' + body[0].split(':')[0] + '</p>';
                             });
 
