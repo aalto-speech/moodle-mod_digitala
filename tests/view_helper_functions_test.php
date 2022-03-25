@@ -61,20 +61,13 @@ class view_helper_functions_test extends \advanced_testcase {
     }
 
     /**
-     * Test drawing stars for the report view.
-     */
-    public function test_report_stars_output() {
-        $result = create_report_stars(1, 3);
-        $this->assertEquals('★☆☆', $result);
-    }
-
-    /**
      * Test creating report view grading helper object.
      */
     public function test_grading_html_output() {
         $result = create_report_grading("fluency", 0, 0);
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5>'.
-            '<h5 class="grade-stars"></h5><h6 class="grade-number">0/0</h6>'.
+            '<canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart" height="40px"></canvas>'. // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+            '<h6 class="grade-number">0/0</h6>'.
             '<div class="card-text">Fluency score is 0, red score.</div></div></div>', $result);
     }
 

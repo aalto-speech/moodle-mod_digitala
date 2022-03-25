@@ -37,9 +37,8 @@ class canvas_test extends \advanced_testcase {
      */
     public function test_create_chart() {
         $result = create_chart('nimi', '2.00', '4');
-        $this->assertEquals('<canvas id="nimi" data-eval-name="nimi" data-eval-grade="2.00" data-eval-maxgrade="4"'.
-                            ' class="report-chart" height="138" style="display: block; box-sizing: border-box;'.
-                            ' height: 138px; width: 1035px;" width="1035"></canvas>', $result);
+        $this->assertEquals('<canvas id="nimi" data-eval-name="nimi" data-eval-grade="2.00" data-eval-maxgrade="4" class="report-chart" height="40px"></canvas>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+                            $result);
     }
 
 }
