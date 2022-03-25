@@ -42,7 +42,6 @@ const createChart = async (id, grade, maxgrade) => {
     const evalStrings = await get_strings(strings);
     for (let i = 0; i < evalStrings.length; i++) {
         const evalString = evalStrings[i];
-        window.console.log(evalString);
         const length = i === 0 ? 0 : 1;
         lineSet = [...lineSet,
             {
@@ -81,7 +80,6 @@ const createChart = async (id, grade, maxgrade) => {
         },
     ];
 
-    window.console.log('maxGrade', maxgrade);
     if (maxgrade === '4') {
         basicDataset = [...basicDataset, {
             type: 'bar',
@@ -108,8 +106,6 @@ const createChart = async (id, grade, maxgrade) => {
                 tooltip: {
                     enabled: false,
                     external: (tooltipModel) => {
-                        window.console.log('>>',tooltipModel);
-
                         const name = tooltipModel.chart.canvas.attributes['data-eval-name'].value;
                         const tooltip = tooltipModel.tooltip;
                         const getBody = (bodyItem) => {
@@ -150,15 +146,11 @@ const createChart = async (id, grade, maxgrade) => {
                             const bodyLines = tooltip.body.map(getBody);
 
                             bodyLines.forEach((body, i) => {
-                                window.console.log(body, i);
-
                                 tooltipBox.innerHTML = '<p class="tooltip-text">' + body[0].split(':')[0] + '</p>';
-                                window.console.log(tooltipBox);
                             });
 
                         }
                         const position = tooltipModel.chart.canvas.getBoundingClientRect();
-                        // const bodyFont = chart.Chart.helpers.toFont(tooltip.options.bodyFont);
 
                         // Display, position, and set styles for font
                         tooltipBox.style.opacity = 1;
@@ -196,14 +188,11 @@ export const init = (pagenum) => {
 
     if (pagenum === 2) {
         const allCanvases = document.getElementsByClassName('report-chart');
-        window.console.log('allCanvases >', allCanvases);
         for (let i = 0; i < allCanvases.length; i++) {
             const canvas = allCanvases[i];
-            window.console.log('Attributes:', canvas.attributes);
             createChart(canvas.attributes["data-eval-name"].value,
                         canvas.attributes["data-eval-grade"].value,
                         canvas.attributes["data-eval-maxgrade"].value);
         }
-        // createChart(id, value);
     }
 };
