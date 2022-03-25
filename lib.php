@@ -78,7 +78,11 @@ function digitala_add_instance($moduleinstance, $mform = null) {
 function digitala_update_instance($moduleinstance, $mform = null) {
     global $DB;
 
+    $moduleinstance->id = $moduleinstance->instance;
     $moduleinstance->timemodified = time();
+
+    $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
+    $moduleinstance->resources = $moduleinstance->resources['text'];
 
     return $DB->update_record('digitala', $moduleinstance);
 }

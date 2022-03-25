@@ -88,30 +88,33 @@ const listenRecording = () => {
 };
 
 export const initializeMicrophone = (pagenum, assignmentId, userId, username) => {
-    const recButton = document.getElementById('record');
-    const stopButton = document.getElementById('stopRecord');
-    const listenButton = document.getElementById('listenButton');
-    listenButton.disabled = true;
-
-    window.console.log('page number', pagenum);
-
-    recButton.onclick = () => {
-        recButton.disabled = true;
-        stopButton.disabled = false;
+    window.console.log('Starting to initalize microphones');
+    if (pagenum !== 2) {
+        const recButton = document.getElementById('record');
+        const stopButton = document.getElementById('stopRecord');
+        const listenButton = document.getElementById('listenButton');
         listenButton.disabled = true;
-        recButton.style.display = 'none';
-        stopButton.style.display = 'inline-block';
-        startStopRecording(pagenum, assignmentId, userId, username);
-    };
-    stopButton.onclick = () => {
-        recButton.disabled = false;
-        stopButton.disabled = true;
-        listenButton.disabled = false;
-        recButton.style.display = 'inline-block';
-        stopButton.style.display = 'none';
-        startStopRecording(pagenum, assignmentId, userId, username);
-    };
-    listenButton.onclick = () => {
-        listenRecording();
-    };
+
+        window.console.log('page number', pagenum);
+
+        recButton.onclick = () => {
+            recButton.disabled = true;
+            stopButton.disabled = false;
+            listenButton.disabled = true;
+            recButton.style.display = 'none';
+            stopButton.style.display = 'inline-block';
+            startStopRecording(pagenum, assignmentId, userId, username);
+        };
+        stopButton.onclick = () => {
+            recButton.disabled = false;
+            stopButton.disabled = true;
+            listenButton.disabled = false;
+            recButton.style.display = 'inline-block';
+            stopButton.style.display = 'none';
+            startStopRecording(pagenum, assignmentId, userId, username);
+        };
+        listenButton.onclick = () => {
+            listenRecording();
+        };
+    }
 };
