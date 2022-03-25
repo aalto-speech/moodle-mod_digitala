@@ -24,6 +24,7 @@
 
 
 
+
 /**
  * Used to generate page urls for digitala module.
  *
@@ -232,26 +233,6 @@ function create_resource($content) {
 }
 
 /**
- * Draws star gradings
- *
- * @param int $filled number of filled stars to draw
- * @param int $total number of to draw in totaldraw_report
- */
-function create_report_stars($filled, $total) {
-    $out = '';
-
-    for ($i = 1; $i <= $total; $i++) {
-        if ($i <= $filled) {
-            $out .= "\u{2605}";
-        } else {
-            $out .= "\u{2606}";
-        }
-    }
-
-    return $out;
-}
-
-/**
  * Creates grading information container from report
  *
  * @param string $name name of the grading
@@ -264,7 +245,7 @@ function create_report_grading($name, $grade, $maxgrade) {
 
     $out .= html_writer::tag('h5', get_string($name, 'digitala'), array("class" => 'card-title'));
 
-    $out .= html_writer::tag('h5', create_report_stars($grade, $maxgrade), array("class" => 'grade-stars'));
+    $out .= create_chart($name, $grade, $maxgrade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
 
     $out .= html_writer::div(get_string($name.'_score-' . floor($grade), 'digitala'), 'card-text');
@@ -610,10 +591,15 @@ function create_answerrecording_form($assignment) {
 }
 
 /**
- * Creates a canvas.
+ * Creates a chart.
+ *
+ * @param string $name of the chart
+ * @param mixed $grade of the chart
+ * @param mixed $maxgrade of the chart
  */
-function create_canvas() {
-    $out = html_writer::tag('canvas', '', array('id' => 'kaavio', 'height' => '40px'));
+function create_chart($name, $grade, $maxgrade) {
+    $out = html_writer::tag('canvas', '', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
+                                                'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart', 'height' => '40px'));
     return $out;
 }
 
@@ -637,4 +623,3 @@ function create_fixed_box() {
     '', array('id' => 'feedbacksite', 'class' => 'collapse'));
     return $out;
 }
-
