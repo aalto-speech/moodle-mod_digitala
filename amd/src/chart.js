@@ -6,10 +6,10 @@
  */
 
 import chart from 'chart';
-import {get_strings} from 'core/str';
+import {get_strings as getStrings} from 'core/str';
 
 
-const createChart = async (id, grade, maxgrade) => {
+const createChart = async(id, grade, maxgrade) => {
     const horLine = {
         afterDraw: (chart) => {
             const ctx = chart.ctx;
@@ -39,7 +39,7 @@ const createChart = async (id, grade, maxgrade) => {
 
     let lineSet = [];
 
-    const evalStrings = await get_strings(strings);
+    const evalStrings = await getStrings(strings);
     for (let i = 0; i < evalStrings.length; i++) {
         const evalString = evalStrings[i];
         const length = i === 0 ? 0 : 1;
