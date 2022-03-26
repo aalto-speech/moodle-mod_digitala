@@ -166,11 +166,10 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2></div>',
             $result);
         $result = create_nav_buttons('report', 1, 2);
-        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="tryAgainButton" class="btn btn-primary">See the assignment</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1><a href=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048 id="feedbackButton" class="btn btn-primary" target="blank">Give feedback</a href=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048></div>',
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="tryAgainButton" class="btn btn-primary">See the assignment</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
             $result);
         // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
     }
-
 
     /**
      * Test creating new container object.
@@ -201,20 +200,13 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
-     * Test drawing stars for the report view.
-     */
-    public function test_report_stars_output() {
-        $result = create_report_stars(1, 3);
-        $this->assertEquals('★☆☆', $result);
-    }
-
-    /**
      * Test creating report view grading helper object.
      */
     public function test_grading_html_output() {
         $result = create_report_grading("fluency", 0, 0);
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5>'.
-            '<h5 class="grade-stars"></h5><h6 class="grade-number">0/0</h6>'.
+            '<canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart" height="40px"></canvas>'. // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+            '<h6 class="grade-number">0/0</h6>'.
             '<div class="card-text">Fluency score is 0, red score.</div></div></div>', $result);
     }
 
@@ -267,13 +259,6 @@ class locallib_test extends \advanced_testcase {
     public function test_create_button() {
         $result = create_button('buttonId', 'buttonClass', 'buttonText');
         $this->assertEquals('<button id="buttonId" class="buttonClass">buttonText</button>', $result);
-    }
-
-    public function test_create_microphone() {
-        $result = create_microphone('testmic');
-        $this->assertEquals('<br></br><button id="record" class="btn btn-primary record-btn">Start</button>'.
-            '<button id="stopRecord" class="btn btn-primary stopRecord-btn">Stop</button><button id="listenButton" '.
-            'class="btn btn-primary listen-btn">Listen recording</button>', $result);
     }
 
     /**
@@ -437,4 +422,37 @@ class locallib_test extends \advanced_testcase {
         $result = get_attempt(2);
         $this->assertEquals($attempt->gop_score, $result->gop_score);
     }
+
+// @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+    public function test_create_microphone() {
+        $result = create_microphone('testmic');
+        $this->assertEquals('<br></br><button id="record" class="btn btn-primary record-btn">Start <svg width="16" height="16" fill="currentColor"class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg></button><button id="stopRecord" class="btn btn-primary stopRecord-btn">Stop <svg width="16" height="16" fill="currentColor"class="bi bi-stop-fill" viewBox="0 0 16 16"><path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/></svg></button><button id="listenButton" class="btn btn-primary listen-btn">Listen recording <svg width="16" height="16" fill="currentColor"class="bi bi-volume-down-fill" viewBox="0 0 16 16"><path d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486 4.486 0 0 1 12.025 8z"/></svg></button>', $result);
+    }
+
+    /**
+     * Test creating microphone icon.
+     */
+    public function test_create_microphone_icon() {
+        $result = create_microphone_icon('');
+        $this->assertEquals('<div id="microphoneIconBox"></div><svg width="150" height="150" viewBox="0 0 150 150" version="1.1" id="svg5" inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)" inkscape:export-xdpi="96" inkscape:export-ydpi="96"> <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#000000" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="false" inkscape:document-units="px" showgrid="false" units="px" inkscape:zoom="5.9223905" inkscape:cx="62.947139" inkscape:cy="78.863467" inkscape:window-width="1848" inkscape:window-height="1016" inkscape:window-x="72" inkscape:window-y="27" inkscape:window-maximized="1" inkscape:current-layer="layer1" viewbox-width="24" scale-x="1" showguides="true" /> <defs id="defs2"> <linearGradient inkscape:collect="always" id="linearGradient8239"> <stop style="stop-color:#ffffff;stop-opacity:1" offset="0" id="stop8278" /> <stop style="stop-color:#ffffff;stop-opacity:0" offset="1" id="stop8280" /> </linearGradient> <linearGradient id="linearGradient8197" inkscape:swatch="solid"> <stop style="stop-color:#c04b0d;stop-opacity:1;" offset="0" id="stop8195" /> </linearGradient> <linearGradient id="linearGradient6947" inkscape:swatch="solid"> <stop style="stop-color:#323232;stop-opacity:1;" offset="0" id="stop6945" /> </linearGradient> <linearGradient inkscape:collect="always" xlink:href="#linearGradient7609" id="linearGradient14811" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.7019434,0,0,1.3429862,-166.17392,-206.17779)" x1="119.37104" y1="133.03964" x2="164.0202" y2="133.03964" /> <linearGradient id="linearGradient7609" inkscape:swatch="solid"> <stop style="stop-color:#000000;stop-opacity:1;" offset="0" id="stop7607" /> </linearGradient> <linearGradient inkscape:collect="always" xlink:href="#linearGradient8239" id="linearGradient8241" x1="12.490475" y1="20.807896" x2="12.282459" y2="-3.5488219" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.25,0,0,2.25,47.322403,-77.306788)" /> </defs> <g inkscape:label="Taso 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,126)"> <ellipse style="fill:url(#linearGradient8241);fill-opacity:1;stroke:#d9f991;stroke-width:0; stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none; stroke-dashoffset:0;stroke-opacity:1" id="path4797" cx="74.337151" cy="-50.244549" rx="26.929842" ry="26.977333" inkscape:export-filename="C:\Users\Joona\Desktop\icon.png" inkscape:export-xdpi="96" inkscape:export-ydpi="96" /> <rect style="fill:#000000;fill-opacity:1;stroke-width:0.47406167" id="rect1812-5-3-8" width="57.838097" height="83.551956" x="45.952644" y="-108.73703" ry="23.275175" rx="27.54195" /> <path style="fill:none;fill-opacity:1;stroke:url(#linearGradient14811);stroke-width :7.06218767;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4; stroke-dasharray:none;stroke-opacity:1" d="m 40.246073,-38.828328 c 10.851217,28.219916 60.610707,28.8520856 69.419357,-0.73962" id="path401-9-7" sodipodi:nodetypes="cc" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#000000;stroke-width:9.99843788;stroke-linecap: butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 75.90223,-19.843168 76.12741,0.59611765" id="path3077-8-4" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#000000;stroke-width:8.46515751;stroke-linecap: butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 54.13793,2.5386476 c 13.84293,-1.83226995 28.51102,-2.01710995 44.282025,0" id="path574" sodipodi:nodetypes="cc" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625px;stroke-linecap: round;stroke-linejoin:miter;stroke-opacity:1" d="m 45.849173,-83.263866 c 26.926417,-0.21371 26.926417,-0.21371 26.926417,-0.21371" id="path4391" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625px;stroke-linecap: round;stroke-linejoin:miter;stroke-opacity:1" d="M 45.635473,-69.907508 C 72.5619,-70.121218 72.5619,-70.121218 72.5619,-70.121218" id="path4391-9" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625;stroke-linecap: round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:30.375, 5.0625; stroke-dashoffset:0;stroke-opacity:1" d="M 45.635473,-56.230598 C 72.5619,-56.444308 72.5619,-56.444308 72.5619,-56.444308" id="path4391-9-2" inkscape:connector-curvature="0" /> </g> </svg id="microphoneIcon"></svg width="150" height="150" viewBox="0 0 150 150" version="1.1" id="svg5" inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)" inkscape:export-xdpi="96" inkscape:export-ydpi="96"> <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#000000" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="false" inkscape:document-units="px" showgrid="false" units="px" inkscape:zoom="5.9223905" inkscape:cx="62.947139" inkscape:cy="78.863467" inkscape:window-width="1848" inkscape:window-height="1016" inkscape:window-x="72" inkscape:window-y="27" inkscape:window-maximized="1" inkscape:current-layer="layer1" viewbox-width="24" scale-x="1" showguides="true" /> <defs id="defs2"> <linearGradient inkscape:collect="always" id="linearGradient8239"> <stop style="stop-color:#ffffff;stop-opacity:1" offset="0" id="stop8278" /> <stop style="stop-color:#ffffff;stop-opacity:0" offset="1" id="stop8280" /> </linearGradient> <linearGradient id="linearGradient8197" inkscape:swatch="solid"> <stop style="stop-color:#c04b0d;stop-opacity:1;" offset="0" id="stop8195" /> </linearGradient> <linearGradient id="linearGradient6947" inkscape:swatch="solid"> <stop style="stop-color:#323232;stop-opacity:1;" offset="0" id="stop6945" /> </linearGradient> <linearGradient inkscape:collect="always" xlink:href="#linearGradient7609" id="linearGradient14811" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.7019434,0,0,1.3429862,-166.17392,-206.17779)" x1="119.37104" y1="133.03964" x2="164.0202" y2="133.03964" /> <linearGradient id="linearGradient7609" inkscape:swatch="solid"> <stop style="stop-color:#000000;stop-opacity:1;" offset="0" id="stop7607" /> </linearGradient> <linearGradient inkscape:collect="always" xlink:href="#linearGradient8239" id="linearGradient8241" x1="12.490475" y1="20.807896" x2="12.282459" y2="-3.5488219" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.25,0,0,2.25,47.322403,-77.306788)" /> </defs> <g inkscape:label="Taso 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,126)"> <ellipse style="fill:url(#linearGradient8241);fill-opacity:1;stroke:#d9f991;stroke-width:0; stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none; stroke-dashoffset:0;stroke-opacity:1" id="path4797" cx="74.337151" cy="-50.244549" rx="26.929842" ry="26.977333" inkscape:export-filename="C:\Users\Joona\Desktop\icon.png" inkscape:export-xdpi="96" inkscape:export-ydpi="96" /> <rect style="fill:#000000;fill-opacity:1;stroke-width:0.47406167" id="rect1812-5-3-8" width="57.838097" height="83.551956" x="45.952644" y="-108.73703" ry="23.275175" rx="27.54195" /> <path style="fill:none;fill-opacity:1;stroke:url(#linearGradient14811);stroke-width :7.06218767;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4; stroke-dasharray:none;stroke-opacity:1" d="m 40.246073,-38.828328 c 10.851217,28.219916 60.610707,28.8520856 69.419357,-0.73962" id="path401-9-7" sodipodi:nodetypes="cc" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#000000;stroke-width:9.99843788;stroke-linecap: butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 75.90223,-19.843168 76.12741,0.59611765" id="path3077-8-4" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#000000;stroke-width:8.46515751;stroke-linecap: butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 54.13793,2.5386476 c 13.84293,-1.83226995 28.51102,-2.01710995 44.282025,0" id="path574" sodipodi:nodetypes="cc" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625px;stroke-linecap: round;stroke-linejoin:miter;stroke-opacity:1" d="m 45.849173,-83.263866 c 26.926417,-0.21371 26.926417,-0.21371 26.926417,-0.21371" id="path4391" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625px;stroke-linecap: round;stroke-linejoin:miter;stroke-opacity:1" d="M 45.635473,-69.907508 C 72.5619,-70.121218 72.5619,-70.121218 72.5619,-70.121218" id="path4391-9" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625;stroke-linecap: round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:30.375, 5.0625; stroke-dashoffset:0;stroke-opacity:1" d="M 45.635473,-56.230598 C 72.5619,-56.444308 72.5619,-56.444308 72.5619,-56.444308" id="path4391-9-2" inkscape:connector-curvature="0" /> </g> </svg>', $result);
+    }
+
+
+    /**
+     * Test creating a fixed box for feedback.
+     */
+    public function test_create_fixed_box() {
+        $result = create_fixed_box();
+        $this->assertEquals('<div class="feedbackcontainer">Give feedback</div><button type="button" class="btn btn-info"data-toggle="collapse" data-target="#feedbacksite" id="collapser"><svg id="feedback" width="16" height="16" fill="currentColor"class="bi bi-chat-text-fill" viewBox="0 0 16 16"><path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"/></svg></button type="button" class="btn btn-info"data-toggle="collapse" data-target="#feedbacksite" id="collapser"><div class="collapse" id="feedbacksite"></div><iframe src=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048 id="feedbacksite" class="collapse"></iframe src=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048>', $result);
+    }
+
+        /**
+     * Tests creating chart canvas
+     */
+    public function test_create_chart() {
+        $result = create_chart('nimi', '2.00', '4');
+        $this->assertEquals('<canvas id="nimi" data-eval-name="nimi" data-eval-grade="2.00" data-eval-maxgrade="4" class="report-chart" height="40px"></canvas>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+                            $result);
+    }
+// @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 }
