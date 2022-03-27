@@ -23,6 +23,7 @@ jobs:
         moodle-branch: ['MOODLE_39_STABLE']
         database: [pgsql]
         experimental: [false]
+        extensions: ['tideways']
         include:
           - php: '8.0'
             moodle-branch: 'MOODLE_311_STABLE'
@@ -75,7 +76,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ matrix.extensions }}
-          ini-values: max_input_vars=5000, memory_limit=-1, zend_enable_gc=0, max_file_size=100G, post_max_size=100G, upload_max_filesize=100G
+          ini-values: max_input_vars=5000, memory_limit=-1, zend_enable_gc=0, max_file_size=100G, post_max_size=100G, upload_max_filesize=100G, tideways.log_segfaults=1
           coverage: none
 
       - name: Initialise moodle-plugin-ci
