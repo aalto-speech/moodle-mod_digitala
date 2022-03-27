@@ -60,7 +60,8 @@ app.post('/', (req, res) => {
 
                 const answer = req.query.task === "freeform" ? freeform : readaloud
 
-                const waitTime = random.integer(0,10)*1000
+                const waitTime = req.query.wait ? random.integer(0,10)*1000 : 0
+
                 setTimeout(() => {
                     res.json(answer)
                 }, waitTime)

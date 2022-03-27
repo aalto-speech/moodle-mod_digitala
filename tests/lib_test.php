@@ -65,7 +65,7 @@ class lib_test extends \advanced_testcase {
                 'name' => 'new_digitala',
                 'attemptlang' => 'fin',
                 'attempttype' => 'freeform',
-                'assignment' => array('text' => 'Assignment text', 'format' => 1),
+                'assignment' => 'Assignment text',
                 'resources' => array('text' => 'Resource text', 'format' => 1),
             ]);
     }

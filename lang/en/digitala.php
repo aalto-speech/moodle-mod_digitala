@@ -120,3 +120,8 @@ $string['nativeity_score-1'] = 'Nativeity score is 1, light red score.';
 $string['nativeity_score-2'] = 'Nativeity score is 2, yellow score.';
 $string['nativeity_score-3'] = 'Nativeity score is 3, light green score.';
 $string['nativeity_score-4'] = 'Nativeity score is 4, green score.';
+
+$string['api'] = 'Address for API-server';
+$string['api_help'] = 'Give address to API-server.';
+$string['key'] = 'Key for API-server';
+$string['key_help'] = 'Give valid key for API-server authentication';
