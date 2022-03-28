@@ -170,6 +170,6 @@ jobs:
       - uses: EndBug/add-and-commit@v8
         with:
           add: version.php
-          message: 'Bump version'
+          message: 'Bump version & release'
           cwd: './plugin'
           default_author: user_info
