@@ -173,3 +173,28 @@ jobs:
           message: 'Bump version & release'
           cwd: './plugin'
           default_author: user_info
+
+  zip-n-release:
+    runs-on: ubuntu-18.04
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: version
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          path: digitala
+
+      - name: Run zip.sh
+        run: |
+          chmod +x ./plugin/scripts/zip.sh
+          ./plugin/scripts/zip.sh
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{env.release_dot}} (${{env.version}})
+          prerelease: false
+          title: "${{env.release_dot}} (${{env.version}}): ${{ github.event.pull_request.title }}"
+          files: |
+            moodle-mod-digitala-${{env.release}}-${{env.version}}.zip
