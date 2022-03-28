@@ -15,8 +15,8 @@ fi
 
 old_release=$(cat version.php | grep '$plugin->release = ')
 old_release=${old_release/\$plugin->release = /}
-old_release=${old_release/\'/}
-old_release=${old_release/\';/}
+old_release=${old_release//\'/}
+old_release=${old_release/;/}
 echo ${old_release}
 x=$(echo "${old_release}" | cut -d'.' -f 1)
 y=$(echo "${old_release}" | cut -d'.' -f 2)
