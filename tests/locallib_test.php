@@ -446,13 +446,48 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('<div class="feedbackcontainer">Give feedback</div><button type="button" class="btn btn-info"data-toggle="collapse" data-target="#feedbacksite" id="collapser"><svg id="feedback" width="16" height="16" fill="currentColor"class="bi bi-chat-text-fill" viewBox="0 0 16 16"><path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"/></svg></button type="button" class="btn btn-info"data-toggle="collapse" data-target="#feedbacksite" id="collapser"><div class="collapse" id="feedbacksite"></div><iframe src=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048 id="feedbacksite" class="collapse"></iframe src=https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048>', $result);
     }
 
-        /**
-     * Tests creating chart canvas
+    /**
+     * Tests creating chart canvas.
      */
     public function test_create_chart() {
         $result = create_chart('nimi', '2.00', '4');
         $this->assertEquals('<canvas id="nimi" data-eval-name="nimi" data-eval-grade="2.00" data-eval-maxgrade="4" class="report-chart" height="40px"></canvas>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
                             $result);
+    }
+
+    /**
+     * Tests creating attempt number.
+     */
+    public function test_create_attempt_number() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $assignment->attemptlimit = 1;
+
+        $result = create_attempt_number($assignment);
+        $this->assertEquals('Number of attempts remaining: 1' ,$result);
+    }
+
+    /**
+     * Tests creating attempt modal.
+     */
+    public function test_create_attempt_modal() {
+        global $DB;
+        global $USER;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $assignment->attemptlimit = 1;
+
+        \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $context = \context_module::instance($this->digitala->cmid);
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+
+        $result = create_attempt_modal($assignment);
+        $this->assertEquals('<button id="submitModalButton" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#attemptModal" style="display: none">Submit answer</button><div class="modal" id="attemptModal" tabindex="-1" role="dialog" aria-labelledby="submitModal" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Are you sure you want to submit this attempt?</h5><button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>You still have 1 attempts remaining on this assignment.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>No evaluation was found. Please return to previous page.</div></div></div></div>', $result);
     }
 // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 }
