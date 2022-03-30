@@ -404,7 +404,7 @@ function create_nav_buttons($buttonlocation, $id, $d) {
  *
  * @param string $id
  */
-function create_microphone($id) {
+function create_microphone($id, $maxlength = 0) {
     $starticon = '<svg width="16" height="16" fill="currentColor"' .
     'class="bi bi-play-fill" viewBox="0 0 16 16">' .
     '<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.' .
@@ -422,10 +422,17 @@ function create_microphone($id) {
     ' 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10' .
     ' 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486' .
     ' 4.486 0 0 1 12.025 8z"/></svg>';
+
+    if ($maxlength == 0) {
+        $limit = '';
+    } else {
+        $limit = ' / '.convertSecondsToString($maxlength);
+    }
+
     $out = html_writer::tag('br', '');
     $out .= html_writer::start_tag('p', array('id' => 'kukkaruukku'));
     $out .= html_writer::tag('span', '00:00', array('id' => 'recordingLength'));
-    $out .= html_writer::tag('span', ' / 01:10');
+    $out .= html_writer::tag('span', $limit);
     $out .= html_writer::end_tag('p');
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
     $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . ' ' . $stopicon);
@@ -473,8 +480,9 @@ function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $typ
  * @param digitala_assignment $assignment - assignment includes needed identifications
  * @param string $filename - file name of the recording
  * @param mixed $evaluation - mixed object containing evaluation info
+ * @param mixed $recordinglength - length of recording in seconds
  */
-function save_attempt($assignment, $filename, $evaluation) {
+function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
     global $DB;
 
     if ($DB->record_exists('digitala_attempts', array('digitala' => $assignment->instanceid,
@@ -506,6 +514,7 @@ function save_attempt($assignment, $filename, $evaluation) {
 
     $attempt->timecreated = $timenow;
     $attempt->timemodified = $timenow;
+    $attempt->recordinglength = $recordinglength;
 
     $DB->insert_record('digitala_attempts', $attempt);
 }
@@ -538,6 +547,7 @@ function save_answerrecording($formdata, $assignment) {
     $fs = get_file_storage();
 
     $audiofile = json_decode($formdata->audiostring);
+    $recordinglength = $formdata->recordinglength;
 
     $fileinfo = array(
         'contextid' => $assignment->contextid,
@@ -571,7 +581,7 @@ function save_answerrecording($formdata, $assignment) {
     if (!isset(json_decode($evaluation)->prompt)) {
         $out = 'No evaluation was found. Please return to previous page.';
     } else {
-        save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
+        save_attempt($assignment, $file->get_filename(), json_decode($evaluation), $recordinglength);
         if (isset($_SERVER['REQUEST_URI'])) {
             $url = $_SERVER['REQUEST_URI'];
             $newurl = str_replace('page=1', 'page=2', $url);
@@ -631,4 +641,34 @@ function create_fixed_box() {
     'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
     '', array('id' => 'feedbacksite', 'class' => 'collapse'));
     return $out;
+}
+
+/**
+ * Converts seconds to formatted time string
+ */
+function convertSecondsToString($secs) {
+    $hours = floor($secs / 3600);
+    $minutes = floor(($secs - ($hours * 3600)) / 60);
+    $seconds = floor($secs - ($hours * 3600) - ($minutes * 60));
+
+    if ($hours == 0) {
+        $hours = "";
+    } else {
+        if ($hours < 10) {
+            $hours = "0".$hours.":";
+        } else {
+            $hours = $hours.":";
+        }
+
+    }
+
+    if ($minutes < 10) {
+        $minutes = "0".$minutes;
+    }
+
+    if ($seconds < 10) {
+        $seconds = "0".$seconds;
+    }
+
+    return $hours.$minutes.":".$seconds;
 }

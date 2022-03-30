@@ -86,9 +86,10 @@ class digitala_assignment implements renderable {
      * @param string $resourcetext - Resource text for the assignment
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     * @param int $maxlength - maximum length of the recording in seconds, 0 = no limit
      */
     public function __construct($instanceid, $contextid, $userid, $username, $id = 0, $d = 0,
-        $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+        $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '', $maxlength = 0) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
@@ -99,6 +100,7 @@ class digitala_assignment implements renderable {
         $this->resourcetext = $resourcetext;
         $this->attempttype = $attempttype;
         $this->attemptlang = $attemptlang;
+        $this->maxlength = $maxlength;
         $this->form = new answerrecording_form($id, $d, 1);
     }
 }

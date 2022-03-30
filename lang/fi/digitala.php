@@ -41,6 +41,7 @@ $string['attempttype'] = 'Tehtävätyyppi';
 $string['attempttype_help'] = 'Lue ääneen -tehtävässä pitää lukea annettu teksti mahdollisimman selkeästi ja tarkasti. Vapaa tuotto -tehtävässä voidaan puhua vapaammin tehtävänannon aiheesta.';
 $string['readaloud'] = 'Lue ääneen';
 $string['freeform'] = 'Vapaa tuotto';
+$string['timelimit'] = 'Maksimiaika';
 $string['assignment'] = 'Tehtävä';
 $string['assignment_help'] = 'Tehtävänanto, jonka mukaan tulee tehdä puhesuoritus.';
 $string['assignmentresource'] = 'Lisäaineisto';

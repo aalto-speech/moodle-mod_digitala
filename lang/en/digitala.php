@@ -41,6 +41,7 @@ $string['attempttype'] = 'Attempt type';
 $string['attempttype_help'] = 'In read aloud type the user will attempt to read the given resource text. In free-form the user may speak about anything indicated on the assignment text.';
 $string['readaloud'] = 'Read aloud';
 $string['freeform'] = 'Free-form';
+$string['timelimit'] = 'Timelimit';
 $string['assignment'] = 'Assignment';
 $string['assignment_help'] = 'The assignment that the user will need to complete.';
 $string['assignmentresource'] = 'Resources';

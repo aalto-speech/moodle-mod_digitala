@@ -27,7 +27,11 @@ const convertSecondsToString = (seconds) => {
     let minutes = Math.floor((seconds - (hours * 3600)) / 60);
     let second = Math.floor(seconds - (hours * 3600) - (minutes * 60));
 
-    hours = hours === 0 ? "" : `${hours}:`;
+    hours = hours === 0
+        ? ""
+        : hours < 10
+            ? `0${hours}:`
+            : `${hours}:`;
     minutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
     second = second < 10 ? `0${second}` : `${second}`;
 
@@ -76,7 +80,11 @@ const startRecording = async () => {
             }, 1000);
             window.console.log(interval);
 
-            timeout = setTimeout(stopRecording, maxLength * 1000);
+            window.console.log(maxLength, typeof maxLength);
+            if (maxLength !== "0") {
+                timeout = setTimeout(stopRecording, maxLength * 1000);
+            }
+
             return;
         })
         .catch(() => {
@@ -108,6 +116,7 @@ const stopRecording = () => {
                 req.addEventListener('readystatechange', (event) => {
                     if (event.target.readyState === 4) {
                         document.forms.answerrecording[0].value = event.target.response;
+                        document.forms.answerrecording[1].value = sec;
                         document.getElementById('id_submitbutton').style.display = '';
                     }
                 });
