@@ -426,7 +426,7 @@ function create_microphone($id, $maxlength = 0) {
     if ($maxlength == 0) {
         $limit = '';
     } else {
-        $limit = ' / '.convertsecondstotring($maxlength);
+        $limit = ' / '.convertsecondstostring($maxlength);
     }
 
     $out = html_writer::tag('br', '');
