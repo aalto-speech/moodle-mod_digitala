@@ -4,6 +4,9 @@
  * @copyright  2022 Name
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/* eslint-disable no-nested-ternary */
+
 import RecordRTC from 'RecordRTC';
 import mdlcfg from 'core/config';
 import {get_strings as getStrings} from 'core/str';
@@ -38,7 +41,7 @@ const convertSecondsToString = (seconds) => {
     return `${hours}${minutes}:${second}`;
 };
 
-const startRecording = async () => {
+const startRecording = async() => {
     const notGranted = (await navigator.mediaDevices.enumerateDevices())[0].label === "";
 
     if (notGranted) {
@@ -128,9 +131,6 @@ const stopRecording = () => {
         });
         window.console.log('Digitala: Recording stopped');
     }
-
-
-
 };
 
 const listenRecording = () => {
