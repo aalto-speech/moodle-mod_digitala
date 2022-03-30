@@ -426,7 +426,7 @@ function create_microphone($id, $maxlength = 0) {
     if ($maxlength == 0) {
         $limit = '';
     } else {
-        $limit = ' / '.convertSecondsToString($maxlength);
+        $limit = ' / '.convertsecondstotring($maxlength);
     }
 
     $out = html_writer::tag('br', '');
@@ -437,7 +437,6 @@ function create_microphone($id, $maxlength = 0) {
     $out .= html_writer::tag('span', $limit);
     $out .= html_writer::end_tag('p');
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
-    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . ' ' . $stopicon);
     $out .= create_button('listen', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon, true);
     $out .= html_writer::tag('br', '');
 
@@ -649,7 +648,7 @@ function create_fixed_box() {
 /**
  * Converts seconds to formatted time string
  */
-function convertSecondsToString($secs) {
+function convertsecondstostring($secs) {
     $hours = floor($secs / 3600);
     $minutes = floor(($secs - ($hours * 3600)) / 60);
     $seconds = floor($secs - ($hours * 3600) - ($minutes * 60));
