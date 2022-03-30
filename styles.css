@@ -171,3 +171,11 @@
     bottom: 2.5vw;
     right: 2.5vw;
 }
+
+.modal-footer .form-group {
+    margin: 0 !important;
+}
+
+.modal-footer .col-form-label {
+    display: none !important;
+}

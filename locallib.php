@@ -369,7 +369,7 @@ function create_button($id, $class, $text) {
  * @param number $id id of the course module
  * @param number $d id of the activity instance
  */
-function create_nav_buttons($buttonlocation, $id, $d) {
+function create_nav_buttons($buttonlocation, $id, $d, $remaining = 0) {
     $out = html_writer::start_div('navbuttons');
     if ($buttonlocation == 'info') {
         $newurl = page_url(1, $id, $d);
@@ -385,7 +385,12 @@ function create_nav_buttons($buttonlocation, $id, $d) {
                 array('id' => 'nextButton', 'class' => 'btn btn-primary'));
     } else if ($buttonlocation == 'report') {
         $newurl = page_url(1, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('navstartagain', 'digitala'),
+        if ($remaining == 0) {
+            $string = 'navstartagain';
+        } else {
+            $string = 'navtryagain';
+        }
+        $out .= html_writer::tag('a href=' . $newurl, get_string($string, 'digitala'),
                 array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
     }
     $out .= html_writer::end_div();
@@ -419,7 +424,7 @@ function create_microphone($id) {
     $out = html_writer::tag('br', '');
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
     $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . ' ' . $stopicon);
-    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon);
+    $out .= create_button('listenButton', 'btn btn-primary listen-btn ml-2', get_string('listenbutton', 'digitala') . ' ' . $listenicon);
 
     return $out;
 }
@@ -467,12 +472,16 @@ function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $typ
 function save_attempt($assignment, $filename, $evaluation) {
     global $DB;
 
-    if ($DB->record_exists('digitala_attempts', array('digitala' => $assignment->instanceid,
-                                                      'userid' => $assignment->userid))) {
-        return;
+    $attempt = get_attempt($assignment->instanceid);
+
+    if (isset($attempt)) {
+        $attempt->attemptnumber++;
+    } else {
+        $attempt = new stdClass();
     }
 
-    $attempt = new stdClass();
+    $timenow = time();
+
     $attempt->digitala = $assignment->instanceid;
     $attempt->userid = $assignment->userid;
     $attempt->file = $filename;
@@ -491,13 +500,15 @@ function save_attempt($assignment, $filename, $evaluation) {
     } else {
         $attempt->gop_score = $evaluation->GOP_score;
     }
-
-    $timenow = time();
-
-    $attempt->timecreated = $timenow;
     $attempt->timemodified = $timenow;
 
-    $DB->insert_record('digitala_attempts', $attempt);
+    if (isset($attempt->attemptnumber)) {
+        $DB->update_record('digitala_attempts', $attempt);
+    } else {
+        $attempt->timecreated = $timenow;
+        $DB->insert_record('digitala_attempts', $attempt);
+    }
+
 }
 
 /**
@@ -620,5 +631,68 @@ function create_fixed_box() {
     $out .= html_writer::tag('iframe src=' .
     'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
     '', array('id' => 'feedbacksite', 'class' => 'collapse'));
+    return $out;
+}
+
+/**
+ * Creates attempt number visualization for assignment view.
+ */
+function create_attempt_number($assignment) {
+    $remaining = $assignment->attemptlimit;
+    if ($remaining == 0) {
+        $out = get_string('attemptsunlimited', 'mod_digitala');
+    } else {
+        $attempt = get_attempt($assignment->instanceid);
+        if (isset($attempt)) {
+            $remaining -= $attempt->attemptnumber;
+        }
+    
+        $out = get_string('attemptsremaining', 'mod_digitala', $remaining);
+    }
+
+    return $out;
+}
+
+/**
+ * Creates attempt modal.
+ */
+function create_attempt_modal($assignment) {
+    $remaining = $assignment->attemptlimit;
+
+    $out = html_writer::tag('button', get_string('submit', 'mod_digitala'),
+    array('id' => 'submitModalButton','type' => 'button', 'class' => 'btn btn-primary ml-2', 'data-toggle' => 'modal',
+          'data-target' => '#attemptModal', 'style' => 'display: none'));
+    $out .= html_writer::start_div('modal', array('id' => 'attemptModal', 'tabindex' => '-1', 'role' => 'dialog',
+                                                  'aria-labelledby' => 'submitModal', 'aria-hidden' => 'true'));
+    $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
+    $out .= html_writer::start_div('modal-content');
+    $out .= html_writer::start_div('modal-header');
+    $out .= html_writer::tag('h5', get_string('submittitle', 'digitala'), array('class' => 'modal-title'));
+    $out .= html_writer::start_tag('button', array('class' => 'close', 'data-dismiss' => 'modal',
+                                                   'aria-label' => get_string('submitclose', 'mod_digitala')));
+    $out .= html_writer::tag('span', '&times;', array('aria-hidden' => 'true'));
+    $out .= html_writer::end_tag('button');
+    $out .= html_writer::end_div();
+    $out .= html_writer::start_div('modal-body');
+    $out .= html_writer::start_tag('p');
+    if ($remaining == 0) {
+        $out .= get_string('attemptsunlimited', 'mod_digitala');
+    } else {
+        $attempt = get_attempt($assignment->instanceid);
+        if (isset($attempt)) {
+            $remaining -= $attempt->attemptnumber;
+        }
+        $out .= get_string('submitbody', 'digitala', $remaining);
+    }
+    $out .= html_writer::end_tag('p');
+    $out .= html_writer::end_div();
+    $out .= html_writer::start_div('modal-footer');
+    $out .= html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
+                             array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
+    $out .= create_answerrecording_form($assignment);
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
     return $out;
 }

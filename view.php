@@ -80,10 +80,10 @@ if ($pagenum == 0) {
 } else if ($pagenum == 1) {
     $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id, $USER->username,
                                 $id, $d, $moduleinstance->assignment, $moduleinstance->resources,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang));
+                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit));
 } else {
     $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang));
+                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit));
 }
 
 echo $OUTPUT->header();
