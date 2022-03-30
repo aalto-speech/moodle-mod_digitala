@@ -424,7 +424,8 @@ function create_microphone($id) {
     $out = html_writer::tag('br', '');
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
     $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . ' ' . $stopicon);
-    $out .= create_button('listenButton', 'btn btn-primary listen-btn ml-2', get_string('listenbutton', 'digitala') . ' ' . $listenicon);
+    $out .= create_button('listenButton', 'btn btn-primary listen-btn ml-2',
+                          get_string('listenbutton', 'digitala') . ' ' . $listenicon);
 
     return $out;
 }
@@ -646,7 +647,7 @@ function create_attempt_number($assignment) {
         if (isset($attempt)) {
             $remaining -= $attempt->attemptnumber;
         }
-    
+
         $out = get_string('attemptsremaining', 'mod_digitala', $remaining);
     }
 
@@ -660,8 +661,8 @@ function create_attempt_modal($assignment) {
     $remaining = $assignment->attemptlimit;
 
     $out = html_writer::tag('button', get_string('submit', 'mod_digitala'),
-    array('id' => 'submitModalButton','type' => 'button', 'class' => 'btn btn-primary ml-2', 'data-toggle' => 'modal',
-          'data-target' => '#attemptModal', 'style' => 'display: none'));
+                            array('id' => 'submitModalButton', 'type' => 'button', 'class' => 'btn btn-primary ml-2',
+                                  'data-toggle' => 'modal',  'data-target' => '#attemptModal', 'style' => 'display: none'));
     $out .= html_writer::start_div('modal', array('id' => 'attemptModal', 'tabindex' => '-1', 'role' => 'dialog',
                                                   'aria-labelledby' => 'submitModal', 'aria-hidden' => 'true'));
     $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
