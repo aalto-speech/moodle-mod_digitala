@@ -90,7 +90,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
         } else {
-            $out .= create_card('assignmentrecord', create_attempt_number($assignment).create_microphone('assignment').create_attempt_modal($assignment));
+            $out .= create_card('assignmentrecord', create_attempt_number($assignment).
+                                                    create_microphone('assignment').create_attempt_modal($assignment));
             $out .= create_nav_buttons('assignmentprev', $assignment->id, $assignment->d);
         }
         $out .= end_column();
