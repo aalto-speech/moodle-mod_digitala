@@ -402,7 +402,8 @@ function create_nav_buttons($buttonlocation, $id, $d) {
 /**
  * Creates an instance of microphone with start and stop button
  *
- * @param string $id
+ * @param string $id phasename (info, assignment) of the microphone
+ * @param number $maxlength maximum length of recording in seconds
  */
 function create_microphone($id, $maxlength = 0) {
     $starticon = '<svg width="16" height="16" fill="currentColor"' .
@@ -647,6 +648,7 @@ function create_fixed_box() {
 
 /**
  * Converts seconds to formatted time string
+ * @param number $secs seconds set by teacher when creating activity
  */
 function convertsecondstostring($secs) {
     $hours = floor($secs / 3600);
