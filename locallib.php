@@ -355,10 +355,16 @@ function create_report_tabs($gradings, $holistic) {
  * @param string $id of the button
  * @param string $class of the button
  * @param string $text of the button
+ * @param bool $disabled value of the button
  *
  */
-function create_button($id, $class, $text) {
-    $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class));
+function create_button($id, $class, $text, $disabled = false) {
+    if ($disabled) {
+        $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class, 'disabled' => 'true'));
+    } else {
+        $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class));
+    }
+
     return $out;
 }
 
@@ -419,7 +425,7 @@ function create_microphone($id) {
     $out = html_writer::tag('br', '');
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
     $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . ' ' . $stopicon);
-    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon);
+    $out .= create_button('listen', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon, true);
 
     return $out;
 }

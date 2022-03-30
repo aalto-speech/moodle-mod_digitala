@@ -6,115 +6,128 @@
  */
 import RecordRTC from 'RecordRTC';
 import mdlcfg from 'core/config';
+import {get_strings as getStrings} from 'core/str';
 
 let recorder;
-let isRecording = false;
+const recButton = document.getElementById('record');
+const listenButton = document.getElementById('listen');
 let audio;
+let langStrings;
+let pagenum;
+let assignmentId;
+let userId;
+let username;
+let maxLength;
+let timeout;
 
-const startStopRecording = (pagenum, assignmentId, userId, username) => {
-    switch (isRecording) {
-        case false:
-            navigator.mediaDevices.getUserMedia({audio: true})
-                .then(stream => {
-                    const options = {
-                        audioBitsPerSecond: 16000,
-                        type: 'audio',
-                        recorderType: RecordRTC.StereoAudioRecorder,
-                        mimeType: 'audio/wav',
-                        numberOfAudioChannels: 1
-                    };
-                    recorder = new RecordRTC(stream, options);
-                    isRecording = true;
+const startRecording = () => {
+    navigator.mediaDevices.getUserMedia({audio: true})
+    .then(stream => {
+        const options = {
+            audioBitsPerSecond: 16000,
+            type: 'audio',
+            recorderType: RecordRTC.StereoAudioRecorder,
+            mimeType: 'audio/wav',
+            numberOfAudioChannels: 1,
+            disableLogs: true
+        };
+        recorder = new RecordRTC(stream, options);
 
-                    recorder.startRecording();
-                    window.console.log('started to record');
+        recorder.startRecording();
+        window.console.log('Digitala: Started to record');
 
-                    return;
-                })
-                .catch((err) => {
-                    window.console.error(err);
-                });
-            break;
+        recButton.textContent = langStrings[1];
+        recButton.onclick = stopRecording;
+        listenButton.disabled = true;
 
-        case true:
-            isRecording = false;
-            recorder.stopRecording(() => {
-                const audioBlob = recorder.getBlob();
-                window.console.log('audioBlob:', audioBlob);
+        timeout = setTimeout(stopRecording, maxLength * 100);
+        return;
+    })
+    .catch((err) => {
+        window.console.error(err);
+    });
+};
 
-                const audioUrl = URL.createObjectURL(audioBlob);
-                audio = new Audio(audioUrl);
-                window.console.log('audioUrl', audioUrl);
+const stopRecording = () => {
+    if (recorder.getState() === "recording") {
+        recorder.stopRecording(() => {
+            const audioBlob = recorder.getBlob();
+            const audioUrl = URL.createObjectURL(audioBlob);
+            audio = new Audio(audioUrl);
 
-                if (pagenum === 1) {
-                    window.console.log('fuu >', pagenum, assignmentId, userId, username);
+            if (pagenum === 1) {
+                const form = new FormData();
+                form.append('repo_id', '5');
+                form.append('ctx_id', mdlcfg.contextid);
+                form.append('itemid', '0');
+                form.append('savepath', '/');
+                form.append('sesskey', mdlcfg.sesskey);
+                form.append('repo_upload_file', audioBlob,
+                    `ans-${assignmentId}-${userId}-${username}-${new Date().valueOf()}.wav`);
+                form.append('overwrite', '1');
 
-                    const form = new FormData();
-                    form.append('repo_id', '5');
-                    form.append('ctx_id', mdlcfg.contextid);
-                    form.append('itemid', '0');
-                    form.append('savepath', '/');
-                    form.append('sesskey', mdlcfg.sesskey);
-                    form.append('repo_upload_file', audioBlob,
-                        `ans-${assignmentId}-${userId}-${username}-${new Date().valueOf()}.wav`);
-                    form.append('overwrite', '1');
-
-                    const req = new XMLHttpRequest();
-                    req.open('POST', mdlcfg.wwwroot + '/repository/repository_ajax.php?action=upload');
-                    req.addEventListener('readystatechange', (event) => {
-                        window.console.log(event);
-                        window.console.log(JSON.parse(event.target.response));
+                const req = new XMLHttpRequest();
+                req.open('POST', mdlcfg.wwwroot + '/repository/repository_ajax.php?action=upload');
+                req.addEventListener('readystatechange', (event) => {
+                    if (event.target.readyState === 4) {
                         document.forms.answerrecording[0].value = event.target.response;
-                        window.console.log('Enable submit button');
                         document.getElementById('id_submitbutton').style.display = '';
-                    });
-                    req.send(form);
-                }
-            });
-            window.console.log(M.cfg);
-            window.console.log('recording stopped');
-            break;
+                    }
+                });
+                req.send(form);
+            }
+            recButton.textContent = langStrings[0];
+            recButton.onclick = startRecording;
+            listenButton.disabled = false;
+            clearTimeout(timeout);
+        });
+        window.console.log('Digitala: Recording stopped');
     }
+
+
+
 };
 
 const listenRecording = () => {
     const microphoneIcon = document.getElementById('microphoneIconBox');
     if (audio !== undefined) {
         audio.play();
-        microphoneIcon.style.border = '2.5px dashed green';
+        if (pagenum === 0) {
+            microphoneIcon.style.border = '2.5px dashed green';
+        }
+
     } else {
-        microphoneIcon.style.border = '2.5px dashed red';
+        if (pagenum === 0) {
+            microphoneIcon.style.border = '2.5px dashed red';
+        }
+
     }
 };
 
-export const initializeMicrophone = (pagenum, assignmentId, userId, username) => {
-    window.console.log('Starting to initalize microphones');
+export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, usernameIn, maxLengthIn) => {
+    window.console.log('Digitala: Starting to initalize microphones');
+
+    pagenum = pagenumIn;
+    assignmentId = assignmentIdIn;
+    userId = userIdIn;
+    username = usernameIn;
+    maxLength = maxLengthIn;
+    langStrings = await getStrings(
+        [
+            {
+                key: 'startbutton-again',
+                component: 'digitala'
+            },
+            {
+                key: 'stopbutton',
+                component: 'digitala'
+
+            }
+        ]
+    );
+
     if (pagenum !== 2) {
-        const recButton = document.getElementById('record');
-        const stopButton = document.getElementById('stopRecord');
-        const listenButton = document.getElementById('listenButton');
-        listenButton.disabled = true;
-
-        window.console.log('page number', pagenum);
-
-        recButton.onclick = () => {
-            recButton.disabled = true;
-            stopButton.disabled = false;
-            listenButton.disabled = true;
-            recButton.style.display = 'none';
-            stopButton.style.display = 'inline-block';
-            startStopRecording(pagenum, assignmentId, userId, username);
-        };
-        stopButton.onclick = () => {
-            recButton.disabled = false;
-            stopButton.disabled = true;
-            listenButton.disabled = false;
-            recButton.style.display = 'inline-block';
-            stopButton.style.display = 'none';
-            startStopRecording(pagenum, assignmentId, userId, username);
-        };
-        listenButton.onclick = () => {
-            listenRecording();
-        };
+        recButton.onclick = startRecording;
+        listenButton.onclick = listenRecording;
     }
 };

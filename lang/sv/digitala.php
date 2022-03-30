@@ -53,6 +53,7 @@ $string['navfeedback'] = 'Anna palautetta';
 $string['info'] = 'Aloitus';
 $string['infotext'] = 'Kokeile mikrofonin toimintaa ennen tehtävän tekemistä.';
 $string['startbutton'] = 'Nauhoita';
+$string['startbutton-again'] = 'Börja igen';
 $string['stopbutton'] = 'Pysäytä';
 $string['listenbutton'] = 'Kuuntele nauhoitus';
 $string['assignmentrecord'] = 'Nauhoita vastauksesi.';
