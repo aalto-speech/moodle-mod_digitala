@@ -64,6 +64,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         // For the info text and microphone.
         $out .= start_column();
         $out .= create_card('microphone', create_microphone_icon('info'));
+        $out .= 'Some additional text here for test too';
         $out .= create_card('info', get_string('infotext', 'digitala') . create_microphone('info'));
         $out .= create_nav_buttons('info', $info->id, $info->d);
         $out .= end_column();
