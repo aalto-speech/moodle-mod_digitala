@@ -142,5 +142,29 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022031601, 'digitala');
     }
 
+    if ($oldversion < 2022033001) {
+
+        // Define field maxlength to be added to digitala.
+        $table = new xmldb_table('digitala');
+        $field = new xmldb_field('maxlength', XMLDB_TYPE_INTEGER, '10', null, null, null, '0', 'resourcesformat');
+
+        // Conditionally launch add field maxlength.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field maxlength to be added to digitala_attempts.
+        $table = new xmldb_table('digitala_attempts');
+        $field = new xmldb_field('recordinglength', XMLDB_TYPE_INTEGER, '10', null, null, null, '0', 'timemodified');
+
+        // Conditionally launch add field maxlength.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Digitala savepoint reached.
+        upgrade_mod_savepoint(true, 2022033001, 'digitala');
+    }
+
     return true;
 }
