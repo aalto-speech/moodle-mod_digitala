@@ -423,6 +423,10 @@ function create_microphone($id) {
     ' 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486' .
     ' 4.486 0 0 1 12.025 8z"/></svg>';
     $out = html_writer::tag('br', '');
+    $out .= html_writer::start_tag('p', array('id' => 'kukkaruukku'));
+    $out .= html_writer::tag('span', '00:00', array('id' => 'recordingLength'));
+    $out .= html_writer::tag('span', ' / 01:10');
+    $out .= html_writer::end_tag('p');
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
     $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . ' ' . $stopicon);
     $out .= create_button('listen', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon, true);

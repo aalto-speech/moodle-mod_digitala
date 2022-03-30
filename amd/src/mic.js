@@ -19,33 +19,70 @@ let userId;
 let username;
 let maxLength;
 let timeout;
+let interval;
+let sec;
 
-const startRecording = () => {
-    navigator.mediaDevices.getUserMedia({audio: true})
-    .then(stream => {
-        const options = {
-            audioBitsPerSecond: 16000,
-            type: 'audio',
-            recorderType: RecordRTC.StereoAudioRecorder,
-            mimeType: 'audio/wav',
-            numberOfAudioChannels: 1,
-            disableLogs: true
-        };
-        recorder = new RecordRTC(stream, options);
+const convertSecondsToString = (seconds) => {
+    let hours = Math.floor(seconds / 3600);
+    let minutes = Math.floor((seconds - (hours * 3600)) / 60);
+    let second = Math.floor(seconds - (hours * 3600) - (minutes * 60));
 
-        recorder.startRecording();
-        window.console.log('Digitala: Started to record');
+    hours = hours === 0 ? "" : `${hours}:`;
+    minutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    second = second < 10 ? `0${second}` : `${second}`;
 
-        recButton.textContent = langStrings[1];
-        recButton.onclick = stopRecording;
-        listenButton.disabled = true;
+    return `${hours}${minutes}:${second}`;
+};
 
-        timeout = setTimeout(stopRecording, maxLength * 100);
-        return;
-    })
-    .catch((err) => {
-        window.console.error(err);
-    });
+const startRecording = async () => {
+    const notGranted = (await navigator.mediaDevices.enumerateDevices())[0].label === "";
+
+    if (notGranted) {
+        try {
+            navigator.mediaDevices.getUserMedia({audio: true});
+            recButton.textContent = langStrings[2];
+            return;
+        } catch {
+            recButton.textContent = langStrings[3];
+            return;
+        }
+    }
+
+    if (navigator.mediaDevices !== undefined) {
+        navigator.mediaDevices.getUserMedia({audio: true})
+        .then(stream => {
+            const options = {
+                audioBitsPerSecond: 16000,
+                desiredSampRate: 16000,
+                type: 'audio',
+                recorderType: RecordRTC.StereoAudioRecorder,
+                mimeType: 'audio/wav',
+                numberOfAudioChannels: 1,
+                disableLogs: true
+            };
+            recorder = new RecordRTC(stream, options);
+
+            recorder.startRecording();
+            window.console.log('Digitala: Started to record');
+
+            recButton.textContent = langStrings[1];
+            recButton.onclick = stopRecording;
+            listenButton.disabled = true;
+
+            sec = 0;
+            interval = setInterval(() => {
+                sec += 1;
+                document.getElementById('recordingLength').textContent = convertSecondsToString(sec);
+            }, 1000);
+            window.console.log(interval);
+
+            timeout = setTimeout(stopRecording, maxLength * 1000);
+            return;
+        })
+        .catch(() => {
+            recButton.textContent = langStrings[3];
+        });
+    }
 };
 
 const stopRecording = () => {
@@ -80,6 +117,7 @@ const stopRecording = () => {
             recButton.onclick = startRecording;
             listenButton.disabled = false;
             clearTimeout(timeout);
+            clearInterval(interval);
         });
         window.console.log('Digitala: Recording stopped');
     }
@@ -120,6 +158,16 @@ export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, u
             },
             {
                 key: 'stopbutton',
+                component: 'digitala'
+
+            },
+            {
+                key: 'startbutton-no_permissions',
+                component: 'digitala'
+
+            },
+            {
+                key: 'startbutton-error',
                 component: 'digitala'
 
             }
