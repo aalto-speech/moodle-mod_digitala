@@ -368,6 +368,7 @@ function create_button($id, $class, $text) {
  * @param string $buttonlocation location (info, assignmentprev, assignmentnext report) of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
+ * @param number $remaining remaining number of attempts used in report page
  */
 function create_nav_buttons($buttonlocation, $id, $d, $remaining = 0) {
     $out = html_writer::start_div('navbuttons');
@@ -637,6 +638,8 @@ function create_fixed_box() {
 
 /**
  * Creates attempt number visualization for assignment view.
+ *
+ * @param digitala_assignment $assignment - assignment containing id information
  */
 function create_attempt_number($assignment) {
     $remaining = $assignment->attemptlimit;
@@ -656,6 +659,8 @@ function create_attempt_number($assignment) {
 
 /**
  * Creates attempt modal.
+ *
+ * @param digitala_assignment $assignment - assignment that this object is created for
  */
 function create_attempt_modal($assignment) {
     $remaining = $assignment->attemptlimit;
