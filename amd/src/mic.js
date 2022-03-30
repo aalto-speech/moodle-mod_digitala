@@ -69,7 +69,7 @@ const startRecording = async () => {
             recorder.startRecording();
             window.console.log('Digitala: Started to record');
 
-            recButton.textContent = langStrings[1];
+            recButton.innerHTML = "<span>" + langStrings[1] + "</span> " + document.getElementById('stopIcon').innerHTML;
             recButton.onclick = stopRecording;
             listenButton.disabled = true;
 
@@ -78,9 +78,7 @@ const startRecording = async () => {
                 sec += 1;
                 document.getElementById('recordingLength').textContent = convertSecondsToString(sec);
             }, 1000);
-            window.console.log(interval);
 
-            window.console.log(maxLength, typeof maxLength);
             if (maxLength !== "0") {
                 timeout = setTimeout(stopRecording, maxLength * 1000);
             }
@@ -122,7 +120,7 @@ const stopRecording = () => {
                 });
                 req.send(form);
             }
-            recButton.textContent = langStrings[0];
+            recButton.innerHTML = "<span>" + langStrings[0] + "</span> " + document.getElementById('startIcon').innerHTML;
             recButton.onclick = startRecording;
             listenButton.disabled = false;
             clearTimeout(timeout);

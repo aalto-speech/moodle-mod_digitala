@@ -430,13 +430,16 @@ function create_microphone($id, $maxlength = 0) {
     }
 
     $out = html_writer::tag('br', '');
-    $out .= html_writer::start_tag('p', array('id' => 'kukkaruukku'));
+    $out .= html_writer::div($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
+    $out .= html_writer::div($stopicon, '', array('id' => 'stopIcon', 'style' => 'display: none;'));
+    $out .= html_writer::start_tag('p', array('id' => 'recordTimer'));
     $out .= html_writer::tag('span', '00:00', array('id' => 'recordingLength'));
     $out .= html_writer::tag('span', $limit);
     $out .= html_writer::end_tag('p');
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
     $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . ' ' . $stopicon);
     $out .= create_button('listen', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon, true);
+    $out .= html_writer::tag('br', '');
 
     return $out;
 }
