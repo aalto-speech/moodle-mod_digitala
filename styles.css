@@ -172,10 +172,11 @@
     right: 2.5vw;
 }
 
-.modal-footer .form-group {
-    margin: 0 !important;
+.modal-footer>.mform>.form-group {
+    margin: 0;
 }
 
 .modal-footer .col-form-label {
-    display: none !important;
+    flex: 0;
+    padding: 0;
 }
