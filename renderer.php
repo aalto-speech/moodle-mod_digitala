@@ -173,7 +173,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
      */
     protected function render_digitala_results(digitala_results $result) {
         $systemcontext = context_system::instance();
-        // First version of user permissions check
+        // First version of user permissions check.
         if (has_capability('mod/digitala:addinstance', $systemcontext)) {
             $out = html_writer::tag('h5', 'Student results');
 

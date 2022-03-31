@@ -31,6 +31,7 @@
  * @param number $page number of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
+ * @param number $studentid id for the student to render report for teacher
  */
 function page_url($page, $id, $d, $studentid=null) {
     return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page, 'studentid' => $studentid));
@@ -549,6 +550,8 @@ function get_user($id) {
  *
  * @param mixed $attempt - object containing attempt information
  * @param int $instanceid - instance id of this digitala activity
+ * @param int $id - activity id
+ * @param int $d - course id
  * @return $cells - cells containing table data
  */
 function create_result_row($attempt, $instanceid, $id, $d) {
