@@ -125,3 +125,11 @@ $string['api'] = 'Address for API-server';
 $string['api_help'] = 'Give address to API-server.';
 $string['key'] = 'Key for API-server';
 $string['key_help'] = 'Give valid key for API-server authentication';
+
+$string['results_link'] = 'See report';
+$string['results_student'] = 'Student';
+$string['results_text'] = 'Type';
+$string['results_score'] = 'Holistic/GOP';
+$string['results_time'] = 'Time';
+$string['results_tries'] = 'Tries';
+$string['results_report'] = 'Report';

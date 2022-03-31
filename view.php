@@ -65,9 +65,12 @@ $PAGE->set_context($modulecontext);
 $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
 $pagenum = optional_param('page', 0, PARAM_INT);
+
 if ($pagenum !== 3) {
     $content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
 }
+
+$studentid = optional_param('studentid', 0, PARAM_INT);
 
 $config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC',
 'chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'], 'waitSeconds' => 40, 'enforceDefine' => false];

@@ -32,8 +32,8 @@
  * @param number $id id of the course module
  * @param number $d id of the activity instance
  */
-function page_url($page, $id, $d) {
-    return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page));
+function page_url($page, $id, $d, $studentid=null) {
+    return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page, 'studentid' => $studentid));
 }
 
 /**
@@ -530,6 +530,7 @@ function get_all_attempts($instanceid) {
     $attempts = $DB->get_records('digitala_attempts', array('digitala'  => $instanceid));
     return $attempts;
 }
+
 /**
  * Load users name based on their id.
  *
@@ -550,7 +551,7 @@ function get_user($id) {
  * @param int $instanceid - instance id of this digitala activity
  * @return $cells - cells containing table data
  */
-function create_result_row($attempt, $instanceid) {
+function create_result_row($attempt, $instanceid, $id, $d) {
     global $DB;
 
     $digitalatype = $DB->get_record('digitala', array('id' => $instanceid));
@@ -566,7 +567,11 @@ function create_result_row($attempt, $instanceid) {
     }
     $time = new html_table_cell('TODO');
     $tries = new html_table_cell('TODO');
-    $reportlink = new html_table_cell('Linkki tähän');
+
+    $urltext = page_url(3, $id, $d, $attempt->userid);
+    $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
+    $reportlink = new html_table_cell($urllink);
+
     $cell->attributes['class'] = 'showFine';
 
     $cells = array($username, $type, $score, $time, $tries, $reportlink);

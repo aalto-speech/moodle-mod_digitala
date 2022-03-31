@@ -160,3 +160,11 @@ $string['api'] = 'API-palvelimen osoite';
 $string['api_help'] = 'Anna API-palvelimen osoite.';
 $string['key'] = 'API-palvelimen avain';
 $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
+
+$string['results_link'] = 'Visa rapport';
+$string['results_student'] = 'Student';
+$string['results_text'] = 'Typ';
+$string['results_score'] = 'Betyg/GOP';
+$string['results_time'] = 'Tid';
+$string['results_tries'] = 'Försök';
+$string['results_report'] = 'Rapport';

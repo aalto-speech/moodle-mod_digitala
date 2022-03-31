@@ -162,16 +162,17 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_results(digitala_results $result) {
-        $out = html_writer::tag('p', 'Hello results');
+        $out = html_writer::tag('h5', 'Student results');
 
         $table = new html_table();
 
         $headers = array(
-            new html_table_cell('Student'),
-            new html_table_cell('Type'),
-            new html_table_cell('Holistic/GOP'),
-            new html_table_cell('Time'), new html_table_cell('Tries'),
-            new html_table_cell('Report'));
+            new html_table_cell(get_string('results_student', 'digitala')),
+            new html_table_cell(get_string('results_text', 'digitala')),
+            new html_table_cell(get_string('results_score', 'digitala')),
+            new html_table_cell(get_string('results_time', 'digitala')),
+            new html_table_cell(get_string('results_tries', 'digitala')),
+            new html_table_cell(get_string('results_report', 'digitala')));
         foreach ($headers as $value) {
             $value->header = true;
         }
@@ -180,8 +181,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $attempts = get_all_attempts($result->instanceid);
 
         foreach ($attempts as $attempt) {
-            $out .= ' content of array row: ' . $attempt->userid . ', ';
-            $row = create_result_row($attempt, $result->instanceid);
+            $row = create_result_row($attempt, $result->instanceid, $result->id, $result->d);
             $table->data[] = $row;
         }
 
