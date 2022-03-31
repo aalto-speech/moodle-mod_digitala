@@ -519,6 +519,62 @@ function get_attempt($instanceid) {
 }
 
 /**
+ * Load all attempts from the database.
+ *
+ * @param int $instanceid - instance id of this digitala activity
+ * @return $attempts - object containing all attempt information
+ */
+function get_all_attempts($instanceid) {
+    global $DB;
+
+    $attempts = $DB->get_records('digitala_attempts', array('digitala'  => $instanceid));
+    return $attempts;
+}
+/**
+ * Load users name based on their id.
+ *
+ * @param int $id - id of the user
+ * @return $user - user object
+ */
+function get_user($id) {
+    global $DB;
+
+    $user = $DB->get_record('user', array('id' => $id));
+    return $user;
+}
+
+/**
+ * Load all attempts from the database.
+ *
+ * @param mixed $attempt - object containing attempt information
+ * @param int $instanceid - instance id of this digitala activity
+ * @return $cells - cells containing table data
+ */
+function create_result_row($attempt, $instanceid) {
+    global $DB;
+
+    $digitalatype = $DB->get_record('digitala', array('id' => $instanceid));
+
+    $user = get_user($attempt->userid);
+
+    $username = new html_table_cell($user->username);
+    $type = new html_table_cell($digitalatype->attempttype);
+    if ($attempt->holistic) {
+        $score = new html_table_cell($attempt->holistic);
+    } else {
+        $score = new html_table_cell($attempt->gop_score);
+    }
+    $time = new html_table_cell('TODO');
+    $tries = new html_table_cell('TODO');
+    $reportlink = new html_table_cell('Linkki tähän');
+    $cell->attributes['class'] = 'showFine';
+
+    $cells = array($username, $type, $score, $time, $tries, $reportlink);
+    return $cells;
+}
+
+
+/**
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
  * @param array $formdata - form data includes audio as base64 encoded string

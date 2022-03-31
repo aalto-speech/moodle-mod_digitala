@@ -154,4 +154,39 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= end_container();
         return $out;
     }
+
+    /**
+     * Renders the results panel for teacher.
+     *
+     * @param digitala_results $result - An instance of digitala_results to render.
+     * @return $out - HTML string to output.
+     */
+    protected function render_digitala_results(digitala_results $result) {
+        $out = html_writer::tag('p', 'Hello results');
+
+        $table = new html_table();
+
+        $headers = array(
+            new html_table_cell('Student'),
+            new html_table_cell('Type'),
+            new html_table_cell('Holistic/GOP'),
+            new html_table_cell('Time'), new html_table_cell('Tries'),
+            new html_table_cell('Report'));
+        foreach ($headers as $value) {
+            $value->header = true;
+        }
+
+        $table->data[] = $headers;
+        $attempts = get_all_attempts($result->instanceid);
+
+        foreach ($attempts as $attempt) {
+            $out .= ' content of array row: ' . $attempt->userid . ', ';
+            $row = create_result_row($attempt, $result->instanceid);
+            $table->data[] = $row;
+        }
+
+        $out .= html_writer::table($table);
+
+        return $out;
+    }
 }

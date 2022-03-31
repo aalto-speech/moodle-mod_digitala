@@ -130,3 +130,23 @@ class digitala_report implements renderable {
         $this->attemptlang = $attemptlang;
     }
 }
+
+/**
+ * Implements a renderable report panel used on the last page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ */
+class digitala_results implements renderable {
+    /**
+     * Constructor
+     * @param int $instanceid - Instance id of the activty
+     * @param int $contextid - Context id of the activty
+     */
+    public function __construct($instanceid, $contextid) {
+        $this->instanceid = $instanceid;
+        $this->contextid = $contextid;
+    }
+}
