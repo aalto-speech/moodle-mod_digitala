@@ -18,7 +18,7 @@ namespace mod_digitala;
 
 defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 
-global $CFG;
+global $CFG, $DB;
 
 /**
  * Unit tests for adding a digitala plugin
@@ -74,8 +74,6 @@ class lib_test extends \advanced_testcase {
      * Test deleting a digitala instance.
      */
     public function test_digitala_delete_instance() {
-        global $DB;
-
         // Get the created digitala course.
         $course = $this->course;
 
@@ -92,8 +90,6 @@ class lib_test extends \advanced_testcase {
      * Test updating a digitala instance.
      */
     public function test_digitala_update_instance() {
-        global $DB;
-
         // Get the created digitala course.
         $course = $this->course;
 
