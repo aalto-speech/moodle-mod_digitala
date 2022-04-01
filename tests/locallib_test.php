@@ -278,68 +278,68 @@ class locallib_test extends \advanced_testcase {
     /**
      * Test saving answer recording.
      */
-    public function test_save_answerrecording() {
-        global $USER;
-        $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    // public function test_save_answerrecording() {
+    //     global $USER;
+    //     $context = \context_module::instance($this->digitala->cmid);
+    //     $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
-        $fileinfo = array(
-            'contextid' => \context_user::instance($USER->id)->id,
-            'component' => 'user',
-            'filearea' => 'draft',
-            'itemid' => 0,
-            'filepath' => '/',
-            'filename' => 'testing.wav',
-            'userid' => $USER->id,
-        );
-        $fs = get_file_storage();
-        $fs->create_file_from_string($fileinfo, 'I\'m an audio file, cool right!?');
-        $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
-                          $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
+    //     $fileinfo = array(
+    //         'contextid' => \context_user::instance($USER->id)->id,
+    //         'component' => 'user',
+    //         'filearea' => 'draft',
+    //         'itemid' => 0,
+    //         'filepath' => '/',
+    //         'filename' => 'testing.wav',
+    //         'userid' => $USER->id,
+    //     );
+    //     $fs = get_file_storage();
+    //     $fs->create_file_from_string($fileinfo, 'I\'m an audio file, cool right!?');
+    //     $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
+    //                       $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
 
-        $formdata = new \stdClass();
-        $formdata->audiostring = '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'; // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-        $result = save_answerrecording($formdata, $assignment);
-        $this->assertEquals('accessed without internet successful', $result);
-    }
+    //     $formdata = new \stdClass();
+    //     $formdata->audiostring = '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'; // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    //     $result = save_answerrecording($formdata, $assignment);
+    //     $this->assertEquals('accessed without internet successful', $result);
+    // }
 
     /**
      * Test creating answerrecording form without form data. Should render form.
      */
-    public function test_create_answerrecording_form_wo_data() {
-        global $USER;
-        $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    // public function test_create_answerrecording_form_wo_data() {
+    //     global $USER;
+    //     $context = \context_module::instance($this->digitala->cmid);
+    //     $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
-        $result = create_answerrecording_form($assignment);
-        if (PHPUnitVersion::series() < 9) {
-            $this->assertRegExp('/form id="answerrecording"/', $result);
-            $this->assertRegExp('/id=4/', $result);
-            $this->assertRegExp('/d=5/', $result);
-            $this->assertRegExp('/page=1/', $result);
-            $this->assertRegExp('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
-        } else {
-            $this->assertMatchesRegularExpression('/form id="answerrecording"/', $result);
-            $this->assertMatchesRegularExpression('/id=4/', $result);
-            $this->assertMatchesRegularExpression('/d=5/', $result);
-            $this->assertMatchesRegularExpression('/page=1/', $result);
-            $this->assertMatchesRegularExpression('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
-        }
+    //     $result = create_answerrecording_form($assignment);
+    //     if (PHPUnitVersion::series() < 9) {
+    //         $this->assertRegExp('/form id="answerrecording"/', $result);
+    //         $this->assertRegExp('/id=4/', $result);
+    //         $this->assertRegExp('/d=5/', $result);
+    //         $this->assertRegExp('/page=1/', $result);
+    //         $this->assertRegExp('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
+    //     } else {
+    //         $this->assertMatchesRegularExpression('/form id="answerrecording"/', $result);
+    //         $this->assertMatchesRegularExpression('/id=4/', $result);
+    //         $this->assertMatchesRegularExpression('/d=5/', $result);
+    //         $this->assertMatchesRegularExpression('/page=1/', $result);
+    //         $this->assertMatchesRegularExpression('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
+    //     }
 
-    }
+    // }
 
     /**
      * Test creating answerrecording form without form data. Should not render form.
      */
-    public function test_create_answerrecording_form_with_data() {
-        global $USER;
-        \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-        $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    // public function test_create_answerrecording_form_with_data() {
+    //     global $USER;
+    //     \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    //     $context = \context_module::instance($this->digitala->cmid);
+    //     $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
-        $result = create_answerrecording_form($assignment);
-        $this->assertEquals('No evaluation was found. Please return to previous page.', $result);
-    }
+    //     $result = create_answerrecording_form($assignment);
+    //     $this->assertEquals('No evaluation was found. Please return to previous page.', $result);
+    // }
 
     /**
      * Test saving a readaloud attempt to database.

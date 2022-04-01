@@ -18,7 +18,7 @@ namespace mod_digitala;
 
 defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 
-global $CFG, $DB;
+global $CFG;
 
 /**
  * Unit tests for adding a digitala plugin
@@ -38,83 +38,83 @@ class lib_test extends \advanced_testcase {
         $this->assertEquals(2, 1 + 1);
     }
 
-    // /**
-    //  * Setup for unit test.
-    //  */
-    // protected function setUp(): void {
-    //     $this->setAdminUser();
-    //     $this->resetAfterTest();
-    //     $this->course = $this->getDataGenerator()->create_course();
-    // }
+    /**
+     * Setup for unit test.
+     */
+    protected function setUp(): void {
+        $this->setAdminUser();
+        $this->resetAfterTest();
+        $this->course = $this->getDataGenerator()->create_course();
+    }
 
-    // /**
-    //  * Test adding digitala plugin.
-    //  */
-    // public function test_add_digitala() {
-    //     $digitala = $this->create_digitala();
-    //     $this->assertEquals('new_digitala', $digitala->name);
-    // }
+    /**
+     * Test adding digitala plugin.
+     */
+    public function test_add_digitala() {
+        $digitala = $this->create_digitala();
+        $this->assertEquals('new_digitala', $digitala->name);
+    }
 
-    // /**
-    //  * Create new digitala activity.
-    //  */
-    // private function create_digitala() {
-    //     $course = $this->course;
-    //     return $this->getDataGenerator()->create_module('digitala', [
-    //             'course' => $this->course->id,
-    //             'name' => 'new_digitala',
-    //             'attemptlang' => 'fin',
-    //             'attempttype' => 'freeform',
-    //             'assignment' => 'Assignment text',
-    //             'resources' => array('text' => 'Resource text', 'format' => 1),
-    //         ]);
-    // }
+    /**
+     * Create new digitala activity.
+     */
+    private function create_digitala() {
+        $course = $this->course;
+        return $this->getDataGenerator()->create_module('digitala', [
+                'course' => $this->course->id,
+                'name' => 'new_digitala',
+                'attemptlang' => 'fin',
+                'attempttype' => 'freeform',
+                'assignment' => 'Assignment text',
+                'resources' => array('text' => 'Resource text', 'format' => 1),
+            ]);
+    }
 
-    // /**
-    //  * Test deleting a digitala instance.
-    //  */
-    // public function test_digitala_delete_instance() {
-    //     // Get the created digitala course.
-    //     $course = $this->course;
+    /**
+     * Test deleting a digitala instance.
+     */
+    public function test_digitala_delete_instance() {
+        // Get the created digitala course.
+        $course = $this->course;
 
-    //     $digitala = $this->create_digitala();
+        $digitala = $this->create_digitala();
 
-    //     digitala_delete_instance($digitala->course);
+        digitala_delete_instance($digitala->course);
 
-    //     // Check that the digitala course instance was removed.
-    //     $count = $DB->count_records('digitala', array('id' => $digitala->course));
-    //     $this->assertEquals(0, $count);
-    // }
+        // Check that the digitala course instance was removed.
+        $count = $DB->count_records('digitala', array('id' => $digitala->course));
+        $this->assertEquals(0, $count);
+    }
 
-    // /**
-    //  * Test updating a digitala instance.
-    //  */
-    // public function test_digitala_update_instance() {
-    //     // Get the created digitala course.
-    //     $course = $this->course;
+    /**
+     * Test updating a digitala instance.
+     */
+    public function test_digitala_update_instance() {
+        // Get the created digitala course.
+        $course = $this->course;
 
-    //     $digitala = $this->create_digitala();
-    //     $digitala->instance = 2;
-    //     $digitala->resources = array('text' => 'Resource text', 'format' => 1);
+        $digitala = $this->create_digitala();
+        $digitala->instance = 2;
+        $digitala->resources = array('text' => 'Resource text', 'format' => 1);
 
-    //     $passed = digitala_update_instance($digitala);
+        $passed = digitala_update_instance($digitala);
 
-    //     // Check that the digitala instance update returned true.
-    //     $this->assertEquals(true, $passed);
-    // }
+        // Check that the digitala instance update returned true.
+        $this->assertEquals(true, $passed);
+    }
 
-    // /**
-    //  * Test digitala file areas dummy function.
-    //  */
-    // public function test_digitala_get_file_areas() {
-    //     $this->assertEquals(array(), digitala_get_file_areas(null, null, null));
-    // }
+    /**
+     * Test digitala file areas dummy function.
+     */
+    public function test_digitala_get_file_areas() {
+        $this->assertEquals(array(), digitala_get_file_areas(null, null, null));
+    }
 
-    // /**
-    //  * Test digitala get file info dummy function.
-    //  */
-    // public function test_digitala_get_file_info() {
-    //     $this->assertEquals(null, digitala_get_file_info(null, null, null, null, null, null, null, null, null));
-    // }
+    /**
+     * Test digitala get file info dummy function.
+     */
+    public function test_digitala_get_file_info() {
+        $this->assertEquals(null, digitala_get_file_info(null, null, null, null, null, null, null, null, null));
+    }
 
 }
