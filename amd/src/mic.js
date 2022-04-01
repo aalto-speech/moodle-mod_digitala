@@ -27,7 +27,6 @@ const startStopRecording = (pagenum, assignmentId, userId, username) => {
                     isRecording = true;
 
                     recorder.startRecording();
-                    window.console.log('started to record');
 
                     return;
                 })
@@ -40,15 +39,11 @@ const startStopRecording = (pagenum, assignmentId, userId, username) => {
             isRecording = false;
             recorder.stopRecording(() => {
                 const audioBlob = recorder.getBlob();
-                window.console.log('audioBlob:', audioBlob);
 
                 const audioUrl = URL.createObjectURL(audioBlob);
                 audio = new Audio(audioUrl);
-                window.console.log('audioUrl', audioUrl);
 
                 if (pagenum === 1) {
-                    window.console.log('fuu >', pagenum, assignmentId, userId, username);
-
                     const form = new FormData();
                     form.append('repo_id', '5');
                     form.append('ctx_id', mdlcfg.contextid);
@@ -62,17 +57,12 @@ const startStopRecording = (pagenum, assignmentId, userId, username) => {
                     const req = new XMLHttpRequest();
                     req.open('POST', mdlcfg.wwwroot + '/repository/repository_ajax.php?action=upload');
                     req.addEventListener('readystatechange', (event) => {
-                        window.console.log(event);
-                        window.console.log(JSON.parse(event.target.response));
                         document.forms.answerrecording[0].value = event.target.response;
-                        window.console.log('Enable submit button');
-                        document.getElementById('id_submitbutton').style.display = '';
+                        document.getElementById('submitModalButton').style.display = '';
                     });
                     req.send(form);
                 }
             });
-            window.console.log(M.cfg);
-            window.console.log('recording stopped');
             break;
     }
 };
@@ -88,14 +78,11 @@ const listenRecording = () => {
 };
 
 export const initializeMicrophone = (pagenum, assignmentId, userId, username) => {
-    window.console.log('Starting to initalize microphones');
     if (pagenum !== 2) {
         const recButton = document.getElementById('record');
         const stopButton = document.getElementById('stopRecord');
         const listenButton = document.getElementById('listenButton');
         listenButton.disabled = true;
-
-        window.console.log('page number', pagenum);
 
         recButton.onclick = () => {
             recButton.disabled = true;

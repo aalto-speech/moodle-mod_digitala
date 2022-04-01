@@ -76,6 +76,25 @@ class mod_digitala_mod_form extends moodleform_mod {
         $mform->addElement('select', 'attempttype', get_string('attempttype', 'mod_digitala'), $typeoptions);
         $mform->addHelpButton('attempttype', 'attempttype', 'mod_digitala');
 
+        // Adding the "attemptnumber" field.
+        $limitoptions = array(
+            0 => get_string('unlimited', 'mod_digitala'),
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            4 => 4,
+            5 => 5,
+            6 => 6,
+            7 => 7,
+            8 => 8,
+            9 => 9,
+            10 => 10
+        );
+        $mform->addElement('select', 'attemptlimit', get_string('attemptlimit', 'mod_digitala'), $limitoptions);
+
+        $mform->addRule('attemptlimit', null, 'required', null, 'client');
+        $mform->addHelpButton('attemptlimit', 'attemptlimit', 'mod_digitala');
+
         // Adding the "assignment" field.
         $mform->addElement('textarea', 'assignment', get_string("assignment", "mod_digitala"),
                 array('rows' => 10, 'cols' => '64'));
