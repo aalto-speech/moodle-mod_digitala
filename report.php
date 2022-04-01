@@ -67,7 +67,7 @@ $mode = optional_param('mode', 'overview', PARAM_TEXT);
 $student = optional_param('student', 0, PARAM_INT);
 
 $systemcontext = context_system::instance();
-//if (has_capability('mod/digitala:viewdetailreport', $systemcontext)) {
+// Add permission check like: "if (has_capability('mod/digitala:viewdetailreport', $systemcontext))".
 if ($mode == 'detail') {
     $content = 'Coming soon';
 } else if ($mode == 'overview') {

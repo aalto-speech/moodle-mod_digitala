@@ -26,19 +26,25 @@
 
 
 /**
- * Used to generate page urls for digitala module.
+ * Used to generate page urls for digitala module student views.
  *
  * @param number $page number of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
- * @param number $studentid id for the student to render report for teacher
  */
 function page_url($page, $id, $d) {
     return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page));
 }
 
+/**
+ * Used to generate page urls for digitala module teacher results views.
+ *
+ * @param number $id id of the activity instance
+ * @param string $mode value to render all results on table or one spesific report
+ * @param number $studentid id of the student whose results tescher wants to see
+ */
 function results_url($id, $mode, $studentid=null) {
-    return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => $mode, 'studentid' => $studentid));
+    return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => $mode, 'student' => $studentid));
 }
 
 /**
