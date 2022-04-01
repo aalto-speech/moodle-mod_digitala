@@ -83,8 +83,10 @@ const startRecording = async() => {
             }, 1000);
 
             maxLength = maxLength * 1000;
-            if (maxLength !== "0") {
-                timeout = setTimeout(stopRecording, maxLength);
+            if (maxLength !== 0) {
+                timeout = setTimeout(() => {
+                    stopRecording();
+                }, maxLength);
             }
 
             return;
