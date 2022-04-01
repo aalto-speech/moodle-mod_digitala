@@ -3,7 +3,7 @@
 use AndrewNicols\Behat\ProfileManager;
 
 return [
-    'chrome' => ProfileManager::getBrowserProfile(
+    'audiochrome' => ProfileManager::getBrowserProfile(
         'chrome',
         'http://localhost:4444/wd/hub',
         true,
