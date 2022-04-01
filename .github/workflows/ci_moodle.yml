@@ -88,31 +88,12 @@ jobs:
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
 
-      - name: What is currently downloaded
-        run: ls -la
-
       - name: Install moodle-plugin-ci
         run: |
           moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
-
-      - name: What is currently downloaded
-        run: |
-          ls -la
-          cd plugin
-          ls -la
-          cd ..
-          cd moodle
-          ls -la
-          cat config.php
-          cd ..
-          cd moodledata
-          ls -la
-          cd ..
-          cd ci
-          ls -la
 
       - name: Check out moodle brownser configs base
         uses: actions/checkout@v2
@@ -123,10 +104,7 @@ jobs:
       - name: Add additional Behat Browsers
         run: |
           sed -i "s+// Extra config.+require_once('$(pwd)/moodle-browser-config/init.php');+g" moodle/config.php
-          cp $(pwd)/plugin/tests/configs/localprofiles-ci.php $(pwd)/moodle-browser-config/localprofiles.php
-          cd moodle-browser-config
-          ls -la
-          cat localprofiles.php
+          cp $(pwd)/plugin/tests/configs/localprofiles-ci $(pwd)/moodle-browser-config/localprofiles.php
 
       - name: PHP Lint
         if: ${{ !matrix.experimental }}
