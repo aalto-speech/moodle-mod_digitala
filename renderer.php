@@ -56,7 +56,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $systemcontext = context_system::instance();
         // First version of user permissions check.
         if (has_capability('mod/digitala:addinstance', $systemcontext)) {
-            $url = page_url(3, $progressbar->id, $progressbar->d);
+            $url = results_url($progressbar->id, 'overview');
             $out .= html_writer::link($url, 'Link to student results ');
         }
         return $out;
@@ -181,7 +181,6 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
             $headers = array(
                 new html_table_cell(get_string('results_student', 'digitala')),
-                new html_table_cell(get_string('results_text', 'digitala')),
                 new html_table_cell(get_string('results_score', 'digitala')),
                 new html_table_cell(get_string('results_time', 'digitala')),
                 new html_table_cell(get_string('results_tries', 'digitala')),

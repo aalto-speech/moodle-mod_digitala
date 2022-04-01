@@ -67,24 +67,15 @@ $mode = optional_param('mode', 'overview', PARAM_TEXT);
 $student = optional_param('student', 0, PARAM_INT);
 
 $systemcontext = context_system::instance();
-if (has_capability('mod/digitala:viewdetailreport', $systemcontext)) {
-    if ($mode == "detail") {
-        $config = ['paths' => ['chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'],
-                'waitSeconds' => 40, 'enforceDefine' => false];
-        $requirejs = 'require.config(' . json_encode($config) . ')';
-        $PAGE->requires->js_amd_inline($requirejs);
-        $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($mode));
-
-        $content = $OUTPUT->render(new digitala_short_assignment($moduleinstance->assignment, $moduleinstance->resources,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang));
-        $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $student));
-    } else {
-        $content = 'Nothing to see here, mate!';
-    }
+//if (has_capability('mod/digitala:viewdetailreport', $systemcontext)) {
+if ($mode == 'detail') {
+    $content = 'Coming soon';
+} else if ($mode == 'overview') {
+    $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $modulecontext->id, $id, $d));
 } else {
     $content = 'Nothing to see here, mate!';
 }
+
 
 echo $OUTPUT->header();
 

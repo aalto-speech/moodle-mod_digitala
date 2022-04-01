@@ -147,7 +147,7 @@ class digitala_results implements renderable {
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
      */
-    public function __construct($instanceid, $contextid, $id = 0, $d = 0) {
+    public function __construct($instanceid, $contextid, $id, $d) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;

@@ -33,8 +33,12 @@
  * @param number $d id of the activity instance
  * @param number $studentid id for the student to render report for teacher
  */
-function page_url($page, $id, $d, $studentid=null) {
-    return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page, 'studentid' => $studentid));
+function page_url($page, $id, $d) {
+    return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page));
+}
+
+function results_url($id, $mode, $studentid=null) {
+    return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => $mode, 'studentid' => $studentid));
 }
 
 /**
@@ -555,14 +559,9 @@ function get_user($id) {
  * @return $cells - cells containing table data
  */
 function create_result_row($attempt, $instanceid, $id, $d) {
-    global $DB;
-
-    $digitalatype = $DB->get_record('digitala', array('id' => $instanceid));
-
     $user = get_user($attempt->userid);
 
-    $username = new html_table_cell($user->username);
-    $type = new html_table_cell($digitalatype->attempttype);
+    $username = new html_table_cell($user->firstname . ' ' . $user->lastname);
     if ($attempt->holistic) {
         $score = new html_table_cell($attempt->holistic);
     } else {
@@ -571,13 +570,11 @@ function create_result_row($attempt, $instanceid, $id, $d) {
     $time = new html_table_cell('TODO');
     $tries = new html_table_cell('TODO');
 
-    $urltext = page_url(3, $id, $d, $attempt->userid);
+    $urltext = results_url($id, 'detail', $attempt->userid);
     $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
     $reportlink = new html_table_cell($urllink);
 
-    $cell->attributes['class'] = 'showFine';
-
-    $cells = array($username, $type, $score, $time, $tries, $reportlink);
+    $cells = array($username, $score, $time, $tries, $reportlink);
     return $cells;
 }
 
