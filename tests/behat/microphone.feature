@@ -43,7 +43,6 @@ Feature: Student can record with the microphone
     And I wait "2" seconds
     And I should see "Record again"
 
-
   Scenario: Listening button should always be visible
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
