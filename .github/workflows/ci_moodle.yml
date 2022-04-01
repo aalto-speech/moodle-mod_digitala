@@ -106,6 +106,7 @@ jobs:
           cd ..
           cd moodle
           ls -la
+          cat config.php
           cd ..
           cd moodledata
           ls -la
