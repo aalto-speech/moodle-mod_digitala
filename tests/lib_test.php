@@ -73,39 +73,39 @@ class lib_test extends \advanced_testcase {
     /**
      * Test deleting a digitala instance.
      */
-    public function test_digitala_delete_instance() {
-        global $DB;
+    // public function test_digitala_delete_instance() {
+    //     global $DB;
 
-        // Get the created digitala course.
-        $course = $this->course;
+    //     // Get the created digitala course.
+    //     $course = $this->course;
 
-        $digitala = $this->create_digitala();
+    //     $digitala = $this->create_digitala();
 
-        digitala_delete_instance($digitala->course);
+    //     digitala_delete_instance($digitala->course);
 
-        // Check that the digitala course instance was removed.
-        $count = $DB->count_records('digitala', array('id' => $digitala->course));
-        $this->assertEquals(0, $count);
-    }
+    //     // Check that the digitala course instance was removed.
+    //     $count = $DB->count_records('digitala', array('id' => $digitala->course));
+    //     $this->assertEquals(0, $count);
+    // }
 
     /**
      * Test updating a digitala instance.
      */
-    public function test_digitala_update_instance() {
-        global $DB;
+    // public function test_digitala_update_instance() {
+    //     global $DB;
 
-        // Get the created digitala course.
-        $course = $this->course;
+    //     // Get the created digitala course.
+    //     $course = $this->course;
 
-        $digitala = $this->create_digitala();
-        $digitala->instance = 2;
-        $digitala->resources = array('text' => 'Resource text', 'format' => 1);
+    //     $digitala = $this->create_digitala();
+    //     $digitala->instance = 2;
+    //     $digitala->resources = array('text' => 'Resource text', 'format' => 1);
 
-        $passed = digitala_update_instance($digitala);
+    //     $passed = digitala_update_instance($digitala);
 
-        // Check that the digitala instance update returned true.
-        $this->assertEquals(true, $passed);
-    }
+    //     // Check that the digitala instance update returned true.
+    //     $this->assertEquals(true, $passed);
+    // }
 
     /**
      * Test digitala file areas dummy function.
