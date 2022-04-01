@@ -48,7 +48,7 @@ $capabilities = array(
             'manager' => CAP_ALLOW,
         ],
     ],
-    'mod/digitala:viewspecificreport' => [
+    'mod/digitala:viewdetailreport' => [
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
