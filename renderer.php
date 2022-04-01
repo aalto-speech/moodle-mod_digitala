@@ -118,8 +118,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $attempt = get_attempt($report->instanceid);
 
         if (is_null($attempt)) {
+            $remaining = $report->attemptlimit;
             $out .= create_card('report', get_string('reportnotavailable', 'digitala'));
         } else {
+            $remaining = $report->attemptlimit  - $attempt->attemptnumber;
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
             $out .= create_attempt_number($report);
@@ -148,7 +150,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $out .= create_report_gop($attempt->gop_score);
             }
         }
-        $out .= create_nav_buttons('report', $report->id, $report->d, $report->attemptlimit - $attempt->attemptnumber);
+        $out .= create_nav_buttons('report', $report->id, $report->d, $remaining);
         $out .= create_fixed_box();
         $out .= end_column();
 
