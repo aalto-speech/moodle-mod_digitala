@@ -123,7 +123,7 @@ jobs:
       - name: Add additional Behat Browsers
         run: |
           sed -i "s+// Extra config.+require_once(__DIR__ . '/home/runner/work/moodle-puheentunnistus/moodle-puheentunnistus/moodle-browser-config/init.php');+g" moodle/config.php
-          cp /home/runner/work/moodle-puheentunnistus/moodle-puheentunnistus/plugin/tests/configs/localprofiles-ci.php /home/runner/work/moodle-puheentunnistus/moodle-puheentunnistus/moodle-browser-config/localprofiles.php
+          cp $(pwd)/plugin/tests/configs/localprofiles-ci.php $(pwd)/moodle-browser-config/localprofiles.php
           cd moodle-browser-config
           ls -la
           cat localprofiles.php
