@@ -97,7 +97,7 @@ jobs:
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
         continue-on-error: ${{ matrix.experimental }}
         if: ${{ always() }}
-        run: moodle/vendor/bin/phpunit --coverage-clover ./coverage.xml --testsuite mod_digitala_testsuite
+        run: moodle/vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover /home/runner/work/moodle-puheentunnistus/moodle-puheentunnistus
 
       - name: PHP Lint
         continue-on-error: true # This step will show errors but will not fail
