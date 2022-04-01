@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @onlyone
+@mod @mod_digitala @javascript
 Feature: Student can record with the microphone
 
   Background:
@@ -28,6 +28,7 @@ Feature: Student can record with the microphone
     And I click on "Test digitala name" "link"
     And I click on "Info" "link"
     And I click on "record" "button"
+    And I wait "2" seconds
     Then "//button[contains(text(),'Record')]" "xpath_element" should not exist
     And I should see "Stop recording"
 
@@ -38,17 +39,19 @@ Feature: Student can record with the microphone
     And I click on "record" "button"
     Then I wait "2" seconds
     And I click on "record" "button"
-    And "//button[contains(text(),'Record again')]" "xpath_element" should exist
+    And I wait "2" seconds
+    And I should see "Record again"
+
 
   Scenario: Listening button should always be visible
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
     And I click on "Info" "link"
-    Then "listenButton" "button" should be visible
+    Then "listen" "button" should be visible
     And I click on "record" "button"
-    Then "listenButton" "button" should be visible
+    Then "listen" "button" should be visible
     And I click on "record" "button"
-    Then "listenButton" "button" should be visible
+    Then "listen" "button" should be visible
 
   Scenario: Microphone border should be visible
     When I am on "Course 1" course homepage
@@ -57,5 +60,5 @@ Feature: Student can record with the microphone
     And I click on "record" "button"
     And I wait "2" seconds
     And I click on "record" "button"
-    And I click on "listenButton" "button"
+    And I click on "listen" "button"
     Then "microphoneIconBox" "region" should exist

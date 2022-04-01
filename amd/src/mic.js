@@ -91,6 +91,9 @@ const startRecording = async() => {
         .catch(() => {
             recButton.textContent = langStrings[3];
         });
+    } else {
+        recButton.textContent = langStrings[3];
+        return;
     }
 };
 
