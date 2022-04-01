@@ -126,7 +126,7 @@ $string['api_help'] = 'Give address to API-server.';
 $string['key'] = 'Key for API-server';
 $string['key_help'] = 'Give valid key for API-server authentication';
 
-$string['edit_report'] = 'Edit report';
+$string['edit_report'] = 'Give feedback on report';
 $string['reason'] = 'Reason';
 $string['holistic-scale_error'] = 'Holistic needs to be between 0 and 7';
 $string['fluency-scale_error'] = 'Fluency needs to be between 0 and 3';

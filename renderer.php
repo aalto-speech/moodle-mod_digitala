@@ -126,19 +126,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= '<audio controls><source src='.$audiourl.'></audio><br>';
 
             if ($report->attempttype == "freeform") {
-                if ($report->attemptlang == "fin") {
-                    $gradings = create_report_grading('fluency', $attempt->fluency, 3);
-                    $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
-                    $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
-                    $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
-                }
-
-                if ($report->attemptlang == "sv") {
-                    $gradings = create_report_grading('fluency', $attempt->fluency, 3);
-                    $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
-                    $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
-                    $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
-                }
+                $gradings = create_report_grading('fluency', $attempt->fluency, 3);
+                $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
+                $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
+                $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
 
                 $holistic = create_report_holistic(floor($attempt->holistic));
 
@@ -191,11 +182,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out = '';
 
         if ($form->is_cancelled()) {
-            redirect('/report.php?id='.$reporteditor->id.'&mode=overview');
+            redirect('/mod/digitala/report.php?id='.$reporteditor->id.'&mode=overview');
         } else if ($fromform = $form->get_data()) {
-            //update_attempt();
-            //save_report_feedback();
-            redirect('/report.php?id='.$reporteditor->id.'&mode=overview');
+            // In the future third phase, update evaluation in digitala_attempt here...
+            save_report_feedback($reporteditor->attempttype, $fromform, $attempt);
+            redirect('/mod/digitala/report.php?id='.$reporteditor->id.'&mode=overview');
         } else {
             $out = start_container('digitala-report_editor');
             $out .= start_column();
