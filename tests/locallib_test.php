@@ -344,55 +344,55 @@ class locallib_test extends \advanced_testcase {
     /**
      * Test saving a readaloud attempt to database.
      */
-    public function test_save_attempt_readaloud() {
-        global $DB;
-        $assignment = new \stdClass();
-        $assignment->instanceid = 1;
-        $assignment->userid = 0;
-        $evaluation = new \stdClass();
-        $evaluation->Transcript = 'transcript';
-        $evaluation->Fluency = new \stdClass();
-        $evaluation->Fluency->score = 1;
-        $evaluation->Fluency->mean_f1 = 1;
-        $evaluation->Fluency->speech_rate = 2;
-        $evaluation->TaskAchievement = 2;
-        $evaluation->Accuracy = new \stdClass();
-        $evaluation->Accuracy->score = 3;
-        $evaluation->Accuracy->lexical_profile = 3;
-        $evaluation->Accuracy->nativeity = 4;
-        $evaluation->Holistic = 4;
+    // public function test_save_attempt_readaloud() {
+    //     global $DB;
+    //     $assignment = new \stdClass();
+    //     $assignment->instanceid = 1;
+    //     $assignment->userid = 0;
+    //     $evaluation = new \stdClass();
+    //     $evaluation->Transcript = 'transcript';
+    //     $evaluation->Fluency = new \stdClass();
+    //     $evaluation->Fluency->score = 1;
+    //     $evaluation->Fluency->mean_f1 = 1;
+    //     $evaluation->Fluency->speech_rate = 2;
+    //     $evaluation->TaskAchievement = 2;
+    //     $evaluation->Accuracy = new \stdClass();
+    //     $evaluation->Accuracy->score = 3;
+    //     $evaluation->Accuracy->lexical_profile = 3;
+    //     $evaluation->Accuracy->nativeity = 4;
+    //     $evaluation->Holistic = 4;
 
-        save_attempt($assignment, 'filename', $evaluation);
+    //     save_attempt($assignment, 'filename', $evaluation);
 
-        $result = $DB->record_exists('digitala_attempts',
-                                     array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(true, $result);
-        $record = $DB->get_record('digitala_attempts',
-                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals($evaluation->Transcript, $record->transcript);
-        $this->assertEquals($evaluation->Holistic, $record->holistic);
-    }
+    //     $result = $DB->record_exists('digitala_attempts',
+    //                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+    //     $this->assertEquals(true, $result);
+    //     $record = $DB->get_record('digitala_attempts',
+    //                               array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+    //     $this->assertEquals($evaluation->Transcript, $record->transcript);
+    //     $this->assertEquals($evaluation->Holistic, $record->holistic);
+    // }
 
     /**
      * Test saving a freeform attempt to database.
      */
-    public function test_save_attempt_freeform() {
-        global $DB;
-        $assignment = new \stdClass();
-        $assignment->instanceid = 1;
-        $assignment->userid = 1;
-        $evaluation = new \stdClass();
-        $evaluation->GOP_score = 4;
+    // public function test_save_attempt_freeform() {
+    //     global $DB;
+    //     $assignment = new \stdClass();
+    //     $assignment->instanceid = 1;
+    //     $assignment->userid = 1;
+    //     $evaluation = new \stdClass();
+    //     $evaluation->GOP_score = 4;
 
-        save_attempt($assignment, 'filename', $evaluation);
+    //     save_attempt($assignment, 'filename', $evaluation);
 
-        $result = $DB->record_exists('digitala_attempts',
-                                     array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(true, $result);
-        $record = $DB->get_record('digitala_attempts',
-                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals($evaluation->GOP_score, $record->gop_score);
-    }
+    //     $result = $DB->record_exists('digitala_attempts',
+    //                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+    //     $this->assertEquals(true, $result);
+    //     $record = $DB->get_record('digitala_attempts',
+    //                               array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+    //     $this->assertEquals($evaluation->GOP_score, $record->gop_score);
+    // }
 
     /**
      * Test reading an attempt from database.

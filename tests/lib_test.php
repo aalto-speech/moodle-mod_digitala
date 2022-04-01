@@ -74,6 +74,7 @@ class lib_test extends \advanced_testcase {
      * Test deleting a digitala instance.
      */
     public function test_digitala_delete_instance() {
+        global $DB;
         // Get the created digitala course.
         $course = $this->course;
 
