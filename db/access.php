@@ -58,4 +58,14 @@ $capabilities = array(
             'manager' => CAP_ALLOW,
         ],
     ],
+    'mod/digitala:editreport' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 );

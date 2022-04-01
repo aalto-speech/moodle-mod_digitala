@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/digitala/db" VERSION="20220307" COMMENT="XMLDB file for Moodle mod_digitala"
+<XMLDB PATH="mod/digitala/db" VERSION="20220402" COMMENT="XMLDB file for Moodle mod_digitala"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -46,6 +46,35 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="digitala" TYPE="foreign" FIELDS="digitala" REFTABLE="digitala" REFFIELDS="id"/>
         <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="digitala_report_feedback" COMMENT="Stores report feedback data.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="attempt" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Digitala activity that was attempted."/>
+        <FIELD NAME="old_fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
+        <FIELD NAME="fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
+        <FIELD NAME="fluency_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="old_accuracy" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
+        <FIELD NAME="accuracy" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
+        <FIELD NAME="accuracy_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="old_lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
+        <FIELD NAME="lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
+        <FIELD NAME="lexicalprofile_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="old_nativeity" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
+        <FIELD NAME="nativeity" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
+        <FIELD NAME="nativeity_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="old_holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
+        <FIELD NAME="holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
+        <FIELD NAME="holistic_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="old_gop_score" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
+        <FIELD NAME="gop_score" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
+        <FIELD NAME="gop_score_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="attempt" TYPE="foreign" FIELDS="attempt" REFTABLE="digitala_attempts" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>

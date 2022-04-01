@@ -125,3 +125,13 @@ $string['api'] = 'Address for API-server';
 $string['api_help'] = 'Give address to API-server.';
 $string['key'] = 'Key for API-server';
 $string['key_help'] = 'Give valid key for API-server authentication';
+
+$string['edit_report'] = 'Edit report';
+$string['reason'] = 'Reason';
+$string['holistic-scale_error'] = 'Holistic needs to be between 0 and 7';
+$string['fluency-scale_error'] = 'Fluency needs to be between 0 and 3';
+$string['accuracy-scale_error'] = 'Accuracy needs to be between 0 and 3';
+$string['lexicalprofile-scale_error'] = 'Lexical profile needs to be between 0 and 3';
+$string['nativeity-scale_error'] = 'Nativeity needs to be between 0 and 3';
+$string['gop-scale_error'] = 'Godness of pronunciation needs to be between 0 and 1';
+

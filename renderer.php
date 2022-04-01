@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/locallib.php');
+require_once(__DIR__.'/reporteditor_form.php');
 
 /**
  * A custom renderer class that extends the plugin_renderer_base and is used by the digitala module.
@@ -126,17 +127,17 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
             if ($report->attempttype == "freeform") {
                 if ($report->attemptlang == "fin") {
-                    $gradings = create_report_grading('fluency', $attempt->fluency, 4);
-                    $gradings .= create_report_grading('accuracy', $attempt->accuracy, 4);
+                    $gradings = create_report_grading('fluency', $attempt->fluency, 3);
+                    $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
                     $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
-                    $gradings .= create_report_grading('nativeity', $attempt->nativeity, 4);
+                    $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
                 }
 
                 if ($report->attemptlang == "sv") {
-                    $gradings = create_report_grading('fluency', $attempt->fluency, 4);
-                    $gradings .= create_report_grading('accuracy', $attempt->accuracy, 4);
+                    $gradings = create_report_grading('fluency', $attempt->fluency, 3);
+                    $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
                     $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
-                    $gradings .= create_report_grading('nativeity', $attempt->nativeity, 4);
+                    $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
                 }
 
                 $holistic = create_report_holistic(floor($attempt->holistic));
@@ -173,6 +174,35 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= create_short_assignment_tabs($assignmentcard, $resourcescard);
         $out .= end_column();
         $out .= end_container();
+
+        return $out;
+    }
+
+    /**
+     * Renders the report editor panel.
+     *
+     * @param digitala_report_editor $reporteditor - An instance of digitala_report_editor to render.
+     * @return $out - HTML string to output.
+     */
+    protected function render_digitala_report_editor(digitala_report_editor $reporteditor) {
+        $attempt = get_attempt($reporteditor->instanceid, $reporteditor->student);
+        $form = new \reporteditor_form($reporteditor->id, $reporteditor->attempttype, $attempt);
+
+        $out = '';
+
+        if ($form->is_cancelled()) {
+            redirect('/report.php?id='.$reporteditor->id.'&mode=overview');
+        } else if ($fromform = $form->get_data()) {
+            //update_attempt();
+            //save_report_feedback();
+            redirect('/report.php?id='.$reporteditor->id.'&mode=overview');
+        } else {
+            $out = start_container('digitala-report_editor');
+            $out .= start_column();
+            $out .= create_card('edit_report', $form->render());
+            $out .= end_column();
+            $out .= end_container();
+        }
 
         return $out;
     }
