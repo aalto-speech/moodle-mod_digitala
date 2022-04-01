@@ -133,3 +133,26 @@ class digitala_report implements renderable {
         $this->student = $student;
     }
 }
+
+/**
+ * Implements a renderable short version of assignment panel used on the teacher detail report page.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class digitala_short_assignment implements renderable {
+    /**
+     * Constructor
+     * @param string $assignmenttext - Assignment text for the assignment
+     * @param string $resourcetext - Resource text for the assignment
+     * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
+     * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     */
+    public function __construct($assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+        $this->assignmenttext = $assignmenttext;
+        $this->resourcetext = $resourcetext;
+        $this->attempttype = $attempttype;
+        $this->attemptlang = $attemptlang;
+    }
+}

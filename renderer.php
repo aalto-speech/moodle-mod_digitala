@@ -84,7 +84,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
 
-        $attempt = get_attempt($assignment->instanceid);
+        $attempt = get_attempt($assignment->instanceid, $assignment->userid);
 
         if (isset($attempt)) {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
@@ -152,6 +152,28 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= end_column();
 
         $out .= end_container();
+        return $out;
+    }
+
+    /**
+     * Renders the assignment panel.
+     *
+     * @param digitala_short_assignment $assignment - An instance of digitala_short_assignment to render.
+     * @return $out - HTML string to output.
+     */
+    protected function render_digitala_short_assignment(digitala_short_assignment $assignment) {
+        $attemptinfo = get_string('attemptlang', 'digitala').': '.get_string($assignment->attemptlang, 'digitala').
+                                  ' | '.get_string('attempttype', 'digitala').': '.
+                                  get_string($assignment->attempttype, 'digitala').'<br>';
+        $assignmentcard = create_card('assignment', $attemptinfo.$assignment->assignmenttext);
+        $resourcescard = create_card('assignmentresource', $assignment->resourcetext);
+
+        $out = start_container('digitala-short_assignment');
+        $out .= start_column();
+        $out .= create_short_assignment_tabs($assignmentcard, $resourcescard);
+        $out .= end_column();
+        $out .= end_container();
+
         return $out;
     }
 }

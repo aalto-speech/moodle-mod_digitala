@@ -348,6 +348,38 @@ function create_report_tabs($gradings, $holistic) {
 }
 
 /**
+ * Creates tab navigation and contents for short assignment
+ *
+ * @param string $assignment html content of gradings shown
+ * @param string $resources html content of holistic shown
+ */
+function create_short_assignment_tabs($assignment, $resources) {
+    $out = html_writer::start_tag('nav');
+    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::tag('button', get_string('assignment', 'digitala'),
+                             array('class' => "nav-link active ml-2", 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
+                                   'href' => '#assignment-assignment', 'role' => 'tab', 'aria-controls' => 'assignment-assignment',
+                                   'aria-selected' => 'true'));
+    $out .= html_writer::tag('button', get_string('assignmentresource', 'digitala'),
+                             array('class' => "nav-link ml-2", 'id' => 'assignment-resources-tab', 'data-toggle' => 'tab',
+                                   'href' => '#assignment-resources', 'role' => 'tab', 'aria-controls' => 'assignment-resources',
+                                   'aria-selected' => 'false'));
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_tag('nav');
+
+    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
+    $out .= html_writer::div($assignment, 'tab-pane fade show active',
+                            array('id' => 'assignment-assignment', 'role' => 'tabpanel',
+                                  'aria-labelledby' => 'assignment-assignment-tab'));
+    $out .= html_writer::div($resources, 'tab-pane fade',
+                            array('id' => 'assignment-resources', 'role' => 'tabpanel',
+                                  'aria-labelledby' => 'assignment-resources-tab'));
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
  * Creates a button with identical id and
  * Send user audio file to Aalto ASR for evaluation.
  * class
