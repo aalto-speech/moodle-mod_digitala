@@ -162,6 +162,7 @@ jobs:
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
+        continue-on-error: true
         if: ${{ always() }} # Skip in PHP 8.0 since tests are not run at the moment
         with:
           files: ./coverage.xml
