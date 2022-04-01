@@ -114,6 +114,15 @@ jobs:
           cd ci
           ls -la
 
+      - name: Add additional Behat Browsers
+        run: |
+          git clone https://github.com/andrewnicols/moodle-browser-config
+          sed -i "s+// Extra config.+require_once(__DIR__ . '/home/runner/work/moodle-puheentunnistus/moodle-puheentunnistus/moodle-browser-config/init.php');+g" moodle/config.php
+          cp ./plugin/tests/configs/localprofiles-ci.php ./moodle-browser-config/localprofiles.php
+          cd moodle-browser-config
+          ls -la
+          cat localprofiles.php
+
       - name: PHP Lint
         if: ${{ !matrix.experimental }}
         run: moodle-plugin-ci phplint
