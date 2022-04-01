@@ -20,7 +20,7 @@ defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 
 use PHPUnit\Runner\Version as PHPUnitVersion;
 
-global $CFG, $DB, $USER;
+global $CFG;
 require_once($CFG->dirroot . '/mod/digitala/locallib.php');
 require_once($CFG->dirroot . '/mod/digitala/renderable.php');
 require_once($CFG->dirroot . '/mod/digitala/answerrecording_form.php');
@@ -279,6 +279,7 @@ class locallib_test extends \advanced_testcase {
      * Test saving answer recording.
      */
     public function test_save_answerrecording() {
+        global $USER;
         $context = \context_module::instance($this->digitala->cmid);
         $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
@@ -306,6 +307,7 @@ class locallib_test extends \advanced_testcase {
      * Test creating answerrecording form without form data. Should render form.
      */
     public function test_create_answerrecording_form_wo_data() {
+        global $USER;
         $context = \context_module::instance($this->digitala->cmid);
         $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
@@ -330,6 +332,7 @@ class locallib_test extends \advanced_testcase {
      * Test creating answerrecording form without form data. Should not render form.
      */
     public function test_create_answerrecording_form_with_data() {
+        global $USER;
         \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $context = \context_module::instance($this->digitala->cmid);
         $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
@@ -342,6 +345,7 @@ class locallib_test extends \advanced_testcase {
      * Test saving a readaloud attempt to database.
      */
     public function test_save_attempt_readaloud() {
+        global $DB;
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 0;
@@ -373,6 +377,7 @@ class locallib_test extends \advanced_testcase {
      * Test saving a freeform attempt to database.
      */
     public function test_save_attempt_freeform() {
+        global $DB;
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 1;
@@ -393,6 +398,7 @@ class locallib_test extends \advanced_testcase {
      * Test reading an attempt from database.
      */
     public function test_get_attempt() {
+        global $DB, $USER;
         $result = get_attempt(2);
         $this->assertEquals(null, $result);
 
