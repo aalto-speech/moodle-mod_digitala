@@ -65,217 +65,217 @@ class locallib_test extends \advanced_testcase {
         }
     }
 
-//     /**
-//      * Test generating progress bar step link as non active and active
-//      */
-//     public function test_create_progress_bar_step_link() {
-//         $info = create_progress_bar_step_link('info', 0, 1, 1, false);
-//         $assignment = create_progress_bar_step_link('assignment', 1, 1, 1, false);
-//         $report = create_progress_bar_step_link('report', 2, 1, 1, false);
-//         // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
-//         $this->assertEquals($info, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span>Info</a>');
-//         $this->assertEquals($assignment, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span>Assignment</a>');
-//         $this->assertEquals($report, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span>Report</a>');
+    /**
+     * Test generating progress bar step link as non active and active
+     */
+    public function test_create_progress_bar_step_link() {
+        $info = create_progress_bar_step_link('info', 0, 1, 1, false);
+        $assignment = create_progress_bar_step_link('assignment', 1, 1, 1, false);
+        $report = create_progress_bar_step_link('report', 2, 1, 1, false);
+        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($info, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span>Info</a>');
+        $this->assertEquals($assignment, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span>Assignment</a>');
+        $this->assertEquals($report, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span>Report</a>');
 
-//         $infoactive = create_progress_bar_step_link('info', 0, 1, 1, true);
-//         $assignmentactive = create_progress_bar_step_link('assignment', 1, 1, 1, true);
-//         $reportactive = create_progress_bar_step_link('report', 2, 1, 1, true);
-//         $this->assertEquals($infoactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num active">1</span>Info</a>');
-//         $this->assertEquals($assignmentactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num active">2</span>Assignment</a>');
-//         $this->assertEquals($reportactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num active">3</span>Report</a>');
-//         // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
-//     }
+        $infoactive = create_progress_bar_step_link('info', 0, 1, 1, true);
+        $assignmentactive = create_progress_bar_step_link('assignment', 1, 1, 1, true);
+        $reportactive = create_progress_bar_step_link('report', 2, 1, 1, true);
+        $this->assertEquals($infoactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num active">1</span>Info</a>');
+        $this->assertEquals($assignmentactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num active">2</span>Assignment</a>');
+        $this->assertEquals($reportactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num active">3</span>Report</a>');
+        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+    }
 
-//     /**
-//      * Test generating opening div for progress bar
-//      */
-//     public function test_start_progress_bar() {
-//         $start = start_progress_bar();
-//         $this->assertEquals($start, '<div class="digitala-progress-bar">');
-//     }
+    /**
+     * Test generating opening div for progress bar
+     */
+    public function test_start_progress_bar() {
+        $start = start_progress_bar();
+        $this->assertEquals($start, '<div class="digitala-progress-bar">');
+    }
 
-//     /**
-//      * Test generating ending div for progress bar
-//      */
-//     public function test_end_progress_bar() {
-//         $end = end_progress_bar();
-//         $this->assertEquals($end, '</div>');
-//     }
+    /**
+     * Test generating ending div for progress bar
+     */
+    public function test_end_progress_bar() {
+        $end = end_progress_bar();
+        $this->assertEquals($end, '</div>');
+    }
 
-//     /**
-//      * Test generating whole step in the progress bar
-//      */
-//     public function test_create_progress_bar_step() {
-//         $info = create_progress_bar_step('info', 0, 1, 1, 1);
-//         $assignment = create_progress_bar_step('assignment', 1, 1, 1, 0);
-//         $report = create_progress_bar_step('report', 2, 1, 1, 0);
-//         $infoactive = create_progress_bar_step('info', 0, 1, 1, 0);
-//         $assignmentactive = create_progress_bar_step('assignment', 1, 1, 1, 1);
-//         $reportactive = create_progress_bar_step('report', 2, 1, 1, 2);
-//         // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
-//         $this->assertEquals($info, '<div class="pb-step first"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span>Info</a></div>');
-//         $this->assertEquals($assignment, '<div class="pb-step"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span>Assignment</a></div>');
-//         $this->assertEquals($report, '<div class="pb-step last"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span>Report</a></div>');
-//         $this->assertEquals($infoactive, '<div class="pb-step active first"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num active">1</span>Info</a></div>');
-//         $this->assertEquals($assignmentactive, '<div class="pb-step active"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num active">2</span>Assignment</a></div>');
-//         $this->assertEquals($reportactive, '<div class="pb-step active last"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num active">3</span>Report</a></div>');
-//         // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
-//     }
+    /**
+     * Test generating whole step in the progress bar
+     */
+    public function test_create_progress_bar_step() {
+        $info = create_progress_bar_step('info', 0, 1, 1, 1);
+        $assignment = create_progress_bar_step('assignment', 1, 1, 1, 0);
+        $report = create_progress_bar_step('report', 2, 1, 1, 0);
+        $infoactive = create_progress_bar_step('info', 0, 1, 1, 0);
+        $assignmentactive = create_progress_bar_step('assignment', 1, 1, 1, 1);
+        $reportactive = create_progress_bar_step('report', 2, 1, 1, 2);
+        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($info, '<div class="pb-step first"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span>Info</a></div>');
+        $this->assertEquals($assignment, '<div class="pb-step"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span>Assignment</a></div>');
+        $this->assertEquals($report, '<div class="pb-step last"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span>Report</a></div>');
+        $this->assertEquals($infoactive, '<div class="pb-step active first"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num active">1</span>Info</a></div>');
+        $this->assertEquals($assignmentactive, '<div class="pb-step active"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num active">2</span>Assignment</a></div>');
+        $this->assertEquals($reportactive, '<div class="pb-step active last"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num active">3</span>Report</a></div>');
+        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+    }
 
-//     /**
-//      * Test calculating progress bar spacers
-//      */
-//     public function test_calculate_progress_bar_spacers() {
-//         $info = calculate_progress_bar_spacers(0);
-//         $assignment = calculate_progress_bar_spacers(1);
-//         $report = calculate_progress_bar_spacers(2);
-//         $this->assertEquals($info, array('left' => 'right-empty', 'right' => 'nothing'));
-//         $this->assertEquals($assignment, array('left' => 'left-empty', 'right' => 'right-empty'));
-//         $this->assertEquals($report, array('left' => 'nothing', 'right' => 'left-empty'));
-//     }
+    /**
+     * Test calculating progress bar spacers
+     */
+    public function test_calculate_progress_bar_spacers() {
+        $info = calculate_progress_bar_spacers(0);
+        $assignment = calculate_progress_bar_spacers(1);
+        $report = calculate_progress_bar_spacers(2);
+        $this->assertEquals($info, array('left' => 'right-empty', 'right' => 'nothing'));
+        $this->assertEquals($assignment, array('left' => 'left-empty', 'right' => 'right-empty'));
+        $this->assertEquals($report, array('left' => 'nothing', 'right' => 'left-empty'));
+    }
 
-//     /**
-//      * Test creating progressbar spacer
-//      */
-//     public function test_create_progress_bar_spacer() {
-//         $rightempty = create_progress_bar_spacer('right-empty');
-//         $leftempty = create_progress_bar_spacer('left-empty');
-//         $nothing = create_progress_bar_spacer('nothing');
-//         // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
-//         $this->assertEquals($rightempty, '<div class="pb-spacer pb-spacer-right"><svg width="100%" height="100%" viewBox="0 0 275 500"
-//     style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>');
-//         $this->assertEquals($leftempty, '<div class="pb-spacer pb-spacer-left"><svg width="100%" height="100%" viewBox="0 0 275 500"
-//     style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>');
-//         $this->assertEquals($nothing, '<div class="pb-spacer"><svg width="100%" height="100%" viewBox="0 0 275 500"
-//     style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>');
-//         // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
-//     }
+    /**
+     * Test creating progressbar spacer
+     */
+    public function test_create_progress_bar_spacer() {
+        $rightempty = create_progress_bar_spacer('right-empty');
+        $leftempty = create_progress_bar_spacer('left-empty');
+        $nothing = create_progress_bar_spacer('nothing');
+        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($rightempty, '<div class="pb-spacer pb-spacer-right"><svg width="100%" height="100%" viewBox="0 0 275 500"
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>');
+        $this->assertEquals($leftempty, '<div class="pb-spacer pb-spacer-left"><svg width="100%" height="100%" viewBox="0 0 275 500"
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>');
+        $this->assertEquals($nothing, '<div class="pb-spacer"><svg width="100%" height="100%" viewBox="0 0 275 500"
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/></svg></div>');
+        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+    }
 
-//     /**
-//      * Test creating navigation buttons for view
-//      */
-//     public function test_navbuttons_html_output() {
-//         $result = create_nav_buttons('info', 1, 2);
-//         // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
-//         $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
-//             $result);
-//         $result = create_nav_buttons('assignmentprev', 1, 2);
-//         $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0 id="prevButton" class="btn btn-primary">< Previous</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0></div>',
-//             $result);
-//         $result = create_nav_buttons('assignmentnext', 1, 2);
-//         $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2></div>',
-//             $result);
-//         $result = create_nav_buttons('report', 1, 2);
-//         $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="tryAgainButton" class="btn btn-primary">See the assignment</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
-//             $result);
-//         // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
-//     }
+    /**
+     * Test creating navigation buttons for view
+     */
+    public function test_navbuttons_html_output() {
+        $result = create_nav_buttons('info', 1, 2);
+        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
+            $result);
+        $result = create_nav_buttons('assignmentprev', 1, 2);
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0 id="prevButton" class="btn btn-primary">< Previous</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0></div>',
+            $result);
+        $result = create_nav_buttons('assignmentnext', 1, 2);
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2></div>',
+            $result);
+        $result = create_nav_buttons('report', 1, 2);
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="tryAgainButton" class="btn btn-primary">See the assignment</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
+            $result);
+        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+    }
 
-//     /**
-//      * Test creating new container object.
-//      */
-//     public function test_container_html_output_right() {
-//         $result = start_container('some_step_of_digitala');
-//         $result .= end_container();
-//         $this->assertEquals('<div class="some_step_of_digitala"><div class="container-fluid">'.
-//             '<div class="row"></div></div></div>', $result);
-//     }
+    /**
+     * Test creating new container object.
+     */
+    public function test_container_html_output_right() {
+        $result = start_container('some_step_of_digitala');
+        $result .= end_container();
+        $this->assertEquals('<div class="some_step_of_digitala"><div class="container-fluid">'.
+            '<div class="row"></div></div></div>', $result);
+    }
 
-//     /**
-//      * Test creating new column object.
-//      */
-//     public function test_column_html_output_right() {
-//         $result = start_column();
-//         $result .= end_column();
-//         $this->assertEquals('<div class="col digitala-column"></div>', $result);
-//     }
+    /**
+     * Test creating new column object.
+     */
+    public function test_column_html_output_right() {
+        $result = start_column();
+        $result .= end_column();
+        $this->assertEquals('<div class="col digitala-column"></div>', $result);
+    }
 
-//     /**
-//      * Test creating new card object.
-//      */
-//     public function test_card_html_output_right() {
-//         $result = create_card('pluginname', 'Some text here');
-//         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Digitala</h5>'.
-//             '<div class="card-text">Some text here</div></div></div>', $result);
-//     }
+    /**
+     * Test creating new card object.
+     */
+    public function test_card_html_output_right() {
+        $result = create_card('pluginname', 'Some text here');
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Digitala</h5>'.
+            '<div class="card-text">Some text here</div></div></div>', $result);
+    }
 
-//     /**
-//      * Test creating report view grading helper object.
-//      */
-//     public function test_grading_html_output() {
-//         $result = create_report_grading("fluency", 0, 0);
-//         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5>'.
-//             '<canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart" height="40px"></canvas>'. // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-//             '<h6 class="grade-number">0/0</h6>'.
-//             '<div class="card-text">Fluency score is 0, red score.</div></div></div>', $result);
-//     }
+    /**
+     * Test creating report view grading helper object.
+     */
+    public function test_grading_html_output() {
+        $result = create_report_grading("fluency", 0, 0);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5>'.
+            '<canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart" height="40px"></canvas>'. // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+            '<h6 class="grade-number">0/0</h6>'.
+            '<div class="card-text">Fluency score is 0, red score.</div></div></div>', $result);
+    }
 
-//     /**
-//      * Test creating report view holistic helper object.
-//      */
-//     public function test_holistic_html_output() {
-//         $result = create_report_holistic(3);
-//         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Holistic</h5>'.
-//             '<h6 class="grade-number">B1</h6><div class="card-text">Holistic score is 3, yellow score.</div></div></div>', $result);
-//     }
+    /**
+     * Test creating report view holistic helper object.
+     */
+    public function test_holistic_html_output() {
+        $result = create_report_holistic(3);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Holistic</h5>'.
+            '<h6 class="grade-number">B1</h6><div class="card-text">Holistic score is 3, yellow score.</div></div></div>', $result);
+    }
 
-//     /**
-//      * Test creating report view GOP helper object.
-//      */
-//     public function test_gop_html_output() {
-//         $result = create_report_gop(0.72);
-//         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72/100</h6><div class="card-text">Pronunciation score is 7, big pink score.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-//     }
+    /**
+     * Test creating report view GOP helper object.
+     */
+    public function test_gop_html_output() {
+        $result = create_report_gop(0.72);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72/100</h6><div class="card-text">Pronunciation score is 7, big pink score.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
 
-//     /**
-//      * Test creating report view tab creation helper.
-//      */
-//     public function test_tabs_html_output() {
-//         $result = create_report_tabs('', '');
-//         $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist">'.
-//             '<button class="nav-link active ml-2" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" '.
-//             'aria-controls="report-grades" aria-selected="true">Task grades</button>'.
-//             '<button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" '.
-//             'aria-controls="report-holistic" aria-selected="false">Holistic</button>'.
-//             '</div></nav><div class="tab-content" id="nav-tabContent">'.
-//             '<div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div>'.
-//             '<div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab">'.
-//             '</div></div>', $result);
-//     }
+    /**
+     * Test creating report view tab creation helper.
+     */
+    public function test_tabs_html_output() {
+        $result = create_report_tabs('', '');
+        $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist">'.
+            '<button class="nav-link active ml-2" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" '.
+            'aria-controls="report-grades" aria-selected="true">Task grades</button>'.
+            '<button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" '.
+            'aria-controls="report-holistic" aria-selected="false">Holistic</button>'.
+            '</div></nav><div class="tab-content" id="nav-tabContent">'.
+            '<div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div>'.
+            '<div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab">'.
+            '</div></div>', $result);
+    }
 
-//     /**
-//      * Test creating report view specific transcription object.
-//      */
-//     public function test_transcription_html_output() {
-//         $testtranscription = "Lorem ipsum test text";
-//         $result = create_report_transcription($testtranscription);
-//         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcription</h5>'.
-//             '<div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result);
-//     }
+    /**
+     * Test creating report view specific transcription object.
+     */
+    public function test_transcription_html_output() {
+        $testtranscription = "Lorem ipsum test text";
+        $result = create_report_transcription($testtranscription);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcription</h5>'.
+            '<div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result);
+    }
 
-//     /**
-//      * Test creating new assignment object.
-//      */
-//     public function test_create_button() {
-//         $result = create_button('buttonId', 'buttonClass', 'buttonText');
-//         $this->assertEquals('<button id="buttonId" class="buttonClass">buttonText</button>', $result);
-//     }
+    /**
+     * Test creating new assignment object.
+     */
+    public function test_create_button() {
+        $result = create_button('buttonId', 'buttonClass', 'buttonText');
+        $this->assertEquals('<button id="buttonId" class="buttonClass">buttonText</button>', $result);
+    }
 
-//     /**
-//      * Test creating create assignment.
-//      */
-//     public function test_create_assignment() {
-//         $result = create_assignment('testassignment');
-//         $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox200">testassignment</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-//     }
+    /**
+     * Test creating create assignment.
+     */
+    public function test_create_assignment() {
+        $result = create_assignment('testassignment');
+        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox200">testassignment</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
 
-//     /**
-//      * Test creating create resource.
-//      */
-//     public function test_create_resource() {
-//         $result = create_resource('testresource');
-//         $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-//     }
+    /**
+     * Test creating create resource.
+     */
+    public function test_create_resource() {
+        $result = create_resource('testresource');
+        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
 
 //     /**
 //      * Test saving answer recording.
