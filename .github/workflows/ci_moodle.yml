@@ -99,11 +99,19 @@ jobs:
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
 
       - name: What is currently downloaded
-        run: ls -la
-
-      - name: Tree pls
-        continue-on-error: true
-        run: tree
+        run: |
+          ls -la
+          cd plugin
+          ls -la
+          cd ..
+          cd moodle
+          ls -la
+          cd ..
+          cd moodledata
+          ls -la
+          cd ..
+          cd ci
+          ls -la
 
       - name: PHP Lint
         if: ${{ !matrix.experimental }}
