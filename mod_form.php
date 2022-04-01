@@ -78,6 +78,24 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         // Adding the "maxlength" field for assignment timelimit.
         $mform->addElement('duration', 'maxlength', get_string('timelimit', 'mod_digitala'), array('optional' => false));
+        // Adding the "attemptnumber" field.
+        $limitoptions = array(
+            0 => get_string('unlimited', 'mod_digitala'),
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            4 => 4,
+            5 => 5,
+            6 => 6,
+            7 => 7,
+            8 => 8,
+            9 => 9,
+            10 => 10
+        );
+        $mform->addElement('select', 'attemptlimit', get_string('attemptlimit', 'mod_digitala'), $limitoptions);
+
+        $mform->addRule('attemptlimit', null, 'required', null, 'client');
+        $mform->addHelpButton('attemptlimit', 'attemptlimit', 'mod_digitala');
 
         // Adding the "assignment" field.
         $mform->addElement('textarea', 'assignment', get_string("assignment", "mod_digitala"),
