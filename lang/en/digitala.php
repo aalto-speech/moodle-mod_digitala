@@ -134,3 +134,6 @@ $string['api'] = 'Address for API-server';
 $string['api_help'] = 'Give address to API-server.';
 $string['key'] = 'Key for API-server';
 $string['key_help'] = 'Give valid key for API-server authentication';
+
+$string['error_url-not-set'] = 'accessed without internet successful';
+$string['error_no-evaluation'] = 'No evaluation was found. Check your connection with server.';
