@@ -121,7 +121,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $remaining = $report->attemptlimit;
             $out .= create_card('report', get_string('reportnotavailable', 'digitala'));
         } else {
-            $remaining = $report->attemptlimit  - $attempt->attemptnumber;
+            $remaining = $report->attemptlimit - $attempt->attemptnumber;
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
             $out .= create_attempt_number($report);
