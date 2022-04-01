@@ -177,8 +177,10 @@ jobs:
         run: |
           docker -v
           docker run -d --rm --name=selenium --net=host --shm-size=2g -v $(pwd)/moodle:$(pwd)/moodle selenium/standalone-chrome:3
-          php moodle/admin/tool/behat/cli/init.php
-          php moodle/admin/tool/behat/cli/run.php --tags=@mod_digitala --profile=audiochrome --verbose -vvv --auto-rerun=2
+          cd $(pwd)/moodle
+          php -S localhost:8000
+          php admin/tool/behat/cli/init.php
+          php admin/tool/behat/cli/run.php --tags=@mod_digitala --profile=audiochrome --verbose -vvv --auto-rerun=2
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
