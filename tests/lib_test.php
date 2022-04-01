@@ -73,20 +73,20 @@ class lib_test extends \advanced_testcase {
     /**
      * Test deleting a digitala instance.
      */
-    // public function test_digitala_delete_instance() {
-    //     global $DB;
+    public function test_digitala_delete_instance() {
+        global $DB;
 
-    //     // Get the created digitala course.
-    //     $course = $this->course;
+        // Get the created digitala course.
+        $course = $this->course;
 
-    //     $digitala = $this->create_digitala();
+        $digitala = $this->create_digitala();
 
-    //     digitala_delete_instance($digitala->course);
+        digitala_delete_instance($digitala->course);
 
-    //     // Check that the digitala course instance was removed.
-    //     $count = $DB->count_records('digitala', array('id' => $digitala->course));
-    //     $this->assertEquals(0, $count);
-    // }
+        // Check that the digitala course instance was removed.
+        $count = $DB->count_records('digitala', array('id' => $digitala->course));
+        $this->assertEquals(0, $count);
+    }
 
     /**
      * Test updating a digitala instance.
