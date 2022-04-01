@@ -135,3 +135,5 @@ $string['lexicalprofile-scale_error'] = 'Lexical profile needs to be between 0 a
 $string['nativeity-scale_error'] = 'Nativeity needs to be between 0 and 3';
 $string['gop-scale_error'] = 'Godness of pronunciation needs to be between 0 and 1';
 
+$string['error_url-not-set'] = 'accessed without internet successful';
+$string['error_no-evaluation'] = 'No evaluation was found. Check your connection with server.';

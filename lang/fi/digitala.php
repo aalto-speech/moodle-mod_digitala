@@ -51,11 +51,12 @@ $string['navprevious'] = '< Edellinen';
 $string['navstartagain'] = 'Katso tehtävää';
 $string['navfeedback'] = 'Anna palautetta';
 $string['info'] = 'Aloitus';
+$string['microphone'] = 'Mikrofonin toiminta';
 $string['infotext'] = 'Kokeile mikrofonin toimintaa ennen tehtävän tekemistä.';
 $string['startbutton'] = 'Nauhoita';
 $string['stopbutton'] = 'Pysäytä';
 $string['listenbutton'] = 'Kuuntele nauhoitus';
-$string['assignmentrecord'] = 'Nauhoita vastauksesi.';
+$string['assignmentrecord'] = 'Vastauksen nauhoittaminen';
 $string['submit'] = 'Palauta vastaus';
 $string['alreadysubmitted'] = "Olet jo palauttanut vastauksen. Siirry seuraavalle sivulle nähdäksesi raportin.";
 $string['report'] = 'Raportti';
@@ -163,3 +164,12 @@ $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain
 
 $string['edit_report'] = 'Edit report';
 $string['reason'] = 'Reason';
+$string['holistic-scale_error'] = 'Holistic needs to be between 0 and 7';
+$string['fluency-scale_error'] = 'Fluency needs to be between 0 and 3';
+$string['accuracy-scale_error'] = 'Accuracy needs to be between 0 and 3';
+$string['lexicalprofile-scale_error'] = 'Lexical profile needs to be between 0 and 3';
+$string['nativeity-scale_error'] = 'Nativeity needs to be between 0 and 3';
+$string['gop-scale_error'] = 'Godness of pronunciation needs to be between 0 and 1';
+
+$string['error_url-not-set'] = 'url-osoitetta ei ole asetettu';
+$string['error_no-evaluation'] = 'Arviointia ei löytynyt. Tarkista yhteys arviointipalvelimeen.';

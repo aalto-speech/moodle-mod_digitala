@@ -342,7 +342,7 @@ class locallib_test extends \advanced_testcase {
         $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
         $result = create_answerrecording_form($assignment);
-        $this->assertEquals('No evaluation was found. Please return to previous page.', $result);
+        $this->assertEquals('No evaluation was found. Check your connection with server.', $result);
     }
 
     /**

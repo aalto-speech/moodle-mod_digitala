@@ -639,7 +639,7 @@ function save_answerrecording($formdata, $assignment) {
         );
 
     if (!isset(json_decode($evaluation)->prompt)) {
-        $out = 'No evaluation was found. Please return to previous page.';
+        $out = get_string('error_no-evaluation', 'digitala');
     } else {
         save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
         if (isset($_SERVER['REQUEST_URI'])) {
@@ -647,7 +647,7 @@ function save_answerrecording($formdata, $assignment) {
             $newurl = str_replace('page=1', 'page=2', $url);
             redirect($newurl);
         } else {
-            $out = 'accessed without internet successful';
+            $out = get_string('error_url-not-set', 'digitala');
         }
     }
 
