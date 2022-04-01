@@ -32,6 +32,7 @@ Feature: Student can record with the microphone
     Then "//button[contains(text(),'Record')]" "xpath_element" should not exist
     And I should see "Stop recording"
 
+  @onlyone
   Scenario: After first recording, record button shows record again label
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
