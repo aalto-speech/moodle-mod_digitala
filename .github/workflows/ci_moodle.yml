@@ -28,7 +28,7 @@ jobs:
           - php: '8.0'
             moodle-branch: 'MOODLE_311_STABLE'
             database: pgsql
-            experimental: false
+            experimental: true
           - php: '8.0'
             moodle-branch: 'master'
             database: pgsql
@@ -134,7 +134,7 @@ jobs:
 
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
         continue-on-error: ${{ matrix.experimental }}
-        if: ${{ always() }}
+        if: ${{ !matrix.experimental }}
         run: moodle-plugin-ci phpunit --coverage-clover
 
       - name: Behat features
