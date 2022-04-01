@@ -76,7 +76,6 @@ if ($mode == 'detail') {
     $content = 'Nothing to see here, mate!';
 }
 
-
 echo $OUTPUT->header();
 
 echo $content;

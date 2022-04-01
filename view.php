@@ -80,17 +80,17 @@ $PAGE->requires->js_amd_inline($requirejs);
 $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum, $id, $USER->id, $USER->username));
 $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($pagenum));
 
-if ($pagenum == 1) {
+if ($pagenum == 0) {
+    $content .= $OUTPUT->render(new digitala_info($id, $d));
+} else if ($pagenum == 1) {
     $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id, $USER->username,
                                 $id, $d, $moduleinstance->assignment, $moduleinstance->resources,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang));
-} else if ($pagenum == 2) {
+} else if ($pagenum == 2){
     $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang));
-} else if ($pagenum == 3) {
-    $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $modulecontext->id));
+                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $USER->id));
 } else {
-    $content .= $OUTPUT->render(new digitala_info($id, $d));
+    $content .= 'Nothing to see here, mate.';
 }
 
 echo $OUTPUT->header();
