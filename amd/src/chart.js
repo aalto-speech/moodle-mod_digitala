@@ -184,7 +184,7 @@ const createChart = async(id, grade, maxgrade) => {
 
 export const init = (pagenum) => {
 
-    if (pagenum === 2) {
+    if (pagenum === 2 || pagenum === "detail") {
         const allCanvases = document.getElementsByClassName('report-chart');
         for (let i = 0; i < allCanvases.length; i++) {
             const canvas = allCanvases[i];

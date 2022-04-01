@@ -115,7 +115,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         $out .= start_column();
 
-        $attempt = get_attempt($report->instanceid);
+        $attempt = get_attempt($report->instanceid, $report->student);
 
         if (is_null($attempt)) {
             $out .= create_card('report', get_string('reportnotavailable', 'digitala'));

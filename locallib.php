@@ -504,16 +504,17 @@ function save_attempt($assignment, $filename, $evaluation) {
  * Load current users attempt from the database.
  *
  * @param int $instanceid - instance id of this digitala activity
+ * @param int $userid - user id of this user or student
  * @return mixed $attempt - object containing attempt information
  */
-function get_attempt($instanceid) {
-    global $DB, $USER;
+function get_attempt($instanceid, $userid) {
+    global $DB;
 
-    if (!$DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id))) {
+    if (!$DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid))) {
         return null;
     }
 
-    $attempt = $DB->get_record('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id));
+    $attempt = $DB->get_record('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid));
 
     return $attempt;
 }

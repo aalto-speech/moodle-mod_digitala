@@ -120,13 +120,16 @@ class digitala_report implements renderable {
      * @param int $d - Id of the course
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     * @param int $student - User id of student
      */
-    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $attempttype = '', $attemptlang = '') {
+    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $attempttype = '', $attemptlang = '',
+                                $student = null) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
         $this->d = $d;
         $this->attempttype = $attempttype;
         $this->attemptlang = $attemptlang;
+        $this->student = $student;
     }
 }
