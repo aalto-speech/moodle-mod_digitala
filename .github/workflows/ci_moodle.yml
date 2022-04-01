@@ -114,11 +114,16 @@ jobs:
           cd ci
           ls -la
 
+      - name: Check out moodle brownser configs base
+        uses: actions/checkout@v2
+        with:
+          repository: andrewnicols/moodle-browser-config
+          path: moodle-browser-config
+
       - name: Add additional Behat Browsers
         run: |
-          git clone https://github.com/andrewnicols/moodle-browser-config
           sed -i "s+// Extra config.+require_once(__DIR__ . '/home/runner/work/moodle-puheentunnistus/moodle-puheentunnistus/moodle-browser-config/init.php');+g" moodle/config.php
-          cp ./plugin/tests/configs/localprofiles-ci.php ./moodle-browser-config/localprofiles.php
+          cp /home/runner/work/moodle-puheentunnistus/moodle-puheentunnistus/plugin/tests/configs/localprofiles-ci.php /home/runner/work/moodle-puheentunnistus/moodle-puheentunnistus/moodle-browser-config/localprofiles.php
           cd moodle-browser-config
           ls -la
           cat localprofiles.php
