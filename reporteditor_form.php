@@ -37,7 +37,9 @@ class reporteditor_form extends moodleform {
     /**
      * Custom constructor for reporteditor_form.
      *
+     * @param int $id - id of this activity
      * @param string $attempttype - type of this attempt
+     * @param mixed $attempt - attempt that is being given feedback to
      */
     public function __construct($id, $attempttype, $attempt) {
         $this->attempttype = $attempttype;
@@ -48,7 +50,7 @@ class reporteditor_form extends moodleform {
     }
 
     /**
-     * Definition of audioform fields, types and buttons.
+     * Definition of report_editor form fields, types and buttons.
      *
      */
     public function definition() {
@@ -84,17 +86,15 @@ class reporteditor_form extends moodleform {
     }
 
     /**
-     * toot
+     * Validates all evaluation fields are in correct scale
      *
-     * @param [type] $fromform
-     * @param [type] $files
-     * @return void
+     * @param mixed $fromform - Values coming from form
+     * @param mixed $files - Files (are there any coming?!) coming from form
      */
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
         $attempttype = $this->attempttype;
-
 
         if ($attempttype == 'freeform') {
             if ($fromform['holistic'] < 0 || $fromform['holistic'] > 7) {

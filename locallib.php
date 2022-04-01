@@ -535,9 +535,9 @@ function save_attempt($assignment, $filename, $evaluation) {
 /**
  * Save the attempt to the database.
  *
- * @param digitala_assignment $assignment - assignment includes needed identifications
- * @param string $filename - file name of the recording
- * @param mixed $evaluation - mixed object containing evaluation info
+ * @param string $attempttype - string containing attempt type
+ * @param mixed $fromform - form which we get the data from
+ * @param mixed $oldattempt - attempt that we're giving feedback to
  */
 function save_report_feedback($attempttype, $fromform, $oldattempt) {
     global $DB;

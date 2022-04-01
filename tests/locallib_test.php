@@ -406,7 +406,7 @@ class locallib_test extends \advanced_testcase {
     public function test_get_attempt() {
         global $DB, $USER;
 
-        $result = get_attempt(2);
+        $result = get_attempt(2, $USER->id);
         $this->assertEquals(null, $result);
 
         $timenow = time();
@@ -419,7 +419,7 @@ class locallib_test extends \advanced_testcase {
         $attempt->timemodified = $timenow;
         $DB->insert_record('digitala_attempts', $attempt);
 
-        $result = get_attempt(2);
+        $result = get_attempt(2, $USER->id);
         $this->assertEquals($attempt->gop_score, $result->gop_score);
     }
 
