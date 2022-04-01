@@ -687,6 +687,9 @@ function convertsecondstostring($secs) {
     }
 
     return $hours.$minutes.":".$seconds;
+}
+
+/*
  * Creates attempt number visualization for assignment view.
  *
  * @param digitala_assignment $assignment - assignment containing id information

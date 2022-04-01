@@ -82,8 +82,9 @@ const startRecording = async() => {
                 document.getElementById('recordingLength').textContent = convertSecondsToString(sec);
             }, 1000);
 
+            maxLength = maxLength * 1000;
             if (maxLength !== "0") {
-                timeout = setTimeout(stopRecording, maxLength * 1000);
+                timeout = setTimeout(stopRecording, maxLength);
             }
 
             return;
@@ -121,7 +122,7 @@ const stopRecording = () => {
                     if (event.target.readyState === 4) {
                         document.forms.answerrecording[0].value = event.target.response;
                         document.forms.answerrecording[1].value = sec;
-                        document.getElementById('id_submitbutton').style.display = '';
+                        document.getElementById('submitModalButton').style.display = '';
                     }
                 });
                 req.send(form);
