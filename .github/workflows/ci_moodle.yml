@@ -77,7 +77,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ matrix.extensions }}
           ini-values: max_input_vars=5000, memory_limit=-1, zend_enable_gc=0, max_file_size=100G, post_max_size=100G, upload_max_filesize=100G, tideways.log_segfaults=1
-          coverage: none
+          coverage: pcov
 
       - name: Initialise moodle-plugin-ci
         run: |
@@ -97,7 +97,7 @@ jobs:
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
         continue-on-error: ${{ matrix.experimental }}
         if: ${{ always() }}
-        run: moodle-plugin-ci phpunit --coverage-clover
+        run: phpunit --group mod_digitala --coverage-clover ./coverage.xml
 
       - name: PHP Lint
         continue-on-error: true # This step will show errors but will not fail
