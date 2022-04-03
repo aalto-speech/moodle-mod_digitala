@@ -39,3 +39,4 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/site:manageactivities'
     ),
 );
+
