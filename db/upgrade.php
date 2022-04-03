@@ -164,7 +164,7 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022033000, 'digitala');
     }
 
-    if ($oldversion < 2022033001) {
+    if ($oldversion < 2022040103) {
 
         // Define field maxlength to be added to digitala.
         $table = new xmldb_table('digitala');
@@ -185,7 +185,7 @@ function xmldb_digitala_upgrade($oldversion) {
         }
 
         // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022033001, 'digitala');
+        upgrade_mod_savepoint(true, 2022040103, 'digitala');
     }
 
     return true;
