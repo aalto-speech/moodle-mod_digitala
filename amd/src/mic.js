@@ -93,8 +93,6 @@ const startRecording = async() => {
                     }, timeoutLenght);
                 }
             }
-
-
             return;
         })
         .catch(() => {
@@ -158,7 +156,6 @@ const listenRecording = () => {
         if (pagenum === 0) {
             microphoneIcon.style.border = '2.5px dashed red';
         }
-
     }
 };
 
