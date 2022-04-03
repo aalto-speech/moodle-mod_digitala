@@ -305,7 +305,7 @@ class locallib_test extends \advanced_testcase {
         $formdata->audiostring = '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'; // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $formdata->recordinglength = 60;
         $result = save_answerrecording($formdata, $assignment);
-        $this->assertEquals('No evaluation was found. Check your connection with server.', $result);
+        $this->assertEquals('accessed without internet successful', $result);
     }
 
     /**
