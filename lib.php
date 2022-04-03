@@ -315,4 +315,5 @@ function digitala_extend_navigation($digitalanode, $course, $module, $cm) {
  * @param navigation_node $digitalanode {@see navigation_node}
  */
 function digitala_extend_settings_navigation($settingsnav, $digitalanode = null) {
+
 }

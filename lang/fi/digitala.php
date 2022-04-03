@@ -52,8 +52,7 @@ $string['assignmentresource_help'] = 'Aineisto voidaan liittää tähän. Lue ä
 $string['navnext'] = 'Seuraava >';
 $string['navprevious'] = '< Edellinen';
 $string['navstartagain'] = 'Katso tehtävää';
-$string['navtryagain'] = 'Yritä uudestaan';
-$string['navfeedback'] = 'Anna palautetta';
+$string['feedback'] = 'Anna palautetta';
 $string['info'] = 'Aloitus';
 $string['microphone'] = 'Mikrofonin toiminta';
 $string['infotext'] = 'Kokeile mikrofonin toimintaa ennen tehtävän tekemistä.';
@@ -75,7 +74,7 @@ $string['transcription'] = 'Puheen litterointi';
 
 $string['task_grades'] = 'Osa-arviot';
 
-$string['gop'] = 'Ääntämisen taso';
+$string['gop'] = 'Ääntämisen taso (GOP)';
 $string['gop_score-0'] = 'Ääntämisen taso on 0.';
 $string['gop_score-1'] = 'Ääntämisen taso on 1.';
 $string['gop_score-2'] = 'Ääntämisen taso on 2.';
@@ -172,5 +171,12 @@ $string['api_help'] = 'Anna API-palvelimen osoite.';
 $string['key'] = 'API-palvelimen avain';
 $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
 
-$string['error_url-not-set'] = 'url-osoitetta ei ole asetettu';
-$string['error_no-evaluation'] = 'Arviointia ei löytynyt. Tarkista yhteys arviointipalvelimeen.';
+$string['results_link'] = 'Näytä raportti';
+$string['results_student'] = 'Oppilas';
+$string['results_text'] = 'Tyyppi';
+$string['results_score'] = 'Arvosana/GOP';
+$string['results_time'] = 'Aika';
+$string['results_tries'] = 'Yritys';
+$string['results_report'] = 'Raportti';
+$string['results_denied'] = 'Pääsy kielletty';
+$string['results_return'] = 'Palaa Digitalan etusivulle';

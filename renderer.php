@@ -41,6 +41,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_progress_bar(digitala_progress_bar $progressbar) {
+        global $USER;
+
         $spacers = calculate_progress_bar_spacers($progressbar->currpage);
         $out = start_progress_bar();
         $out .= create_progress_bar_step('info', 0, $progressbar->id, $progressbar->d, $progressbar->currpage);
@@ -49,6 +51,14 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= create_progress_bar_spacer($spacers['right']);
         $out .= create_progress_bar_step('report', 2, $progressbar->id, $progressbar->d, $progressbar->currpage);
         $out .= end_progress_bar();
+        // Temporary link to student results page.
+
+        $systemcontext = context_system::instance();
+        // First version of user permissions check.
+        if (has_capability('mod/digitala:addinstance', $systemcontext)) {
+            $url = results_url($progressbar->id, 'overview');
+            $out .= html_writer::link($url, 'Link to student results ');
+        }
         return $out;
     }
 
@@ -156,5 +166,53 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         $out .= end_container();
         return $out;
+    }
+
+    /**
+     * Renders the results panel for teacher.
+     *
+     * @param digitala_results $result - An instance of digitala_results to render.
+     * @return $out - HTML string to output.
+     */
+    protected function render_digitala_results(digitala_results $result) {
+        $systemcontext = context_system::instance();
+        // First version of user permissions check.
+        if (has_capability('mod/digitala:addinstance', $systemcontext)) {
+            $out = html_writer::tag('h5', 'Student results');
+
+            $table = new html_table();
+
+            $headers = array(
+                new html_table_cell(get_string('results_student', 'digitala')),
+                new html_table_cell(get_string('results_score', 'digitala')),
+                new html_table_cell(get_string('results_time', 'digitala')),
+                new html_table_cell(get_string('results_tries', 'digitala')),
+                new html_table_cell(get_string('results_report', 'digitala')));
+            foreach ($headers as $value) {
+                $value->header = true;
+            }
+
+            $table->data[] = $headers;
+            $attempts = get_all_attempts($result->instanceid);
+
+            foreach ($attempts as $attempt) {
+                $row = create_result_row($attempt, $result->instanceid, $result->id, $result->d);
+                $table->data[] = $row;
+            }
+
+            $out .= html_writer::table($table);
+
+            return $out;
+        } else {
+            $out = get_string('results_denied', 'digitala');
+            $out .= html_writer::tag('br', '');
+
+            $url = $_SERVER['REQUEST_URI'];
+            $newurl = str_replace('page=3', 'page=0', $url);
+            $out .= html_writer::link($newurl, get_string('results_return', 'digitala'));
+
+            return $out;
+
+        }
     }
 }

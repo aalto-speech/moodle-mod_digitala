@@ -26,7 +26,7 @@
 
 
 /**
- * Used to generate page urls for digitala module.
+ * Used to generate page urls for digitala module student views.
  *
  * @param number $page number of the step
  * @param number $id id of the course module
@@ -34,6 +34,17 @@
  */
 function page_url($page, $id, $d) {
     return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page));
+}
+
+/**
+ * Used to generate page urls for digitala module teacher results views.
+ *
+ * @param number $id id of the activity instance
+ * @param string $mode value to render all results on table or one spesific report
+ * @param number $studentid id of the student whose results tescher wants to see
+ */
+function results_url($id, $mode, $studentid=null) {
+    return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => $mode, 'student' => $studentid));
 }
 
 /**
@@ -532,6 +543,62 @@ function get_attempt($instanceid) {
 }
 
 /**
+ * Load all attempts from the database.
+ *
+ * @param int $instanceid - instance id of this digitala activity
+ * @return $attempts - object containing all attempt information
+ */
+function get_all_attempts($instanceid) {
+    global $DB;
+
+    $attempts = $DB->get_records('digitala_attempts', array('digitala'  => $instanceid));
+    return $attempts;
+}
+
+/**
+ * Load users name based on their id.
+ *
+ * @param int $id - id of the user
+ * @return $user - user object
+ */
+function get_user($id) {
+    global $DB;
+
+    $user = $DB->get_record('user', array('id' => $id));
+    return $user;
+}
+
+/**
+ * Load all attempts from the database.
+ *
+ * @param mixed $attempt - object containing attempt information
+ * @param int $instanceid - instance id of this digitala activity
+ * @param int $id - activity id
+ * @param int $d - course id
+ * @return $cells - cells containing table data
+ */
+function create_result_row($attempt, $instanceid, $id, $d) {
+    $user = get_user($attempt->userid);
+
+    $username = new html_table_cell($user->firstname . ' ' . $user->lastname);
+    if ($attempt->holistic) {
+        $score = new html_table_cell($attempt->holistic);
+    } else {
+        $score = new html_table_cell($attempt->gop_score);
+    }
+    $time = new html_table_cell('TODO');
+    $tries = new html_table_cell('TODO');
+
+    $urltext = results_url($id, 'detail', $attempt->userid);
+    $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
+    $reportlink = new html_table_cell($urllink);
+
+    $cells = array($username, $score, $time, $tries, $reportlink);
+    return $cells;
+}
+
+
+/**
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
  * @param array $formdata - form data includes audio as base64 encoded string
@@ -626,7 +693,7 @@ function create_fixed_box() {
     '836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8' .
     ' 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5' .
     ' 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"/></svg>';
-    $out = html_writer::div('Give feedback', 'feedbackcontainer');
+    $out = html_writer::div(get_string('feedback', 'digitala'), 'feedbackcontainer');
     $out .= html_writer::tag('button type="button" class="btn btn-info"' .
     'data-toggle="collapse" data-target="#feedbacksite" id="collapser"', $chaticon);
     $out .= html_writer::div('', 'collapse', array('id' => 'feedbacksite'));
