@@ -94,6 +94,17 @@ jobs:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
 
+      - name: Check out moodle brownser configs base
+        uses: actions/checkout@v2
+        with:
+          repository: andrewnicols/moodle-browser-config
+          path: moodle-browser-config
+
+      - name: Add additional Behat Browsers
+        run: |
+          sed -i "s+// Extra config.+require_once('$(pwd)/moodle-browser-config/init.php');+g" moodle/config.php
+          cp $(pwd)/plugin/tests/configs/localprofiles-ci $(pwd)/moodle-browser-config/localprofiles.php
+
       - name: PHP Lint
         if: ${{ !matrix.experimental }}
         run: moodle-plugin-ci phplint
@@ -140,10 +151,17 @@ jobs:
       - name: Behat features
         continue-on-error: ${{ matrix.experimental }}
         if: ${{ always() }}
-        run: moodle-plugin-ci behat --profile chrome
+        run: |
+          docker -v
+          docker run -d --rm --name=selenium --net=host --shm-size=2g -v $(pwd)/moodle:$(pwd)/moodle selenium/standalone-chrome:3
+          cd $(pwd)/moodle
+          php -S localhost:8000 & echo 'started local'
+          php admin/tool/behat/cli/init.php
+          php admin/tool/behat/cli/run.php --tags=@mod_digitala --profile=audiochrome --verbose -vvv --auto-rerun=2
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
+        continue-on-error: true
         if: ${{ always() }} # Skip in PHP 8.0 since tests are not run at the moment
         with:
           files: ./coverage.xml

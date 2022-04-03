@@ -56,6 +56,8 @@ class answerrecording_form extends moodleform {
 
         $mform->addElement('hidden', 'audiostring', $this->_formname);
         $mform->setType('audiostring', PARAM_RAW);
+        $mform->addElement('hidden', 'recordinglength', $this->_formname);
+        $mform->setType('recordinglength', PARAM_RAW);
 
         $mform->addElement('submit', 'submitbutton', get_string('submit', 'digitala'), 'style="display: block;"');
     }
