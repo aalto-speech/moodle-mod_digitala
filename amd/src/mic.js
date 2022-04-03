@@ -106,10 +106,10 @@ const startRecording = async() => {
 
 const stopRecording = () => {
     if (recorder.getState() === "recording") {
-        clearTimeout(timeout);
-        clearInterval(interval);
 
         recorder.stopRecording(() => {
+            clearTimeout(timeout);
+            clearInterval(interval);
             const audioBlob = recorder.getBlob();
             const audioUrl = URL.createObjectURL(audioBlob);
             audio = new Audio(audioUrl);
