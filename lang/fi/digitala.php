@@ -170,6 +170,8 @@ $string['api'] = 'API-palvelimen osoite';
 $string['api_help'] = 'Anna API-palvelimen osoite.';
 $string['key'] = 'API-palvelimen avain';
 $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
+$string['error_url-not-set'] = 'url-osoitetta ei ole asetettu';
+$string['error_no-evaluation'] = 'Arviointia ei löytynyt. Tarkista yhteys arviointipalvelimeen.';
 
 $string['results_link'] = 'Näytä raportti';
 $string['results_student'] = 'Oppilas';

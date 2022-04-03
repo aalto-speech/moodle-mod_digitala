@@ -163,6 +163,8 @@ $string['api'] = 'API-palvelimen osoite';
 $string['api_help'] = 'Anna API-palvelimen osoite.';
 $string['key'] = 'API-palvelimen avain';
 $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
+$string['error_url-not-set'] = 'url-adress har inte bestämt';
+$string['error_no-evaluation'] = 'Det finns ingen bedömning. Kolla kopplingen med API-server.';
 
 $string['results_link'] = 'Visa rapport';
 $string['results_student'] = 'Student';

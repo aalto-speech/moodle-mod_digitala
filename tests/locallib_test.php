@@ -489,5 +489,71 @@ class locallib_test extends \advanced_testcase {
         $result = create_attempt_modal($assignment);
         $this->assertEquals('<button id="submitModalButton" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#attemptModal" style="display: none">Submit answer</button><div class="modal" id="attemptModal" tabindex="-1" role="dialog" aria-labelledby="submitModal" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Are you sure you want to submit this attempt?</h5><button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>You still have 1 attempts remaining on this assignment.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>No evaluation was found. Check your connection with server.</div></div></div></div>', $result);
     }
+
+    /**
+     * Tests creating the results url.
+     */
+    public function test_results_url() {
+        $generatedurl = results_url(1,1,1);
+        $this->assertEquals($generatedurl, 'https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=1&amp;student=1');
+    }
+
+    /**
+     * Tests getting all attempts.
+     */
+    public function test_get_all_attempts() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+
+        save_attempt($assignment, 'filename1', $evaluation);
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 2;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 3;
+
+        save_attempt($assignment, 'filename2', $evaluation);
+
+        $records = $DB->get_records('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid));
+        $this->assertEquals(2,count($records));
+    }
+
+    /**
+     * Tests getting user and compares their ids.
+     */
+    public function test_get_user() {
+        global $USER;
+        $result = get_user(2);
+        $this->assertEquals($USER->id, $result->id);
+    }
+
+    /**
+     * Tests creating result row.
+     */
+    public function test_create_result_row() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+
+        save_attempt($assignment, 'filename', $evaluation);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+
+        $result = create_result_row($record, $assignment->instanceid, $this->digitala->id, $this->course->id);
+        // Html_table_cells dont seem to work in tests so this is a bandaid for now.
+        $this->assertEquals(5, count($result));
+    }
 // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 }
+
