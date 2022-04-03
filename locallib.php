@@ -445,7 +445,6 @@ function create_microphone($id, $maxlength = 0) {
     $out .= html_writer::end_tag('p');
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
     $out .= create_button('listen', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon, true);
-    $out .= html_writer::tag('br', '');
 
     return $out;
 }
