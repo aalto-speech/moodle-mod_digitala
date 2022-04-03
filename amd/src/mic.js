@@ -44,6 +44,9 @@ const convertSecondsToString = (seconds) => {
 const startRecording = async() => {
     const notGranted = (await navigator.mediaDevices.enumerateDevices())[0].label === "";
 
+    clearTimeout(timeout);
+    clearInterval(interval);
+
     if (notGranted) {
         try {
             navigator.mediaDevices.getUserMedia({audio: true});
@@ -82,12 +85,15 @@ const startRecording = async() => {
                 document.getElementById('recordingLength').textContent = convertSecondsToString(sec);
             }, 1000);
 
-            maxLength = maxLength * 1000;
-            if (maxLength !== 0) {
-                timeout = setTimeout(() => {
-                    stopRecording();
-                }, maxLength);
+            if (pagenum == 1) {
+                let timeoutLenght = maxLength * 1000;
+                if (maxLength !== 0) {
+                    timeout = setTimeout(() => {
+                        stopRecording();
+                    }, timeoutLenght);
+                }
             }
+
 
             return;
         })
@@ -102,6 +108,9 @@ const startRecording = async() => {
 
 const stopRecording = () => {
     if (recorder.getState() === "recording") {
+        clearTimeout(timeout);
+        clearInterval(interval);
+
         recorder.stopRecording(() => {
             const audioBlob = recorder.getBlob();
             const audioUrl = URL.createObjectURL(audioBlob);
@@ -132,8 +141,6 @@ const stopRecording = () => {
             recButton.innerHTML = "<span>" + langStrings[0] + "</span> " + document.getElementById('startIcon').innerHTML;
             recButton.onclick = startRecording;
             listenButton.disabled = false;
-            clearTimeout(timeout);
-            clearInterval(interval);
         });
         window.console.log('Digitala: Recording stopped');
     }
