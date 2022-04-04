@@ -26,7 +26,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once(__DIR__.'/renderable.php');
 
-global $USER;
+global $USER, $DB;
 
 // Course module id.
 $id = optional_param('id', 0, PARAM_INT);
@@ -66,9 +66,11 @@ $OUTPUT = $PAGE->get_renderer('mod_digitala');
 $mode = optional_param('mode', 'overview', PARAM_TEXT);
 $student = optional_param('student', 0, PARAM_INT);
 
-$systemcontext = context_system::instance();
-if (has_capability('mod/digitala:viewdetailreport', $systemcontext)) {
-    if ($mode == "detail") {
+if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
+    if ($mode == "overview") {
+        $studentuser = $DB->get_record('user', ['username' => 'olli'], '*', MUST_EXIST);
+        $content = '<a href="/mod/digitala/report.php?id='.$id.'&mode=detail&student='.$studentuser->id.'">Details</a>';
+    } else if ($mode == "detail") {
         $config = ['paths' => ['chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'],
                 'waitSeconds' => 40, 'enforceDefine' => false];
         $requirejs = 'require.config(' . json_encode($config) . ')';
@@ -78,7 +80,10 @@ if (has_capability('mod/digitala:viewdetailreport', $systemcontext)) {
         $content = $OUTPUT->render(new digitala_short_assignment($moduleinstance->assignment, $moduleinstance->resources,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang));
         $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $student));
+                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
+                                $student));
+        $content .= '<a class="btn btn-primary" href="/mod/digitala/reporteditor.php?id='.$id.'&student='.$student.'">'.
+                    'Give feedback on report</a>';
     } else {
         $content = 'Nothing to see here, mate!';
     }

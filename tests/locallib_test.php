@@ -529,4 +529,86 @@ class locallib_test extends \advanced_testcase {
         $result = convertsecondstostring(36000);
         $this->assertEquals('10:00:00', $result);
     }
+
+    public function test_save_report_feedback_readaloud() {
+        global $DB;
+
+        $fromform = new \stdClass();
+        $fromform->gop_score = 1;
+        $fromform->gop_scorereason = "I'm a reason, did you know!?";
+
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 5;
+        $oldattempt->gop_score = 4;
+
+        save_report_feedback('readaloud', $fromform, $oldattempt);
+
+        $result = $DB->record_exists('digitala_report_feedback',
+                                     array('attempt' => 5));
+        $this->assertEquals(true, $result);
+
+        $feedback = $DB->get_record('digitala_report_feedback',
+                                    array('attempt' => 5));
+        $this->assertEquals(4, $feedback->old_gop_score);
+        $this->assertEquals(1, $feedback->gop_score);
+        $this->assertEquals("I'm a reason, did you know!?", $feedback->gop_score_reason);
+        $this->assertEquals(false, isset($feedback->old_fluency));
+        $this->assertEquals(false, isset($feedback->accuracy));
+        $this->assertEquals(false, isset($feedback->nativeity_reason));
+
+    }
+
+    public function test_save_report_feedback_freeform() {
+        global $DB;
+
+        $fromform = new \stdClass();
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = "I'm a fluency reason, did you know!?";
+        $fromform->accuracy = 2;
+        $fromform->accuracyreason = "I'm a accuracy reason, did you know!?";
+        $fromform->lexicalprofile = 3;
+        $fromform->lexicalprofilereason = "I'm a lexicalprofile reason, did you know!?";
+        $fromform->nativeity = 2;
+        $fromform->nativeityreason = "I'm a nativeity reason, did you know!?";
+        $fromform->holistic = 1;
+        $fromform->holisticreason = "I'm a holistic reason, did you know!?";
+
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 6;
+        $oldattempt->fluency = 3;
+        $oldattempt->accuracy = 1;
+        $oldattempt->lexicalprofile = 2;
+        $oldattempt->nativeity = 0;
+        $oldattempt->holistic = 3;
+
+        save_report_feedback('freeform', $fromform, $oldattempt);
+
+        $result = $DB->record_exists('digitala_report_feedback',
+                                     array('attempt' => 6));
+        $this->assertEquals(true, $result);
+
+        $feedback = $DB->get_record('digitala_report_feedback',
+                                    array('attempt' => 6));
+        $this->assertEquals(3, $feedback->old_fluency);
+        $this->assertEquals(1, $feedback->old_accuracy);
+        $this->assertEquals(2, $feedback->old_lexicalprofile);
+        $this->assertEquals(0, $feedback->old_nativeity);
+        $this->assertEquals(3, $feedback->old_holistic);
+        $this->assertEquals(1, $feedback->fluency);
+        $this->assertEquals(2, $feedback->accuracy);
+        $this->assertEquals(3, $feedback->lexicalprofile);
+        $this->assertEquals(2, $feedback->nativeity);
+        $this->assertEquals(1, $feedback->holistic);
+        $this->assertEquals("I'm a fluency reason, did you know!?", $feedback->fluency_reason);
+        $this->assertEquals("I'm a accuracy reason, did you know!?", $feedback->accuracy_reason);
+        $this->assertEquals("I'm a lexicalprofile reason, did you know!?", $feedback->lexicalprofile_reason);
+        $this->assertEquals("I'm a nativeity reason, did you know!?", $feedback->nativeity_reason);
+        $this->assertEquals("I'm a holistic reason, did you know!?", $feedback->holistic_reason);
+        $this->assertEquals(false, isset($feedback->gop_score));
+    }
+
+    public function test_create_short_assignment_tabs() {
+        $result = create_short_assignment_tabs('', '');
+        $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Resources</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
 }

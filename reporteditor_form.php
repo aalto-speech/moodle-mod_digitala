@@ -61,15 +61,15 @@ class reporteditor_form extends moodleform {
 
         if ($attempttype == 'freeform') {
             $mform->addElement('float', 'fluency', get_string('fluency', 'mod_digitala'));
-            $mform->addElement('textarea', 'fluencyreason', get_string('reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('textarea', 'fluencyreason', get_string('fluency-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'accuracy', get_string('accuracy', 'mod_digitala'));
-            $mform->addElement('textarea', 'accuracyreason', get_string('reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('textarea', 'accuracyreason', get_string('accuracy-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'lexicalprofile', get_string('lexicalprofile', 'mod_digitala'));
-            $mform->addElement('textarea', 'lexicalprofilereason', get_string('reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('textarea', 'lexicalprofilereason', get_string('lexicalprofile-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'nativeity', get_string('nativeity', 'mod_digitala'));
-            $mform->addElement('textarea', 'nativeityreason', get_string('reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('textarea', 'nativeityreason', get_string('nativeity-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'holistic', get_string('holistic', 'mod_digitala'));
-            $mform->addElement('textarea', 'holisticreason', get_string('reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('textarea', 'holisticreason', get_string('holistic-reason', 'digitala'), 'rows="5" cols="50"');
 
             $mform->getElement('fluency')->setValue($attempt->fluency);
             $mform->getElement('accuracy')->setValue($attempt->accuracy);
@@ -78,7 +78,7 @@ class reporteditor_form extends moodleform {
             $mform->getElement('holistic')->setValue($attempt->holistic);
         } else if ($attempttype == 'readaloud') {
             $mform->addElement('float', 'gop', get_string('gop', 'mod_digitala'));
-            $mform->addElement('textarea', 'gopreason', get_string('reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('textarea', 'gopreason', get_string('gop-reason', 'digitala'), 'rows="5" cols="50"');
 
             $mform->getElement('gop')->setValue($attempt->gop_score);
         }

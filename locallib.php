@@ -350,8 +350,8 @@ function create_report_tabs($gradings, $holistic) {
 /**
  * Creates tab navigation and contents for short assignment
  *
- * @param string $assignment html content of gradings shown
- * @param string $resources html content of holistic shown
+ * @param string $assignment html content of assignment shown
+ * @param string $resources html content of resources shown
  */
 function create_short_assignment_tabs($assignment, $resources) {
     $out = html_writer::start_tag('nav');
@@ -525,7 +525,7 @@ function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $typ
 function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
     global $DB;
 
-    $attempt = get_attempt($assignment->instanceid);
+    $attempt = get_attempt($assignment->instanceid, $assignment->userid);
 
     if (isset($attempt)) {
         $attempt->attemptnumber++;
@@ -578,7 +578,7 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
     $feedback = new stdClass();
     $feedback->attempt = $oldattempt->id;
 
-    if ($attempttype == "freeform") {
+    if ($attempttype == 'freeform') {
         $feedback->old_fluency = $oldattempt->fluency;
         $feedback->fluency = $fromform->fluency;
         $feedback->fluency_reason = $fromform->fluencyreason;
@@ -599,10 +599,10 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
         $feedback->holistic = $fromform->holistic;
         $feedback->holistic_reason = $fromform->holisticreason;
 
-    } else if ($attempttype == "readaloud") {
+    } else if ($attempttype == 'readaloud') {
         $feedback->old_gop_score = $oldattempt->gop_score;
-        $feedback->gop_score = $fromform->gop_score;
-        $feedback->gop_score_reason = $fromform->gop_scorereason;
+        $feedback->gop_score = $fromform->gop;
+        $feedback->gop_score_reason = $fromform->gopreason;
     }
 
     $timenow = time();
@@ -772,13 +772,14 @@ function convertsecondstostring($secs) {
  * Creates attempt number visualization for assignment view.
  *
  * @param digitala_assignment $assignment - assignment containing id information
+ * @param int $userid - id of the user
  */
-function create_attempt_number($assignment) {
+function create_attempt_number($assignment, $userid) {
     $remaining = $assignment->attemptlimit;
     if ($remaining == 0) {
         $out = get_string('attemptsunlimited', 'mod_digitala');
     } else {
-        $attempt = get_attempt($assignment->instanceid);
+        $attempt = get_attempt($assignment->instanceid, $userid);
         if (isset($attempt)) {
             $remaining -= $attempt->attemptnumber;
         }
@@ -816,7 +817,7 @@ function create_attempt_modal($assignment) {
     if ($remaining == 0) {
         $out .= get_string('attemptsunlimited', 'mod_digitala');
     } else {
-        $attempt = get_attempt($assignment->instanceid);
+        $attempt = get_attempt($assignment->instanceid, $assignment->userid);
         if (isset($attempt)) {
             $remaining -= $attempt->attemptnumber;
         }

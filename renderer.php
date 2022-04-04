@@ -91,7 +91,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
         } else {
-            $out .= create_card('assignmentrecord', create_attempt_number($assignment).
+            $out .= create_card('assignmentrecord', create_attempt_number($assignment, $assignment->userid).
                                                     create_microphone('assignment', $assignment->maxlength).
                                                     create_attempt_modal($assignment));
             $out .= create_nav_buttons('assignmentprev', $assignment->id, $assignment->d);
@@ -126,7 +126,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $remaining = $report->attemptlimit - $attempt->attemptnumber;
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
-            $out .= create_attempt_number($report);
+            $out .= create_attempt_number($report, $report->student);
             $out .= '<br><audio controls><source src='.$audiourl.'></audio><br>';
 
             if ($report->attempttype == "freeform") {

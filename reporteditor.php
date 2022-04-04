@@ -66,9 +66,7 @@ $PAGE->set_context($modulecontext);
 $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
 
-
-$systemcontext = context_system::instance();
-if (has_capability('mod/digitala:editreport', $systemcontext)) {
+if (has_capability('mod/digitala:editreport', $modulecontext)) {
     $content = $OUTPUT->render(new digitala_report_editor($moduleinstance->id, $modulecontext->id, $id, $d,
                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $student));
 

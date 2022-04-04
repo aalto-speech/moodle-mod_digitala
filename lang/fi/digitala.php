@@ -177,7 +177,12 @@ $string['key'] = 'API-palvelimen avain';
 $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
 
 $string['edit_report'] = 'Edit report';
-$string['reason'] = 'Reason';
+$string['holistic-reason'] = 'Feedback on holistic';
+$string['fluency-reason'] = 'Feedback on fluency';
+$string['accuracy-reason'] = 'Feedback on accuracy';
+$string['lexicalprofile-reason'] = 'Feedback on lexical profile';
+$string['nativeity-reason'] = 'Feedback on nativeity';
+$string['gop-reason'] = 'Feedback on goodness of pronunciation';
 $string['holistic-scale_error'] = 'Holistic needs to be between 0 and 7';
 $string['fluency-scale_error'] = 'Fluency needs to be between 0 and 3';
 $string['accuracy-scale_error'] = 'Accuracy needs to be between 0 and 3';

@@ -59,22 +59,22 @@
         <FIELD NAME="attempt" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Digitala activity that was attempted."/>
         <FIELD NAME="old_fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
         <FIELD NAME="fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
-        <FIELD NAME="fluency_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="fluency_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="old_accuracy" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
         <FIELD NAME="accuracy" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
-        <FIELD NAME="accuracy_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="accuracy_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="old_lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
         <FIELD NAME="lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
-        <FIELD NAME="lexicalprofile_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="lexicalprofile_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="old_nativeity" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
         <FIELD NAME="nativeity" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
-        <FIELD NAME="nativeity_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="nativeity_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="old_holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
         <FIELD NAME="holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
-        <FIELD NAME="holistic_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="holistic_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="old_gop_score" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
         <FIELD NAME="gop_score" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
-        <FIELD NAME="gop_score_reason" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="gop_score_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>

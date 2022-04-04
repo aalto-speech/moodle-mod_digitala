@@ -60,7 +60,7 @@ $capabilities = array(
     ],
     'mod/digitala:editreport' => [
         'riskbitmask' => RISK_PERSONAL,
-        'captype' => 'read',
+        'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'teacher' => CAP_ALLOW,
