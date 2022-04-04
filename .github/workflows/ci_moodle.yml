@@ -97,7 +97,9 @@ jobs:
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
         continue-on-error: ${{ matrix.experimental }}
         if: ${{ always() }}
-        run: moodle/vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug
+        run: |
+          php moodle/admin/tool/phpunit/cli/init.php
+          moodle/vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug
 
       - name: Check out moodle brownser configs base
         uses: actions/checkout@v2
