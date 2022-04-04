@@ -102,10 +102,11 @@ jobs:
           chmod 777 coverage
           cd moodle
           php admin/tool/phpunit/cli/init.php
-          vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)/coverage/coverage.xml
+          vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)/../coverage/coverage.xml
           cd ..
           cd coverage
           ls -la
+          cd ..
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
