@@ -75,7 +75,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ matrix.extensions }}
+          extensions: ${{ matrix.extensions }}, pcov
           ini-values: max_input_vars=5000, memory_limit=-1, zend_enable_gc=0, max_file_size=100G, post_max_size=100G, upload_max_filesize=100G, tideways.log_segfaults=1
           coverage: pcov
 
@@ -102,10 +102,20 @@ jobs:
           chmod 777 coverage
           cd moodle
           php admin/tool/phpunit/cli/init.php
-          vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)/coverage
+          vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)/coverage/coverage.xml
           cd ..
           cd coverage
           ls -la
+
+      - name: Codecov upload
+        uses: codecov/codecov-action@v2
+        continue-on-error: true
+        if: ${{ always() }} # Skip in PHP 8.0 since tests are not run at the moment
+        with:
+          files: ./coverage/coverage.xml
+          fail_ci_if_error: ${{ !matrix.experimental }}
+          root_dir: ./moodle/mod/digitala/
+          name: ${{ matrix.moodle-branch }} (${{ matrix.php }})
 
       - name: Check out moodle brownser configs base
         uses: actions/checkout@v2
@@ -173,16 +183,6 @@ jobs:
           php -S localhost:8000 & echo 'started local'
           php admin/tool/behat/cli/init.php
           php admin/tool/behat/cli/run.php --tags=@mod_digitala --profile=audiochrome --verbose -vvv --auto-rerun=2
-
-      - name: Codecov upload
-        uses: codecov/codecov-action@v2
-        continue-on-error: true
-        if: ${{ always() }} # Skip in PHP 8.0 since tests are not run at the moment
-        with:
-          files: ./coverage/coverage.xml
-          fail_ci_if_error: ${{ !matrix.experimental }}
-          root_dir: ./moodle/mod/digitala/
-          name: ${{ matrix.moodle-branch }} (${{ matrix.php }})
 
   version:
     runs-on: ubuntu-18.04
