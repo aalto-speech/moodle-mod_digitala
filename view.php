@@ -72,7 +72,9 @@ $config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/Re
 $requirejs = 'require.config(' . json_encode($config) . ')';
 $PAGE->requires->js_amd_inline($requirejs);
 
-$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone', array($pagenum, $id, $USER->id, $USER->username));
+$maxlength = $moduleinstance->maxlength;
+$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
+                             array($pagenum, $id, $USER->id, $USER->username, $maxlength));
 $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($pagenum));
 
 if ($pagenum == 0) {
@@ -80,10 +82,12 @@ if ($pagenum == 0) {
 } else if ($pagenum == 1) {
     $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id, $USER->username,
                                 $id, $d, $moduleinstance->assignment, $moduleinstance->resources,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang));
+                                $moduleinstance->attempttype, $moduleinstance->attemptlang,
+                                $moduleinstance->maxlength, $moduleinstance->attemptlimit));
 } else {
     $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $USER->id));
+                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
+                                $USER->id));
 }
 
 echo $OUTPUT->header();

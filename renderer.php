@@ -87,12 +87,13 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         $attempt = get_attempt($assignment->instanceid, $assignment->userid);
 
-        if (isset($attempt)) {
+        if ($assignment->attemptlimit != 0 && isset($attempt) && $attempt->attemptnumber >= $assignment->attemptlimit) {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
         } else {
-            $out .= create_card('assignmentrecord', create_microphone('assignment').'<br>'.
-                create_answerrecording_form($assignment));
+            $out .= create_card('assignmentrecord', create_attempt_number($assignment).
+                                                    create_microphone('assignment', $assignment->maxlength).
+                                                    create_attempt_modal($assignment));
             $out .= create_nav_buttons('assignmentprev', $assignment->id, $assignment->d);
         }
         $out .= end_column();
@@ -119,11 +120,14 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $attempt = get_attempt($report->instanceid, $report->student);
 
         if (is_null($attempt)) {
+            $remaining = $report->attemptlimit;
             $out .= create_card('report', get_string('reportnotavailable', 'digitala'));
         } else {
+            $remaining = $report->attemptlimit - $attempt->attemptnumber;
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
-            $out .= '<audio controls><source src='.$audiourl.'></audio><br>';
+            $out .= create_attempt_number($report);
+            $out .= '<br><audio controls><source src='.$audiourl.'></audio><br>';
 
             if ($report->attempttype == "freeform") {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 3);
@@ -139,7 +143,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $out .= create_report_gop($attempt->gop_score);
             }
         }
-        $out .= create_nav_buttons('report', $report->id, $report->d);
+        $out .= create_nav_buttons('report', $report->id, $report->d, $remaining);
         $out .= create_fixed_box();
         $out .= end_column();
 

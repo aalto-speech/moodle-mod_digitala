@@ -48,9 +48,9 @@ const createChart = async(id, grade, maxgrade) => {
                 type: 'line',
                 label: evalString,
                 data: [length],
-                backgroundColor: 'rgba(255,0,0,1)',
+                backgroundColor: 'rgba(0,0,0,1)',
                 showLine: true,
-                pointRadius: 7.5,
+                pointRadius: 12.5,
             }
         ];
     }
@@ -168,6 +168,11 @@ const createChart = async(id, grade, maxgrade) => {
             scales: {
                 x: {
                     stacked: true,
+                    ticks: {
+                        font: {
+                            size: 16
+                        }
+                    }
                 },
                 y: {
                     stacked: true

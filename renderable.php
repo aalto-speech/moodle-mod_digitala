@@ -86,9 +86,11 @@ class digitala_assignment implements renderable {
      * @param string $resourcetext - Resource text for the assignment
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     * @param int $maxlength - maximum length of the recording in seconds, 0 = no limit
+     * @param string $attemptlimit - Number of attempts that a person can submit
      */
     public function __construct($instanceid, $contextid, $userid, $username, $id = 0, $d = 0,
-        $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+        $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '',  $maxlength = 0, $attemptlimit = 1) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
@@ -99,6 +101,8 @@ class digitala_assignment implements renderable {
         $this->resourcetext = $resourcetext;
         $this->attempttype = $attempttype;
         $this->attemptlang = $attemptlang;
+        $this->maxlength = $maxlength;
+        $this->attemptlimit = $attemptlimit;
         $this->form = new answerrecording_form($id, $d, 1);
     }
 }
@@ -121,15 +125,17 @@ class digitala_report implements renderable {
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
      * @param int $student - User id of student
+     * @param string $attemptlimit - Number of attempts that a person can submit
      */
     public function __construct($instanceid, $contextid, $id = 0, $d = 0, $attempttype = '', $attemptlang = '',
-                                $student = null) {
+                                $attemptlimit = 1, $student = null) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
         $this->d = $d;
         $this->attempttype = $attempttype;
         $this->attemptlang = $attemptlang;
+        $this->attemptlimit = $attemptlimit;
         $this->student = $student;
     }
 }
