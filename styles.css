@@ -171,3 +171,12 @@
     bottom: 2.5vw;
     right: 2.5vw;
 }
+
+.modal-footer > .mform > .form-group {
+    margin: 0;
+}
+
+.modal-footer .col-form-label {
+    flex: 0;
+    padding: 0;
+}
