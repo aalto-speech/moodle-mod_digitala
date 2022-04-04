@@ -100,7 +100,7 @@ jobs:
         run: |
           cd moodle
           php admin/tool/phpunit/cli/init.php
-          vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover ./
+          vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)
 
       - name: Check out moodle brownser configs base
         uses: actions/checkout@v2
