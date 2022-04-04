@@ -103,6 +103,9 @@ jobs:
           cd moodle
           php admin/tool/phpunit/cli/init.php
           vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)/coverage
+          cd ..
+          cd coverage
+          ls -la
 
       - name: Check out moodle brownser configs base
         uses: actions/checkout@v2
@@ -176,7 +179,7 @@ jobs:
         continue-on-error: true
         if: ${{ always() }} # Skip in PHP 8.0 since tests are not run at the moment
         with:
-          files: ./coverage.xml
+          files: ./coverage/coverage.xml
           fail_ci_if_error: ${{ !matrix.experimental }}
           root_dir: ./moodle/mod/digitala/
           name: ${{ matrix.moodle-branch }} (${{ matrix.php }})
