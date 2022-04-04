@@ -98,9 +98,11 @@ jobs:
         continue-on-error: ${{ matrix.experimental }}
         if: ${{ always() }}
         run: |
+          mkdir coverage
+          chmod 777 coverage
           cd moodle
           php admin/tool/phpunit/cli/init.php
-          vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)
+          vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)/coverage
 
       - name: Check out moodle brownser configs base
         uses: actions/checkout@v2
