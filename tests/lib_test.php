@@ -75,7 +75,6 @@ class lib_test extends \advanced_testcase {
      */
     public function test_digitala_delete_instance() {
         global $DB;
-
         // Get the created digitala course.
         $course = $this->course;
 
@@ -92,8 +91,6 @@ class lib_test extends \advanced_testcase {
      * Test updating a digitala instance.
      */
     public function test_digitala_update_instance() {
-        global $DB;
-
         // Get the created digitala course.
         $course = $this->course;
 
