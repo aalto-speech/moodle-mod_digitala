@@ -98,8 +98,9 @@ jobs:
         continue-on-error: ${{ matrix.experimental }}
         if: ${{ always() }}
         run: |
-          php moodle/admin/tool/phpunit/cli/init.php
-          moodle/vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug
+          cd moodle
+          php admin/tool/phpunit/cli/init.php
+          vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug
 
       - name: Check out moodle brownser configs base
         uses: actions/checkout@v2
