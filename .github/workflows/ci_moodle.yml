@@ -23,16 +23,18 @@ jobs:
         moodle-branch: ['MOODLE_39_STABLE']
         database: [pgsql]
         experimental: [false]
-        extensions: ['tideways']
+        coverage-location: ['./coverage.xml']
         include:
           - php: '8.0'
             moodle-branch: 'MOODLE_311_STABLE'
             database: pgsql
             experimental: true
+            coverage-location: './coverage/coverage.xml'
           - php: '8.0'
             moodle-branch: 'master'
             database: pgsql
             experimental: true
+            coverage-location: './coverage/coverage.xml'
 
     steps:
       - name: Check out repository code
@@ -96,7 +98,7 @@ jobs:
 
       - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
         continue-on-error: ${{ matrix.experimental }}
-        if: ${{ always() }}
+        if: ${{ matrix.php == '8.0' }}
         run: |
           mkdir coverage
           chmod 777 coverage
@@ -108,15 +110,22 @@ jobs:
           ls -la
           cd ..
 
+      - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
+        continue-on-error: ${{ matrix.experimental }}
+        if: ${{ matrix.php != '8.0' }}
+        run: moodle-plugin-ci phpunit --coverage-clover
+
       - name: Codecov upload
         uses: codecov/codecov-action@v2
         continue-on-error: true
         if: ${{ always() }} # Skip in PHP 8.0 since tests are not run at the moment
         with:
-          files: ./coverage/coverage.xml
+          files: ${{ matrix.coverage-location }}
           fail_ci_if_error: ${{ !matrix.experimental }}
           root_dir: ./moodle/mod/digitala/
           name: ${{ matrix.moodle-branch }} (${{ matrix.php }})
+
+
 
       - name: Check out moodle brownser configs base
         uses: actions/checkout@v2
