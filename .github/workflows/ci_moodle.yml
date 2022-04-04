@@ -24,17 +24,20 @@ jobs:
         database: [pgsql]
         experimental: [false]
         coverage-location: ['./coverage.xml']
+        coverage-engine: ['none']
         include:
           - php: '8.0'
             moodle-branch: 'MOODLE_311_STABLE'
             database: pgsql
             experimental: true
             coverage-location: './coverage/coverage.xml'
+            coverage-engine: 'pcov'
           - php: '8.0'
             moodle-branch: 'master'
             database: pgsql
             experimental: true
             coverage-location: './coverage/coverage.xml'
+            coverage-engine: 'pcov'
 
     steps:
       - name: Check out repository code
@@ -79,7 +82,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ matrix.extensions }}, pcov
           ini-values: max_input_vars=5000, memory_limit=-1, zend_enable_gc=0, max_file_size=100G, post_max_size=100G, upload_max_filesize=100G, tideways.log_segfaults=1
-          coverage: pcov
+          coverage: ${{ matrix.coverage-engine }}
 
       - name: Initialise moodle-plugin-ci
         run: |
@@ -96,7 +99,7 @@ jobs:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
 
-      - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
+      - name: PHPUnit tests 8.0 # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
         continue-on-error: ${{ matrix.experimental }}
         if: ${{ matrix.php == '8.0' }}
         run: |
@@ -106,11 +109,8 @@ jobs:
           php admin/tool/phpunit/cli/init.php
           vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)/../coverage/coverage.xml
           cd ..
-          cd coverage
-          ls -la
-          cd ..
 
-      - name: PHPUnit tests # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
+      - name: PHPUnit tests 7 # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
         continue-on-error: ${{ matrix.experimental }}
         if: ${{ matrix.php != '8.0' }}
         run: moodle-plugin-ci phpunit --coverage-clover
@@ -124,8 +124,6 @@ jobs:
           fail_ci_if_error: ${{ !matrix.experimental }}
           root_dir: ./moodle/mod/digitala/
           name: ${{ matrix.moodle-branch }} (${{ matrix.php }})
-
-
 
       - name: Check out moodle brownser configs base
         uses: actions/checkout@v2
