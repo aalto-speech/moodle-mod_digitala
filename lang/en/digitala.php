@@ -52,6 +52,7 @@ $string['assignmentresource_help'] = 'Resources that the user can see before and
 $string['navnext'] = 'Next >';
 $string['navprevious'] = '< Previous';
 $string['navstartagain'] = 'See the assignment';
+$string['navtryagain'] = 'Try again';
 $string['feedback'] = 'Give feedback';
 $string['info'] = 'Info';
 $string['infotext'] = 'Try the microphone before moving on to the assignment';
