@@ -188,6 +188,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         foreach ($attempts as $attempt) {
             $row = create_result_row($attempt, $result->instanceid, $result->id, $result->d);
+            foreach ($row as $cell) {
+                $cell = new html_table_cell($cell);
+            }
             $table->data[] = $row;
         }
 

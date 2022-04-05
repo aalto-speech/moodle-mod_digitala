@@ -509,16 +509,18 @@ class locallib_test extends \advanced_testcase {
         $assignment->userid = 1;
         $evaluation = new \stdClass();
         $evaluation->GOP_score = 4;
+        $recordinglength = 5;
 
-        save_attempt($assignment, 'filename1', $evaluation);
+        save_attempt($assignment, 'filename1', $evaluation, $recordinglength);
 
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 2;
         $evaluation = new \stdClass();
         $evaluation->GOP_score = 3;
+        $recordinglength = 5;
 
-        save_attempt($assignment, 'filename2', $evaluation);
+        save_attempt($assignment, 'filename2', $evaluation, $recordinglength);
 
         $records = $DB->get_records('digitala_attempts',
                                   array('digitala' => $assignment->instanceid));
@@ -538,23 +540,27 @@ class locallib_test extends \advanced_testcase {
      * Tests creating result row.
      */
     public function test_create_result_row() {
-        global $DB;
+        global $DB, $USER;
 
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
-        $assignment->userid = 1;
+        $assignment->userid = 2;
         $evaluation = new \stdClass();
         $evaluation->GOP_score = 4;
+        $recordinglength = 5;
 
-        save_attempt($assignment, 'filename', $evaluation);
+        save_attempt($assignment, 'filename', $evaluation, $recordinglength);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
 
         $result = create_result_row($record, $assignment->instanceid, $this->digitala->id, $this->course->id);
-        // Html_table_cells dont seem to work in tests so this is a bandaid for now.
-        $this->assertEquals(5, count($result));
+        $this->assertEquals('Admin User', $result[0]);
+        $this->assertEquals(4, $result[1]);
+        $this->assertEquals('5 s', $result[2]);
+        $this->assertEquals(1, $result[3]);
+        $this->assertEquals('<a href="https://www.example.com/moodle/mod/digitala/report.php?id=237000&amp;mode=detail&amp;student=2">See report</a>', $result[4]);
     }
-// @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+
     /**
      * Tests convertsecondstostring for making time strings from seconds
      */

@@ -600,20 +600,19 @@ function get_user($id) {
 function create_result_row($attempt, $instanceid, $id, $d) {
     $user = get_user($attempt->userid);
 
-    $username = new html_table_cell($user->firstname . ' ' . $user->lastname);
+    $username = $user->firstname . ' ' . $user->lastname;
     if ($attempt->holistic) {
-        $score = new html_table_cell($attempt->holistic);
+        $score = $attempt->holistic;
     } else {
-        $score = new html_table_cell($attempt->gop_score);
+        $score = $attempt->gop_score;
     }
-    $time = new html_table_cell($attempt->recordinglength . ' s');
-    $tries = new html_table_cell($attempt->attemptnumber);
+    $time = ($attempt->recordinglength . ' s');
+    $tries = ($attempt->attemptnumber);
 
     $urltext = results_url($id, 'detail', $attempt->userid);
     $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
-    $reportlink = new html_table_cell($urllink);
 
-    $cells = array($username, $score, $time, $tries, $reportlink);
+    $cells = array($username, $score, $time, $tries, $urllink);
     return $cells;
 }
 
