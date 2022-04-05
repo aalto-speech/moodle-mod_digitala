@@ -322,7 +322,9 @@ function digitala_extend_settings_navigation($settingsnav, $digitalanode = null)
         null, null);
     }
 }
-
+/**
+ * This function renders the url to move from actions menu to students' results view
+ */
 function get_editor_url() {
     $id = CONTEXT_MODULE;
     return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => 'overview'));
