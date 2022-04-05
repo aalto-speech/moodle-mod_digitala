@@ -27,4 +27,3 @@ Feature: Teacher can see students overview report
   Scenario: Overview report link shows for teacher in actions menu
     When I am on the "C1" "Course" page logged in as "ossi"
     And I wait "5" seconds
-
