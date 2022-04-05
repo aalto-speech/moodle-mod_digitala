@@ -586,8 +586,8 @@ function create_result_row($attempt, $instanceid, $id, $d) {
     } else {
         $score = new html_table_cell($attempt->gop_score);
     }
-    $time = new html_table_cell('TODO');
-    $tries = new html_table_cell('TODO');
+    $time = new html_table_cell($attempt->recordinglength . ' s');
+    $tries = new html_table_cell($attempt->attemptnumber);
 
     $urltext = results_url($id, 'detail', $attempt->userid);
     $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
