@@ -24,6 +24,7 @@
 
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
+require_once(__DIR__.'/locallib.php');
 require_once(__DIR__.'/renderable.php');
 require_once(__DIR__.'/answerrecording_form.php');
 
@@ -66,8 +67,11 @@ $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
 $pagenum = optional_param('page', 0, PARAM_INT);
 
-if ($pagenum !== 3) {
-    $content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
+$content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
+
+if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
+    $url = results_url($cm->id, 'overview');
+    $content .= html_writer::link($url, 'Link to student results ');
 }
 
 $studentid = optional_param('studentid', 0, PARAM_INT);

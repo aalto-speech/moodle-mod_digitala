@@ -66,14 +66,16 @@ $OUTPUT = $PAGE->get_renderer('mod_digitala');
 $mode = optional_param('mode', 'overview', PARAM_TEXT);
 $student = optional_param('student', 0, PARAM_INT);
 
-$systemcontext = context_system::instance();
-// Add permission check like: "if (has_capability('mod/digitala:viewdetailreport', $systemcontext))".
-if ($mode == 'detail') {
-    $content = 'Coming soon';
-} else if ($mode == 'overview') {
-    $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $modulecontext->id, $id, $d));
+if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
+    if ($mode == 'overview') {
+        $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $modulecontext->id, $id, $d));
+    } else if ($mode == 'detail') {
+        $content = "Coming soon";
+    } else {
+        $content = get_string('results_denied', 'digitala');
+    }
 } else {
-    $content = 'Nothing to see here, mate!';
+    $content = get_string('results_denied', 'digitala');
 }
 
 echo $OUTPUT->header();
