@@ -69,13 +69,6 @@ $pagenum = optional_param('page', 0, PARAM_INT);
 
 $content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
 
-if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
-    $url = results_url($cm->id, 'overview');
-    $content .= html_writer::link($url, 'Link to student results ');
-}
-
-$studentid = optional_param('studentid', 0, PARAM_INT);
-
 $config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC',
 'chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'], 'waitSeconds' => 40, 'enforceDefine' => false];
 $requirejs = 'require.config(' . json_encode($config) . ')';

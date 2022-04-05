@@ -315,5 +315,15 @@ function digitala_extend_navigation($digitalanode, $course, $module, $cm) {
  * @param navigation_node $digitalanode {@see navigation_node}
  */
 function digitala_extend_settings_navigation($settingsnav, $digitalanode = null) {
+    $modulecontext = context_module::instance(CONTEXT_MODULE);
+    if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
+        $digitalanode->add(get_string('results_view', 'digitala'),
+        get_editor_url(), settings_navigation::TYPE_CUSTOM,
+        null, null);
+    }
+}
 
+function get_editor_url() {
+    $id = CONTEXT_MODULE;
+    return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => 'overview'));
 }

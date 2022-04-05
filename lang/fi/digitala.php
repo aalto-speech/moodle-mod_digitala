@@ -186,3 +186,4 @@ $string['results_tries'] = 'Yritys';
 $string['results_report'] = 'Raportti';
 $string['results_denied'] = 'Pääsy kielletty';
 $string['results_return'] = 'Palaa Digitalan etusivulle';
+$string['results_view'] = 'Tarkastele oppilaiden tuloksia';

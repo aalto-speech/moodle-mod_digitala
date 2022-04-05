@@ -151,3 +151,4 @@ $string['results_tries'] = 'Tries';
 $string['results_report'] = 'Report';
 $string['results_denied'] = 'Access denied';
 $string['results_return'] = 'Return to Digitala';
+$string['results_view'] = 'View student results';
