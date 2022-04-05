@@ -40,8 +40,6 @@ class locallib_test extends \advanced_testcase {
      * Setup for unit test.
      */
     protected function setUp(): void {
-        gc_disable();
-        ini_set('memory_limit', -1);
         $this->setAdminUser();
         $this->resetAfterTest();
         $this->course = $this->getDataGenerator()->create_course();
@@ -52,6 +50,7 @@ class locallib_test extends \advanced_testcase {
             'attempttype' => 'freeform',
             'assignment' => 'Assignment text',
             'resources' => array('text' => 'Resource text', 'format' => 1),
+            'maxlength' => 120,
         ]);
     }
 
@@ -302,6 +301,7 @@ class locallib_test extends \advanced_testcase {
 
         $formdata = new \stdClass();
         $formdata->audiostring = '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'; // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $formdata->recordinglength = 60;
         $result = save_answerrecording($formdata, $assignment);
         $this->assertEquals('accessed without internet successful', $result);
     }
@@ -367,7 +367,7 @@ class locallib_test extends \advanced_testcase {
         $evaluation->Accuracy->nativeity = 4;
         $evaluation->Holistic = 4;
 
-        save_attempt($assignment, 'filename', $evaluation);
+        save_attempt($assignment, 'filename', $evaluation, 60);
 
         $result = $DB->record_exists('digitala_attempts',
                                      array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
@@ -390,7 +390,7 @@ class locallib_test extends \advanced_testcase {
         $evaluation = new \stdClass();
         $evaluation->GOP_score = 4;
 
-        save_attempt($assignment, 'filename', $evaluation);
+        save_attempt($assignment, 'filename', $evaluation, 60);
 
         $result = $DB->record_exists('digitala_attempts',
                                      array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
@@ -426,7 +426,7 @@ class locallib_test extends \advanced_testcase {
 // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
     public function test_create_microphone() {
         $result = create_microphone('testmic');
-        $this->assertEquals('<br></br><button id="record" class="btn btn-primary record-btn">Start <svg width="16" height="16" fill="currentColor"class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg></button><button id="stopRecord" class="btn btn-primary stopRecord-btn">Stop <svg width="16" height="16" fill="currentColor"class="bi bi-stop-fill" viewBox="0 0 16 16"><path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/></svg></button><button id="listenButton" class="btn btn-primary listen-btn ml-2">Listen recording <svg width="16" height="16" fill="currentColor"class="bi bi-volume-down-fill" viewBox="0 0 16 16"><path d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486 4.486 0 0 1 12.025 8z"/></svg></button>', $result);
+        $this->assertEquals('<br></br><div id="startIcon" style="display: none;"><svg width="16" height="16" fill="currentColor"class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg></div><div id="stopIcon" style="display: none;"><svg width="16" height="16" fill="currentColor"class="bi bi-stop-fill" viewBox="0 0 16 16"><path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/></svg></div><p id="recordTimer"><span id="recordingLength">00:00</span><span></span></p><button id="record" class="btn btn-primary record-btn">Record <svg width="16" height="16" fill="currentColor"class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg></button><button id="listen" class="btn btn-primary listen-btn" disabled="true">Listen recording <svg width="16" height="16" fill="currentColor"class="bi bi-volume-down-fill" viewBox="0 0 16 16"><path d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486 4.486 0 0 1 12.025 8z"/></svg></button>', $result);
     }
 
     /**
@@ -555,5 +555,42 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(5, count($result));
     }
 // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+    /**
+     * Tests convertsecondstostring for making time strings from seconds
+     */
+    public function test_convertsecondstostring() {
+        $result = convertsecondstostring(5);
+        $this->assertEquals('00:05', $result);
+        $result = convertsecondstostring(10);
+        $this->assertEquals('00:10', $result);
+        $result = convertsecondstostring(59);
+        $this->assertEquals('00:59', $result);
+        $result = convertsecondstostring(60);
+        $this->assertEquals('01:00', $result);
+        $result = convertsecondstostring(70);
+        $this->assertEquals('01:10', $result);
+        $result = convertsecondstostring(119);
+        $this->assertEquals('01:59', $result);
+        $result = convertsecondstostring(120);
+        $this->assertEquals('02:00', $result);
+        $result = convertsecondstostring(599);
+        $this->assertEquals('09:59', $result);
+        $result = convertsecondstostring(600);
+        $this->assertEquals('10:00', $result);
+        $result = convertsecondstostring(3599);
+        $this->assertEquals('59:59', $result);
+        $result = convertsecondstostring(3600);
+        $this->assertEquals('01:00:00', $result);
+        $result = convertsecondstostring(3610);
+        $this->assertEquals('01:00:10', $result);
+        $result = convertsecondstostring(3670);
+        $this->assertEquals('01:01:10', $result);
+        $result = convertsecondstostring(4270);
+        $this->assertEquals('01:11:10', $result);
+        $result = convertsecondstostring(35999);
+        $this->assertEquals('09:59:59', $result);
+        $result = convertsecondstostring(36000);
+        $this->assertEquals('10:00:00', $result);
+    }
 }
 

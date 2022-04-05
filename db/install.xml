@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/digitala/db" VERSION="20220330" COMMENT="XMLDB file for Moodle mod_digitala"
+<XMLDB PATH="mod/digitala/db" VERSION="2022040103" COMMENT="XMLDB file for Moodle mod_digitala"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -17,6 +17,8 @@
         <FIELD NAME="attempttype" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="assignment" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="resources" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="resourcesformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The format of the resources field."/>
+        <FIELD NAME="maxlength" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="attemptlimit" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
@@ -43,6 +45,7 @@
         <FIELD NAME="gop_score" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="recordinglength" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
