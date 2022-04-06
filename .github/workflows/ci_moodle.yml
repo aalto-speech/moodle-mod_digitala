@@ -3,8 +3,57 @@ name: Moodle Plugin CI for Moodle 3.9 and 3.11
 on: [push]
 
 jobs:
+  zip-n-release:
+    runs-on: ubuntu-20.04
+    #if: ${{ github.ref == 'refs/heads/main' }}
+    #needs: test
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          path: digitala
+
+      - name: Run zip.sh
+        run: |
+          chmod +x ./plugin/scripts/zip.sh
+          ./plugin/scripts/zip.sh
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{env.release_dot}} (${{env.version}})
+          prerelease: false
+          title: "${{env.release_dot}} (${{env.version}}): ${{ github.event.pull_request.title }}"
+          files: |
+            moodle-mod-digitala-${{env.release}}-${{env.version}}.zip
+
+  version:
+    runs-on: ubuntu-20.04
+    if: ${{ github.ref == 'refs/heads/main' }}
+
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          path: plugin
+
+      - name: Run bump-version.sh
+        run: |
+          chmod +x ./plugin/scripts/bump-version.sh
+          ./plugin/scripts/bump-version.sh
+
+      - uses: EndBug/add-and-commit@v8
+        with:
+          add: version.php
+          message: 'Bump version & release'
+          cwd: './plugin'
+          default_author: user_info
+
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
+    needs: version
 
     services:
       postgres:
@@ -166,11 +215,10 @@ jobs:
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
-        continue-on-error: true
-        if: ${{ always() }} # Skip in PHP 8.0 since tests are not run at the moment
+        if: ${{ always() }}
         with:
           files: ${{ matrix.coverage-location }}
-          fail_ci_if_error: ${{ !matrix.experimental }}
+          fail_ci_if_error: false
           root_dir: ./moodle/mod/digitala/
           name: ${{ matrix.moodle-branch }} (${{ matrix.php }})
 
@@ -180,55 +228,8 @@ jobs:
         run: |
           docker -v
           docker run -d --rm --name=selenium --net=host --shm-size=2g -v $(pwd)/moodle:$(pwd)/moodle selenium/standalone-chrome:3
+          chmod +x ./plugin/scripts/phpserver.sh
+          ./plugin/scripts/phpserver.sh
           cd $(pwd)/moodle
-          php -S localhost:8000 & echo 'started local'
           php admin/tool/behat/cli/init.php
           php admin/tool/behat/cli/run.php --tags=@mod_digitala --profile=audiochrome --verbose -vvv --auto-rerun=2
-
-  version:
-    runs-on: ubuntu-18.04
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: test
-
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-        with:
-          path: plugin
-
-      - name: Run bump-version.sh
-        run: |
-          chmod +x ./plugin/scripts/bump-version.sh
-          ./plugin/scripts/bump-version.sh
-
-      - uses: EndBug/add-and-commit@v8
-        with:
-          add: version.php
-          message: 'Bump version & release'
-          cwd: './plugin'
-          default_author: user_info
-
-  zip-n-release:
-    runs-on: ubuntu-18.04
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: version
-
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-        with:
-          path: digitala
-
-      - name: Run zip.sh
-        run: |
-          chmod +x ./plugin/scripts/zip.sh
-          ./plugin/scripts/zip.sh
-
-      - uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{env.release_dot}} (${{env.version}})
-          prerelease: false
-          title: "${{env.release_dot}} (${{env.version}}): ${{ github.event.pull_request.title }}"
-          files: |
-            moodle-mod-digitala-${{env.release}}-${{env.version}}.zip
