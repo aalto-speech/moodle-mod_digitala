@@ -245,9 +245,7 @@ jobs:
 
       - name: Echo info to env
         run: |
-          pr-title=$(cat info/pr-title)
-          pr-title=${pr-title:-dev}
-          echo "pr-title=${pr-title}" >> $GITHUB_ENV
+          echo "pr-title=$(cat info/pr-title)" >> $GITHUB_ENV
           echo "version_commit=$(cat info/version_commit)" >> $GITHUB_ENV
 
       - name: Check out repository code
