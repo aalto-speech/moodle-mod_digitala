@@ -1,5 +1,5 @@
 #!/bin/bash
-cd plugin
+cd ${1:-.}
 old_version=$(cat version.php | grep '$plugin->version = ')
 old_version=${old_version/\$plugin->version = /}
 old_version=${old_version/;/}
@@ -17,7 +17,7 @@ old_release=$(cat version.php | grep '$plugin->release = ')
 old_release=${old_release/\$plugin->release = /}
 old_release=${old_release//\'/}
 old_release=${old_release/;/}
-echo ${old_release}
+
 x=$(echo "${old_release}" | cut -d'.' -f 1)
 y=$(echo "${old_release}" | cut -d'.' -f 2)
 z=$(echo "${old_release}" | cut -d'.' -f 3)
@@ -31,7 +31,7 @@ fi
 
 new_release=${x}.${y}.${z}
 
-sed -i "s+${old_version}+${new_version}+g" version.php
-sed -i "s+${old_release}+${new_release}+g" version.php
+sed -i "s+\$plugin->version = ${old_version}+\$plugin->version = ${new_version}+g" version.php
+sed -i "s+\$plugin->release = '${old_release}+\$plugin->release = '${new_release}+g" version.php
 
 echo 'Updated plugin version from '${old_release}' ('${old_version}') to '${new_release}' ('${new_version}')'
