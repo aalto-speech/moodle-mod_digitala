@@ -220,8 +220,8 @@ jobs:
           mkdir info
           echo ${{ steps.pr.outputs }}
           echo ${{ steps.version_commit.outputs }}
-          echo ${{ steps.pr.outputs.title }} > info/pr-title
-          echo ${{ steps.version_commit.outputs.commit_long_sha }} > info/version_commit
+          echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
+          echo "commit=${{ steps.version_commit.outputs.commit_long_sha }}" > info/version_commit
           echo $(cat info/pr-title)
           echo $(cat info/version_commit)
 
@@ -249,9 +249,9 @@ jobs:
         run: |
           echo $(cat info/pr-title)
           echo $(cat info/version_commit)
-          echo title=$(cat info/pr-title) >> $GITHUB_ENV
+          cat info/pr-title >> $GITHUB_ENV
           echo ${{env.title}}
-          echo commit=$(cat info/version_commit) >> $GITHUB_ENV
+          cat info/version_commit >> $GITHUB_ENV
           echo ${{env.commit}}
 
       - name: Check out repository code
