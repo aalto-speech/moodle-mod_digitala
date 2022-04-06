@@ -257,10 +257,16 @@ jobs:
           echo ${{env.commit}}
 
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          ref: ${{env.commmit}}
+          fetch-dept: 0
           path: digitala
+
+      - name: Checkout correct commit
+        run: |
+          cd digitala
+          git checkout ${{env.commit}}
+          cd ..
 
       - name: Run zip.sh
         run: |
