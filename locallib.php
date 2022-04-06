@@ -686,7 +686,7 @@ function create_result_row($attempt, $instanceid, $id, $d) {
     } else {
         $score = $attempt->gop_score;
     }
-    $time = ($attempt->recordinglength . ' s');
+    $time = convertsecondstostring($attempt->recordinglength);
     $tries = ($attempt->attemptnumber);
 
     $urltext = results_url($id, 'detail', $attempt->userid);
