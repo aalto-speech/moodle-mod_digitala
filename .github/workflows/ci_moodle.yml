@@ -222,6 +222,8 @@ jobs:
           echo ${{ steps.version_commit.outputs }}
           echo ${{ steps.pr.outputs.title }} > info/pr-title
           echo ${{ steps.version_commit.outputs.commit_long_sha }} > info/version_commit
+          echo $(cat info/pr-title)
+          echo $(cat info/version_commit)
 
       - name: Upload info for zip-n-release
         uses: actions/upload-artifact@v3
