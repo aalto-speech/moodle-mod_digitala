@@ -1,5 +1,5 @@
 @mod @mod_digitala @javascript
-Feature: Teacher can see students detailed report
+Feature: URL resolver works in behats
 
   Background:
     Given the following "users" exist:
