@@ -220,7 +220,7 @@ jobs:
           mkdir info
           echo ${{ steps.pr.outputs }}
           echo ${{ steps.version_commit.outputs }}
-          echo ${{ steps.pr.outputs.title:-dev }} > info/pr-title
+          echo ${{ steps.pr.outputs.title }} > info/pr-title
           echo ${{ steps.version_commit.outputs.commit_long_sha }} > info/version_commit
 
       - name: Upload info for zip-n-release
@@ -245,8 +245,8 @@ jobs:
 
       - name: Echo info to env
         run: |
-          echo "pr-title=$(cat info/pr-title)" >> $GITHUB_ENV
-          echo "version_commit=$(cat info/version_commit)" >> $GITHUB_ENV
+          chmod +x ./digitala/scripts/info.sh
+          ./digitala/scripts/info.sh
 
       - name: Check out repository code
         uses: actions/checkout@v2
