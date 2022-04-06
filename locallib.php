@@ -26,7 +26,7 @@
 
 
 /**
- * Used to generate page urls for digitala module.
+ * Used to generate page urls for digitala module student views.
  *
  * @param number $page number of the step
  * @param number $id id of the course module
@@ -34,6 +34,17 @@
  */
 function page_url($page, $id, $d) {
     return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page));
+}
+
+/**
+ * Used to generate page urls for digitala module teacher results views.
+ *
+ * @param number $id id of the activity instance
+ * @param string $mode value to render all results on table or one spesific report
+ * @param number $studentid id of the student whose results tescher wants to see
+ */
+function results_url($id, $mode, $studentid=null) {
+    return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => $mode, 'student' => $studentid));
 }
 
 /**
@@ -348,6 +359,38 @@ function create_report_tabs($gradings, $holistic) {
 }
 
 /**
+ * Creates tab navigation and contents for short assignment
+ *
+ * @param string $assignment html content of assignment shown
+ * @param string $resources html content of resources shown
+ */
+function create_short_assignment_tabs($assignment, $resources) {
+    $out = html_writer::start_tag('nav');
+    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::tag('button', get_string('assignment', 'digitala'),
+                             array('class' => "nav-link active ml-2", 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
+                                   'href' => '#assignment-assignment', 'role' => 'tab', 'aria-controls' => 'assignment-assignment',
+                                   'aria-selected' => 'true'));
+    $out .= html_writer::tag('button', get_string('assignmentresource', 'digitala'),
+                             array('class' => "nav-link ml-2", 'id' => 'assignment-resources-tab', 'data-toggle' => 'tab',
+                                   'href' => '#assignment-resources', 'role' => 'tab', 'aria-controls' => 'assignment-resources',
+                                   'aria-selected' => 'false'));
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_tag('nav');
+
+    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
+    $out .= html_writer::div($assignment, 'tab-pane fade show active',
+                            array('id' => 'assignment-assignment', 'role' => 'tabpanel',
+                                  'aria-labelledby' => 'assignment-assignment-tab'));
+    $out .= html_writer::div($resources, 'tab-pane fade',
+                            array('id' => 'assignment-resources', 'role' => 'tabpanel',
+                                  'aria-labelledby' => 'assignment-resources-tab'));
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
  * Creates a button with identical id and
  * Send user audio file to Aalto ASR for evaluation.
  * class
@@ -493,7 +536,7 @@ function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $typ
 function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
     global $DB;
 
-    $attempt = get_attempt($assignment->instanceid);
+    $attempt = get_attempt($assignment->instanceid, $assignment->userid);
 
     if (isset($attempt)) {
         $attempt->attemptnumber++;
@@ -534,21 +577,123 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
 }
 
 /**
+ * Save the attempt to the database.
+ *
+ * @param string $attempttype - string containing attempt type
+ * @param mixed $fromform - form which we get the data from
+ * @param mixed $oldattempt - attempt that we're giving feedback to
+ */
+function save_report_feedback($attempttype, $fromform, $oldattempt) {
+    global $DB;
+
+    $feedback = new stdClass();
+    $feedback->attempt = $oldattempt->id;
+
+    if ($attempttype == 'freeform') {
+        $feedback->old_fluency = $oldattempt->fluency;
+        $feedback->fluency = $fromform->fluency;
+        $feedback->fluency_reason = $fromform->fluencyreason;
+
+        $feedback->old_accuracy = $oldattempt->accuracy;
+        $feedback->accuracy = $fromform->accuracy;
+        $feedback->accuracy_reason = $fromform->accuracyreason;
+
+        $feedback->old_lexicalprofile = $oldattempt->lexicalprofile;
+        $feedback->lexicalprofile = $fromform->lexicalprofile;
+        $feedback->lexicalprofile_reason = $fromform->lexicalprofilereason;
+
+        $feedback->old_nativeity = $oldattempt->nativeity;
+        $feedback->nativeity = $fromform->nativeity;
+        $feedback->nativeity_reason = $fromform->nativeityreason;
+
+        $feedback->old_holistic = $oldattempt->holistic;
+        $feedback->holistic = $fromform->holistic;
+        $feedback->holistic_reason = $fromform->holisticreason;
+
+    } else if ($attempttype == 'readaloud') {
+        $feedback->old_gop_score = $oldattempt->gop_score;
+        $feedback->gop_score = $fromform->gop;
+        $feedback->gop_score_reason = $fromform->gopreason;
+    }
+
+    $timenow = time();
+
+    $feedback->timecreated = $timenow;
+
+    $DB->insert_record('digitala_report_feedback', $feedback);
+}
+
+/**
  * Load current users attempt from the database.
  *
  * @param int $instanceid - instance id of this digitala activity
+ * @param int $userid - user id of this user or student
  * @return mixed $attempt - object containing attempt information
  */
-function get_attempt($instanceid) {
-    global $DB, $USER;
+function get_attempt($instanceid, $userid) {
+    global $DB;
 
-    if (!$DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id))) {
+    if (!$DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid))) {
         return null;
     }
 
-    $attempt = $DB->get_record('digitala_attempts', array('digitala' => $instanceid, 'userid' => $USER->id));
+    $attempt = $DB->get_record('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid));
 
     return $attempt;
+}
+
+/**
+ * Load all attempts from the database.
+ *
+ * @param int $instanceid - instance id of this digitala activity
+ * @return $attempts - object containing all attempt information
+ */
+function get_all_attempts($instanceid) {
+    global $DB;
+
+    $attempts = $DB->get_records('digitala_attempts', array('digitala'  => $instanceid));
+    return $attempts;
+}
+
+/**
+ * Load users name based on their id.
+ *
+ * @param int $id - id of the user
+ * @return $user - user object
+ */
+function get_user($id) {
+    global $DB;
+
+    $user = $DB->get_record('user', array('id' => $id));
+    return $user;
+}
+
+/**
+ * Load all attempts from the database.
+ *
+ * @param mixed $attempt - object containing attempt information
+ * @param int $instanceid - instance id of this digitala activity
+ * @param int $id - activity id
+ * @param int $d - course id
+ * @return $cells - cells containing table data
+ */
+function create_result_row($attempt, $instanceid, $id, $d) {
+    $user = get_user($attempt->userid);
+
+    $username = $user->firstname . ' ' . $user->lastname;
+    if ($attempt->holistic) {
+        $score = $attempt->holistic;
+    } else {
+        $score = $attempt->gop_score;
+    }
+    $time = convertsecondstostring($attempt->recordinglength);
+    $tries = ($attempt->attemptnumber);
+
+    $urltext = results_url($id, 'detail', $attempt->userid);
+    $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
+
+    $cells = array($username, $score, $time, $tries, $urllink);
+    return $cells;
 }
 
 /**
@@ -647,7 +792,7 @@ function create_fixed_box() {
     '836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8' .
     ' 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5' .
     ' 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"/></svg>';
-    $out = html_writer::div('Give feedback', 'feedbackcontainer');
+    $out = html_writer::div(get_string('feedback', 'digitala'), 'feedbackcontainer');
     $out .= html_writer::tag('button type="button" class="btn btn-info"' .
     'data-toggle="collapse" data-target="#feedbacksite" id="collapser"', $chaticon);
     $out .= html_writer::div('', 'collapse', array('id' => 'feedbacksite'));
@@ -692,13 +837,14 @@ function convertsecondstostring($secs) {
  * Creates attempt number visualization for assignment view.
  *
  * @param digitala_assignment $assignment - assignment containing id information
+ * @param int $userid - id of the user
  */
-function create_attempt_number($assignment) {
+function create_attempt_number($assignment, $userid) {
     $remaining = $assignment->attemptlimit;
     if ($remaining == 0) {
         $out = get_string('attemptsunlimited', 'mod_digitala');
     } else {
-        $attempt = get_attempt($assignment->instanceid);
+        $attempt = get_attempt($assignment->instanceid, $userid);
         if (isset($attempt)) {
             $remaining -= $attempt->attemptnumber;
         }
@@ -736,7 +882,7 @@ function create_attempt_modal($assignment) {
     if ($remaining == 0) {
         $out .= get_string('attemptsunlimited', 'mod_digitala');
     } else {
-        $attempt = get_attempt($assignment->instanceid);
+        $attempt = get_attempt($assignment->instanceid, $assignment->userid);
         if (isset($attempt)) {
             $remaining -= $attempt->attemptnumber;
         }

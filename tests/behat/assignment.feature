@@ -1,5 +1,7 @@
-@mod @mod_digitala
+@mod @mod_digitala @javascript
 Feature: Student can see assignment text and resources
+  Student can send answer for evaluation to Aalto ASR
+  Student can receive assessment from Aalto ASR
 
   Background:
     Given the following "users" exist:
@@ -12,19 +14,55 @@ Feature: Student can see assignment text and resources
       | user     | course | role           |
       | student1 | C1     | student        |
     And the following "activities" exist:
-      | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | attemptlimit |
-      | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
+      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources              | resourcesformat | attemptlimit | maxlength |
+      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.| 1               | 2            | 5         |
     And I log in as "student1"
 
-  Scenario: On assignment page the assignment text is shown
+  Scenario: On assignment page the assignment text, resources text, timer and number of attempts are shown
     When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    And I click on "Freeform" "link"
     And I click on "Assignment" "link"
-    Then I should see "Assignment text"
+    Then I should see "Berätta om Tigerjakt."
+    And I should see "Här är filmen om tiger."
+    And I should see "Assignment"
+    And I should see "Resources"
+    And I should see "Number of attempts remaining: 2"
+    And I should see "00:00 / 00:05"
 
-  Scenario: On assignment page the resources box is shown
+  Scenario: Submit button is shown when the timer runs out and when pressing stop button
     When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    And I click on "Freeform" "link"
     And I click on "Assignment" "link"
-    Then I should see "Resources"
-    And I should see "Resource text"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    Then I should see "Submit answer"
+    And I should see "00:05 / 00:05"
+    And I click on "record" "button"
+    And I wait "2" seconds
+    Then I should see "00:02 / 00:05"
+    And I click on "Stop recording" "button"
+    Then I should see "Submit answer"
+
+  Scenario: Succesful submit directs to report page and the attemptlimit decreases
+    When I am on "Course 1" course homepage
+    And I click on "Freeform" "link"
+    And I click on "Assignment" "link"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I should see "Transcription"
+    And I should see "Task grades"
+    And I should see "Holistic"
+    And I should see "Fluency"
+    And I click on "Assignment" "link"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 1 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I should see "Task grades"
+    And I click on "Assignment" "link"
+    Then I should see "Your answer has already been submitted."
+    And I should not see "Listen recording"

@@ -33,8 +33,8 @@ Feature: Create new digitala
       | name          | attemptlang | attempttype | assignmenttext                   | resourcestext                                                          |
       | SWE Readaloud | Swedish     | Read aloud  | Läs följande avsnitt högt.       | Hejsan, jag heter Jonne-Peter.                                         |
       | FIN Readaloud | Finnish     | Read aloud  | Lue seuraava lause ääneen.       | Tämä on liikennevalojen perusteet -kurssi.                             |
-      | SWE Freeform  | Swedish     | Free-form   | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                |
-      | FIN Freeform  | Finnish     | Free-form   | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
+      | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                |
+      | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
 
   Scenario: On course page add freeform task in Swedish and add local image to resources
     When I follow "Manage private files..."
@@ -47,7 +47,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform IMG        |
       | Attempt language | Swedish                 |
-      | Attempt type     | Free-form               |
+      | Attempt type     | Freeform                |
       | Assignment       | Berätta om Tigerjakt.   |
       | Resources        | Här är filmen om tiger. |
     And I press "Insert or edit image"
@@ -78,7 +78,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform AUDIO      |
       | Attempt language | Swedish                 |
-      | Attempt type     | Free-form               |
+      | Attempt type     | Freeform                |
       | Assignment       | Berätta om Tigerjakt.   |
       | Resources        | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
@@ -111,7 +111,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform VIDEO      |
       | Attempt language | Swedish                 |
-      | Attempt type     | Free-form               |
+      | Attempt type     | Freeform                |
       | Assignment       | Berätta om Tigerjakt.   |
       | Resources        | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
@@ -141,7 +141,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform INTERNET IMG |
       | Attempt language | Swedish                   |
-      | Attempt type     | Free-form                 |
+      | Attempt type     | Freeform                  |
       | Assignment       | Berätta om Tigerjakt.     |
       | Resources        | Här är filmen om tiger.   |
     And I press "Insert or edit image"
@@ -166,7 +166,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform INTERNET AUDIO |
       | Attempt language | Swedish                     |
-      | Attempt type     | Free-form                   |
+      | Attempt type     | Freeform                    |
       | Assignment       | Berätta om Tigerjakt.       |
       | Resources        | Här är filmen om tiger.     |
     And I press "Insert or edit an audio/video file"
@@ -192,7 +192,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform INTERNET VIDEO |
       | Attempt language | Swedish                     |
-      | Attempt type     | Free-form                   |
+      | Attempt type     | Freeform                    |
       | Assignment       | Berätta om Tigerjakt.       |
       | Resources        | Här är filmen om tiger.     |
     And I press "Insert or edit an audio/video file"
