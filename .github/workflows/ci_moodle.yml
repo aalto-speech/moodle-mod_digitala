@@ -220,7 +220,7 @@ jobs:
           mkdir info
           echo ${{ steps.pr.outputs }}
           echo ${{ steps.version_commit.outputs }}
-          echo ${{ steps.pr.outputs.title }} > info/pr-title
+          echo ${{ steps.pr.outputs.title:-dev }} > info/pr-title
           echo ${{ steps.version_commit.outputs.commit_long_sha }} > info/version_commit
 
       - name: Upload info for zip-n-release
