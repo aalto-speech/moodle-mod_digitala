@@ -252,8 +252,8 @@ jobs:
           echo $(cat info/pr-title) >> $GITHUB_ENV
           echo ${{env.title}}
           echo $(cat info/version_commit) >> $GITHUB_ENV
-          echo ${{env}}
           echo ${{env.commit}}
+          cat $GITHUB_ENV
 
       - name: Check out repository code
         uses: actions/checkout@v2
