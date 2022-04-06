@@ -187,8 +187,8 @@ jobs:
 
   version:
     runs-on: ubuntu-20.04
-    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/zip-n-release' }}
-    # needs: test
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: test
 
     steps:
       - name: Check out repository code
@@ -235,7 +235,7 @@ jobs:
 
   zip-n-release:
     runs-on: ubuntu-20.04
-    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/zip-n-release' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: version
 
     steps:
