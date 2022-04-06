@@ -9,11 +9,11 @@ Feature: Student can send answer and receive assessment from Aalto ASR
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | student1 | C1     | student        |
+      | user     | course | role    |
+      | student1 | C1     | student |
     And the following "activities" exist:
-      | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat |
-      | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               |
+      | activity | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | attemptlimit |
+      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
     And I log in as "student1"
 
   Scenario: On assignment page a submit button is shown after recording
@@ -21,5 +21,6 @@ Feature: Student can send answer and receive assessment from Aalto ASR
     And I click on "Test digitala name" "link"
     And I click on "Assignment" "link"
     And I click on "record" "button"
-    And I click on "stopRecord" "button"
+    And I wait "2" seconds
+    And I click on "record" "button"
     Then ".btn" "css_element" should be visible

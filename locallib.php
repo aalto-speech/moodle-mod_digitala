@@ -355,10 +355,16 @@ function create_report_tabs($gradings, $holistic) {
  * @param string $id of the button
  * @param string $class of the button
  * @param string $text of the button
+ * @param bool $disabled value of the button
  *
  */
-function create_button($id, $class, $text) {
-    $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class));
+function create_button($id, $class, $text, $disabled = false) {
+    if ($disabled) {
+        $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class, 'disabled' => 'true'));
+    } else {
+        $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class));
+    }
+
     return $out;
 }
 
@@ -368,8 +374,9 @@ function create_button($id, $class, $text) {
  * @param string $buttonlocation location (info, assignmentprev, assignmentnext report) of the step
  * @param number $id id of the course module
  * @param number $d id of the activity instance
+ * @param number $remaining remaining number of attempts used in report page
  */
-function create_nav_buttons($buttonlocation, $id, $d) {
+function create_nav_buttons($buttonlocation, $id, $d, $remaining = 0) {
     $out = html_writer::start_div('navbuttons');
     if ($buttonlocation == 'info') {
         $newurl = page_url(1, $id, $d);
@@ -385,7 +392,12 @@ function create_nav_buttons($buttonlocation, $id, $d) {
                 array('id' => 'nextButton', 'class' => 'btn btn-primary'));
     } else if ($buttonlocation == 'report') {
         $newurl = page_url(1, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('navstartagain', 'digitala'),
+        if ($remaining == 0) {
+            $string = 'navstartagain';
+        } else {
+            $string = 'navtryagain';
+        }
+        $out .= html_writer::tag('a href=' . $newurl, get_string($string, 'digitala'),
                 array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
     }
     $out .= html_writer::end_div();
@@ -396,9 +408,10 @@ function create_nav_buttons($buttonlocation, $id, $d) {
 /**
  * Creates an instance of microphone with start and stop button
  *
- * @param string $id
+ * @param string $id phasename (info, assignment) of the microphone
+ * @param number $maxlength maximum length of recording in seconds
  */
-function create_microphone($id) {
+function create_microphone($id, $maxlength = 0) {
     $starticon = '<svg width="16" height="16" fill="currentColor"' .
     'class="bi bi-play-fill" viewBox="0 0 16 16">' .
     '<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.' .
@@ -416,10 +429,22 @@ function create_microphone($id) {
     ' 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10' .
     ' 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486' .
     ' 4.486 0 0 1 12.025 8z"/></svg>';
+
+    if ($maxlength == 0) {
+        $limit = '';
+    } else {
+        $limit = ' / '.convertsecondstostring($maxlength);
+    }
+
     $out = html_writer::tag('br', '');
+    $out .= html_writer::div($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
+    $out .= html_writer::div($stopicon, '', array('id' => 'stopIcon', 'style' => 'display: none;'));
+    $out .= html_writer::start_tag('p', array('id' => 'recordTimer'));
+    $out .= html_writer::tag('span', '00:00', array('id' => 'recordingLength'));
+    $out .= html_writer::tag('span', $limit);
+    $out .= html_writer::end_tag('p');
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
-    $out .= create_button('stopRecord', 'btn btn-primary stopRecord-btn', get_string('stopbutton', 'digitala') . ' ' . $stopicon);
-    $out .= create_button('listenButton', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon);
+    $out .= create_button('listen', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon, true);
 
     return $out;
 }
@@ -463,16 +488,21 @@ function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $typ
  * @param digitala_assignment $assignment - assignment includes needed identifications
  * @param string $filename - file name of the recording
  * @param mixed $evaluation - mixed object containing evaluation info
+ * @param mixed $recordinglength - length of recording in seconds
  */
-function save_attempt($assignment, $filename, $evaluation) {
+function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
     global $DB;
 
-    if ($DB->record_exists('digitala_attempts', array('digitala' => $assignment->instanceid,
-                                                      'userid' => $assignment->userid))) {
-        return;
+    $attempt = get_attempt($assignment->instanceid);
+
+    if (isset($attempt)) {
+        $attempt->attemptnumber++;
+    } else {
+        $attempt = new stdClass();
     }
 
-    $attempt = new stdClass();
+    $timenow = time();
+
     $attempt->digitala = $assignment->instanceid;
     $attempt->userid = $assignment->userid;
     $attempt->file = $filename;
@@ -491,13 +521,16 @@ function save_attempt($assignment, $filename, $evaluation) {
     } else {
         $attempt->gop_score = $evaluation->GOP_score;
     }
-
-    $timenow = time();
-
-    $attempt->timecreated = $timenow;
     $attempt->timemodified = $timenow;
+    $attempt->recordinglength = $recordinglength;
 
-    $DB->insert_record('digitala_attempts', $attempt);
+    if (isset($attempt->attemptnumber)) {
+        $DB->update_record('digitala_attempts', $attempt);
+    } else {
+        $attempt->timecreated = $timenow;
+        $DB->insert_record('digitala_attempts', $attempt);
+    }
+
 }
 
 /**
@@ -528,6 +561,7 @@ function save_answerrecording($formdata, $assignment) {
     $fs = get_file_storage();
 
     $audiofile = json_decode($formdata->audiostring);
+    $recordinglength = $formdata->recordinglength;
 
     $fileinfo = array(
         'contextid' => $assignment->contextid,
@@ -559,15 +593,15 @@ function save_answerrecording($formdata, $assignment) {
         );
 
     if (!isset(json_decode($evaluation)->prompt)) {
-        $out = 'No evaluation was found. Please return to previous page.';
+        $out = get_string('error_no-evaluation', 'digitala');
     } else {
-        save_attempt($assignment, $file->get_filename(), json_decode($evaluation));
+        save_attempt($assignment, $file->get_filename(), json_decode($evaluation), $recordinglength);
         if (isset($_SERVER['REQUEST_URI'])) {
             $url = $_SERVER['REQUEST_URI'];
             $newurl = str_replace('page=1', 'page=2', $url);
             redirect($newurl);
         } else {
-            $out = 'accessed without internet successful';
+            $out = get_string('error_url-not-set', 'digitala');
         }
     }
 
@@ -620,5 +654,103 @@ function create_fixed_box() {
     $out .= html_writer::tag('iframe src=' .
     'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
     '', array('id' => 'feedbacksite', 'class' => 'collapse'));
+    return $out;
+}
+
+/**
+ * Converts seconds to formatted time string
+ * @param number $secs seconds set by teacher when creating activity
+ */
+function convertsecondstostring($secs) {
+    $hours = floor($secs / 3600);
+    $minutes = floor(($secs - ($hours * 3600)) / 60);
+    $seconds = floor($secs - ($hours * 3600) - ($minutes * 60));
+
+    if ($hours == 0) {
+        $hours = "";
+    } else {
+        if ($hours < 10) {
+            $hours = "0".$hours.":";
+        } else {
+            $hours = $hours.":";
+        }
+
+    }
+
+    if ($minutes < 10) {
+        $minutes = "0".$minutes;
+    }
+
+    if ($seconds < 10) {
+        $seconds = "0".$seconds;
+    }
+
+    return $hours.$minutes.":".$seconds;
+}
+
+/**
+ * Creates attempt number visualization for assignment view.
+ *
+ * @param digitala_assignment $assignment - assignment containing id information
+ */
+function create_attempt_number($assignment) {
+    $remaining = $assignment->attemptlimit;
+    if ($remaining == 0) {
+        $out = get_string('attemptsunlimited', 'mod_digitala');
+    } else {
+        $attempt = get_attempt($assignment->instanceid);
+        if (isset($attempt)) {
+            $remaining -= $attempt->attemptnumber;
+        }
+
+        $out = get_string('attemptsremaining', 'mod_digitala', $remaining);
+    }
+
+    return $out;
+}
+
+/**
+ * Creates attempt modal.
+ *
+ * @param digitala_assignment $assignment - assignment that this object is created for
+ */
+function create_attempt_modal($assignment) {
+    $remaining = $assignment->attemptlimit;
+
+    $out = html_writer::tag('button', get_string('submit', 'mod_digitala'),
+                            array('id' => 'submitModalButton', 'type' => 'button', 'class' => 'btn btn-primary ml-2',
+                                  'data-toggle' => 'modal',  'data-target' => '#attemptModal', 'style' => 'display: none'));
+    $out .= html_writer::start_div('modal', array('id' => 'attemptModal', 'tabindex' => '-1', 'role' => 'dialog',
+                                                  'aria-labelledby' => 'submitModal', 'aria-hidden' => 'true'));
+    $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
+    $out .= html_writer::start_div('modal-content');
+    $out .= html_writer::start_div('modal-header');
+    $out .= html_writer::tag('h5', get_string('submittitle', 'digitala'), array('class' => 'modal-title'));
+    $out .= html_writer::start_tag('button', array('class' => 'close', 'data-dismiss' => 'modal',
+                                                   'aria-label' => get_string('submitclose', 'mod_digitala')));
+    $out .= html_writer::tag('span', '&times;', array('aria-hidden' => 'true'));
+    $out .= html_writer::end_tag('button');
+    $out .= html_writer::end_div();
+    $out .= html_writer::start_div('modal-body');
+    $out .= html_writer::start_tag('p');
+    if ($remaining == 0) {
+        $out .= get_string('attemptsunlimited', 'mod_digitala');
+    } else {
+        $attempt = get_attempt($assignment->instanceid);
+        if (isset($attempt)) {
+            $remaining -= $attempt->attemptnumber;
+        }
+        $out .= get_string('submitbody', 'digitala', $remaining);
+    }
+    $out .= html_writer::end_tag('p');
+    $out .= html_writer::end_div();
+    $out .= html_writer::start_div('modal-footer');
+    $out .= html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
+                             array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
+    $out .= create_answerrecording_form($assignment);
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
     return $out;
 }
