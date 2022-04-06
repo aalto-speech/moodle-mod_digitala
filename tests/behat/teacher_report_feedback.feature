@@ -1,5 +1,5 @@
-@mod @mod_digitala @javascript
-Feature: Teacher can see students detailed report
+@mod @mod_digitala @javascript @onlyone
+Feature: Teacher can give feedback on ASR evaluation
 
   Background:
     Given the following "users" exist:
@@ -24,13 +24,18 @@ Feature: Teacher can see students detailed report
       | name      | username | attemptnumber | file  | transcript  | gop_score | recordinglength |
       | Readaloud | olli     | 1             | file2 | transcript2 | 0.7       | 2               |
 
-  Scenario: Detailed report shows correctly for freeform
-    When I am on the "C1" "Course" page logged in as "ossi"
-    And I click on "Freeform" "link"
-    And I click on "Info" "link"
-    And I click on "Overview" "link"
-    And I click on "Details" "link"
+  Scenario: Feedback button works correctly in teachers report detail page in freeform
+    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
     And I click on "Give feedback on report" "link"
+    And I should see "Feedback on fluency"
+
+  Scenario: Feedback button works correctly in teachers report detail page in readaloud
+    When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
+    And I click on "Give feedback on report" "link"
+    And I should see "Feedback on goodness of pronunciation"
+
+  Scenario: Feedback can be given on Freeform
+    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
     Then I set the following fields to these values:
       | Fluency                     | 2.00                              |
       | Feedback on fluency         | Evaluation was too high.          |
@@ -47,13 +52,8 @@ Feature: Teacher can see students detailed report
       | name     | username |
       | Freeform | olli     |
 
-  Scenario: Detailed report shows correctly for readaloud
-    When I am on the "C1" "Course" page logged in as "ossi"
-    And I click on "Readaloud" "link"
-    And I click on "Info" "link"
-    And I click on "Overview" "link"
-    And I click on "Details" "link"
-    And I click on "Give feedback on report" "link"
+  Scenario: Feedback can be given on Readaloud
+    When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
     Then I set the following fields to these values:
       | Goodness of pronunciation             | 0.56                  |
       | Feedback on goodness of pronunciation | Evaluation was wrong. |

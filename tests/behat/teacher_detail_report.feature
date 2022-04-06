@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @onlyone
+@mod @mod_digitala @javascript
 Feature: Teacher can see students detailed report
 
   Background:
@@ -25,25 +25,15 @@ Feature: Teacher can see students detailed report
       | Readaloud | olli     | 1             | file2 | transcript2 | 0.7       | 2               |
 
   Scenario: Detailed report does not show for student in freeform
-    When I am on the "C1" "Course" page logged in as "olli"
-    And I click on "Freeform" "link"
-    And I click on "Info" "link"
-    And I click on "Overview" "link"
+    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "olli"
     And I should see "Nothing to see here, mate!"
 
   Scenario: Detailed report does not show for student in readaloud
-    When I am on the "C1" "Course" page logged in as "olli"
-    And I click on "Readaloud" "link"
-    And I click on "Info" "link"
-    And I click on "Overview" "link"
+    When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "olli"
     And I should see "Nothing to see here, mate!"
 
   Scenario: Detailed report shows correctly for freeform
-    When I am on the "C1" "Course" page logged in as "ossi"
-    And I click on "Freeform" "link"
-    And I click on "Info" "link"
-    And I click on "Overview" "link"
-    And I click on "Details" "link"
+    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
     And I should see "Assignment"
     And I should see "Attempt language: Swedish"
     And I should see "Attempt type: Freeform"
@@ -72,11 +62,7 @@ Feature: Teacher can see students detailed report
     And I should see "Holistic score is 2, brown score."
 
   Scenario: Detailed report shows correctly for readaloud
-    When I am on the "C1" "Course" page logged in as "ossi"
-    And I click on "Readaloud" "link"
-    And I click on "Info" "link"
-    And I click on "Overview" "link"
-    And I click on "Details" "link"
+    When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
     And I should see "Assignment"
     And I should see "Attempt language: Finnish"
     And I should see "Attempt type: Read aloud"
