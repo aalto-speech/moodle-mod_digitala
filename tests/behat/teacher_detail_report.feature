@@ -26,11 +26,11 @@ Feature: Teacher can see students detailed report
 
   Scenario: Detailed report does not show for student in freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "olli"
-    And I should see "Nothing to see here, mate!"
+    And I should see "Access denied"
 
   Scenario: Detailed report does not show for student in readaloud
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "olli"
-    And I should see "Nothing to see here, mate!"
+    And I should see "Access denied"
 
   Scenario: Detailed report shows correctly for freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"

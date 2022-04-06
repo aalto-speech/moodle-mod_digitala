@@ -32,7 +32,7 @@ Feature: URL resolver works in behats
     Then I am on the "<activity>" "mod_digitala > Report" page logged in as "<student>"
     And I should see "<reportpage>"
     Then I am on the "<activity>" "mod_digitala > Teacher Reports Overview" page logged in as "<teacher>"
-    And I should see "Details"
+    And I should see "See report"
     When I am on the "<activity> > <student>" "mod_digitala > Teacher Report Details" page logged in as "<teacher>"
     And I should see "Assignment"
     And I should see "<reportpage>"
