@@ -127,4 +127,79 @@ class behat_mod_digitala extends behat_base {
         }
     }
 
+    /**
+     * Resolves activitys phases in step 'When I am on the "[id]" "[phase]" page'
+     *
+     * Recognised phase names are:
+     * | phase                    | id                                | description                                          |
+     * | Info                     | Activity name                     | Microphone testing phase                             |
+     * | Assignment               | Activity name                     | Assignment phase                                     |
+     * | Report                   | Activity name                     | Students report phase                                |
+     * | Teacher Reports Overview | Activity name                     | Teacher's list of all attempts in activity           |
+     * | Teacher Report Details   | Activity name > Students username | Teacher's view of student's attempt in details       |
+     * | Teacher Report Feedback  | Activity name > Students username | Teacher's ability to give feedback on ASR Evaluation |
+     *
+     * @param string $phase Name of the phase.
+     * @param string $id Activity name and student username if needed
+     * @return moodle_url URL where we want to be at
+     * @throws Exception If phase not found or incorrect amount of id params
+     */
+    protected function resolve_page_instance_url(string $phase, string $id): moodle_url {
+        global $DB;
+
+        switch (strtolower($phase)) {
+            case 'info':
+                $activity = $DB->get_record('digitala', array('name' => $id), '*', MUST_EXIST);
+                $cm = get_coursemodule_from_instance('digitala', $activity->id, $activity->course, false, MUST_EXIST);
+                return new moodle_url('/mod/digitala/view.php',
+                                      array('id' => $cm->id, 'page' => 0));
+
+            case 'assignment':
+                $activity = $DB->get_record('digitala', array('name' => $id), '*', MUST_EXIST);
+                $cm = get_coursemodule_from_instance('digitala', $activity->id, $activity->course, false, MUST_EXIST);
+                return new moodle_url('/mod/digitala/view.php',
+                                      array('id' => $cm->id, 'page' => 1));
+
+            case 'report':
+                $activity = $DB->get_record('digitala', array('name' => $id), '*', MUST_EXIST);
+                $cm = get_coursemodule_from_instance('digitala', $activity->id, $activity->course, false, MUST_EXIST);
+                return new moodle_url('/mod/digitala/view.php',
+                                      array('id' => $cm->id, 'page' => 2));
+
+            case 'teacher reports overview':
+                $activity = $DB->get_record('digitala', array('name' => $id), '*', MUST_EXIST);
+                $cm = get_coursemodule_from_instance('digitala', $activity->id, $activity->course, false, MUST_EXIST);
+                return new moodle_url('/mod/digitala/report.php',
+                                      array('id' => $cm->id, 'mode' => 'overview'));
+
+            case 'teacher report details':
+                if (substr_count($id, ' > ') !== 1) {
+                    throw new Exception('Check that you have provided every needed parameter in id');
+                }
+                list($activityname, $username) = explode(' > ', $id);
+
+                $activity = $DB->get_record('digitala', array('name' => $activityname), '*', MUST_EXIST);
+                $cm = get_coursemodule_from_instance('digitala', $activity->id, $activity->course, false, MUST_EXIST);
+                $user = $DB->get_record('user', array('username' => $username), '*', MUST_EXIST);
+
+                return new moodle_url('/mod/digitala/report.php',
+                                      array('id' => $cm->id, 'mode' => 'detail', 'student' => $user->id));
+
+            case 'teacher report feedback':
+                if (substr_count($id, ' > ') !== 1) {
+                    throw new Exception('Check that you have provided every needed parameter in id');
+                }
+                list($activityname, $username) = explode(' > ', $id);
+
+                $activity = $DB->get_record('digitala', array('name' => $activityname), '*', MUST_EXIST);
+                $cm = get_coursemodule_from_instance('digitala', $activity->id, $activity->course, false, MUST_EXIST);
+                $user = $DB->get_record('user', array('username' => $username), '*', MUST_EXIST);
+
+                return new moodle_url('/mod/digitala/reporteditor.php',
+                                      array('id' => $cm->id, 'student' => $user->id));
+
+            default:
+                throw new Exception('Given phase is unknown: ' . $phase);
+        }
+    }
 }

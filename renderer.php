@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/locallib.php');
+require_once(__DIR__.'/reporteditor_form.php');
 
 /**
  * A custom renderer class that extends the plugin_renderer_base and is used by the digitala module.
@@ -84,13 +85,13 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
 
-        $attempt = get_attempt($assignment->instanceid);
+        $attempt = get_attempt($assignment->instanceid, $assignment->userid);
 
         if ($assignment->attemptlimit != 0 && isset($attempt) && $attempt->attemptnumber >= $assignment->attemptlimit) {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
         } else {
-            $out .= create_card('assignmentrecord', create_attempt_number($assignment).
+            $out .= create_card('assignmentrecord', create_attempt_number($assignment, $assignment->userid).
                                                     create_microphone('assignment', $assignment->maxlength).
                                                     create_attempt_modal($assignment));
             $out .= create_nav_buttons('assignmentprev', $assignment->id, $assignment->d);
@@ -116,7 +117,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         $out .= start_column();
 
-        $attempt = get_attempt($report->instanceid);
+        $attempt = get_attempt($report->instanceid, $report->student);
 
         if (is_null($attempt)) {
             $remaining = $report->attemptlimit;
@@ -125,23 +126,14 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $remaining = $report->attemptlimit - $attempt->attemptnumber;
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
-            $out .= create_attempt_number($report);
+            $out .= create_attempt_number($report, $report->student);
             $out .= '<br><audio controls><source src='.$audiourl.'></audio><br>';
 
             if ($report->attempttype == "freeform") {
-                if ($report->attemptlang == "fin") {
-                    $gradings = create_report_grading('fluency', $attempt->fluency, 4);
-                    $gradings .= create_report_grading('accuracy', $attempt->accuracy, 4);
-                    $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
-                    $gradings .= create_report_grading('nativeity', $attempt->nativeity, 4);
-                }
-
-                if ($report->attemptlang == "sv") {
-                    $gradings = create_report_grading('fluency', $attempt->fluency, 4);
-                    $gradings .= create_report_grading('accuracy', $attempt->accuracy, 4);
-                    $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
-                    $gradings .= create_report_grading('nativeity', $attempt->nativeity, 4);
-                }
+                $gradings = create_report_grading('fluency', $attempt->fluency, 3);
+                $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
+                $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
+                $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
 
                 $holistic = create_report_holistic(floor($attempt->holistic));
 
@@ -192,6 +184,57 @@ class mod_digitala_renderer extends plugin_renderer_base {
         }
 
         $out .= html_writer::table($table);
+
+        return $out;
+    }
+
+    /**
+     * Renders the assignment panel.
+     *
+     * @param digitala_short_assignment $assignment - An instance of digitala_short_assignment to render.
+     * @return $out - HTML string to output.
+     */
+    protected function render_digitala_short_assignment(digitala_short_assignment $assignment) {
+        $attemptinfo = get_string('attemptlang', 'digitala').': '.get_string($assignment->attemptlang, 'digitala').
+                                  ' | '.get_string('attempttype', 'digitala').': '.
+                                  get_string($assignment->attempttype, 'digitala').'<br>';
+        $assignmentcard = create_card('assignment', $attemptinfo.$assignment->assignmenttext);
+        $resourcescard = create_card('assignmentresource', $assignment->resourcetext);
+
+        $out = start_container('digitala-short_assignment');
+        $out .= start_column();
+        $out .= create_short_assignment_tabs($assignmentcard, $resourcescard);
+        $out .= end_column();
+        $out .= end_container();
+
+        return $out;
+    }
+
+    /**
+     * Renders the report editor panel.
+     *
+     * @param digitala_report_editor $reporteditor - An instance of digitala_report_editor to render.
+     * @return $out - HTML string to output.
+     */
+    protected function render_digitala_report_editor(digitala_report_editor $reporteditor) {
+        $attempt = get_attempt($reporteditor->instanceid, $reporteditor->student);
+        $form = new \reporteditor_form($reporteditor->id, $reporteditor->attempttype, $attempt);
+
+        $out = '';
+
+        if ($form->is_cancelled()) {
+            redirect('/mod/digitala/report.php?id='.$reporteditor->id.'&mode=overview');
+        } else if ($fromform = $form->get_data()) {
+            // In the future third phase, update evaluation in digitala_attempt here...
+            save_report_feedback($reporteditor->attempttype, $fromform, $attempt);
+            redirect('/mod/digitala/report.php?id='.$reporteditor->id.'&mode=overview');
+        } else {
+            $out = start_container('digitala-report_editor');
+            $out .= start_column();
+            $out .= create_card('edit_report', $form->render());
+            $out .= end_column();
+            $out .= end_container();
+        }
 
         return $out;
     }

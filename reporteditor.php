@@ -25,7 +25,6 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once(__DIR__.'/renderable.php');
-require_once(__DIR__.'/answerrecording_form.php');
 
 global $USER;
 
@@ -34,6 +33,8 @@ $id = optional_param('id', 0, PARAM_INT);
 
 // Activity instance id.
 $d = optional_param('d', 0, PARAM_INT);
+
+$student = optional_param('student', 0, PARAM_INT);
 
 if ($id) {
     $cm = get_coursemodule_from_id('digitala', $id, 0, false, MUST_EXIST);
@@ -57,41 +58,20 @@ $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('digitala', $moduleinstance);
 $event->trigger();
 
-$PAGE->set_url('/mod/digitala/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/digitala/reporteditor.php', array('id' => $cm->id, 'student' => $student));
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
 $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
-$pagenum = optional_param('page', 0, PARAM_INT);
 
-$content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
+if (has_capability('mod/digitala:editreport', $modulecontext)) {
+    $content = $OUTPUT->render(new digitala_report_editor($moduleinstance->id, $modulecontext->id, $id, $d,
+                               $moduleinstance->attempttype, $moduleinstance->attemptlang, $student));
 
-$config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC',
-'chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'], 'waitSeconds' => 40, 'enforceDefine' => false];
-$requirejs = 'require.config(' . json_encode($config) . ')';
-$PAGE->requires->js_amd_inline($requirejs);
-
-$maxlength = $moduleinstance->maxlength;
-$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
-                             array($pagenum, $id, $USER->id, $USER->username, $maxlength));
-$PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($pagenum));
-
-if ($pagenum == 0) {
-    $content .= $OUTPUT->render(new digitala_info($id, $d));
-    $content .= '<a href="/mod/digitala/report.php?id='.$id.'&mode=overview">Overview</a>';
-} else if ($pagenum == 1) {
-    $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id, $USER->username,
-                                $id, $d, $moduleinstance->assignment, $moduleinstance->resources,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang,
-                                $moduleinstance->maxlength, $moduleinstance->attemptlimit));
-} else if ($pagenum == 2) {
-    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
-                                $USER->id));
 } else {
-    $content .= 'Nothing to see here, mate.';
+    $content = 'Nothing to see here, mate!';
 }
 
 echo $OUTPUT->header();

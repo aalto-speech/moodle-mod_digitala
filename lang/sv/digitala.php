@@ -35,8 +35,8 @@ $string['assignmentname'] = 'Namn';
 $string['assignmentname_help'] = 'Skriv namnet av Digitala.';
 $string['attemptlang'] = 'Språk';
 $string['attemptlang_help'] = 'Välja språket för Digitala';
-$string['finnish'] = 'finska';
-$string['swedish'] = 'svenska';
+$string['fin'] = 'finska';
+$string['sv'] = 'svenska';
 $string['unlimited'] = 'Ei rajaa';
 $string['attemptlimit'] = 'Vastausyritysten määrä';
 $string['attemptlimit_help'] = 'Käyttäjän vastausyritysten määrä.';
@@ -165,10 +165,25 @@ $string['nativeity_score-2'] = 'Kohtalainen, melko helppo ymmärtää, mutta joi
 $string['nativeity_score-3'] = 'Hyvä, ymmärrettävä, ei suurempia ongelmia ääntämisessä.';
 $string['nativeity_score-4'] = 'Todella hyvä, selkeä ja luonteva ääntäminen.';
 
-$string['api'] = 'API-palvelimen osoite';
-$string['api_help'] = 'Anna API-palvelimen osoite.';
-$string['key'] = 'API-palvelimen avain';
-$string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
+$string['api'] = 'API-server adress';
+$string['api_help'] = 'Ge API-server adress.';
+$string['key'] = 'API-server nyckel';
+$string['key_help'] = 'Ge API-server nyckel för identifiering.';
+
+$string['edit_report'] = 'Edit report';
+$string['holistic-reason'] = 'Feedback on holistic';
+$string['fluency-reason'] = 'Feedback on fluency';
+$string['accuracy-reason'] = 'Feedback on accuracy';
+$string['lexicalprofile-reason'] = 'Feedback on lexical profile';
+$string['nativeity-reason'] = 'Feedback on nativeity';
+$string['gop-reason'] = 'Feedback on goodness of pronunciation';
+$string['holistic-scale_error'] = 'Holistic needs to be between 0 and 7';
+$string['fluency-scale_error'] = 'Fluency needs to be between 0 and 3';
+$string['accuracy-scale_error'] = 'Accuracy needs to be between 0 and 3';
+$string['lexicalprofile-scale_error'] = 'Lexical profile needs to be between 0 and 3';
+$string['nativeity-scale_error'] = 'Nativeity needs to be between 0 and 3';
+$string['gop-scale_error'] = 'Godness of pronunciation needs to be between 0 and 1';
+
 $string['error_url-not-set'] = 'url-adress har inte bestämt';
 $string['error_no-evaluation'] = 'Det finns ingen bedömning. Kolla kopplingen med API-server.';
 

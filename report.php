@@ -26,7 +26,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once(__DIR__.'/renderable.php');
 
-global $USER;
+global $USER, $DB;
 
 // Course module id.
 $id = optional_param('id', 0, PARAM_INT);
@@ -70,7 +70,19 @@ if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
     if ($mode == 'overview') {
         $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $modulecontext->id, $id, $d));
     } else if ($mode == 'detail') {
-        $content = "Coming soon";
+        $config = ['paths' => ['chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'],
+                'waitSeconds' => 40, 'enforceDefine' => false];
+        $requirejs = 'require.config(' . json_encode($config) . ')';
+        $PAGE->requires->js_amd_inline($requirejs);
+        $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($mode));
+
+        $content = $OUTPUT->render(new digitala_short_assignment($moduleinstance->assignment, $moduleinstance->resources,
+                                $moduleinstance->attempttype, $moduleinstance->attemptlang));
+        $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
+                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
+                                $student));
+        $content .= '<a class="btn btn-primary" href="/mod/digitala/reporteditor.php?id='.$id.'&student='.$student.'">'.
+                    'Give feedback on report</a>';
     } else {
         $content = get_string('results_denied', 'digitala');
     }

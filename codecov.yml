@@ -11,3 +11,6 @@ ignore:
   - "renderer.php"
   - "renderable.php"
   - "view.php"
+  - "report.php"
+  - "reporteditor.php"
+  - "reporteditor_form.php"

@@ -35,8 +35,8 @@ $string['assignmentname'] = 'Tehtävän nimi';
 $string['assignmentname_help'] = 'Lisää tehtävän nimi.';
 $string['attemptlang'] = 'Suorituskieli';
 $string['attemptlang_help'] = 'Valitse, minkä kielen tehtävä luodaan.';
-$string['finnish'] = 'suomi';
-$string['swedish'] = 'ruotsi';
+$string['fin'] = 'suomi';
+$string['sv'] = 'ruotsi';
 $string['attempttype'] = 'Tehtävätyyppi';
 $string['attempttype_help'] = 'Lue ääneen -tehtävässä pitää lukea annettu teksti mahdollisimman selkeästi ja tarkasti. Vapaa tuotto -tehtävässä voidaan puhua vapaammin tehtävänannon aiheesta.';
 $string['readaloud'] = 'Lue ääneen';
@@ -174,6 +174,21 @@ $string['api'] = 'API-palvelimen osoite';
 $string['api_help'] = 'Anna API-palvelimen osoite.';
 $string['key'] = 'API-palvelimen avain';
 $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
+
+$string['edit_report'] = 'Edit report';
+$string['holistic-reason'] = 'Feedback on holistic';
+$string['fluency-reason'] = 'Feedback on fluency';
+$string['accuracy-reason'] = 'Feedback on accuracy';
+$string['lexicalprofile-reason'] = 'Feedback on lexical profile';
+$string['nativeity-reason'] = 'Feedback on nativeity';
+$string['gop-reason'] = 'Feedback on goodness of pronunciation';
+$string['holistic-scale_error'] = 'Holistic needs to be between 0 and 7';
+$string['fluency-scale_error'] = 'Fluency needs to be between 0 and 3';
+$string['accuracy-scale_error'] = 'Accuracy needs to be between 0 and 3';
+$string['lexicalprofile-scale_error'] = 'Lexical profile needs to be between 0 and 3';
+$string['nativeity-scale_error'] = 'Nativeity needs to be between 0 and 3';
+$string['gop-scale_error'] = 'Godness of pronunciation needs to be between 0 and 1';
+
 $string['error_url-not-set'] = 'url-osoitetta ei ole asetettu';
 $string['error_no-evaluation'] = 'Arviointia ei löytynyt. Tarkista yhteys arviointipalvelimeen.';
 
