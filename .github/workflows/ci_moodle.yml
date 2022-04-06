@@ -259,7 +259,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
         with:
-          fetch-dept: 0
+          fetch-depth: 0
           path: digitala
 
       - name: Checkout correct commit
