@@ -616,7 +616,6 @@ function create_result_row($attempt, $instanceid, $id, $d) {
     return $cells;
 }
 
-
 /**
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
