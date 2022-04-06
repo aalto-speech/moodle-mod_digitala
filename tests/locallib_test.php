@@ -556,7 +556,7 @@ class locallib_test extends \advanced_testcase {
         $result = create_result_row($record, $assignment->instanceid, $this->digitala->id, $this->course->id);
         $this->assertEquals('Admin User', $result[0]);
         $this->assertEquals(4, $result[1]);
-        $this->assertEquals('5 s', $result[2]);
+        $this->assertEquals('00:05', $result[2]);
         $this->assertEquals(1, $result[3]);
         $this->assertStringContainsString('>See report</a>', $result[4]);
     }
