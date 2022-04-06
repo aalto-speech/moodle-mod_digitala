@@ -221,7 +221,7 @@ jobs:
           echo ${{ steps.pr.outputs }}
           echo ${{ steps.version_commit.outputs }}
           echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
-          echo "commit=${{ steps.version_commit.outputs.commit_long_sha }}" > info/version_commit
+          echo "commit=${{ steps.version_commit.outputs.commit_sha }}" > info/version_commit
           echo $(cat info/pr-title)
           echo $(cat info/version_commit)
 
@@ -247,27 +247,19 @@ jobs:
 
       - name: Echo info to env
         run: |
-          echo $(cat info/pr-title)
-          echo $(cat info/version_commit)
           echo $(cat info/pr-title) >> $GITHUB_ENV
-          echo ${{env.title}}
           echo $(cat info/version_commit) >> $GITHUB_ENV
-          echo ${{env.commit}}
 
-      - name: Debugging
+      - name: Check if title and commit is okay
         run:
           |
           echo ${{env.title}}
           echo ${{env.commit}}
-          echo '--'
-          cat $GITHUB_ENV
-          echo '--'
-          echo ${{ toJSON(env) }}
 
       - name: Check out repository code
         uses: actions/checkout@v2
         with:
-          ref: ${{ env.commmit }}
+          ref: ${{env.commmit}}
           path: digitala
 
       - name: Run zip.sh
@@ -280,6 +272,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: ${{env.release}}-${{env.version}}
           prerelease: false
-          title: "${{env.release}} (${{env.version}}): ${{ env.title }}"
+          title: "${{env.release}} (${{env.version}}): ${{env.title}}"
           files: |
             moodle-mod-digitala-${{env.release_line}}-${{env.version}}.zip
