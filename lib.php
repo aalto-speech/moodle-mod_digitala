@@ -314,18 +314,18 @@ function digitala_extend_navigation($digitalanode, $course, $module, $cm) {
  * @param settings_navigation $settingsnav {@see settings_navigation}
  * @param navigation_node $digitalanode {@see navigation_node}
  */
-function digitala_extend_settings_navigation($settingsnav, $digitalanode = null) {
-    $modulecontext = context_module::instance(CONTEXT_MODULE);
-    if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
+function digitala_extend_settings_navigation($settingsnav, $digitalanode) {
+    global $PAGE;
+
+    $context = $PAGE->cm->context;
+
+    $id = $PAGE->cm->id;
+
+    if (has_capability('mod/digitala:viewdetailreport', $context)) {
         $digitalanode->add(get_string('results_view', 'digitala'),
-        get_editor_url(), settings_navigation::TYPE_CUSTOM,
+        new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => 'overview')),
+        settings_navigation::TYPE_CUSTOM,
         null, null);
     }
 }
-/**
- * This function renders the url to move from actions menu to students' results view
- */
-function get_editor_url() {
-    $id = CONTEXT_MODULE;
-    return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => 'overview'));
-}
+
