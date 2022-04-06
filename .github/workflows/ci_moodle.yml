@@ -16,8 +16,8 @@ jobs:
 
       - name: Run zip.sh
         run: |
-          chmod +x ./plugin/scripts/zip.sh
-          ./plugin/scripts/zip.sh
+          chmod +x ./digitala/scripts/zip.sh
+          ./digitala/scripts/zip.sh
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
