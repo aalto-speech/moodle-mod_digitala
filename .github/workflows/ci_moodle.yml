@@ -249,15 +249,15 @@ jobs:
         run: |
           echo $(cat info/pr-title)
           echo $(cat info/version_commit)
-          echo "pr-title=$(cat info/pr-title)" >> $GITHUB_ENV
-          echo ${{ env.pr-title }}
-          echo "version_commit=$(cat info/version_commit)" >> $GITHUB_ENV
-          echo ${{ env.version_commit }}
+          echo "title=$(cat info/pr-title)" >> $GITHUB_ENV
+          echo ${{ env.title }}
+          echo "commit=$(cat info/version_commit)" >> $GITHUB_ENV
+          echo ${{ env.commit }}
 
       - name: Check out repository code
         uses: actions/checkout@v2
         with:
-          ref: ${{ env.version_commmit }}
+          ref: ${{ env.commmit }}
           path: digitala
 
       - name: Run zip.sh
@@ -270,6 +270,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: ${{env.release}}-${{env.version}}
           prerelease: false
-          title: "${{env.release}} (${{env.version}}): ${{ env.pr-title }}"
+          title: "${{env.release}} (${{env.version}}): ${{ env.title }}"
           files: |
             moodle-mod-digitala-${{env.release_line}}-${{env.version}}.zip
