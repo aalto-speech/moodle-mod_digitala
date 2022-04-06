@@ -249,10 +249,12 @@ jobs:
         run: |
           echo $(cat info/pr-title)
           echo $(cat info/version_commit)
-          echo "title=$(cat info/pr-title)" >> $GITHUB_ENV
-          echo ${{ env.title }}
-          echo "commit=$(cat info/version_commit)" >> $GITHUB_ENV
-          echo ${{ env.commit }}
+          title=$(cat info/pr-title)
+          echo "title=${title}" >> $GITHUB_ENV
+          echo ${{env.title}}
+          commit=$(cat info/version_commit)
+          echo "commit=${commit}" >> $GITHUB_ENV
+          echo ${{env.commit}}
 
       - name: Check out repository code
         uses: actions/checkout@v2
