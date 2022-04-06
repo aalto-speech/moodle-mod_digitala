@@ -1,6 +1,11 @@
 name: Moodle Plugin CI for Moodle 3.9 and 3.11
 
-on: [push]
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   test:
@@ -29,7 +34,7 @@ jobs:
           - php: '8.0'
             moodle-branch: 'MOODLE_311_STABLE'
             database: pgsql
-            experimental: true
+            experimental: false
             coverage-location: './coverage/coverage.xml'
             coverage-engine: 'pcov'
           - php: '8.0'
@@ -187,7 +192,7 @@ jobs:
 
   version:
     runs-on: ubuntu-20.04
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: github.event.pull_request.merged
     needs: test
 
     steps:
@@ -199,9 +204,9 @@ jobs:
       - name: Run bump-version.sh
         run: |
           chmod +x ./plugin/scripts/bump-version.sh
-          ./plugin/scripts/bump-version.sh
+          ./plugin/scripts/bump-version.sh plugin
 
-      - uses: EndBug/add-and-commit@v8
+      - uses: EndBug/add-and-commit@v9
         with:
           add: version.php
           message: 'Bump version & release'
@@ -210,7 +215,7 @@ jobs:
 
   zip-n-release:
     runs-on: ubuntu-20.04
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: github.event.pull_request.merged
     needs: version
 
     steps:
