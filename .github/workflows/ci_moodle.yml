@@ -247,6 +247,8 @@ jobs:
 
       - name: Echo info to env
         run: |
+          echo $(cat info/pr-title)
+          echo $(cat info/version_commit)
           echo "pr-title=$(cat info/pr-title)" >> $GITHUB_ENV
           echo ${{ env.pr-title }}
           echo "version_commit=$(cat info/version_commit)" >> $GITHUB_ENV
