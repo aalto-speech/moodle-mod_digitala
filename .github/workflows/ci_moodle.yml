@@ -188,7 +188,7 @@ jobs:
   version:
     runs-on: ubuntu-20.04
     if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/zip-n-release' }}
-    needs: test
+    # needs: test
 
     steps:
       - name: Check out repository code
@@ -218,6 +218,8 @@ jobs:
       - name: Echo info to files
         run: |
           mkdir info
+          echo ${{ steps.pr.outputs }}
+          echo ${{ steps.version_commit.outputs }}
           echo ${{ steps.pr.outputs.title }} > info/pr-title
           echo ${{ steps.version_commit.commit_long_sha }} > info/version_commit
 
