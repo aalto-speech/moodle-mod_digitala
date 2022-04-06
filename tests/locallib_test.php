@@ -468,7 +468,7 @@ class locallib_test extends \advanced_testcase {
         $assignment->userid = 1;
         $assignment->attemptlimit = 1;
 
-        $result = create_attempt_number($assignment);
+        $result = create_attempt_number($assignment, $assignment->userid);
         $this->assertEquals('Number of attempts remaining: 1' ,$result);
     }
 
@@ -534,8 +534,8 @@ class locallib_test extends \advanced_testcase {
         global $DB;
 
         $fromform = new \stdClass();
-        $fromform->gop_score = 1;
-        $fromform->gop_scorereason = "I'm a reason, did you know!?";
+        $fromform->gop = 1;
+        $fromform->gopreason = "I'm a reason, did you know!?";
 
         $oldattempt = new \stdClass();
         $oldattempt->id = 5;
