@@ -65,7 +65,8 @@ class reporteditor_form extends moodleform {
             $mform->addElement('float', 'accuracy', get_string('accuracy', 'mod_digitala'));
             $mform->addElement('textarea', 'accuracyreason', get_string('accuracy-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'lexicalprofile', get_string('lexicalprofile', 'mod_digitala'));
-            $mform->addElement('textarea', 'lexicalprofilereason', get_string('lexicalprofile-reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('textarea', 'lexicalprofilereason',
+                               get_string('lexicalprofile-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'nativeity', get_string('nativeity', 'mod_digitala'));
             $mform->addElement('textarea', 'nativeityreason', get_string('nativeity-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'holistic', get_string('holistic', 'mod_digitala'));
