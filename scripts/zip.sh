@@ -1,10 +1,10 @@
 #!/bin/bash
 
-version=$(cat version.php | grep '$plugin->version = ')
+version=$(cat digitala/version.php | grep '$plugin->version = ')
 version=${version/\$plugin->version = /}
 version=${version/;/}
 
-release=$(cat version.php | grep '$plugin->release = ')
+release=$(cat digitala/version.php | grep '$plugin->release = ')
 release=${release/\$plugin->release = /}
 release=${release/;/}
 release=${release//\'/}
@@ -15,6 +15,7 @@ echo "release=${release}" >> $GITHUB_ENV
 echo "release_dot=${release_dot}" >> $GITHUB_ENV
 
 rm -rf digitala/scripts
+rm -rf digitala/docs
 rm -rf digitala/.github
 rm -rf digitala/.git
 
