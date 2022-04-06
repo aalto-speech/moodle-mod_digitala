@@ -252,6 +252,7 @@ jobs:
           cat info/pr-title >> $GITHUB_ENV
           echo ${{env.title}}
           cat info/version_commit >> $GITHUB_ENV
+          echo $GITHUB_ENV
           echo ${{env.commit}}
 
       - name: Check out repository code
