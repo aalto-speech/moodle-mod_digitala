@@ -41,8 +41,6 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_progress_bar(digitala_progress_bar $progressbar) {
-        global $USER;
-
         $spacers = calculate_progress_bar_spacers($progressbar->currpage);
         $out = start_progress_bar();
         $out .= create_progress_bar_step('info', 0, $progressbar->id, $progressbar->d, $progressbar->currpage);
@@ -51,7 +49,6 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= create_progress_bar_spacer($spacers['right']);
         $out .= create_progress_bar_step('report', 2, $progressbar->id, $progressbar->d, $progressbar->currpage);
         $out .= end_progress_bar();
-
         return $out;
     }
 
