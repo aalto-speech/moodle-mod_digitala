@@ -142,7 +142,7 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022031601, 'digitala');
     }
 
-    if ($oldversion < 2022033000) {
+    if ($oldversion < 2022040102) {
 
         // Define field attemptlimit to be added to digitala.
         $table = new xmldb_table('digitala');
@@ -161,7 +161,7 @@ function xmldb_digitala_upgrade($oldversion) {
         }
 
         // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022033000, 'digitala');
+        upgrade_mod_savepoint(true, 2022040102, 'digitala');
     }
 
     if ($oldversion < 2022040103) {
@@ -186,6 +186,47 @@ function xmldb_digitala_upgrade($oldversion) {
 
         // Digitala savepoint reached.
         upgrade_mod_savepoint(true, 2022040103, 'digitala');
+    }
+
+    if ($oldversion < 2022040301) {
+
+        // Define table digitala_report_feedback to be created.
+        $table = new xmldb_table('digitala_report_feedback');
+
+        // Adding fields to table digitala_report_feedback.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('attempt', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('old_fluency', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('fluency', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('fluency_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
+        $table->add_field('old_accuracy', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('accuracy', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('accuracy_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
+        $table->add_field('old_lexicalprofile', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('lexicalprofile', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('lexicalprofile_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
+        $table->add_field('old_nativeity', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('nativeity', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('nativeity_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
+        $table->add_field('old_holistic', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('holistic', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('holistic_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
+        $table->add_field('old_gop_score', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('gop_score', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('gop_score_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table digitala_report_feedback.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('attempt', XMLDB_KEY_FOREIGN, ['attempt'], 'digitala_attempt', ['id']);
+
+        // Conditionally launch create table for digitala_report_feedback.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Digitala savepoint reached.
+        upgrade_mod_savepoint(true, 2022040301, 'digitala');
     }
 
     return true;

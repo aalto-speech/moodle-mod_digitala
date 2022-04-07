@@ -406,7 +406,7 @@ class locallib_test extends \advanced_testcase {
     public function test_get_attempt() {
         global $DB, $USER;
 
-        $result = get_attempt(2);
+        $result = get_attempt(2, $USER->id);
         $this->assertEquals(null, $result);
 
         $timenow = time();
@@ -419,7 +419,7 @@ class locallib_test extends \advanced_testcase {
         $attempt->timemodified = $timenow;
         $DB->insert_record('digitala_attempts', $attempt);
 
-        $result = get_attempt(2);
+        $result = get_attempt(2, $USER->id);
         $this->assertEquals($attempt->gop_score, $result->gop_score);
     }
 
@@ -466,7 +466,7 @@ class locallib_test extends \advanced_testcase {
         $assignment->userid = 1;
         $assignment->attemptlimit = 1;
 
-        $result = create_attempt_number($assignment);
+        $result = create_attempt_number($assignment, $assignment->userid);
         $this->assertEquals('Number of attempts remaining: 1' ,$result);
     }
 
@@ -489,7 +489,78 @@ class locallib_test extends \advanced_testcase {
         $result = create_attempt_modal($assignment);
         $this->assertEquals('<button id="submitModalButton" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#attemptModal" style="display: none">Submit answer</button><div class="modal" id="attemptModal" tabindex="-1" role="dialog" aria-labelledby="submitModal" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Are you sure you want to submit this attempt?</h5><button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>You still have 1 attempts remaining on this assignment.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>No evaluation was found. Check your connection with server.</div></div></div></div>', $result);
     }
-// @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+
+    /**
+     * Tests creating the results url.
+     */
+    public function test_results_url() {
+        $generatedurl = results_url(1,1,1);
+        $this->assertEquals($generatedurl, 'https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=1&amp;student=1');
+    }
+
+    /**
+     * Tests getting all attempts.
+     */
+    public function test_get_all_attempts() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+        $recordinglength = 5;
+
+        save_attempt($assignment, 'filename1', $evaluation, $recordinglength);
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 2;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 3;
+        $recordinglength = 5;
+
+        save_attempt($assignment, 'filename2', $evaluation, $recordinglength);
+
+        $records = $DB->get_records('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid));
+        $this->assertEquals(2,count($records));
+    }
+
+    /**
+     * Tests getting user and compares their ids.
+     */
+    public function test_get_user() {
+        global $USER;
+        $result = get_user(2);
+        $this->assertEquals($USER->id, $result->id);
+    }
+
+    /**
+     * Tests creating result row.
+     */
+    public function test_create_result_row() {
+        global $DB, $USER;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 2;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+        $recordinglength = 5;
+
+        save_attempt($assignment, 'filename', $evaluation, $recordinglength);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+
+        $result = create_result_row($record, $assignment->instanceid, $this->digitala->id, $this->course->id);
+        $this->assertEquals('Admin User', $result[0]);
+        $this->assertEquals(4, $result[1]);
+        $this->assertEquals('00:05', $result[2]);
+        $this->assertEquals(1, $result[3]);
+        $this->assertStringContainsString('>See report</a>', $result[4]);
+    }
+
     /**
      * Tests convertsecondstostring for making time strings from seconds
      */
@@ -527,4 +598,87 @@ class locallib_test extends \advanced_testcase {
         $result = convertsecondstostring(36000);
         $this->assertEquals('10:00:00', $result);
     }
+
+    public function test_save_report_feedback_readaloud() {
+        global $DB;
+
+        $fromform = new \stdClass();
+        $fromform->gop = 1;
+        $fromform->gopreason = "I'm a reason, did you know!?";
+
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 5;
+        $oldattempt->gop_score = 4;
+
+        save_report_feedback('readaloud', $fromform, $oldattempt);
+
+        $result = $DB->record_exists('digitala_report_feedback',
+                                     array('attempt' => 5));
+        $this->assertEquals(true, $result);
+
+        $feedback = $DB->get_record('digitala_report_feedback',
+                                    array('attempt' => 5));
+        $this->assertEquals(4, $feedback->old_gop_score);
+        $this->assertEquals(1, $feedback->gop_score);
+        $this->assertEquals("I'm a reason, did you know!?", $feedback->gop_score_reason);
+        $this->assertEquals(false, isset($feedback->old_fluency));
+        $this->assertEquals(false, isset($feedback->accuracy));
+        $this->assertEquals(false, isset($feedback->nativeity_reason));
+
+    }
+
+    public function test_save_report_feedback_freeform() {
+        global $DB;
+
+        $fromform = new \stdClass();
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = "I'm a fluency reason, did you know!?";
+        $fromform->accuracy = 2;
+        $fromform->accuracyreason = "I'm a accuracy reason, did you know!?";
+        $fromform->lexicalprofile = 3;
+        $fromform->lexicalprofilereason = "I'm a lexicalprofile reason, did you know!?";
+        $fromform->nativeity = 2;
+        $fromform->nativeityreason = "I'm a nativeity reason, did you know!?";
+        $fromform->holistic = 1;
+        $fromform->holisticreason = "I'm a holistic reason, did you know!?";
+
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 6;
+        $oldattempt->fluency = 3;
+        $oldattempt->accuracy = 1;
+        $oldattempt->lexicalprofile = 2;
+        $oldattempt->nativeity = 0;
+        $oldattempt->holistic = 3;
+
+        save_report_feedback('freeform', $fromform, $oldattempt);
+
+        $result = $DB->record_exists('digitala_report_feedback',
+                                     array('attempt' => 6));
+        $this->assertEquals(true, $result);
+
+        $feedback = $DB->get_record('digitala_report_feedback',
+                                    array('attempt' => 6));
+        $this->assertEquals(3, $feedback->old_fluency);
+        $this->assertEquals(1, $feedback->old_accuracy);
+        $this->assertEquals(2, $feedback->old_lexicalprofile);
+        $this->assertEquals(0, $feedback->old_nativeity);
+        $this->assertEquals(3, $feedback->old_holistic);
+        $this->assertEquals(1, $feedback->fluency);
+        $this->assertEquals(2, $feedback->accuracy);
+        $this->assertEquals(3, $feedback->lexicalprofile);
+        $this->assertEquals(2, $feedback->nativeity);
+        $this->assertEquals(1, $feedback->holistic);
+        $this->assertEquals("I'm a fluency reason, did you know!?", $feedback->fluency_reason);
+        $this->assertEquals("I'm a accuracy reason, did you know!?", $feedback->accuracy_reason);
+        $this->assertEquals("I'm a lexicalprofile reason, did you know!?", $feedback->lexicalprofile_reason);
+        $this->assertEquals("I'm a nativeity reason, did you know!?", $feedback->nativeity_reason);
+        $this->assertEquals("I'm a holistic reason, did you know!?", $feedback->holistic_reason);
+        $this->assertEquals(false, isset($feedback->gop_score));
+    }
+
+    public function test_create_short_assignment_tabs() {
+        $result = create_short_assignment_tabs('', '');
+        $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Resources</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
 }
+

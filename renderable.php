@@ -124,10 +124,11 @@ class digitala_report implements renderable {
      * @param int $d - Id of the course
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
-     * @param string $attemptlimit - Number of attempts that a person can submit
+     * @param int $attemptlimit - Number of attempts that a person can submit
+     * @param int $student - User id of student
      */
     public function __construct($instanceid, $contextid, $id = 0, $d = 0, $attempttype = '', $attemptlang = '',
-                                $attemptlimit = 1) {
+                                $attemptlimit = 1, $student = null) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
@@ -135,5 +136,83 @@ class digitala_report implements renderable {
         $this->attempttype = $attempttype;
         $this->attemptlang = $attemptlang;
         $this->attemptlimit = $attemptlimit;
+        $this->student = $student;
+    }
+}
+
+/**
+ * Implements a renderable short version of assignment panel used on the teacher detail report page.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class digitala_short_assignment implements renderable {
+    /**
+     * Constructor
+     * @param string $assignmenttext - Assignment text for the assignment
+     * @param string $resourcetext - Resource text for the assignment
+     * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
+     * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     */
+    public function __construct($assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+        $this->assignmenttext = $assignmenttext;
+        $this->resourcetext = $resourcetext;
+        $this->attempttype = $attempttype;
+        $this->attemptlang = $attemptlang;
+    }
+}
+
+/**
+ * Implements a renderable report panel used on the last page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class digitala_report_editor implements renderable {
+    /**
+     * Constructor
+     * @param int $instanceid - Instance id of the activty
+     * @param int $contextid - Context id of the activty
+     * @param int $id - Id of the activity
+     * @param int $d - Id of the course
+     * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
+     * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     * @param int $student - User id of student
+     */
+    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $attempttype = '', $attemptlang = '',
+                                $student = null) {
+        $this->instanceid = $instanceid;
+        $this->contextid = $contextid;
+        $this->id = $id;
+        $this->d = $d;
+        $this->attempttype = $attempttype;
+        $this->attemptlang = $attemptlang;
+        $this->student = $student;
+    }
+}
+
+/**
+ * Implements a renderable report panel used on the last page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ */
+class digitala_results implements renderable {
+    /**
+     * Constructor
+     * @param int $instanceid - Instance id of the activty
+     * @param int $contextid - Context id of the activty
+     * @param int $id - Id of the activity
+     * @param int $d - Id of the course
+     */
+    public function __construct($instanceid, $contextid, $id, $d) {
+        $this->instanceid = $instanceid;
+        $this->contextid = $contextid;
+        $this->id = $id;
+        $this->d = $d;
     }
 }

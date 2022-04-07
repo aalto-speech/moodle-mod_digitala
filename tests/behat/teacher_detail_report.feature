@@ -1,52 +1,46 @@
 @mod @mod_digitala @javascript
-Feature: Student can see report with transcript, numeric gradings and verbal feedback
+Feature: Teacher can see students detailed report
 
   Background:
     Given the following "users" exist:
       | username | firstname | lastname   | email                    |
+      | ossi     | Ossi      | Opettaja   | ossi.opettaja@koulu.fi   |
       | olli     | Olli      | Opiskelija | olli.opiskelija@koulu.fi |
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
       | user | course | role    |
+      | ossi | C1     | manager |
       | olli | C1     | student |
     And the following "activities" exist:
-      | activity | name               | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit |
-      | digitala | Test digitala name | Test digitala intro  | C1     | digitala1 | fin         | freeform    | Assignment text            | Resource text                              | 1               | 0            |
-      | digitala | Freeform           | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            |
-      | digitala | Readaloud          | This is a readaloud. | C1     | readaloud | fin         | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
+      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit |
+      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            |
+      | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fin         | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
     And I add freeform attempt to database:
       | name     | username | attemptnumber | file  | transcript  | fluency | fluencymean | speechrate | taskachievement | accuracy | lexicalprofile | nativeity | holistic | recordinglength |
       | Freeform | olli     | 1             | file1 | transcript1 | 1       | 2           | 3          | 1               | 2        | 3              | 1         | 2        | 1               |
     And I add readaloud attempt to database:
       | name      | username | attemptnumber | file  | transcript  | gop_score | recordinglength |
       | Readaloud | olli     | 1             | file2 | transcript2 | 0.7       | 2               |
-    And I log in as "olli"
 
-  Scenario: On a non graded report page the grading tabs are not shown
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
-    Then I should not see "Task Grades"
-    And I should not see "Fluency"
+  Scenario: Detailed report does not show for student in freeform
+    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "olli"
+    And I should see "Access denied"
 
-  Scenario: On a non graded report page the report not available text is shown
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
-    Then I should see "A report for this assignment is not available yet."
-
-  Scenario: On a non graded report page the transcription is not shown
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
-    Then I should not see "Transcription"
+  Scenario: Detailed report does not show for student in readaloud
+    When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "olli"
+    And I should see "Access denied"
 
   Scenario: Detailed report shows correctly for freeform
-    When I am on "Course 1" course homepage
-    And I click on "Freeform" "link"
-    And I click on "Report" "link"
+    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
+    And I should see "Assignment"
+    And I should see "Attempt language: Swedish"
+    And I should see "Attempt type: Freeform"
+    And I should see "Berätta om Tigerjakt."
+    And I click on "Resources" "button"
+    And I should see "Resources"
+    And I should see "Här är filmen om tiger."
     And I should see "There is no limit set for the number of attempts on this assignment."
     And I should see "Transcription"
     And I should see "transcript1"
@@ -68,9 +62,14 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And I should see "Holistic score is 2, brown score."
 
   Scenario: Detailed report shows correctly for readaloud
-    When I am on "Course 1" course homepage
-    And I click on "Readaloud" "link"
-    And I click on "Report" "link"
+    When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
+    And I should see "Assignment"
+    And I should see "Attempt language: Finnish"
+    And I should see "Attempt type: Read aloud"
+    And I should see "Lue seuraava lause ääneen."
+    And I click on "Resources" "button"
+    And I should see "Resources"
+    And I should see "Tämä on liikennevalojen perusteet -kurssi."
     And I should see "Number of attempts remaining: 1"
     And I should not see "Transcript"
     And I should not see "transcript2"
