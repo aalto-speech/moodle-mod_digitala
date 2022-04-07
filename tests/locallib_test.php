@@ -543,7 +543,7 @@ class locallib_test extends \advanced_testcase {
 
         $records = $DB->get_records('digitala_attempts',
                                   array('digitala' => $assignment->instanceid));
-        $this->assertEquals(2,count($records));
+        $this->assertEquals(2, count($records));
     }
 
     /**
