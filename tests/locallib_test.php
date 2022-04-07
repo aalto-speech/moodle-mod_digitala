@@ -167,6 +167,9 @@ class locallib_test extends \advanced_testcase {
         $result = create_nav_buttons('report', 1, 2);
         $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="tryAgainButton" class="btn btn-primary">See the assignment</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
             $result);
+        $result = create_nav_buttons('report', 1, 2, 1);
+        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="tryAgainButton" class="btn btn-primary">Try again</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
+            $result);
         // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
     }
 
@@ -376,6 +379,11 @@ class locallib_test extends \advanced_testcase {
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
         $this->assertEquals($evaluation->Transcript, $record->transcript);
         $this->assertEquals($evaluation->Holistic, $record->holistic);
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(2, $record->attemptnumber);
     }
 
     /**
@@ -398,6 +406,11 @@ class locallib_test extends \advanced_testcase {
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
         $this->assertEquals($evaluation->GOP_score, $record->gop_score);
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(2, $record->attemptnumber);
     }
 
     /**
@@ -451,7 +464,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_chart() {
         $result = create_chart('nimi', '2.00', '4');
-        $this->assertEquals('<canvas id="nimi" data-eval-name="nimi" data-eval-grade="2.00" data-eval-maxgrade="4" class="report-chart" height="40px"></canvas>', // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<canvas id="nimi" data-eval-name="nimi" data-eval-grade="2.00" data-eval-maxgrade="4" class="report-chart" height="40px"></canvas>',
                             $result);
     }
 
@@ -464,10 +477,22 @@ class locallib_test extends \advanced_testcase {
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 1;
-        $assignment->attemptlimit = 1;
+        $assignment->attemptlimit = 0;
 
         $result = create_attempt_number($assignment, $assignment->userid);
-        $this->assertEquals('Number of attempts remaining: 1' ,$result);
+        $this->assertEquals('There is no limit set for the number of attempts on this assignment.', $result);
+
+        $assignment->attemptlimit = 1;
+        $result = create_attempt_number($assignment, $assignment->userid);
+        $this->assertEquals('Number of attempts remaining: 1', $result);
+
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+        $assignment->attemptlimit = 3;
+        $result = create_attempt_number($assignment, $assignment->userid);
+        $this->assertEquals('Number of attempts remaining: 2', $result);
     }
 
     /**
@@ -480,15 +505,26 @@ class locallib_test extends \advanced_testcase {
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 1;
-        $assignment->attemptlimit = 1;
+        $assignment->attemptlimit = 2;
 
-        \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+
+        \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form');
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $result = create_attempt_modal($assignment);
         $this->assertEquals('<button id="submitModalButton" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#attemptModal" style="display: none">Submit answer</button><div class="modal" id="attemptModal" tabindex="-1" role="dialog" aria-labelledby="submitModal" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Are you sure you want to submit this attempt?</h5><button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>You still have 1 attempts remaining on this assignment.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>No evaluation was found. Check your connection with server.</div></div></div></div>', $result);
+
+        $assignment->attemptlimit = 0;
+
+        $result = create_attempt_modal($assignment);
+        $this->assertEquals('<button id="submitModalButton" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#attemptModal" style="display: none">Submit answer</button><div class="modal" id="attemptModal" tabindex="-1" role="dialog" aria-labelledby="submitModal" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Are you sure you want to submit this attempt?</h5><button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>There is no limit set for the number of attempts on this assignment.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>No evaluation was found. Check your connection with server.</div></div></div></div>', $result);
     }
+// @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 
     /**
      * Tests creating the results url.
