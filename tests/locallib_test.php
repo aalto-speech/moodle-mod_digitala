@@ -205,7 +205,7 @@ class locallib_test extends \advanced_testcase {
      * Test creating report view grading helper object.
      */
     public function test_grading_html_output() {
-        $result = create_report_grading("fluency", 0, 0);
+        $result = create_report_grading('fluency', 0, 0);
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5>'.
             '<canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart" height="40px"></canvas>'. // phpcs:ignore moodle.Files.LineLength.MaxExceeded
             '<h6 class="grade-number">0/0</h6>'.
@@ -248,7 +248,7 @@ class locallib_test extends \advanced_testcase {
      * Test creating report view specific transcription object.
      */
     public function test_transcription_html_output() {
-        $testtranscription = "Lorem ipsum test text";
+        $testtranscription = 'Lorem ipsum test text';
         $result = create_report_transcription($testtranscription);
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcription</h5>'.
             '<div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result);

@@ -203,7 +203,7 @@ function create_card($header, $text) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string($header, 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string($header, 'digitala'), array('class' => 'card-title'));
     $out .= html_writer::div($text, 'card-text');
 
     $out .= html_writer::end_div();
@@ -251,10 +251,10 @@ function create_report_grading($name, $grade, $maxgrade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string($name, 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string($name, 'digitala'), array('class' => 'card-title'));
 
     $out .= create_chart($name, $grade, $maxgrade);
-    $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
+    $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array('class' => 'grade-number'));
 
     $out .= html_writer::div(get_string($name.'_score-' . floor($grade), 'digitala'), 'card-text');
 
@@ -273,10 +273,10 @@ function create_report_holistic($grade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string('holistic', 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('holistic', 'digitala'), array('class' => 'card-title'));
 
     $out .= create_chart('holistic', $grade, 6);
-    $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array("class" => 'grade-number'));
+    $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array('class' => 'grade-number'));
 
     $out .= html_writer::div(get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
 
@@ -295,9 +295,9 @@ function create_report_gop($grade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array('class' => 'card-title'));
 
-    $out .= html_writer::tag('h6', $grade * 100 . '/100', array("class" => 'grade-number'));
+    $out .= html_writer::tag('h6', $grade * 100 . '/100', array('class' => 'grade-number'));
 
     $out .= html_writer::div(get_string('gop_score-'.floor($grade * 10), 'digitala'), 'card-text');
 
@@ -336,11 +336,11 @@ function create_report_tabs($gradings, $holistic) {
     $out = html_writer::start_tag('nav');
     $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('task_grades', 'digitala'),
-                             array('class' => "nav-link active ml-2", 'id' => 'report-grades-tab', 'data-toggle' => 'tab',
+                             array('class' => 'nav-link active ml-2', 'id' => 'report-grades-tab', 'data-toggle' => 'tab',
                                    'href' => '#report-grades', 'role' => 'tab', 'aria-controls' => 'report-grades',
                                    'aria-selected' => 'true'));
     $out .= html_writer::tag('button', get_string('holistic', 'digitala'),
-                             array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab', 'data-toggle' => 'tab',
+                             array('class' => 'nav-link ml-2', 'id' => 'report-holistic-tab', 'data-toggle' => 'tab',
                                    'href' => '#report-holistic', 'role' => 'tab', 'aria-controls' => 'report-holistic',
                                    'aria-selected' => 'false'));
     $out .= html_writer::end_div();
@@ -366,11 +366,11 @@ function create_short_assignment_tabs($assignment, $resources) {
     $out = html_writer::start_tag('nav');
     $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('assignment', 'digitala'),
-                             array('class' => "nav-link active ml-2", 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
+                             array('class' => 'nav-link active ml-2', 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
                                    'href' => '#assignment-assignment', 'role' => 'tab', 'aria-controls' => 'assignment-assignment',
                                    'aria-selected' => 'true'));
     $out .= html_writer::tag('button', get_string('assignmentresource', 'digitala'),
-                             array('class' => "nav-link ml-2", 'id' => 'assignment-resources-tab', 'data-toggle' => 'tab',
+                             array('class' => 'nav-link ml-2', 'id' => 'assignment-resources-tab', 'data-toggle' => 'tab',
                                    'href' => '#assignment-resources', 'role' => 'tab', 'aria-controls' => 'assignment-resources',
                                    'aria-selected' => 'false'));
     $out .= html_writer::end_div();
@@ -805,25 +805,25 @@ function convertsecondstostring($secs) {
     $seconds = floor($secs - ($hours * 3600) - ($minutes * 60));
 
     if ($hours == 0) {
-        $hours = "";
+        $hours = '';
     } else {
         if ($hours < 10) {
-            $hours = "0".$hours.":";
+            $hours = '0'.$hours.':';
         } else {
-            $hours = $hours.":";
+            $hours = $hours.':';
         }
 
     }
 
     if ($minutes < 10) {
-        $minutes = "0".$minutes;
+        $minutes = '0'.$minutes;
     }
 
     if ($seconds < 10) {
-        $seconds = "0".$seconds;
+        $seconds = '0'.$seconds;
     }
 
-    return $hours.$minutes.":".$seconds;
+    return $hours.$minutes.':'.$seconds;
 }
 
 /**

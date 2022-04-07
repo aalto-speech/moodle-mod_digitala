@@ -129,7 +129,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_attempt_number($report, $report->student);
             $out .= '<br><audio controls><source src='.$audiourl.'></audio><br>';
 
-            if ($report->attempttype == "freeform") {
+            if ($report->attempttype == 'freeform') {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 3);
                 $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
                 $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
