@@ -64,8 +64,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         // For the info text and microphone.
         $out .= start_column();
-        $out .= create_card('microphone', create_microphone_icon('info'));
-        $out .= create_card('info', get_string('infotext', 'digitala') . create_microphone('info'));
+        $out .= create_card('microphone', create_microphone_icon());
+        $out .= create_card('info', get_string('infotext', 'digitala') . create_microphone());
         $out .= create_nav_buttons('info', $info->id, $info->d);
         $out .= end_column();
 
@@ -92,7 +92,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
         } else {
             $out .= create_card('assignmentrecord', create_attempt_number($assignment, $assignment->userid).
-                                                    create_microphone('assignment', $assignment->maxlength).
+                                                    create_microphone($assignment->maxlength).
                                                     create_attempt_modal($assignment));
             $out .= create_nav_buttons('assignmentprev', $assignment->id, $assignment->d);
         }
@@ -176,7 +176,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $attempts = get_all_attempts($result->instanceid);
 
         foreach ($attempts as $attempt) {
-            $row = create_result_row($attempt, $result->instanceid, $result->id, $result->d);
+            $row = create_result_row($attempt, $result->id);
             foreach ($row as $cell) {
                 $cell = new html_table_cell($cell);
             }

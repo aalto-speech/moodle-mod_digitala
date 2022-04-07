@@ -54,7 +54,6 @@ class reporteditor_form extends moodleform {
      *
      */
     public function definition() {
-        global $CFG;
         $mform = $this->_form;
         $attempt = $this->attempt;
         $attempttype = $this->attempttype;
