@@ -513,7 +513,7 @@ class locallib_test extends \advanced_testcase {
      * Tests creating the results url.
      */
     public function test_results_url() {
-        $generatedurl = results_url(1,1,1);
+        $generatedurl = results_url(1, 1, 1);
         $this->assertEquals($generatedurl, 'https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=1&amp;student=1');
     }
 
