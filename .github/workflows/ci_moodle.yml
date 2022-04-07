@@ -1,11 +1,6 @@
 name: Moodle Plugin CI for Moodle 3.9 and 3.11
 
-on:
-  push:
-    branches:
-      - "main"
-  pull_request:
-    types: [opened, synchronize]
+on: [push]
 
 jobs:
   test:
@@ -192,7 +187,7 @@ jobs:
 
   version:
     runs-on: ubuntu-20.04
-    if: github.event.pull_request.merged
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: test
 
     steps:
@@ -201,28 +196,77 @@ jobs:
         with:
           path: plugin
 
+      - name: Find PR
+        uses: jwalton/gh-find-current-pr@v1
+        id: pr
+        with:
+          state: all
+
       - name: Run bump-version.sh
         run: |
           chmod +x ./plugin/scripts/bump-version.sh
           ./plugin/scripts/bump-version.sh plugin
 
       - uses: EndBug/add-and-commit@v9
+        id: version_commit
         with:
           add: version.php
           message: 'Bump version & release'
           cwd: './plugin'
           default_author: user_info
 
+      - name: Echo info to files
+        run: |
+          mkdir info
+          echo ${{ steps.pr.outputs }}
+          echo ${{ steps.version_commit.outputs }}
+          echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
+          echo "commit=${{ steps.version_commit.outputs.commit_sha }}" > info/version_commit
+          echo $(cat info/pr-title)
+          echo $(cat info/version_commit)
+
+      - name: Upload info for zip-n-release
+        uses: actions/upload-artifact@v3
+        with:
+          name: info
+          path: |
+            info/pr-title
+            info/version_commit
+
   zip-n-release:
     runs-on: ubuntu-20.04
-    if: github.event.pull_request.merged
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: version
 
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
+      - name: Download info from version
+        uses: actions/download-artifact@v3
         with:
+          name: info
+          path: info
+
+      - name: Echo info to env
+        run: |
+          echo $(cat info/pr-title) >> $GITHUB_ENV
+          echo $(cat info/version_commit) >> $GITHUB_ENV
+
+      - name: Check if title and commit is okay
+        run:
+          |
+          echo ${{env.title}}
+          echo ${{env.commit}}
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
           path: digitala
+
+      - name: Checkout correct commit
+        run: |
+          cd digitala
+          git checkout ${{env.commit}}
+          cd ..
 
       - name: Run zip.sh
         run: |
@@ -234,6 +278,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: ${{env.release}}-${{env.version}}
           prerelease: false
-          title: "${{env.release}} (${{env.version}}): ${{ github.event.pull_request.title }}"
+          title: "${{env.release}} (${{env.version}}): ${{env.title}}"
           files: |
             moodle-mod-digitala-${{env.release_line}}-${{env.version}}.zip
