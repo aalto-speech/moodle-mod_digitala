@@ -60,7 +60,8 @@ class reporteditor_form extends moodleform {
 
         if ($attempttype == 'freeform') {
             $mform->addElement('float', 'taskachievement', get_string('taskachievement', 'mod_digitala'));
-            $mform->addElement('textarea', 'taskachievementreason', get_string('taskachievement-reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('textarea', 'taskachievementreason', get_string('taskachievement-reason', 'digitala'),
+                               'rows="5" cols="50"');
             $mform->addElement('float', 'fluency', get_string('fluency', 'mod_digitala'));
             $mform->addElement('textarea', 'fluencyreason', get_string('fluency-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'nativeity', get_string('nativeity', 'mod_digitala'));
