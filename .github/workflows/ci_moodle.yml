@@ -225,6 +225,7 @@ jobs:
           toTag: ${{env.new_release}}-${{env.new_version}}
           token: ${{ secrets.GITHUB_TOKEN }}
           path: './plugin'
+          commitMode: true
 
       - name: Echo info to files
         run: |
