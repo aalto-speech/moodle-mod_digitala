@@ -279,7 +279,7 @@ function create_report_holistic($grade) {
     $out .= create_chart('holistic', $grade, 6);
     $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string('holistic_description', 'digitala').' '.get_string('holistic_level-'.$grade, 'digitala').
+    $out .= html_writer::div(get_string('holistic_description', 'digitala').get_string('holistic_level-'.$grade, 'digitala').
                              ':<br>'.get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
 
     $out .= html_writer::end_div();
