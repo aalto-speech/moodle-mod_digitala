@@ -276,7 +276,7 @@ jobs:
       - name: Make release
         uses: softprops/action-gh-release@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{env.release}}-${{env.version}}
           prerelease: false
           name: "${{env.release}} (${{env.version}}): ${{env.title}}"
