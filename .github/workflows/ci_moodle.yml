@@ -273,14 +273,6 @@ jobs:
           chmod +x ./digitala/scripts/zip.sh
           ./digitala/scripts/zip.sh
 
-      - name: Create changelog
-        run: |
-          echo "# Changelog:" >> info/changelog
-          cd digitala
-          git log '0.1.10-2022040808'..'0.1.11-2022040809' --pretty=format:"- #%h: ”%s”%n" >> ../info/changelog
-          echo $(cat info/changelog) >> $GITHUB_ENV
-          cd ..
-
       - name: Make release
         uses: softprops/action-gh-release@v1
         with:
@@ -288,6 +280,5 @@ jobs:
           tag_name: ${{env.release}}-${{env.version}}
           prerelease: false
           name: "${{env.release}} (${{env.version}}): ${{env.title}}"
-          body: ${{env.changelog}}
           files: |
             moodle-mod-digitala-${{env.release_line}}-${{env.version}}.zip
