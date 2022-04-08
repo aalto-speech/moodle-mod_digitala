@@ -281,6 +281,6 @@ jobs:
           tag_name: ${{env.release}}-${{env.version}}
           prerelease: false
           name: "${{env.release}} (${{env.version}}): ${{env.title}}"
-          target_commitish: ${{env.commit}}
+          # target_commitish: ${{env.commit}}
           files: |
             moodle-mod-digitala-${{env.release_line}}-${{env.version}}.zip
