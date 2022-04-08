@@ -217,20 +217,12 @@ jobs:
           default_author: user_info
           tag: ${{env.new_release}}-${{env.new_version}}
 
-      - name: Build Changelog
-        id: changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.3
-        with:
-          sinceTag: ${{env.old_release}}-${{env.old_version}}
-          dueTag: ${{env.new_release}}-${{env.new_version}}
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Echo info to files
         run: |
           mkdir info
           echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
           echo "commit=${{ steps.version_commit.outputs.commit_sha }}" > info/version_commit
-          echo "changelog=${{ steps.changelog.outputs.changelog }}" > info/changelog
+          echo "changelog=$(git log '${{env.old_release}}-${{env.old_version}}'..'${{env.new_release}}-${{env.new_version}}')" > info/changelog
           echo $(cat info/pr-title)
           echo $(cat info/version_commit)
           echo $(cat info/changelog)
