@@ -665,7 +665,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(1, $feedback->gop_score);
         $this->assertEquals("I'm a reason, did you know!?", $feedback->gop_score_reason);
         $this->assertEquals(false, isset($feedback->old_fluency));
-        $this->assertEquals(false, isset($feedback->accuracy));
+        $this->assertEquals(false, isset($feedback->taskachievement));
         $this->assertEquals(false, isset($feedback->nativeity_reason));
 
     }
@@ -674,23 +674,23 @@ class locallib_test extends \advanced_testcase {
         global $DB;
 
         $fromform = new \stdClass();
+        $fromform->taskachievement = 2;
+        $fromform->taskachievementreason = "I'm a taskachievement reason, did you know!?";
         $fromform->fluency = 1;
         $fromform->fluencyreason = "I'm a fluency reason, did you know!?";
-        $fromform->accuracy = 2;
-        $fromform->accuracyreason = "I'm a accuracy reason, did you know!?";
-        $fromform->lexicalprofile = 3;
-        $fromform->lexicalprofilereason = "I'm a lexicalprofile reason, did you know!?";
         $fromform->nativeity = 2;
         $fromform->nativeityreason = "I'm a nativeity reason, did you know!?";
+        $fromform->lexicalprofile = 3;
+        $fromform->lexicalprofilereason = "I'm a lexicalprofile reason, did you know!?";
         $fromform->holistic = 1;
         $fromform->holisticreason = "I'm a holistic reason, did you know!?";
 
         $oldattempt = new \stdClass();
         $oldattempt->id = 6;
+        $oldattempt->taskachievement = 1;
         $oldattempt->fluency = 3;
-        $oldattempt->accuracy = 1;
-        $oldattempt->lexicalprofile = 2;
         $oldattempt->nativeity = 0;
+        $oldattempt->lexicalprofile = 2;
         $oldattempt->holistic = 3;
 
         save_report_feedback('freeform', $fromform, $oldattempt);
@@ -701,20 +701,20 @@ class locallib_test extends \advanced_testcase {
 
         $feedback = $DB->get_record('digitala_report_feedback',
                                     array('attempt' => 6));
+        $this->assertEquals(1, $feedback->old_taskachievement);
         $this->assertEquals(3, $feedback->old_fluency);
-        $this->assertEquals(1, $feedback->old_accuracy);
-        $this->assertEquals(2, $feedback->old_lexicalprofile);
         $this->assertEquals(0, $feedback->old_nativeity);
+        $this->assertEquals(2, $feedback->old_lexicalprofile);
         $this->assertEquals(3, $feedback->old_holistic);
+        $this->assertEquals(2, $feedback->taskachievement);
         $this->assertEquals(1, $feedback->fluency);
-        $this->assertEquals(2, $feedback->accuracy);
-        $this->assertEquals(3, $feedback->lexicalprofile);
         $this->assertEquals(2, $feedback->nativeity);
+        $this->assertEquals(3, $feedback->lexicalprofile);
         $this->assertEquals(1, $feedback->holistic);
+        $this->assertEquals("I'm a taskachievement reason, did you know!?", $feedback->taskachievement_reason);
         $this->assertEquals("I'm a fluency reason, did you know!?", $feedback->fluency_reason);
-        $this->assertEquals("I'm a accuracy reason, did you know!?", $feedback->accuracy_reason);
-        $this->assertEquals("I'm a lexicalprofile reason, did you know!?", $feedback->lexicalprofile_reason);
         $this->assertEquals("I'm a nativeity reason, did you know!?", $feedback->nativeity_reason);
+        $this->assertEquals("I'm a lexicalprofile reason, did you know!?", $feedback->lexicalprofile_reason);
         $this->assertEquals("I'm a holistic reason, did you know!?", $feedback->holistic_reason);
         $this->assertEquals(false, isset($feedback->gop_score));
     }

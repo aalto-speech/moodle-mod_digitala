@@ -614,21 +614,22 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
     $feedback->attempt = $oldattempt->id;
 
     if ($attempttype == 'freeform') {
+
+        $feedback->old_taskachievement = $oldattempt->taskachievement;
+        $feedback->taskachievement = $fromform->taskachievement;
+        $feedback->taskachievement_reason = $fromform->taskachievementreason;
+
         $feedback->old_fluency = $oldattempt->fluency;
         $feedback->fluency = $fromform->fluency;
         $feedback->fluency_reason = $fromform->fluencyreason;
 
-        $feedback->old_accuracy = $oldattempt->accuracy;
-        $feedback->accuracy = $fromform->accuracy;
-        $feedback->accuracy_reason = $fromform->accuracyreason;
+        $feedback->old_nativeity = $oldattempt->nativeity;
+        $feedback->nativeity = $fromform->nativeity;
+        $feedback->nativeity_reason = $fromform->nativeityreason;
 
         $feedback->old_lexicalprofile = $oldattempt->lexicalprofile;
         $feedback->lexicalprofile = $fromform->lexicalprofile;
         $feedback->lexicalprofile_reason = $fromform->lexicalprofilereason;
-
-        $feedback->old_nativeity = $oldattempt->nativeity;
-        $feedback->nativeity = $fromform->nativeity;
-        $feedback->nativeity_reason = $fromform->nativeityreason;
 
         $feedback->old_holistic = $oldattempt->holistic;
         $feedback->holistic = $fromform->holistic;

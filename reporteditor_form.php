@@ -59,22 +59,22 @@ class reporteditor_form extends moodleform {
         $attempttype = $this->attempttype;
 
         if ($attempttype == 'freeform') {
+            $mform->addElement('float', 'taskachievement', get_string('taskachievement', 'mod_digitala'));
+            $mform->addElement('textarea', 'taskachievementreason', get_string('taskachievement-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'fluency', get_string('fluency', 'mod_digitala'));
             $mform->addElement('textarea', 'fluencyreason', get_string('fluency-reason', 'digitala'), 'rows="5" cols="50"');
-            $mform->addElement('float', 'accuracy', get_string('accuracy', 'mod_digitala'));
-            $mform->addElement('textarea', 'accuracyreason', get_string('accuracy-reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('float', 'nativeity', get_string('nativeity', 'mod_digitala'));
+            $mform->addElement('textarea', 'nativeityreason', get_string('nativeity-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'lexicalprofile', get_string('lexicalprofile', 'mod_digitala'));
             $mform->addElement('textarea', 'lexicalprofilereason',
                                get_string('lexicalprofile-reason', 'digitala'), 'rows="5" cols="50"');
-            $mform->addElement('float', 'nativeity', get_string('nativeity', 'mod_digitala'));
-            $mform->addElement('textarea', 'nativeityreason', get_string('nativeity-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'holistic', get_string('holistic', 'mod_digitala'));
             $mform->addElement('textarea', 'holisticreason', get_string('holistic-reason', 'digitala'), 'rows="5" cols="50"');
 
+            $mform->getElement('taskachievement')->setValue($attempt->taskachievement);
             $mform->getElement('fluency')->setValue($attempt->fluency);
-            $mform->getElement('accuracy')->setValue($attempt->accuracy);
-            $mform->getElement('lexicalprofile')->setValue($attempt->lexicalprofile);
             $mform->getElement('nativeity')->setValue($attempt->nativeity);
+            $mform->getElement('lexicalprofile')->setValue($attempt->lexicalprofile);
             $mform->getElement('holistic')->setValue($attempt->holistic);
         } else if ($attempttype == 'readaloud') {
             $mform->addElement('float', 'gop', get_string('gop', 'mod_digitala'));
@@ -100,17 +100,17 @@ class reporteditor_form extends moodleform {
             if ($fromform['holistic'] < 0 || $fromform['holistic'] > 7) {
                 $errors['holistic'] = get_string('holistic-scale_error', 'digitala');
             }
+            if ($fromform['taskachievement'] < 0 || $fromform['taskachievement'] > 3) {
+                $errors['taskachievement'] = get_string('taskachievement-scale_error', 'digitala');
+            }
             if ($fromform['fluency'] < 0 || $fromform['fluency'] > 3) {
                 $errors['fluency'] = get_string('fluency-scale_error', 'digitala');
             }
-            if ($fromform['accuracy'] < 0 || $fromform['accuracy'] > 3) {
-                $errors['accuracy'] = get_string('accuracy-scale_error', 'digitala');
+            if ($fromform['nativeity'] < 0 || $fromform['nativeity'] > 3) {
+                $errors['nativeity'] = get_string('nativeity-scale_error', 'digitala');
             }
             if ($fromform['lexicalprofile'] < 0 || $fromform['lexicalprofile'] > 3) {
                 $errors['lexicalprofile'] = get_string('lexicalprofile-scale_error', 'digitala');
-            }
-            if ($fromform['nativeity'] < 0 || $fromform['nativeity'] > 3) {
-                $errors['nativeity'] = get_string('nativeity-scale_error', 'digitala');
             }
         } else if ($attempttype == 'readaloud') {
             if ($fromform['gop'] < 0 || $fromform['gop'] > 1) {

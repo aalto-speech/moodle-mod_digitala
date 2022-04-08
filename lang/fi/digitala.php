@@ -147,16 +147,16 @@ $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain
 
 $string['edit_report'] = 'Edit report';
 $string['holistic-reason'] = 'Feedback on holistic';
+$string['taskachievement-reason'] = 'Feedback on task achievement';
 $string['fluency-reason'] = 'Feedback on fluency';
-$string['accuracy-reason'] = 'Feedback on accuracy';
-$string['lexicalprofile-reason'] = 'Feedback on lexical profile';
 $string['nativeity-reason'] = 'Feedback on nativeity';
+$string['lexicalprofile-reason'] = 'Feedback on lexical profile';
 $string['gop-reason'] = 'Feedback on goodness of pronunciation';
 $string['holistic-scale_error'] = 'Holistic needs to be between 0 and 7';
 $string['fluency-scale_error'] = 'Fluency needs to be between 0 and 3';
-$string['accuracy-scale_error'] = 'Accuracy needs to be between 0 and 3';
-$string['lexicalprofile-scale_error'] = 'Lexical profile needs to be between 0 and 3';
+$string['taskachievement-scale_error'] = 'Task achievement needs to be between 0 and 3';
 $string['nativeity-scale_error'] = 'Nativeity needs to be between 0 and 3';
+$string['lexicalprofile-scale_error'] = 'Lexical profile needs to be between 0 and 3';
 $string['gop-scale_error'] = 'Godness of pronunciation needs to be between 0 and 1';
 
 $string['error_url-not-set'] = 'url-osoitetta ei ole asetettu';

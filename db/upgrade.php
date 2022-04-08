@@ -229,5 +229,30 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022040301, 'digitala');
     }
 
+    if ($oldversion < 2022040800) {
+
+        // Rename field accuracy_reason on table digitala_report_feedbak to taskachievement_reason.
+        $table = new xmldb_table('digitala_report_feedback');
+        $field = new xmldb_field('accuracy_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, 'accuracy');
+
+        // Launch rename field accuracy_reason.
+        $dbman->rename_field($table, $field, 'taskachievement_reason');
+
+        // Rename field accuracy on table digitala_report_feedbak to taskachievement.
+        $field = new xmldb_field('accuracy', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'old_accuracy');
+
+        // Launch rename field accuracy.
+        $dbman->rename_field($table, $field, 'taskachievement');
+
+        // Rename field old_accuracy on table digitala_report_feedbak to old_taskachievement.
+        $field = new xmldb_field('old_accuracy', XMLDB_TYPE_number, '10, 2', null, null, null, null, 'fluency_reason');
+
+        // Launch rename field old_accuracy.
+        $dbman->rename_field($table, $field, 'old_taskachievement');
+
+        // Digitala savepoint reached.
+        upgrade_mod_savepoint(true, 2022040103, 'digitala');
+    }
+
     return true;
 }
