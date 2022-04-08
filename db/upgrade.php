@@ -251,7 +251,7 @@ function xmldb_digitala_upgrade($oldversion) {
         $dbman->rename_field($table, $field, 'old_taskachievement');
 
         // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022040103, 'digitala');
+        upgrade_mod_savepoint(true, 2022040800, 'digitala');
     }
 
     return true;
