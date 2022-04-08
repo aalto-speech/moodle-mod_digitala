@@ -48,18 +48,15 @@ const startRecording = async() => {
         try {
             navigator.mediaDevices.getUserMedia({audio: true});
             recButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true">'
-            +'</span><span class="sr-only">'+langStrings[2]+'</span>';
+            + '</span><span class="sr-only">' + langStrings[2] + '</span>';
         } catch {
             recButton.textContent = langStrings[3];
             return;
         }
     }
 
-
     clearTimeout(timeout);
     clearInterval(interval);
-
-
 
     if (navigator.mediaDevices !== undefined) {
         navigator.mediaDevices.getUserMedia({audio: true})
