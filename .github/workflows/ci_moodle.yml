@@ -276,8 +276,10 @@ jobs:
       - name: Create changelog
         run: |
           echo "# Changelog:" >> info/changelog
-          git log '0.1.10-2022040808'..'0.1.11-2022040809' --pretty=format:"- #%h: ”%s”%n" >> info/changelog
+          cd digitala
+          git log '0.1.10-2022040808'..'0.1.11-2022040809' --pretty=format:"- #%h: ”%s”%n" >> ../info/changelog
           echo $(cat info/changelog) >> $GITHUB_ENV
+          cd ..
 
       - name: Make release
         uses: softprops/action-gh-release@v1
