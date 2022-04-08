@@ -142,7 +142,7 @@ function create_progress_bar_spacer($mode) {
     } else {
         $out = html_writer::start_div('pb-spacer');
     }
-    $out .= '<svg width="100%" height="100%" viewBox="0 0 275 500"
+    $out .= '<svg width="100%" height="2.4em" viewBox="0 0 275 500"
     style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">';
 
     if ($mode == 'left-empty') {
