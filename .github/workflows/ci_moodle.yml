@@ -219,13 +219,11 @@ jobs:
 
       - name: Build Changelog
         id: changelog
-        uses: mikepenz/release-changelog-builder-action@v1
+        uses: heinrichreimer/github-changelog-generator-action@v2.3
         with:
-          fromTag: ${{env.old_release}}-${{env.old_version}}
-          toTag: ${{env.new_release}}-${{env.new_version}}
+          sinceTag: ${{env.old_release}}-${{env.old_version}}
+          dueTag: ${{env.new_release}}-${{env.new_version}}
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: './plugin'
-          commitMode: true
 
       - name: Echo info to files
         run: |
