@@ -30,15 +30,23 @@ const createChart = async(id, grade, maxgrade) => {
     const kaavio = document.getElementById(id).getContext('2d');
 
     let strings = [];
+    let basicDataset = [];
     for (let i = 0; i <= maxgrade; i++) {
         strings = [...strings, {
             key: `${id}_score-${i}`,
             component: 'digitala'
         }];
+        if (i >= 1) {
+            basicDataset = [...basicDataset, {
+                type: 'bar',
+                label: 'noshow',
+                data: [1],
+                backgroundColor: i % 2 ? 'rgba(182, 182, 182, 0.3)' : 'rgba(123, 123, 123, 0.3)'
+            }];
+        }
     }
 
     let lineSet = [];
-
     const evalStrings = await getStrings(strings);
     for (let i = 0; i < evalStrings.length; i++) {
         const evalString = evalStrings[i];
@@ -48,48 +56,17 @@ const createChart = async(id, grade, maxgrade) => {
                 type: 'line',
                 label: evalString,
                 data: [length],
-                backgroundColor: 'rgba(0,0,0,1)',
+                backgroundColor: 'rgba(0, 0, 0, 1)',
                 showLine: true,
                 pointRadius: 12.5,
             }
         ];
     }
 
-    let basicDataset = [
+    const selectedDataset = [
         ...lineSet,
-        {
-            type: 'bar',
-            title: 'toot',
-            label: 'noshow',
-            data: [1],
-            backgroundColor: 'rgba(182, 182, 182, 0.3)'
-        },
-        {
-            type: 'bar',
-            title: 'toot',
-            label: 'noshow',
-            data: [1],
-            backgroundColor: 'rgba(123, 123, 123, 0.3)'
-        },
-        {
-            type: 'bar',
-            title: 'toot',
-            label: 'noshow',
-            data: [1],
-            backgroundColor: 'rgba(182, 182, 182, 0.3)'
-        },
+        ...basicDataset,
     ];
-
-    if (maxgrade === '4') {
-        basicDataset = [...basicDataset, {
-            type: 'bar',
-            label: 'noshow',
-            data: [1],
-            backgroundColor: 'rgba(123, 123, 123, 0.3)'
-        }];
-    }
-
-    const selectedDataset = basicDataset;
 
     new chart.Chart(kaavio, {
         type: 'bar',
