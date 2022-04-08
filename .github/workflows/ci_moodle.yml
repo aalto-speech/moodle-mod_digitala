@@ -236,7 +236,7 @@ jobs:
   zip-n-release:
     runs-on: ubuntu-20.04
     if: ${{ github.ref == 'refs/heads/main' || github.ref ==  'refs/heads/fix-release' }}
-    # needs: version
+    needs: version
 
     steps:
       - name: Download info from version
