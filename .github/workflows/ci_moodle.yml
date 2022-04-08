@@ -222,7 +222,7 @@ jobs:
           mkdir info
           echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
           echo "commit=${{ steps.version_commit.outputs.commit_sha }}" > info/version_commit
-          echo "changelog=$(git log '${{env.old_release}}-${{env.old_version}}'..'${{env.new_release}}-${{env.new_version}}')" > info/changelog
+          echo "changelog=$(git log '${{env.old_release}}-${{env.old_version}}'..'${{env.new_release}}-${{env.new_version}}' --oneline)" > info/changelog
           echo $(cat info/pr-title)
           echo $(cat info/version_commit)
           echo $(cat info/changelog)
