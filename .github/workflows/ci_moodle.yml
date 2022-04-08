@@ -187,8 +187,8 @@ jobs:
 
   version:
     runs-on: ubuntu-20.04
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: test
+    if: ${{ github.ref == 'refs/heads/main' || github.ref ==  'refs/heads/fix-release' }}
+    # needs: test
 
     steps:
       - name: Check out repository code
