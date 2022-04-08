@@ -18,7 +18,7 @@ const createChart = async(id, grade, maxgrade) => {
             const curr = chart.config._config.options.lineAt;
             const place = chart.chartArea.left + (scale * curr);
 
-            ctx.strokeStyle = "#ffb000";
+            ctx.strokeStyle = '#ffb000';
             ctx.beginPath();
             ctx.moveTo(place, chart.chartArea.top);
             ctx.lineTo(place, chart.chartArea.bottom);
@@ -94,7 +94,7 @@ const createChart = async(id, grade, maxgrade) => {
     new chart.Chart(kaavio, {
         type: 'bar',
         data: {
-            labels: [""],
+            labels: [''],
             datasets: selectedDataset
         },
         plugins: [horLine],
@@ -122,7 +122,7 @@ const createChart = async(id, grade, maxgrade) => {
 
                         if (tooltip.body) {
                             const bodyLines = tooltip.body.map(getBody);
-                            if (bodyLines[0][0].split(':')[0] === "noshow") {
+                            if (bodyLines[0][0].split(':')[0] === 'noshow') {
                                 tooltipBox.style.opacity = 0;
                                 return;
                             }
@@ -153,7 +153,7 @@ const createChart = async(id, grade, maxgrade) => {
                         // Display, position, and set styles for font
                         tooltipBox.style.opacity = 1;
                         tooltipBox.style.position = 'absolute';
-                        let left = tooltip.xAlign === "right"
+                        let left = tooltip.xAlign === 'right'
                             ? position.left + window.pageXOffset - 200 + tooltip.caretX
                             : position.left + window.pageXOffset + tooltip.caretX;
                         tooltipBox.style.left = left + 'px';
@@ -189,13 +189,13 @@ const createChart = async(id, grade, maxgrade) => {
 
 export const init = (pagenum) => {
 
-    if (pagenum === 2 || pagenum === "detail") {
+    if (pagenum === 2 || pagenum === 'detail') {
         const allCanvases = document.getElementsByClassName('report-chart');
         for (let i = 0; i < allCanvases.length; i++) {
             const canvas = allCanvases[i];
-            createChart(canvas.attributes["data-eval-name"].value,
-                        canvas.attributes["data-eval-grade"].value,
-                        canvas.attributes["data-eval-maxgrade"].value);
+            createChart(canvas.attributes['data-eval-name'].value,
+                        canvas.attributes['data-eval-grade'].value,
+                        canvas.attributes['data-eval-maxgrade'].value);
         }
     }
 };
