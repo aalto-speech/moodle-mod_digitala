@@ -42,21 +42,38 @@ const convertSecondsToString = (seconds) => {
 };
 
 const startRecording = async() => {
-    const notGranted = (await navigator.mediaDevices.enumerateDevices())[0].label === "";
+    if (navigator.permissions) {
+        navigator.permissions.query({name: 'microphone'}).then(function (result) {
+            if (result.state == 'granted') {
+                return;
+            } else if (result.state == 'prompt') {
+                navigator.mediaDevices.getUserMedia({audio: true});
+                recButton.textContent = langStrings[2];
+                return;
+            } else if (result.state == 'denied') {
+                recButton.textContent = langStrings[3];
+                return;
+            }
+          });
+
+    } else {
+        const notGranted = (await navigator.mediaDevices.enumerateDevices())[0].label === "";
+        if (notGranted) {
+            try {
+                navigator.mediaDevices.getUserMedia({audio: true});
+                recButton.textContent = langStrings[2];
+                return;
+            } catch {
+                recButton.textContent = langStrings[3];
+                return;
+            }
+        }
+    }
 
     clearTimeout(timeout);
     clearInterval(interval);
 
-    if (notGranted) {
-        try {
-            navigator.mediaDevices.getUserMedia({audio: true});
-            recButton.textContent = langStrings[2];
-            return;
-        } catch {
-            recButton.textContent = langStrings[3];
-            return;
-        }
-    }
+
 
     if (navigator.mediaDevices !== undefined) {
         navigator.mediaDevices.getUserMedia({audio: true})
