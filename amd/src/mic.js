@@ -42,33 +42,19 @@ const convertSecondsToString = (seconds) => {
 };
 
 const startRecording = async() => {
-    if (navigator.permissions) {
-        navigator.permissions.query({name: 'microphone'}).then(function (result) {
-            if (result.state == 'granted') {
-                return;
-            } else if (result.state == 'prompt') {
-                navigator.mediaDevices.getUserMedia({audio: true});
-                recButton.textContent = langStrings[2];
-                return;
-            } else if (result.state == 'denied') {
-                recButton.textContent = langStrings[3];
-                return;
-            }
-          });
 
-    } else {
-        const notGranted = (await navigator.mediaDevices.enumerateDevices())[0].label === "";
-        if (notGranted) {
-            try {
-                navigator.mediaDevices.getUserMedia({audio: true});
-                recButton.textContent = langStrings[2];
-                return;
-            } catch {
-                recButton.textContent = langStrings[3];
-                return;
-            }
+    const notGranted = (await navigator.mediaDevices.enumerateDevices())[0].label === "";
+    if (notGranted) {
+        try {
+            navigator.mediaDevices.getUserMedia({audio: true});
+            recButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true">'
+            +'</span><span class="sr-only">'+langStrings[2]+'</span>';
+        } catch {
+            recButton.textContent = langStrings[3];
+            return;
         }
     }
+
 
     clearTimeout(timeout);
     clearInterval(interval);
@@ -179,36 +165,36 @@ const listenRecording = () => {
 export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, usernameIn, maxLengthIn) => {
     window.console.log('Digitala: Starting to initalize microphones');
 
-    pagenum = pagenumIn;
-    assignmentId = assignmentIdIn;
-    userId = userIdIn;
-    username = usernameIn;
-    maxLength = maxLengthIn;
-    langStrings = await getStrings(
-        [
-            {
-                key: 'startbutton-again',
-                component: 'digitala'
-            },
-            {
-                key: 'stopbutton',
-                component: 'digitala'
-
-            },
-            {
-                key: 'startbutton-no_permissions',
-                component: 'digitala'
-
-            },
-            {
-                key: 'startbutton-error',
-                component: 'digitala'
-
-            }
-        ]
-    );
-
     if (pagenum !== 2) {
+        pagenum = pagenumIn;
+        assignmentId = assignmentIdIn;
+        userId = userIdIn;
+        username = usernameIn;
+        maxLength = maxLengthIn;
+        langStrings = await getStrings(
+            [
+                {
+                    key: 'startbutton-again',
+                    component: 'digitala'
+                },
+                {
+                    key: 'stopbutton',
+                    component: 'digitala'
+
+                },
+                {
+                    key: 'startbutton-loading',
+                    component: 'digitala'
+
+                },
+                {
+                    key: 'startbutton-error',
+                    component: 'digitala'
+
+                }
+            ]
+        );
+
         recButton.onclick = startRecording;
         listenButton.onclick = listenRecording;
     }
