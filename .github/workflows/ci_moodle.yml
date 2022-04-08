@@ -214,6 +214,7 @@ jobs:
           message: 'Bump version & release'
           cwd: './plugin'
           default_author: user_info
+          tag: ${{env.release}}-${{env.version}}
 
       - name: Echo info to files
         run: |
