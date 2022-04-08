@@ -222,10 +222,8 @@ jobs:
           mkdir info
           echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
           echo "commit=${{ steps.version_commit.outputs.commit_sha }}" > info/version_commit
-          echo "changelog=$(git log '${{env.old_release}}-${{env.old_version}}'..'${{env.new_release}}-${{env.new_version}}' --oneline)" > info/changelog
           echo $(cat info/pr-title)
           echo $(cat info/version_commit)
-          echo $(cat info/changelog)
 
       - name: Upload info for zip-n-release
         uses: actions/upload-artifact@v3
@@ -234,7 +232,6 @@ jobs:
           path: |
             info/pr-title
             info/version_commit
-            info/changelog
 
   zip-n-release:
     runs-on: ubuntu-20.04
@@ -252,14 +249,12 @@ jobs:
         run: |
           echo $(cat info/pr-title) >> $GITHUB_ENV
           echo $(cat info/version_commit) >> $GITHUB_ENV
-          echo $(cat info/changelog) >> $GITHUB_ENV
 
       - name: Check if title and commit is okay
         run:
           |
           echo ${{env.title}}
           echo ${{env.commit}}
-          echo ${{env.changelog}}
 
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -277,6 +272,12 @@ jobs:
         run: |
           chmod +x ./digitala/scripts/zip.sh
           ./digitala/scripts/zip.sh
+
+      - name: Create changelog
+        run: |
+          echo "# Changelog:" >> info/changelog
+          git log '0.1.10-2022040808'..'0.1.11-2022040809' --pretty=format:"- #%h: ”%s”%n" >> info/changelog
+          echo $(cat info/changelog) >> $GITHUB_ENV
 
       - name: Make release
         uses: softprops/action-gh-release@v1
