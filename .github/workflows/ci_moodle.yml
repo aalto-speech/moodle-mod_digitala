@@ -207,24 +207,32 @@ jobs:
           chmod +x ./plugin/scripts/bump-version.sh
           ./plugin/scripts/bump-version.sh plugin
 
-      - uses: EndBug/add-and-commit@v9
+      - name: Commit version and release bump
+        uses: EndBug/add-and-commit@v9
         id: version_commit
         with:
           add: version.php
           message: 'Bump version & release'
           cwd: './plugin'
           default_author: user_info
-          tag: ${{env.release}}-${{env.version}}
+          tag: ${{env.new_release}}-${{env.new_version}}
+
+      - name: Build Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v1
+        with:
+          fromTag: ${{env.old_release}}-${{env.old_version}}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Echo info to files
         run: |
           mkdir info
-          echo ${{ steps.pr.outputs }}
-          echo ${{ steps.version_commit.outputs }}
           echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
           echo "commit=${{ steps.version_commit.outputs.commit_sha }}" > info/version_commit
+          echo "changelog=${{ steps.changelog.outputs.changelog }}" > info/changelog
           echo $(cat info/pr-title)
           echo $(cat info/version_commit)
+          echo $(cat info/changelog)
 
       - name: Upload info for zip-n-release
         uses: actions/upload-artifact@v3
@@ -233,6 +241,7 @@ jobs:
           path: |
             info/pr-title
             info/version_commit
+            info/changelog
 
   zip-n-release:
     runs-on: ubuntu-20.04
@@ -250,12 +259,14 @@ jobs:
         run: |
           echo $(cat info/pr-title) >> $GITHUB_ENV
           echo $(cat info/version_commit) >> $GITHUB_ENV
+          echo $(cat info/changelog) >> $GITHUB_ENV
 
       - name: Check if title and commit is okay
         run:
           |
           echo ${{env.title}}
           echo ${{env.commit}}
+          echo ${{env.changelog}}
 
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -281,6 +292,6 @@ jobs:
           tag_name: ${{env.release}}-${{env.version}}
           prerelease: false
           name: "${{env.release}} (${{env.version}}): ${{env.title}}"
-          # target_commitish: ${{env.commit}}
+          body: ${{env.changelog}}
           files: |
             moodle-mod-digitala-${{env.release_line}}-${{env.version}}.zip

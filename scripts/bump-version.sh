@@ -34,7 +34,9 @@ new_release=${x}.${y}.${z}
 sed -i "s+\$plugin->version = ${old_version}+\$plugin->version = ${new_version}+g" version.php
 sed -i "s+\$plugin->release = '${old_release}+\$plugin->release = '${new_release}+g" version.php
 
-echo "version=${new_version}" >> $GITHUB_ENV
-echo "release=${new_release}" >> $GITHUB_ENV
+echo "old_version=${old_version}" >> $GITHUB_ENV
+echo "old_release=${old_release}" >> $GITHUB_ENV
+echo "new_version=${new_version}" >> $GITHUB_ENV
+echo "new_release=${new_release}" >> $GITHUB_ENV
 
 echo 'Updated plugin version from '${old_release}' ('${old_version}') to '${new_release}' ('${new_version}')'
