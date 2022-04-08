@@ -235,8 +235,8 @@ jobs:
 
   zip-n-release:
     runs-on: ubuntu-20.04
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: version
+    if: ${{ github.ref == 'refs/heads/main' || github.ref ==  'refs/heads/fix-release' }}
+    # needs: version
 
     steps:
       - name: Download info from version
@@ -273,11 +273,13 @@ jobs:
           chmod +x ./digitala/scripts/zip.sh
           ./digitala/scripts/zip.sh
 
-      - uses: marvinpinto/action-automatic-releases@latest
+      - name: Make release
+        uses: softprops/action-gh-release@v1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{env.release}}-${{env.version}}
+          tag_name: ${{env.release}}-${{env.version}}
           prerelease: false
-          title: "${{env.release}} (${{env.version}}): ${{env.title}}"
+          name: "${{env.release}} (${{env.version}}): ${{env.title}}"
+          target_commitish: ${{env.commit}}
           files: |
             moodle-mod-digitala-${{env.release_line}}-${{env.version}}.zip
