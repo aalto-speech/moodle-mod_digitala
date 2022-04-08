@@ -222,6 +222,7 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v1
         with:
           fromTag: ${{env.old_release}}-${{env.old_version}}
+          toTag: ${{env.new_release}}-${{env.new_version}}
           token: ${{ secrets.GITHUB_TOKEN }}
           path: './plugin'
 
