@@ -223,6 +223,7 @@ jobs:
         with:
           fromTag: ${{env.old_release}}-${{env.old_version}}
           token: ${{ secrets.GITHUB_TOKEN }}
+          path: './plugin'
 
       - name: Echo info to files
         run: |
