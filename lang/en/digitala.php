@@ -75,6 +75,7 @@ $string['submitbody'] = 'You still have {$a} attempts remaining on this assignme
 $string['alreadysubmitted'] = 'Your answer has already been submitted. Move to next page to see the report.';
 $string['report'] = 'Report';
 $string['reportnotavailable'] = 'A report for this assignment is not available yet.';
+$string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi puhenäytettä, eikä se kuvaa kaikkea suullista kielitaitoasi. Automaattinen arvio on koneen tekemä. Konetta on opetettu muiden kielen oppijoiden puheella ja muulla kieliaineistolla.';
 $string['transcription'] = 'Transcription';
 
 $string['task_grades'] = 'Task grades';
@@ -93,6 +94,7 @@ $string['gop_score-9'] = 'Pronunciation score is 9, light green score.';
 $string['gop_score-10'] = 'Pronunciation score is 10, green score.';
 
 $string['holistic'] = 'Holistic';
+$string['holistic_description'] = 'Automaattisen arvion mukaan vaikuttaa siltä, että taitotasosi on ';
 $string['holistic_level-0'] = 'Below A1';
 $string['holistic_level-1'] = 'A1';
 $string['holistic_level-2'] = 'A2';
@@ -108,32 +110,35 @@ $string['holistic_score-4'] = 'Holistic score is 4, light yellow score.';
 $string['holistic_score-5'] = 'Holistic score is 5, light green score.';
 $string['holistic_score-6'] = 'Holistic score is 6, green score.';
 
+$string['taskachievement'] = 'Task achievement';
+$string['taskachievement_description'] = 'Tämä mittari perustuu vastauksiin, joilla kone on opetettu arvioimaan tätä tehtävää. Automaattisen arvion mukaan vaikuttaa siltä, että ';
+$string['taskachievement_score-0'] = 'Task achievement score is 0, red score.';
+$string['taskachievement_score-1'] = 'Task achievement score is 1, light red score.';
+$string['taskachievement_score-2'] = 'Task achievement score is 2, yellow score.';
+$string['taskachievement_score-3'] = 'Task achievement score is 3, green score.';
+
 $string['fluency'] = 'Fluency';
+$string['fluency_description'] = 'Tämä mittari kertoo puhenäytteesi nopeudesta, taukojen määrästä ja empimisestä. Automaattisen arvion mukaan vaikuttaa siltä, että ';
 $string['fluency_score-0'] = 'Fluency score is 0, red score.';
 $string['fluency_score-1'] = 'Fluency score is 1, light red score.';
 $string['fluency_score-2'] = 'Fluency score is 2, yellow score.';
-$string['fluency_score-3'] = 'Fluency score is 3, light green score.';
-$string['fluency_score-4'] = 'Fluency score is 4, green score.';
+$string['fluency_score-3'] = 'Fluency score is 3, green score.';
 
-$string['accuracy'] = 'Accuracy';
-$string['accuracy_score-0'] = 'Accuracy score is 0, red score.';
-$string['accuracy_score-1'] = 'Accuracy score is 1, light red score.';
-$string['accuracy_score-2'] = 'Accuracy score is 2, yellow score.';
-$string['accuracy_score-3'] = 'Accuracy score is 3, light green score.';
-$string['accuracy_score-4'] = 'Accuracy score is 4, green score.';
+$string['nativeity'] = 'Nativeity';
+$string['nativeity_description'] = 'Näet yllä, että kone muunsi puheesi tekstiksi. Voit tarkistaa tekstistä, lausuitko kaikki sanat oikein. Tämä mittari kertoo, kuinka hyvin ja varmasti kone tunnistaa puheesi. Tunnistamistarkkuuteen vaikuttavat puhenäytteet, joita kone on aiemmin opetusvaiheessa saanut. Automaattisen arvion mukaan vaikuttaa siltä, että ';
+$string['nativeity_score-0'] = 'Nativeity score is 0, red score.';
+$string['nativeity_score-1'] = 'Nativeity score is 1, light red score.';
+$string['nativeity_score-2'] = 'Nativeity score is 2, yellow score.';
+$string['nativeity_score-3'] = 'Nativeity score is 3, green score.';
 
 $string['lexicalprofile'] = 'Lexical profile';
+$string['lexicalprofile_description'] = 'Tämä mittari kertoo, kuinka paljon olet puhunut sekä käyttämiesi sanojen ja lauseiden monipuolisuudesta. Automaattisen arvion mukaan vaikuttaa siltä, että ';
 $string['lexicalprofile_score-0'] = 'Lexical profile score is 0, red score.';
 $string['lexicalprofile_score-1'] = 'Lexical profile is 1, light red score.';
 $string['lexicalprofile_score-2'] = 'Lexical profile is 2, yellow score.';
 $string['lexicalprofile_score-3'] = 'Lexical profile is 3, green score.';
 
-$string['nativeity'] = 'Nativeity';
-$string['nativeity_score-0'] = 'Nativeity score is 0, red score.';
-$string['nativeity_score-1'] = 'Nativeity score is 1, light red score.';
-$string['nativeity_score-2'] = 'Nativeity score is 2, yellow score.';
-$string['nativeity_score-3'] = 'Nativeity score is 3, light green score.';
-$string['nativeity_score-4'] = 'Nativeity score is 4, green score.';
+$string['moreinformation'] = 'More information';
 
 $string['api'] = 'Address for API-server';
 $string['api_help'] = 'Give address to API-server.';

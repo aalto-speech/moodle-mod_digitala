@@ -256,7 +256,8 @@ function create_report_grading($name, $grade, $maxgrade) {
     $out .= create_chart($name, $grade, $maxgrade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string($name.'_score-' . floor($grade), 'digitala'), 'card-text');
+    $out .= html_writer::div(get_string($name.'_description', 'digitala').
+                             lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')), 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -265,7 +266,7 @@ function create_report_grading($name, $grade, $maxgrade) {
 }
 
 /**
- * Creates grading information container from report
+ * Creates holistic information container from report
  *
  * @param int $grade grading number given by the server
  */
@@ -278,7 +279,27 @@ function create_report_holistic($grade) {
     $out .= create_chart('holistic', $grade, 6);
     $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
+    $out .= html_writer::div(get_string('holistic_description', 'digitala').' '.get_string('holistic_level-'.$grade, 'digitala').
+                             ':<br>'.get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates more information container from report
+ *
+ * @param string $text information to show on report page given by the server
+ */
+function create_report_information($text) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
+
+    $out .= html_writer::div($text, 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -297,7 +318,7 @@ function create_report_gop($grade) {
 
     $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array('class' => 'card-title'));
 
-    $out .= html_writer::tag('h6', $grade * 100 . '/100', array('class' => 'grade-number'));
+    $out .= html_writer::tag('h6', $grade * 100 . '%', array('class' => 'grade-number'));
 
     $out .= html_writer::div(get_string('gop_score-'.floor($grade * 10), 'digitala'), 'card-text');
 
@@ -331,8 +352,9 @@ function create_report_transcription($transcription) {
  *
  * @param string $gradings html content of gradings shown
  * @param string $holistic html content of holistic shown
+ * @param string $information html content of more information shown
  */
-function create_report_tabs($gradings, $holistic) {
+function create_report_tabs($gradings, $holistic, $information) {
     $out = html_writer::start_tag('nav');
     $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('task_grades', 'digitala'),
@@ -343,6 +365,10 @@ function create_report_tabs($gradings, $holistic) {
                              array('class' => 'nav-link ml-2', 'id' => 'report-holistic-tab', 'data-toggle' => 'tab',
                                    'href' => '#report-holistic', 'role' => 'tab', 'aria-controls' => 'report-holistic',
                                    'aria-selected' => 'false'));
+    $out .= html_writer::tag('button', get_string('moreinformation', 'digitala'),
+                             array('class' => 'nav-link ml-2', 'id' => 'report-information-tab', 'data-toggle' => 'tab',
+                                   'href' => '#report-information', 'role' => 'tab', 'aria-controls' => 'report-information',
+                                   'aria-selected' => 'false'));
     $out .= html_writer::end_div();
     $out .= html_writer::end_tag('nav');
 
@@ -351,6 +377,8 @@ function create_report_tabs($gradings, $holistic) {
                             array('id' => 'report-grades', 'role' => 'tabpanel', 'aria-labelledby' => 'report-grades-tab'));
     $out .= html_writer::div($holistic, 'tab-pane fade',
                             array('id' => 'report-holistic', 'role' => 'tabpanel', 'aria-labelledby' => 'report-holistic-tab'));
+    $out .= html_writer::div($information, 'tab-pane fade',
+                            array('id' => 'report-information', 'role' => 'tabpanel', 'aria-labelledby' => 'report-information-tab'));
     $out .= html_writer::end_div();
 
     return $out;

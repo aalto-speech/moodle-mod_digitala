@@ -221,27 +221,38 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
+     * Test creating report view information helper object.
+     */
+    public function test_information_html_output() {
+        $result = create_report_information('text');
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">text</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
+
+    /**
      * Test creating report view GOP helper object.
      */
     public function test_gop_html_output() {
         $result = create_report_gop(0.72);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72/100</h6><div class="card-text">Pronunciation score is 7, big pink score.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72%</h6><div class="card-text">Pronunciation score is 7, big pink score.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
      * Test creating report view tab creation helper.
      */
     public function test_tabs_html_output() {
-        $result = create_report_tabs('', '');
+        $result = create_report_tabs('', '', '');
         $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist">'.
             '<button class="nav-link active ml-2" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" '.
             'aria-controls="report-grades" aria-selected="true">Task grades</button>'.
             '<button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" '.
             'aria-controls="report-holistic" aria-selected="false">Holistic</button>'.
+            '<button class="nav-link ml-2" id="report-information-tab" data-toggle="tab" href="#report-information" role="tab" '.
+            'aria-controls="report-information" aria-selected="false">More information</button>'.
             '</div></nav><div class="tab-content" id="nav-tabContent">'.
             '<div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div>'.
-            '<div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab">'.
-            '</div></div>', $result);
+            '<div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab"></div>'.
+            '<div class="tab-pane fade" id="report-information" role="tabpanel" aria-labelledby="report-information-tab"></div>'.
+            '</div>', $result);
     }
 
     /**

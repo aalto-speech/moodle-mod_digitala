@@ -126,19 +126,23 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $remaining = $report->attemptlimit - $attempt->attemptnumber;
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
-            $out .= create_attempt_number($report, $report->student);
-            $out .= '<br><audio controls><source src='.$audiourl.'></audio><br>';
+            $remaining = $report->attemptlimit;
+            $out .= create_card('report', get_string('reportinformation', 'digitala').
+                                          '<br><br>'.create_attempt_number($report, $report->student).
+                                          '<br><br><audio controls><source src='.$audiourl.'></audio>');
 
             if ($report->attempttype == 'freeform') {
-                $gradings = create_report_grading('fluency', $attempt->fluency, 3);
-                $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
-                $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
+                $gradings = create_report_grading('taskachievement', $attempt->taskachievement, 3);
+                $gradings .= create_report_grading('fluency', $attempt->fluency, 3);
                 $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
+                $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
 
                 $holistic = create_report_holistic(floor($attempt->holistic));
 
+                $information = create_report_information($attempt->transcript);
+
                 $out .= create_report_transcription($attempt->transcript);
-                $out .= create_report_tabs($gradings, $holistic);
+                $out .= create_report_tabs($gradings, $holistic, $information);
             } else {
                 $out .= create_report_gop($attempt->gop_score);
             }
