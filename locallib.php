@@ -378,7 +378,8 @@ function create_report_tabs($gradings, $holistic, $information) {
     $out .= html_writer::div($holistic, 'tab-pane fade',
                             array('id' => 'report-holistic', 'role' => 'tabpanel', 'aria-labelledby' => 'report-holistic-tab'));
     $out .= html_writer::div($information, 'tab-pane fade',
-                            array('id' => 'report-information', 'role' => 'tabpanel', 'aria-labelledby' => 'report-information-tab'));
+                             array('id' => 'report-information', 'role' => 'tabpanel',
+                             'aria-labelledby' => 'report-information-tab'));
     $out .= html_writer::end_div();
 
     return $out;
