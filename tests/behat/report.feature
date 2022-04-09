@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript
+@mod @mod_digitala @javascript @onlytwo
 Feature: Student can see report with transcript, numeric gradings and verbal feedback
 
   Background:
@@ -77,3 +77,18 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And I should see "Goodness of pronunciation"
     And I should see "70%"
     And I should see "Pronunciation score is 7, big pink score."
+
+  Scenario: Feedback box is visible on the report page
+    When I am on "Course 1" course homepage
+    And I click on "Readaloud" "link"
+    And I click on "Report" "link"
+    And I should see "Give feedback"
+    And "collapser" "button" should exist
+
+  Scenario: Feedback site is visible on the report page when button is clicked
+    When I am on "Course 1" course homepage
+    And I click on "Readaloud" "link"
+    And I click on "Report" "link"
+    And I click on "collapser" "button"
+    Then "feedbacksite" "region" should exist
+  
