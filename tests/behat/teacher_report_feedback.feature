@@ -37,16 +37,16 @@ Feature: Teacher can give feedback on ASR evaluation
   Scenario: Feedback can be given on Freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
     Then I set the following fields to these values:
-      | Fluency                     | 2.00                              |
-      | Feedback on fluency         | Evaluation was too high.          |
-      | Accuracy                    | 3.00                              |
-      | Feedback on accuracy        | Evaluation was too low.           |
-      | Lexical profile             | 2.34                              |
-      | Feedback on lexical profile | Evaluation was out of boundaries. |
-      | Nativeity                   | 2.37                              |
-      | Feedback on nativeity       | Sounds like pro finn.             |
-      | Holistic                    | 6.50                              |
-      | Feedback on holistic        | This meets all values for this.   |
+      | Fluency                      | 2.00                              |
+      | Feedback on fluency          | Evaluation was too high.          |
+      | Task achievement             | 3.00                              |
+      | Feedback on task achievement | Evaluation was too low.           |
+      | Lexical profile              | 2.34                              |
+      | Feedback on lexical profile  | Evaluation was out of boundaries. |
+      | Nativeity                    | 2.37                              |
+      | Feedback on nativeity        | Sounds like pro finn.             |
+      | Holistic                     | 6.50                              |
+      | Feedback on holistic         | This meets all values for this.   |
     And I press "Save changes"
     And the following feedback is found:
       | name     | username |

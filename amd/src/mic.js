@@ -31,7 +31,7 @@ const convertSecondsToString = (seconds) => {
     let second = Math.floor(seconds - (hours * 3600) - (minutes * 60));
 
     hours = hours === 0
-        ? ""
+        ? ''
         : hours < 10
             ? `0${hours}:`
             : `${hours}:`;
@@ -42,7 +42,7 @@ const convertSecondsToString = (seconds) => {
 };
 
 const startRecording = async() => {
-    const notGranted = (await navigator.mediaDevices.enumerateDevices())[0].label === "";
+    const notGranted = (await navigator.mediaDevices.enumerateDevices())[0].label === '';
 
     clearTimeout(timeout);
     clearInterval(interval);
@@ -75,7 +75,7 @@ const startRecording = async() => {
             recorder.startRecording();
             window.console.log('Digitala: Started to record');
 
-            recButton.innerHTML = "<span>" + langStrings[1] + "</span> " + document.getElementById('stopIcon').innerHTML;
+            recButton.innerHTML = '<span>' + langStrings[1] + '</span> ' + document.getElementById('stopIcon').innerHTML;
             recButton.onclick = stopRecording;
             listenButton.disabled = true;
 
@@ -105,7 +105,7 @@ const startRecording = async() => {
 };
 
 const stopRecording = () => {
-    if (recorder.getState() === "recording") {
+    if (recorder.getState() === 'recording') {
 
         recorder.stopRecording(() => {
             clearTimeout(timeout);
@@ -136,7 +136,7 @@ const stopRecording = () => {
                 });
                 req.send(form);
             }
-            recButton.innerHTML = "<span>" + langStrings[0] + "</span> " + document.getElementById('startIcon').innerHTML;
+            recButton.innerHTML = '<span>' + langStrings[0] + '</span> ' + document.getElementById('startIcon').innerHTML;
             recButton.onclick = startRecording;
             listenButton.disabled = false;
         });

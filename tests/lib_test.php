@@ -59,7 +59,6 @@ class lib_test extends \advanced_testcase {
      * Create new digitala activity.
      */
     private function create_digitala() {
-        $course = $this->course;
         return $this->getDataGenerator()->create_module('digitala', [
                 'course' => $this->course->id,
                 'name' => 'new_digitala',
@@ -76,8 +75,6 @@ class lib_test extends \advanced_testcase {
     public function test_digitala_delete_instance() {
         global $DB;
         // Get the created digitala course.
-        $course = $this->course;
-
         $digitala = $this->create_digitala();
 
         digitala_delete_instance($digitala->course);
@@ -92,8 +89,6 @@ class lib_test extends \advanced_testcase {
      */
     public function test_digitala_update_instance() {
         // Get the created digitala course.
-        $course = $this->course;
-
         $digitala = $this->create_digitala();
         $digitala->instance = 2;
         $digitala->resources = array('text' => 'Resource text', 'format' => 1);
