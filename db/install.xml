@@ -60,9 +60,9 @@
         <FIELD NAME="old_fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
         <FIELD NAME="fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
         <FIELD NAME="fluency_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="old_accuracy" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
-        <FIELD NAME="accuracy" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
-        <FIELD NAME="accuracy_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="old_taskachievement" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
+        <FIELD NAME="taskachievement" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
+        <FIELD NAME="taskachievement_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="old_lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
         <FIELD NAME="lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
         <FIELD NAME="lexicalprofile_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>

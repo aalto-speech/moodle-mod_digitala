@@ -64,8 +64,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         // For the info text and microphone.
         $out .= start_column();
-        $out .= create_card('microphone', create_microphone_icon('info'));
-        $out .= create_card('info', get_string('infotext', 'digitala') . create_microphone('info'));
+        $out .= create_card('microphone', create_microphone_icon());
+        $out .= create_card('info', get_string('infotext', 'digitala') . create_microphone());
         $out .= create_nav_buttons('info', $info->id, $info->d);
         $out .= end_column();
 
@@ -92,7 +92,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
         } else {
             $out .= create_card('assignmentrecord', create_attempt_number($assignment, $assignment->userid).
-                                                    create_microphone('assignment', $assignment->maxlength).
+                                                    create_microphone($assignment->maxlength).
                                                     create_attempt_modal($assignment));
             $out .= create_nav_buttons('assignmentprev', $assignment->id, $assignment->d);
         }
@@ -126,19 +126,23 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $remaining = $report->attemptlimit - $attempt->attemptnumber;
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
-            $out .= create_attempt_number($report, $report->student);
-            $out .= '<br><audio controls><source src='.$audiourl.'></audio><br>';
+            $remaining = $report->attemptlimit;
+            $out .= create_card('report', get_string('reportinformation', 'digitala').
+                                          '<br><br>'.create_attempt_number($report, $report->student).
+                                          '<br><br><audio controls><source src='.$audiourl.'></audio>');
 
-            if ($report->attempttype == "freeform") {
-                $gradings = create_report_grading('fluency', $attempt->fluency, 3);
-                $gradings .= create_report_grading('accuracy', $attempt->accuracy, 3);
-                $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
+            if ($report->attempttype == 'freeform') {
+                $gradings = create_report_grading('taskachievement', $attempt->taskachievement, 3);
+                $gradings .= create_report_grading('fluency', $attempt->fluency, 3);
                 $gradings .= create_report_grading('nativeity', $attempt->nativeity, 3);
+                $gradings .= create_report_grading('lexicalprofile', $attempt->lexicalprofile, 3);
 
                 $holistic = create_report_holistic(floor($attempt->holistic));
 
+                $information = create_report_information($attempt->transcript);
+
                 $out .= create_report_transcription($attempt->transcript);
-                $out .= create_report_tabs($gradings, $holistic);
+                $out .= create_report_tabs($gradings, $holistic, $information);
             } else {
                 $out .= create_report_gop($attempt->gop_score);
             }
@@ -176,7 +180,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $attempts = get_all_attempts($result->instanceid);
 
         foreach ($attempts as $attempt) {
-            $row = create_result_row($attempt, $result->instanceid, $result->id, $result->d);
+            $row = create_result_row($attempt, $result->id);
             foreach ($row as $cell) {
                 $cell = new html_table_cell($cell);
             }

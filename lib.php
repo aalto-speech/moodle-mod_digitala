@@ -263,8 +263,6 @@ function digitala_get_file_info($browser, $areas, $course, $cm, $context, $filea
  * @param array $options Additional options affecting the file serving.
  */
 function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = array()) {
-    global $DB, $CFG;
-
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
