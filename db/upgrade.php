@@ -245,7 +245,7 @@ function xmldb_digitala_upgrade($oldversion) {
         $dbman->rename_field($table, $field, 'taskachievement');
 
         // Rename field old_accuracy on table digitala_report_feedbak to old_taskachievement.
-        $field = new xmldb_field('old_accuracy', XMLDB_TYPE_number, '10, 2', null, null, null, null, 'fluency_reason');
+        $field = new xmldb_field('old_accuracy', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'fluency_reason');
 
         // Launch rename field old_accuracy.
         $dbman->rename_field($table, $field, 'old_taskachievement');
