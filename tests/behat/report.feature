@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @onlytwo
+@mod @mod_digitala @javascript
 Feature: Student can see report with transcript, numeric gradings and verbal feedback
 
   Background:
@@ -91,4 +91,3 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And I click on "Report" "link"
     And I click on "collapser" "button"
     Then "feedbacksite" "region" should exist
-  
