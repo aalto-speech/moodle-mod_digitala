@@ -22,9 +22,6 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-
-
 /**
  * Used to generate page urls for digitala module student views.
  *
@@ -206,7 +203,7 @@ function create_card($header, $text) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string($header, 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string($header, 'digitala'), array('class' => 'card-title'));
     $out .= html_writer::div($text, 'card-text');
 
     $out .= html_writer::end_div();
@@ -254,12 +251,13 @@ function create_report_grading($name, $grade, $maxgrade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string($name, 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string($name, 'digitala'), array('class' => 'card-title'));
 
     $out .= create_chart($name, $grade, $maxgrade);
-    $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array("class" => 'grade-number'));
+    $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string($name.'_score-' . floor($grade), 'digitala'), 'card-text');
+    $out .= html_writer::div(get_string($name.'_description', 'digitala').
+                             lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')), 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -268,7 +266,7 @@ function create_report_grading($name, $grade, $maxgrade) {
 }
 
 /**
- * Creates grading information container from report
+ * Creates holistic information container from report
  *
  * @param int $grade grading number given by the server
  */
@@ -276,11 +274,32 @@ function create_report_holistic($grade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string('holistic', 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('holistic', 'digitala'), array('class' => 'card-title'));
 
-    $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array("class" => 'grade-number'));
+    $out .= create_chart('holistic', $grade, 6);
+    $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
+    $out .= html_writer::div(get_string('holistic_description', 'digitala').get_string('holistic_level-'.$grade, 'digitala').
+                             ':<br>'.get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates more information container from report
+ *
+ * @param string $text information to show on report page given by the server
+ */
+function create_report_information($text) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
+
+    $out .= html_writer::div($text, 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -297,9 +316,9 @@ function create_report_gop($grade) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array("class" => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array('class' => 'card-title'));
 
-    $out .= html_writer::tag('h6', $grade * 100 . '/100', array("class" => 'grade-number'));
+    $out .= html_writer::tag('h6', $grade * 100 . '%', array('class' => 'grade-number'));
 
     $out .= html_writer::div(get_string('gop_score-'.floor($grade * 10), 'digitala'), 'card-text');
 
@@ -333,17 +352,22 @@ function create_report_transcription($transcription) {
  *
  * @param string $gradings html content of gradings shown
  * @param string $holistic html content of holistic shown
+ * @param string $information html content of more information shown
  */
-function create_report_tabs($gradings, $holistic) {
+function create_report_tabs($gradings, $holistic, $information) {
     $out = html_writer::start_tag('nav');
     $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('task_grades', 'digitala'),
-                             array('class' => "nav-link active ml-2", 'id' => 'report-grades-tab', 'data-toggle' => 'tab',
+                             array('class' => 'nav-link active ml-2', 'id' => 'report-grades-tab', 'data-toggle' => 'tab',
                                    'href' => '#report-grades', 'role' => 'tab', 'aria-controls' => 'report-grades',
                                    'aria-selected' => 'true'));
     $out .= html_writer::tag('button', get_string('holistic', 'digitala'),
-                             array('class' => "nav-link ml-2", 'id' => 'report-holistic-tab', 'data-toggle' => 'tab',
+                             array('class' => 'nav-link ml-2', 'id' => 'report-holistic-tab', 'data-toggle' => 'tab',
                                    'href' => '#report-holistic', 'role' => 'tab', 'aria-controls' => 'report-holistic',
+                                   'aria-selected' => 'false'));
+    $out .= html_writer::tag('button', get_string('moreinformation', 'digitala'),
+                             array('class' => 'nav-link ml-2', 'id' => 'report-information-tab', 'data-toggle' => 'tab',
+                                   'href' => '#report-information', 'role' => 'tab', 'aria-controls' => 'report-information',
                                    'aria-selected' => 'false'));
     $out .= html_writer::end_div();
     $out .= html_writer::end_tag('nav');
@@ -353,6 +377,9 @@ function create_report_tabs($gradings, $holistic) {
                             array('id' => 'report-grades', 'role' => 'tabpanel', 'aria-labelledby' => 'report-grades-tab'));
     $out .= html_writer::div($holistic, 'tab-pane fade',
                             array('id' => 'report-holistic', 'role' => 'tabpanel', 'aria-labelledby' => 'report-holistic-tab'));
+    $out .= html_writer::div($information, 'tab-pane fade',
+                             array('id' => 'report-information', 'role' => 'tabpanel',
+                             'aria-labelledby' => 'report-information-tab'));
     $out .= html_writer::end_div();
 
     return $out;
@@ -368,11 +395,11 @@ function create_short_assignment_tabs($assignment, $resources) {
     $out = html_writer::start_tag('nav');
     $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('assignment', 'digitala'),
-                             array('class' => "nav-link active ml-2", 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
+                             array('class' => 'nav-link active ml-2', 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
                                    'href' => '#assignment-assignment', 'role' => 'tab', 'aria-controls' => 'assignment-assignment',
                                    'aria-selected' => 'true'));
     $out .= html_writer::tag('button', get_string('assignmentresource', 'digitala'),
-                             array('class' => "nav-link ml-2", 'id' => 'assignment-resources-tab', 'data-toggle' => 'tab',
+                             array('class' => 'nav-link ml-2', 'id' => 'assignment-resources-tab', 'data-toggle' => 'tab',
                                    'href' => '#assignment-resources', 'role' => 'tab', 'aria-controls' => 'assignment-resources',
                                    'aria-selected' => 'false'));
     $out .= html_writer::end_div();
@@ -451,10 +478,9 @@ function create_nav_buttons($buttonlocation, $id, $d, $remaining = 0) {
 /**
  * Creates an instance of microphone with start and stop button
  *
- * @param string $id phasename (info, assignment) of the microphone
  * @param number $maxlength maximum length of recording in seconds
  */
-function create_microphone($id, $maxlength = 0) {
+function create_microphone($maxlength = 0) {
     $starticon = '<svg width="16" height="16" fill="currentColor"' .
     'class="bi bi-play-fill" viewBox="0 0 16 16">' .
     '<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.' .
@@ -494,10 +520,8 @@ function create_microphone($id, $maxlength = 0) {
 
 /**
  * Creates the microphone icon for the microphone view
- *
- * @param string $id
  */
-function create_microphone_icon($id) {
+function create_microphone_icon() {
     $microphoneicon = 'svg width="150" height="150" viewBox="0 0 150 150" version="1.1" id="svg5" inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)" inkscape:export-xdpi="96" inkscape:export-ydpi="96"> <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#000000" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="false" inkscape:document-units="px" showgrid="false" units="px" inkscape:zoom="5.9223905" inkscape:cx="62.947139" inkscape:cy="78.863467" inkscape:window-width="1848" inkscape:window-height="1016" inkscape:window-x="72" inkscape:window-y="27" inkscape:window-maximized="1" inkscape:current-layer="layer1" viewbox-width="24" scale-x="1" showguides="true" /> <defs id="defs2"> <linearGradient inkscape:collect="always" id="linearGradient8239"> <stop style="stop-color:#ffffff;stop-opacity:1" offset="0" id="stop8278" /> <stop style="stop-color:#ffffff;stop-opacity:0" offset="1" id="stop8280" /> </linearGradient> <linearGradient id="linearGradient8197" inkscape:swatch="solid"> <stop style="stop-color:#c04b0d;stop-opacity:1;" offset="0" id="stop8195" /> </linearGradient> <linearGradient id="linearGradient6947" inkscape:swatch="solid"> <stop style="stop-color:#323232;stop-opacity:1;" offset="0" id="stop6945" /> </linearGradient> <linearGradient inkscape:collect="always" xlink:href="#linearGradient7609" id="linearGradient14811" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.7019434,0,0,1.3429862,-166.17392,-206.17779)" x1="119.37104" y1="133.03964" x2="164.0202" y2="133.03964" /> <linearGradient id="linearGradient7609" inkscape:swatch="solid"> <stop style="stop-color:#000000;stop-opacity:1;" offset="0" id="stop7607" /> </linearGradient> <linearGradient inkscape:collect="always" xlink:href="#linearGradient8239" id="linearGradient8241" x1="12.490475" y1="20.807896" x2="12.282459" y2="-3.5488219" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.25,0,0,2.25,47.322403,-77.306788)" /> </defs> <g inkscape:label="Taso 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,126)"> <ellipse style="fill:url(#linearGradient8241);fill-opacity:1;stroke:#d9f991;stroke-width:0; stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none; stroke-dashoffset:0;stroke-opacity:1" id="path4797" cx="74.337151" cy="-50.244549" rx="26.929842" ry="26.977333" inkscape:export-filename="C:\Users\Joona\Desktop\icon.png" inkscape:export-xdpi="96" inkscape:export-ydpi="96" /> <rect style="fill:#000000;fill-opacity:1;stroke-width:0.47406167" id="rect1812-5-3-8" width="57.838097" height="83.551956" x="45.952644" y="-108.73703" ry="23.275175" rx="27.54195" /> <path style="fill:none;fill-opacity:1;stroke:url(#linearGradient14811);stroke-width :7.06218767;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4; stroke-dasharray:none;stroke-opacity:1" d="m 40.246073,-38.828328 c 10.851217,28.219916 60.610707,28.8520856 69.419357,-0.73962" id="path401-9-7" sodipodi:nodetypes="cc" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#000000;stroke-width:9.99843788;stroke-linecap: butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 75.90223,-19.843168 76.12741,0.59611765" id="path3077-8-4" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#000000;stroke-width:8.46515751;stroke-linecap: butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 54.13793,2.5386476 c 13.84293,-1.83226995 28.51102,-2.01710995 44.282025,0" id="path574" sodipodi:nodetypes="cc" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625px;stroke-linecap: round;stroke-linejoin:miter;stroke-opacity:1" d="m 45.849173,-83.263866 c 26.926417,-0.21371 26.926417,-0.21371 26.926417,-0.21371" id="path4391" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625px;stroke-linecap: round;stroke-linejoin:miter;stroke-opacity:1" d="M 45.635473,-69.907508 C 72.5619,-70.121218 72.5619,-70.121218 72.5619,-70.121218" id="path4391-9" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625;stroke-linecap: round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:30.375, 5.0625; stroke-dashoffset:0;stroke-opacity:1" d="M 45.635473,-56.230598 C 72.5619,-56.444308 72.5619,-56.444308 72.5619,-56.444308" id="path4391-9-2" inkscape:connector-curvature="0" /> </g> </svg'; // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     $out = html_writer::start_div('', array('id' => 'microphoneIconBox'));
     $out .= html_writer::end_div();
@@ -590,21 +614,22 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
     $feedback->attempt = $oldattempt->id;
 
     if ($attempttype == 'freeform') {
+
+        $feedback->old_taskachievement = $oldattempt->taskachievement;
+        $feedback->taskachievement = $fromform->taskachievement;
+        $feedback->taskachievement_reason = $fromform->taskachievementreason;
+
         $feedback->old_fluency = $oldattempt->fluency;
         $feedback->fluency = $fromform->fluency;
         $feedback->fluency_reason = $fromform->fluencyreason;
 
-        $feedback->old_accuracy = $oldattempt->accuracy;
-        $feedback->accuracy = $fromform->accuracy;
-        $feedback->accuracy_reason = $fromform->accuracyreason;
+        $feedback->old_nativeity = $oldattempt->nativeity;
+        $feedback->nativeity = $fromform->nativeity;
+        $feedback->nativeity_reason = $fromform->nativeityreason;
 
         $feedback->old_lexicalprofile = $oldattempt->lexicalprofile;
         $feedback->lexicalprofile = $fromform->lexicalprofile;
         $feedback->lexicalprofile_reason = $fromform->lexicalprofilereason;
-
-        $feedback->old_nativeity = $oldattempt->nativeity;
-        $feedback->nativeity = $fromform->nativeity;
-        $feedback->nativeity_reason = $fromform->nativeityreason;
 
         $feedback->old_holistic = $oldattempt->holistic;
         $feedback->holistic = $fromform->holistic;
@@ -672,12 +697,10 @@ function get_user($id) {
  * Load all attempts from the database.
  *
  * @param mixed $attempt - object containing attempt information
- * @param int $instanceid - instance id of this digitala activity
  * @param int $id - activity id
- * @param int $d - course id
  * @return $cells - cells containing table data
  */
-function create_result_row($attempt, $instanceid, $id, $d) {
+function create_result_row($attempt, $id) {
     $user = get_user($attempt->userid);
 
     $username = $user->firstname . ' ' . $user->lastname;
@@ -812,25 +835,25 @@ function convertsecondstostring($secs) {
     $seconds = floor($secs - ($hours * 3600) - ($minutes * 60));
 
     if ($hours == 0) {
-        $hours = "";
+        $hours = '';
     } else {
         if ($hours < 10) {
-            $hours = "0".$hours.":";
+            $hours = '0'.$hours.':';
         } else {
-            $hours = $hours.":";
+            $hours = $hours.':';
         }
 
     }
 
     if ($minutes < 10) {
-        $minutes = "0".$minutes;
+        $minutes = '0'.$minutes;
     }
 
     if ($seconds < 10) {
-        $seconds = "0".$seconds;
+        $seconds = '0'.$seconds;
     }
 
-    return $hours.$minutes.":".$seconds;
+    return $hours.$minutes.':'.$seconds;
 }
 
 /**

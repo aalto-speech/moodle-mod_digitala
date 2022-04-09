@@ -18,7 +18,7 @@ const createChart = async(id, grade, maxgrade) => {
             const curr = chart.config._config.options.lineAt;
             const place = chart.chartArea.left + (scale * curr);
 
-            ctx.strokeStyle = "#ffb000";
+            ctx.strokeStyle = '#ffb000';
             ctx.beginPath();
             ctx.moveTo(place, chart.chartArea.top);
             ctx.lineTo(place, chart.chartArea.bottom);
@@ -30,15 +30,23 @@ const createChart = async(id, grade, maxgrade) => {
     const kaavio = document.getElementById(id).getContext('2d');
 
     let strings = [];
+    let basicDataset = [];
     for (let i = 0; i <= maxgrade; i++) {
         strings = [...strings, {
             key: `${id}_score-${i}`,
             component: 'digitala'
         }];
+        if (i >= 1) {
+            basicDataset = [...basicDataset, {
+                type: 'bar',
+                label: 'noshow',
+                data: [1],
+                backgroundColor: i % 2 ? 'rgba(182, 182, 182, 0.3)' : 'rgba(123, 123, 123, 0.3)'
+            }];
+        }
     }
 
     let lineSet = [];
-
     const evalStrings = await getStrings(strings);
     for (let i = 0; i < evalStrings.length; i++) {
         const evalString = evalStrings[i];
@@ -48,53 +56,22 @@ const createChart = async(id, grade, maxgrade) => {
                 type: 'line',
                 label: evalString,
                 data: [length],
-                backgroundColor: 'rgba(0,0,0,1)',
+                backgroundColor: 'rgba(0, 0, 0, 1)',
                 showLine: true,
                 pointRadius: 12.5,
             }
         ];
     }
 
-    let basicDataset = [
+    const selectedDataset = [
         ...lineSet,
-        {
-            type: 'bar',
-            title: 'toot',
-            label: 'noshow',
-            data: [1],
-            backgroundColor: 'rgba(182, 182, 182, 0.3)'
-        },
-        {
-            type: 'bar',
-            title: 'toot',
-            label: 'noshow',
-            data: [1],
-            backgroundColor: 'rgba(123, 123, 123, 0.3)'
-        },
-        {
-            type: 'bar',
-            title: 'toot',
-            label: 'noshow',
-            data: [1],
-            backgroundColor: 'rgba(182, 182, 182, 0.3)'
-        },
+        ...basicDataset,
     ];
-
-    if (maxgrade === '4') {
-        basicDataset = [...basicDataset, {
-            type: 'bar',
-            label: 'noshow',
-            data: [1],
-            backgroundColor: 'rgba(123, 123, 123, 0.3)'
-        }];
-    }
-
-    const selectedDataset = basicDataset;
 
     new chart.Chart(kaavio, {
         type: 'bar',
         data: {
-            labels: [""],
+            labels: [''],
             datasets: selectedDataset
         },
         plugins: [horLine],
@@ -122,7 +99,7 @@ const createChart = async(id, grade, maxgrade) => {
 
                         if (tooltip.body) {
                             const bodyLines = tooltip.body.map(getBody);
-                            if (bodyLines[0][0].split(':')[0] === "noshow") {
+                            if (bodyLines[0][0].split(':')[0] === 'noshow') {
                                 tooltipBox.style.opacity = 0;
                                 return;
                             }
@@ -153,7 +130,7 @@ const createChart = async(id, grade, maxgrade) => {
                         // Display, position, and set styles for font
                         tooltipBox.style.opacity = 1;
                         tooltipBox.style.position = 'absolute';
-                        let left = tooltip.xAlign === "right"
+                        let left = tooltip.xAlign === 'right'
                             ? position.left + window.pageXOffset - 200 + tooltip.caretX
                             : position.left + window.pageXOffset + tooltip.caretX;
                         tooltipBox.style.left = left + 'px';
@@ -189,13 +166,13 @@ const createChart = async(id, grade, maxgrade) => {
 
 export const init = (pagenum) => {
 
-    if (pagenum === 2 || pagenum === "detail") {
+    if (pagenum === 2 || pagenum === 'detail') {
         const allCanvases = document.getElementsByClassName('report-chart');
         for (let i = 0; i < allCanvases.length; i++) {
             const canvas = allCanvases[i];
-            createChart(canvas.attributes["data-eval-name"].value,
-                        canvas.attributes["data-eval-grade"].value,
-                        canvas.attributes["data-eval-maxgrade"].value);
+            createChart(canvas.attributes['data-eval-name'].value,
+                        canvas.attributes['data-eval-grade'].value,
+                        canvas.attributes['data-eval-maxgrade'].value);
         }
     }
 };
