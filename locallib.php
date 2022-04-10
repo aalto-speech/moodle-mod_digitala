@@ -815,8 +815,9 @@ function create_fixed_box() {
     '836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8' .
     ' 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5' .
     ' 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"/></svg>';
-    $out = html_writer::div(get_string('feedback', 'digitala'), 'feedbackcontainer');
-    $out .= html_writer::tag('button type="button" class="btn btn-info"' .
+    $out = html_writer::div(get_string('feedback', 'digitala'), 'feedbackcontainer',
+    array('data-toggle' => 'collapse', 'data-target' => '#feedbacksite'));
+    $out .= html_writer::tag('button type="button" class="btn btn-primary"' .
     'data-toggle="collapse" data-target="#feedbacksite" id="collapser"', $chaticon);
     $out .= html_writer::div('', 'collapse', array('id' => 'feedbacksite'));
     $out .= html_writer::tag('iframe src=' .
