@@ -81,7 +81,8 @@ if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
         $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
                                 $student));
-        $content .= '<a class="btn btn-primary" href="/mod/digitala/reporteditor.php?id='.$id.'&student='.$student.'">'.
+        $content .= '<a class="btn btn-primary" href="'.$CFG->wwwroot
+                    .'/mod/digitala/reporteditor.php?id='.$id.'&student='.$student.'">'.
                     'Give feedback on report</a>';
     } else {
         $content = get_string('results_denied', 'digitala');

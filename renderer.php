@@ -221,17 +221,21 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_report_editor(digitala_report_editor $reporteditor) {
+        global $CFG;
+
         $attempt = get_attempt($reporteditor->instanceid, $reporteditor->student);
         $form = new \reporteditor_form($reporteditor->id, $reporteditor->attempttype, $attempt);
 
         $out = '';
 
         if ($form->is_cancelled()) {
-            redirect('/mod/digitala/report.php?id='.$reporteditor->id.'&mode=overview');
+            redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$reporteditor->id.'&mode=detail&student='
+                     .$reporteditor->student);
         } else if ($fromform = $form->get_data()) {
             // In the future third phase, update evaluation in digitala_attempt here...
             save_report_feedback($reporteditor->attempttype, $fromform, $attempt);
-            redirect('/mod/digitala/report.php?id='.$reporteditor->id.'&mode=overview');
+            redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$reporteditor->id.'&mode=detail&student='
+                     .$reporteditor->student);
         } else {
             $out = start_container('digitala-report_editor');
             $out .= start_column();
