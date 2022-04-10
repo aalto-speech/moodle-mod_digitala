@@ -207,19 +207,19 @@ jobs:
           chmod +x ./plugin/scripts/bump-version.sh
           ./plugin/scripts/bump-version.sh plugin
 
-      - uses: EndBug/add-and-commit@v9
+      - name: Commit version and release bump
+        uses: EndBug/add-and-commit@v9
         id: version_commit
         with:
           add: version.php
           message: 'Bump version & release'
           cwd: './plugin'
           default_author: user_info
+          tag: ${{env.new_release}}-${{env.new_version}}
 
       - name: Echo info to files
         run: |
           mkdir info
-          echo ${{ steps.pr.outputs }}
-          echo ${{ steps.version_commit.outputs }}
           echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
           echo "commit=${{ steps.version_commit.outputs.commit_sha }}" > info/version_commit
           echo $(cat info/pr-title)
@@ -273,11 +273,12 @@ jobs:
           chmod +x ./digitala/scripts/zip.sh
           ./digitala/scripts/zip.sh
 
-      - uses: marvinpinto/action-automatic-releases@latest
+      - name: Make release
+        uses: softprops/action-gh-release@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{env.release}}-${{env.version}}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{env.release}}-${{env.version}}
           prerelease: false
-          title: "${{env.release}} (${{env.version}}): ${{env.title}}"
+          name: "${{env.release}} (${{env.version}}): ${{env.title}}"
           files: |
             moodle-mod-digitala-${{env.release_line}}-${{env.version}}.zip
