@@ -188,7 +188,7 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022040103, 'digitala');
     }
 
-    if ($oldversion < 2022040301) {
+    if ($oldversion < 2022041003) {
 
         // Define table digitala_report_feedback to be created.
         $table = new xmldb_table('digitala_report_feedback');
@@ -199,9 +199,9 @@ function xmldb_digitala_upgrade($oldversion) {
         $table->add_field('old_fluency', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
         $table->add_field('fluency', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
         $table->add_field('fluency_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
-        $table->add_field('old_accuracy', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
-        $table->add_field('accuracy', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
-        $table->add_field('accuracy_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
+        $table->add_field('old_taskachievement', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('taskachievement', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
+        $table->add_field('taskachievement_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
         $table->add_field('old_lexicalprofile', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
         $table->add_field('lexicalprofile', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null);
         $table->add_field('lexicalprofile_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, null);
@@ -226,32 +226,7 @@ function xmldb_digitala_upgrade($oldversion) {
         }
 
         // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022040301, 'digitala');
-    }
-
-    if ($oldversion < 2022040800) {
-
-        // Rename field accuracy_reason on table digitala_report_feedbak to taskachievement_reason.
-        $table = new xmldb_table('digitala_report_feedback');
-        $field = new xmldb_field('accuracy_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, 'accuracy');
-
-        // Launch rename field accuracy_reason.
-        $dbman->rename_field($table, $field, 'taskachievement_reason');
-
-        // Rename field accuracy on table digitala_report_feedbak to taskachievement.
-        $field = new xmldb_field('accuracy', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'old_accuracy');
-
-        // Launch rename field accuracy.
-        $dbman->rename_field($table, $field, 'taskachievement');
-
-        // Rename field old_accuracy on table digitala_report_feedbak to old_taskachievement.
-        $field = new xmldb_field('old_accuracy', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'fluency_reason');
-
-        // Launch rename field old_accuracy.
-        $dbman->rename_field($table, $field, 'old_taskachievement');
-
-        // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022040800, 'digitala');
+        upgrade_mod_savepoint(true, 2022041003, 'digitala');
     }
 
     return true;
