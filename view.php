@@ -80,7 +80,6 @@ $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($pagenum));
 
 if ($pagenum == 0) {
     $content .= $OUTPUT->render(new digitala_info($id, $d));
-    $content .= '<a href="/mod/digitala/report.php?id='.$id.'&mode=overview">Overview</a>';
 } else if ($pagenum == 1) {
     $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id, $USER->username,
                                 $id, $d, $moduleinstance->assignment, $moduleinstance->resources,
