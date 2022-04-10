@@ -188,7 +188,7 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022040103, 'digitala');
     }
 
-    if ($oldversion < 2022040301) {
+    if ($oldversion < 2022041001) {
 
         // Define table digitala_report_feedback to be created.
         $table = new xmldb_table('digitala_report_feedback');
@@ -226,10 +226,10 @@ function xmldb_digitala_upgrade($oldversion) {
         }
 
         // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022040301, 'digitala');
+        upgrade_mod_savepoint(true, 2022041001, 'digitala');
     }
 
-    if ($oldversion < 2022040800) {
+    if ($oldversion < 2022041002) {
 
         // Rename field accuracy_reason on table digitala_report_feedbak to taskachievement_reason.
         $table = new xmldb_table('digitala_report_feedback');
@@ -251,7 +251,7 @@ function xmldb_digitala_upgrade($oldversion) {
         $dbman->rename_field($table, $field, 'old_taskachievement');
 
         // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022040800, 'digitala');
+        upgrade_mod_savepoint(true, 2022041002, 'digitala');
     }
 
     return true;
