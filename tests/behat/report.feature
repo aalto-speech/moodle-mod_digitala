@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript
+@mod @mod_digitala @javascript @onlytwo
 Feature: Student can see report with transcript, numeric gradings and verbal feedback
 
   Background:
