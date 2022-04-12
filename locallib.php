@@ -223,10 +223,7 @@ function create_card($header, $text) {
  * @param string $content text inside assignment text card
  */
 function create_assignment($content) {
-    $out = html_writer::start_div('card-body');
-    $out .= html_writer::tag('h5', '', array('class' => 'card-title'));
-    $out .= html_writer::div($content, 'card-text scrollbox200');
-    $out .= html_writer::end_div();
+    $out = html_writer::div($content, 'card-text scrollbox200');
 
     return $out;
 }
@@ -237,10 +234,7 @@ function create_assignment($content) {
  * @param string $content text inside resource text card
  */
 function create_resource($content) {
-    $out = html_writer::start_div('card-body');
-    $out .= html_writer::tag('h5', '', array('class' => 'card-title'));
-    $out .= html_writer::div($content, 'card-text scrollbox400');
-    $out .= html_writer::end_div();
+    $out = html_writer::div($content, 'card-text scrollbox400');
 
     return $out;
 }

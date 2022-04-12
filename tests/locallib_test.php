@@ -278,7 +278,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_assignment() {
         $result = create_assignment('testassignment');
-        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox200">testassignment</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card-text scrollbox200">testassignment</div>', $result);
     }
 
     /**
@@ -286,7 +286,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_resource() {
         $result = create_resource('testresource');
-        $this->assertEquals('<div class="card-body"><h5 class="card-title"></h5><div class="card-text scrollbox400">testresource</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card-text scrollbox400">testresource</div>', $result);
     }
 
     /**
