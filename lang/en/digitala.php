@@ -114,31 +114,33 @@ $string['holistic_score-6'] = 'You are able to speak fluently, naturally, and wi
 
 $string['taskachievement'] = 'Task completion';
 $string['taskachievement_description'] = 'This measure is based on the previous responses that have been used in teaching the machine to grade this task. Based on the automatic grading, it seems that ';
-$string['taskachievement_score-0'] = 'you did not respond to the assignment.';
+$string['taskachievement_score-0'] = 'unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!';
 $string['taskachievement_score-1'] = 'you only partially responded to the assignment.';
 $string['taskachievement_score-2'] = 'you responded well to the assignment.';
 $string['taskachievement_score-3'] = 'you respond excellently to the assignment.';
 
 $string['fluency'] = 'Fluency';
 $string['fluency_description'] = 'This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that ';
-$string['fluency_score-0'] = 'your speech has many pauses, breaks, or hesitations.';
-$string['fluency_score-1'] = 'your speech is fairly fluent, but some pauses, breaks, and hesitations occur.';
-$string['fluency_score-2'] = 'your speech is fluent and no disturbing pauses, breaks, or hesitations occur.';
-$string['fluency_score-3'] = 'your speech is very fluent and no disturbing pauses, breaks, or hesitations occur.';
+$string['fluency_score-0'] = 'unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!';
+$string['fluency_score-1'] = 'your speech has many pauses, breaks, or hesitations.';
+$string['fluency_score-2'] = 'your speech is fairly fluent, but some pauses, breaks, and hesitations occur.';
+$string['fluency_score-3'] = 'your speech is fluent and no disturbing pauses, breaks, or hesitations occur.';
+$string['fluency_score-4'] = 'your speech is very fluent and no disturbing pauses, breaks, or hesitations occur.';
 
 $string['pronunciation'] = 'Pronunciation';
 $string['pronunciation_description'] = 'Above you can see that the machine transformed your speech into text. There you can check whether you pronounced all the words right. This measure reflects how well the machine understands your speech. The speech samples that the machine has heard before affect its ability to understand you. Based on the automatic grading, it seems that ';
-$string['pronunciation_score-0'] = 'the machine struggles to understand you.';
-$string['pronunciation_score-1'] = 'the machine understands your speech quite well, but there might be some pronunciation problems in the speech sample.';
-$string['pronunciation_score-2'] = 'the machine understands you and there seems to be no major issues in your pronunciation.';
-$string['pronunciation_score-3'] = 'your pronunciation is clear and natural.';
+$string['pronunciation_score-0'] = 'unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!';
+$string['pronunciation_score-1'] = 'the machine struggles to understand you.';
+$string['pronunciation_score-2'] = 'the machine understands your speech quite well, but there might be some pronunciation problems in the speech sample.';
+$string['pronunciation_score-3'] = 'the machine understands you and there seems to be no major issues in your pronunciation.';
+$string['pronunciation_score-4'] = 'your pronunciation is clear and natural.';
 
 $string['range'] = 'Range';
 $string['range_description'] = 'This measure reflects how much you have spoken and how comprehensive your vocabulary and sentence structures are. Based on the automatic grading, it seems that ';
-$string['range_score-0'] = 'Lexical profile score is 0, red score.';
-$string['range_score-1'] = 'Lexical profile is 1, light red score.';
-$string['range_score-2'] = 'Lexical profile is 2, yellow score.';
-$string['range_score-3'] = 'Lexical profile is 3, green score.';
+$string['range_score-0'] = 'unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!';
+$string['range_score-1'] = 'your speech sample is very short or contains mainly individual words.';
+$string['range_score-2'] = 'you use basic words and are able to form sentences.';
+$string['range_score-3'] = 'you have comprehensive vocabulary and use a variety of sentence structures.';
 
 $string['moreinformation'] = 'More information';
 
@@ -151,16 +153,15 @@ $string['edit_report'] = 'Edit the evaluation report';
 $string['holistic-reason'] = 'Feedback on Proficiency';
 $string['taskachievement-reason'] = 'Feedback on Task completion';
 $string['fluency-reason'] = 'Feedback on Fluency';
-$string['nativeity-reason'] = 'Feedback on nativeity';
-$string['lexicalprofile-reason'] = 'Feedback on Range';
-$string['gop-reason'] = 'Feedback on GOP';
+$string['range-reason'] = 'Feedback on Range';
+$string['gop-reason'] = 'CHANGE THIS TO pronunciation-reason';
 $string['pronunciation-reason'] = 'Feedback on Pronunciation';
 $string['holistic-scale_error'] = 'Proficiency needs to be between 0 and 7';
 $string['taskachievement-scale_error'] = 'Task achievement needs to be between 0 and 3';
 $string['fluency-scale_error'] = 'Fluency needs to be between 0 and 4';
 $string['nativeity-scale_error'] = 'Nativeity needs to be between 0 and 3';
-$string['lexicalprofile-scale_error'] = 'Lexical profile needs to be between 0 and 3';
-$string['gop-scale_error'] = 'Godness of pronunciation needs to be between 0 and 4';
+$string['Range-scale_error'] = 'Range needs to be between 0 and 3';
+$string['gop-scale_error'] = 'CHANGE THIS TO pronunciation-scale_error';
 $string['pronunciation-scale_error'] = 'Pronunciation needs to be between 0 and 4';
 
 

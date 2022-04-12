@@ -126,19 +126,19 @@ $string['fluency_score-1'] = 'Puheessasi on paljon taukoja, katkoksia tai empimi
 $string['fluency_score-2'] = 'Puheesi on kohtalaisen sujuvaa, joitakin taukoja, katkoksia tai empimistä.';
 $string['fluency_score-3'] = 'Puheesi on sujuvaa ja vaivatonta, ei häiritseviä taukoja, katkoksia tai empimistä.';
 
-$string['nativeity'] = 'Ääntäminen';
-$string['nativeity_description'] = 'Näet yllä, että kone muunsi puheesi tekstiksi. Voit tarkistaa tekstistä, lausuitko kaikki sanat oikein. Tämä mittari kertoo, kuinka hyvin ja varmasti kone tunnistaa puheesi. Tunnistamistarkkuuteen vaikuttavat puhenäytteet, joita kone on aiemmin opetusvaiheessa saanut. Automaattisen arvion mukaan vaikuttaa siltä, että ';
-$string['nativeity_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
-$string['nativeity_score-1'] = 'Koneen on vaikea ymmärtää puhettasi.';
-$string['nativeity_score-2'] = 'Koneen on melko helppo ymmärtää puhettasi, mutta näytteessä voi olla joitakin ääntämisongelmia.';
-$string['nativeity_score-3'] = 'Kone ymmärtää puhettasi, ääntämisessäsi ei vaikuta olevan suurempia ongelmia.';
+$string['pronunciation'] = 'Ääntäminen';
+$string['pronunciation_description'] = 'Näet yllä, että kone muunsi puheesi tekstiksi. Voit tarkistaa tekstistä, lausuitko kaikki sanat oikein. Tämä mittari kertoo, kuinka hyvin ja varmasti kone tunnistaa puheesi. Tunnistamistarkkuuteen vaikuttavat puhenäytteet, joita kone on aiemmin opetusvaiheessa saanut. Automaattisen arvion mukaan vaikuttaa siltä, että ';
+$string['pronunciation_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
+$string['pronunciation_score-1'] = 'Koneen on vaikea ymmärtää puhettasi.';
+$string['pronunciation_score-2'] = 'Koneen on melko helppo ymmärtää puhettasi, mutta näytteessä voi olla joitakin ääntämisongelmia.';
+$string['pronunciation_score-3'] = 'Kone ymmärtää puhettasi, ääntämisessäsi ei vaikuta olevan suurempia ongelmia.';
 
-$string['lexicalprofile'] = 'Laajuus';
-$string['lexicalprofile_description'] = 'Tämä mittari kertoo, kuinka paljon olet puhunut sekä käyttämiesi sanojen ja lauseiden monipuolisuudesta. Automaattisen arvion mukaan vaikuttaa siltä, että ';
-$string['lexicalprofile_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
-$string['lexicalprofile_score-1'] = 'Puhenäytteesi on hyvin lyhyt tai sisältää lähinnä yksittäisiä sanoja.';
-$string['lexicalprofile_score-2'] = 'Käytät tavallisia sanoja ja osaat tehdä niistä lauseita.';
-$string['lexicalprofile_score-3'] = 'Käytät monipuolisesti eri sanoja ja lauserakenteita.';
+$string['range'] = 'Laajuus';
+$string['range_description'] = 'Tämä mittari kertoo, kuinka paljon olet puhunut sekä käyttämiesi sanojen ja lauseiden monipuolisuudesta. Automaattisen arvion mukaan vaikuttaa siltä, että ';
+$string['range_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
+$string['range_score-1'] = 'Puhenäytteesi on hyvin lyhyt tai sisältää lähinnä yksittäisiä sanoja.';
+$string['range_score-2'] = 'Käytät tavallisia sanoja ja osaat tehdä niistä lauseita.';
+$string['range_score-3'] = 'Käytät monipuolisesti eri sanoja ja lauserakenteita.';
 
 $string['moreinformation'] = 'Lisätietoja';
 
@@ -151,16 +151,12 @@ $string['edit_report'] = 'Muokkaa arviointiraporttia';
 $string['holistic-reason'] = 'Palaute Taitotasosta';
 $string['taskachievement-reason'] = 'Palaute Tehtävänantoon vastaamisesta';
 $string['fluency-reason'] = 'Palaute Sujuvuudesta';
-$string['nativeity-reason'] = 'Feedback on nativeity';
-$string['lexicalprofile-reason'] = 'Palaute Laajuudesta';
-$string['gop-reason'] = 'Feedback on goodness of pronunciation';
+$string['range-reason'] = 'Palaute Laajuudesta';
 $string['pronunciation-reason'] = 'Palaute Ääntämisestä';
-$string['holistic-scale_error'] = 'Holistic needs to be between 0 and 7';
-$string['fluency-scale_error'] = 'Fluency needs to be between 0 and 3';
-$string['taskachievement-scale_error'] = 'Task achievement needs to be between 0 and 3';
-$string['nativeity-scale_error'] = 'Nativeity needs to be between 0 and 3';
-$string['lexicalprofile-scale_error'] = 'Lexical profile needs to be between 0 and 3';
-$string['gop-scale_error'] = 'Godness of pronunciation needs to be between 0 and 1';
+$string['holistic-scale_error'] = 'Taitotaso tulee olla välillä 0 ja 7';
+$string['fluency-scale_error'] = 'Sujuvuus tulee olla välillä 0 ja 4';
+$string['taskachievement-scale_error'] = 'Tehtävänantoon vastaaminen tulee olla välillä 0 ja 3';
+$string['range-scale_error'] = 'Laajuus tulee olla välillä 0 ja 3';
 $string['pronunciation-scale_error'] = 'Ääntäminen tulee olla välillä 0 ja 4';
 
 $string['error_url-not-set'] = 'url-osoitetta ei ole asetettu';

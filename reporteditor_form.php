@@ -64,11 +64,11 @@ class reporteditor_form extends moodleform {
                                'rows="5" cols="50"');
             $mform->addElement('float', 'fluency', get_string('fluency', 'mod_digitala'));
             $mform->addElement('textarea', 'fluencyreason', get_string('fluency-reason', 'digitala'), 'rows="5" cols="50"');
-            $mform->addElement('float', 'nativeity', get_string('nativeity', 'mod_digitala'));
-            $mform->addElement('textarea', 'nativeityreason', get_string('nativeity-reason', 'digitala'), 'rows="5" cols="50"');
-            $mform->addElement('float', 'lexicalprofile', get_string('lexicalprofile', 'mod_digitala'));
+            $mform->addElement('float', 'nativeity', get_string('pronunciation', 'mod_digitala'));
+            $mform->addElement('textarea', 'nativeityreason', get_string('pronunciation-reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('float', 'lexicalprofile', get_string('range', 'mod_digitala'));
             $mform->addElement('textarea', 'lexicalprofilereason',
-                               get_string('lexicalprofile-reason', 'digitala'), 'rows="5" cols="50"');
+                               get_string('range-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'holistic', get_string('holistic', 'mod_digitala'));
             $mform->addElement('textarea', 'holisticreason', get_string('holistic-reason', 'digitala'), 'rows="5" cols="50"');
 
