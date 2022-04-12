@@ -24,16 +24,16 @@ Feature: Edit digitala activity
     And I wait until the page is ready
     Then I set the following fields to these values:
       | Name             | <name>           |
-      | Attempt language | <attemptlang>    |
-      | Attempt type     | <attempttype>    |
+      | Language         | <attemptlang>    |
+      | Type             | <attempttype>    |
       | Assignment       | <assignmenttext> |
-      | Resources        | <resourcestext>  |
+      | Material         | <resourcestext>  |
     And I press "Save and display"
     And I click on "<name>" "link"
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "<assignmenttext>"
-    And I should see "Resources"
+    And I should see "Material"
     And I should see "<resourcestext>"
 
     Examples:

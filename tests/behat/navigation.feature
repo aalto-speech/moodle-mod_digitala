@@ -25,9 +25,9 @@ Feature: Student can see all the phases and curren progress of the assignment
   Scenario: All the phases of activity are shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
-    Then I should see "Info"
+    Then I should see "Begin"
     And I should see "Assignment"
-    And I should see "Report"
+    And I should see "Evaluation"
 
   Scenario: On first page only info progress is shown highlighted on progress bar
     When I am on "Course 1" course homepage
@@ -38,6 +38,6 @@ Feature: Student can see all the phases and curren progress of the assignment
   Scenario: On report page only report progress is shown highlighted on progress bar
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
+    And I click on "Evaluation" "link"
     Then ".pb-step.active" "css_element" should exist in the ".pb-step.last" "css_element"
     And ".pb-step.active" "css_element" should not exist in the ".pb-step.first" "css_element"

@@ -27,7 +27,7 @@ Feature: Teacher can give feedback on ASR evaluation
   Scenario: Feedback button works correctly in teachers report detail page in freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
     And I click on "Give feedback on report" "link"
-    And I should see "Feedback on fluency"
+    And I should see "Feedback on Fluency"
 
   Scenario: Feedback button works correctly in teachers report detail page in readaloud
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
@@ -38,15 +38,15 @@ Feature: Teacher can give feedback on ASR evaluation
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
     Then I set the following fields to these values:
       | Fluency                      | 2.00                              |
-      | Feedback on fluency          | Evaluation was too high.          |
-      | Task achievement             | 3.00                              |
-      | Feedback on task achievement | Evaluation was too low.           |
-      | Lexical profile              | 2.34                              |
-      | Feedback on lexical profile  | Evaluation was out of boundaries. |
-      | Nativeity                    | 2.37                              |
-      | Feedback on nativeity        | Sounds like pro finn.             |
-      | Holistic                     | 6.50                              |
-      | Feedback on holistic         | This meets all values for this.   |
+      | Feedback on Fluency          | Evaluation was too high.          |
+      | Task completion              | 3.00                              |
+      | Feedback on Task completion  | Evaluation was too low.           |
+      | Range                        | 2.34                              |
+      | Feedback on Range            | Evaluation was out of boundaries. |
+      | Pronunciation                | 2.37                              |
+      | Feedback on Pronunciation    | Sounds like pro finn.             |
+      | Proficiency                  | 6.50                              |
+      | Feedback on Proficiency      | This meets all values for this.   |
     And I press "Save changes"
     And the following feedback is found:
       | name     | username |
