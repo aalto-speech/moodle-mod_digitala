@@ -22,7 +22,7 @@ Feature: Create new digitala
       | Attempt type     | <attempttype>    |
       | Assignment       | <assignmenttext> |
       | Resources        | <resourcestext>  |
-    And I click on "<name>" "link"
+    Then I am on the "<name>" "digitala activity" page
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "<assignmenttext>"
