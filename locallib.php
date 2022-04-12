@@ -58,9 +58,11 @@ function create_progress_bar_step_link($name, $page, $id, $d, $iscurrent) {
     $pageout = $page + 1;
     $name = get_string($name, 'digitala');
     if ($iscurrent) {
-        $title = '<span class="pb-num active">'.$pageout.'</span>'.$name;
+        $title = '<span class="pb-num active">'.$pageout.'</span>'.
+                 '<span class="pb-phase-name">'.$name.'</span>';
     } else {
-        $title = '<span class="pb-num">'.$pageout.'</span>'.$name;
+        $title = '<span class="pb-num">'.$pageout.'</span>'.
+                 '<span class="pb-phase-name">'.$name.'</span>';
     }
     $out = html_writer::link($url, $title, array('class' => 'display-6'));
     return $out;
@@ -134,12 +136,15 @@ function calculate_progress_bar_spacers($page) {
 function create_progress_bar_spacer($mode) {
     if ($mode == 'left-empty') {
         $out = html_writer::start_div('pb-spacer pb-spacer-left');
+        $class = "pb-svg-back";
     } else if ($mode == 'right-empty') {
         $out = html_writer::start_div('pb-spacer pb-spacer-right');
+        $class = "pb-svg-front";
     } else {
         $out = html_writer::start_div('pb-spacer');
+        $class = "pb-svg-front";
     }
-    $out .= '<svg width="100%" height="2.4em" viewBox="0 0 275 500"
+    $out .= '<svg class="'.$class.'" viewBox="0 0 275 500"
     style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">';
 
     if ($mode == 'left-empty') {
