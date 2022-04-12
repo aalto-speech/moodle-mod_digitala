@@ -250,7 +250,7 @@ class locallib_test extends \advanced_testcase {
     public function test_transcription_html_output() {
         $testtranscription = 'Lorem ipsum test text';
         $result = create_report_transcription($testtranscription);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
