@@ -27,30 +27,30 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario: On a non graded report page the grading tabs are not shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
+    And I click on "Evaluation" "link"
     Then I should not see "Task Grades"
     And I should not see "Fluency"
 
   Scenario: On a non graded report page the report not available text is shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
+    And I click on "Evaluation" "link"
     Then I should see "A report for this assignment is not available yet."
 
   Scenario: On a non graded report page the transcription is not shown
     When I am on "Course 1" course homepage
     And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
-    Then I should not see "Transcription"
+    And I click on "Evaluation" "link"
+    Then I should not see "A transcript of your speech sample"
 
   Scenario: Detailed report shows correctly for freeform
     When I am on "Course 1" course homepage
     And I click on "Freeform" "link"
-    And I click on "Report" "link"
+    And I click on "Evaluation" "link"
     And I should see "There is no limit set for the number of attempts on this assignment."
-    And I should see "Transcription"
+    And I should see "A transcript of your speech sample"
     And I should see "transcript1"
-    And I should see "Task achievement"
+    And I should see "Task completion"
     And I should see "1/3"
     And I should see "Tämä mittari perustuu vastauksiin, joilla kone on opetettu arvioimaan tätä tehtävää. Automaattisen arvion mukaan vaikuttaa siltä, että task achievement score is 1, light red score."
     And I should see "Fluency"
@@ -70,9 +70,9 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario: Detailed report shows correctly for readaloud
     When I am on "Course 1" course homepage
     And I click on "Readaloud" "link"
-    And I click on "Report" "link"
+    And I click on "Evaluation" "link"
     And I should see "Number of attempts remaining: 1"
-    And I should not see "Transcript"
+    And I should not see "A transcript of your speech sample"
     And I should not see "transcript2"
     And I should see "Goodness of pronunciation"
     And I should see "70%"
@@ -81,13 +81,13 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario: Feedback box is visible on the report page
     When I am on "Course 1" course homepage
     And I click on "Readaloud" "link"
-    And I click on "Report" "link"
+    And I click on "Evaluation" "link"
     And I should see "Give feedback"
     And "collapser" "button" should exist
 
   Scenario: Feedback site is visible on the report page when button is clicked
     When I am on "Course 1" course homepage
     And I click on "Readaloud" "link"
-    And I click on "Report" "link"
+    And I click on "Evaluation" "link"
     And I click on "collapser" "button"
     Then "feedbacksite" "region" should exist

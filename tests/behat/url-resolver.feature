@@ -28,7 +28,7 @@ Feature: URL resolver works in behats
     When I am on the "<activity>" "mod_digitala > Info" page logged in as "<student>"
     And I should see "Test your microphone here"
     Then I am on the "<activity>" "mod_digitala > Assignment" page logged in as "<student>"
-    And I should see "Resources"
+    And I should see "Material"
     Then I am on the "<activity>" "mod_digitala > Report" page logged in as "<student>"
     And I should see "<reportpage>"
     Then I am on the "<activity>" "mod_digitala > Teacher Reports Overview" page logged in as "<teacher>"
@@ -37,9 +37,9 @@ Feature: URL resolver works in behats
     And I should see "Assignment"
     And I should see "<reportpage>"
     When I am on the "<activity> > <student>" "mod_digitala > Teacher Report Feedback" page logged in as "<teacher>"
-    And I should see "Give feedback on report"
+    And I should see "Edit the evaluation report"
 
     Examples:
       | activity  | student | teacher | reportpage                |
-      | Freeform  | olli    | ossi    | Holistic                  |
+      | Freeform  | olli    | ossi    | Proficiency level         |
       | Readaloud | olli    | ossi    | Goodness of pronunciation |

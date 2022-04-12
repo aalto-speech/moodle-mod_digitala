@@ -32,7 +32,7 @@ $string['digitala:viewdetailreport'] = 'View detailed report of student submissi
 $string['modulenameplural'] = 'Digitalas';
 $string['pluginadministration'] = 'Plugin Administration';
 
-$string['assignmentname'] = 'Assignment name';
+$string['assignmentname'] = 'Name';
 $string['assignmentname_help'] = 'Give a name for the assignment';
 $string['attemptlang'] = 'Language';
 $string['attemptlang_help'] = 'The language that users will be attempting this assignment in.';
@@ -154,7 +154,7 @@ $string['holistic-reason'] = 'Feedback on Proficiency';
 $string['taskachievement-reason'] = 'Feedback on Task completion';
 $string['fluency-reason'] = 'Feedback on Fluency';
 $string['range-reason'] = 'Feedback on Range';
-$string['gop-reason'] = 'CHANGE THIS TO pronunciation-reason';
+$string['gop-reason'] = 'Feedback on goodness of pronunciation';
 $string['pronunciation-reason'] = 'Feedback on Pronunciation';
 $string['holistic-scale_error'] = 'Proficiency needs to be between 0 and 7';
 $string['taskachievement-scale_error'] = 'Task achievement needs to be between 0 and 3';
