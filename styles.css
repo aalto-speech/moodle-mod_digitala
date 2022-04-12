@@ -1,22 +1,35 @@
 .pb-num {
-    font-size: xxx-large;
+    font-size: 1.5rem;
     margin: 2rem;
 }
 .pb-num.active {
     font-weight: 1000;
 }
 .digitala-progress-bar {
-    font-size: xx-large;
+    font-size: 1.5rem;
     display: flex;
-    margin-bottom: 1em;
-    margin-top: 1em;
-    height: 2.5em;
+    margin-bottom: 0;
+    margin-top: 0;
+    height: 1.7em;
+}
+.pb-svg-front {
+    height: 1.6em;
+    margin-top: -0.1em;
+    width: 100%;
+}
+.pb-svg-back {
+    height: 1.6em;
+    width: 100%;
+}
+.pb-phase-name {
+    margin-right: 2rem;
 }
 .pb-step {
     flex: 1;
     border-top: 2px solid lightgray;
     border-bottom: 2px solid lightgray;
     text-align: center;
+    vertical-align: top;
 }
 .pb-step.active {
     background-color: lightgray;
@@ -46,12 +59,11 @@
 }
 
 .digitala-column {
-    margin: 1vh;
+    margin: 0 1vh 1vh 0;
 }
 
 .digitala-card {
     margin-top: 1vh;
-    margin-bottom: 1vh;
 }
 
 .navbuttons {
