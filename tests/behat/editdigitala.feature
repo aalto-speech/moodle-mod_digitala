@@ -25,9 +25,9 @@ Feature: Edit digitala activity
     Then I set the following fields to these values:
       | Name             | <name>           |
       | Language         | <attemptlang>    |
-      | Assignment type  | <attempttype>    |
+      | Type             | <attempttype>    |
       | Assignment       | <assignmenttext> |
-      | Material          | <resourcestext>  |
+      | Material         | <resourcestext>  |
     And I press "Save and display"
     And I click on "<name>" "link"
     And I click on "Next" "link"

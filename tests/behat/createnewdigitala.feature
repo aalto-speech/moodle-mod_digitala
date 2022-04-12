@@ -19,7 +19,7 @@ Feature: Create new digitala
     Then I add a "digitala" to section "2" and I fill the form with:
       | Name             | <name>           |
       | Language         | <attemptlang>    |
-      | Assignment type  | <attempttype>    |
+      | Type  | <attempttype>    |
       | Assignment       | <assignmenttext> |
       | Material         | <resourcestext>  |
     And I click on "<name>" "link"
@@ -47,7 +47,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform IMG        |
       | Language         | Swedish                 |
-      | Assignment type  | Freeform                |
+      | Type             | Freeform                |
       | Assignment       | Berätta om Tigerjakt.   |
       | Material         | Här är filmen om tiger. |
     And I press "Insert or edit image"
@@ -78,7 +78,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform AUDIO      |
       | Language         | Swedish                 |
-      | Assignment type  | Freeform                |
+      | Type             | Freeform                |
       | Assignment       | Berätta om Tigerjakt.   |
       | Material         | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
@@ -111,7 +111,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform VIDEO      |
       | Language         | Swedish                 |
-      | Assignment type  | Freeform                |
+      | Type             | Freeform                |
       | Assignment       | Berätta om Tigerjakt.   |
       | Material         | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
@@ -141,7 +141,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform INTERNET IMG |
       | Language         | Swedish                   |
-      | Assignment type  | Freeform                  |
+      | Type             | Freeform                  |
       | Assignment       | Berätta om Tigerjakt.     |
       | Material         | Här är filmen om tiger.   |
     And I press "Insert or edit image"
@@ -166,7 +166,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform INTERNET AUDIO |
       | Language         | Swedish                     |
-      | Assignment type  | Freeform                    |
+      | Type             | Freeform                    |
       | Assignment       | Berätta om Tigerjakt.       |
       | Material         | Här är filmen om tiger.     |
     And I press "Insert or edit an audio/video file"
@@ -192,7 +192,7 @@ Feature: Create new digitala
     Then I set the following fields to these values:
       | Name             | SWE Freeform INTERNET VIDEO |
       | Language         | Swedish                     |
-      | Assignment type  | Freeform                    |
+      | Type             | Freeform                    |
       | Assignment       | Berätta om Tigerjakt.       |
       | Material         | Här är filmen om tiger.     |
     And I press "Insert or edit an audio/video file"
