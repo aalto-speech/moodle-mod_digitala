@@ -171,7 +171,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
             new html_table_cell(get_string('results_score', 'digitala')),
             new html_table_cell(get_string('results_time', 'digitala')),
             new html_table_cell(get_string('results_tries', 'digitala')),
-            new html_table_cell(get_string('results_report', 'digitala')));
+            new html_table_cell(get_string('results_report', 'digitala')),
+            new html_table_cell(''));
         foreach ($headers as $value) {
             $value->header = true;
         }
@@ -188,6 +189,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         }
 
         $out .= html_writer::table($table);
+        $out .= add_delete_button($result->id);
 
         return $out;
     }
@@ -245,5 +247,16 @@ class mod_digitala_renderer extends plugin_renderer_base {
         }
 
         return $out;
+    }
+
+    protected function render_digitala_delete(digitala_delete $delete) {
+        global $CFG;
+        if ($delete->studentid) {
+            delete_attempt($delete->instanceid, $delete->studentid);
+        } else {
+            delete_all_attempts($delete->instanceid);
+        }
+
+        redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$delete->id.'&mode=overview');
     }
 }

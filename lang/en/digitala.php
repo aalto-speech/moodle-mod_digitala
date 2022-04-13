@@ -178,3 +178,4 @@ $string['results_report'] = 'Evaluation report';
 $string['results_denied'] = 'Access denied';
 $string['results_return'] = 'Return to Digitala front page';
 $string['results_view'] = 'View student results';
+$string['results_delete'] = 'Delete attempt';

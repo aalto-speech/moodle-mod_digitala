@@ -45,6 +45,16 @@ function results_url($id, $mode, $studentid=null) {
 }
 
 /**
+ * Used to generate page urls for deleting attempts.
+ *
+ * @param number $id id of the activity instance
+ * @param number $studentid id of the student whose results tescher wants to see
+ */
+function delete_url($id, $studentid=null) {
+    return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => 'delete', 'student' => $studentid));
+}
+
+/**
  * Used to generate links in the steps of the progress bar.
  *
  * @param string $name name of the step
@@ -596,7 +606,6 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         $attempt->timecreated = $timenow;
         $DB->insert_record('digitala_attempts', $attempt);
     }
-
 }
 
 /**
@@ -680,6 +689,38 @@ function get_all_attempts($instanceid) {
 }
 
 /**
+ *
+ */
+function delete_attempt($instanceid, $userid) {
+    global $DB;
+
+    if ($DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid))) {
+        $DB->delete_records('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid));
+    }
+}
+
+/**
+ *
+ */
+function delete_all_attempts($instanceid) {
+    global $DB;
+
+    if ($DB->record_exists('digitala_attempts', array('digitala' => $instanceid))) {
+        $DB->delete_records('digitala_attempts', array('digitala' => $instanceid));
+    }
+
+}
+
+function add_delete_button($id) {
+    //$button = html_writer::tag('button', 'delete me', array("onclick"=>delete_attempt(76, 5)));
+    //$button = create_button('deleteButton', 'btn btn-primary', 'Do not press this button');
+    $deleteurl = delete_url($id);
+    $button = html_writer::tag('a href=' . $deleteurl, 'Do not press this button',
+        array('id' => 'deleteAllButton', 'class' => 'btn btn-primary'));
+    return $button;
+}
+
+/**
  * Load users name based on their id.
  *
  * @param int $id - id of the user
@@ -714,7 +755,11 @@ function create_result_row($attempt, $id) {
     $urltext = results_url($id, 'detail', $attempt->userid);
     $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
 
-    $cells = array($username, $score, $time, $tries, $urllink);
+    $deleteurl = delete_url($id, $attempt->userid);
+    $deletebutton = html_writer::tag('a href=' . $deleteurl, get_string('results_delete', 'digitala'),
+        array('id' => 'deleteButton', 'class' => 'btn btn-primary'));
+
+    $cells = array($username, $score, $time, $tries, $urllink, $deletebutton);
     return $cells;
 }
 

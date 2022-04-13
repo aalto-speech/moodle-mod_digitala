@@ -172,3 +172,4 @@ $string['results_report'] = 'Arviointiraportti';
 $string['results_denied'] = 'Pääsy kielletty';
 $string['results_return'] = 'Palaa Digitalan etusivulle';
 $string['results_view'] = 'Tarkastele oppilaiden tuloksia';
+$string['results_delete'] = 'Poista suoritus';
