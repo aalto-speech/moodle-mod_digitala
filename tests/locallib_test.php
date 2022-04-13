@@ -382,6 +382,21 @@ class locallib_test extends \advanced_testcase {
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
         $this->assertEquals(2, $record->attemptnumber);
+
+        $evaluation->Fluency->score = -1.1;
+        $evaluation->TaskAchievement = -1.1;
+        $evaluation->Accuracy->score = -1.1;
+        $evaluation->Accuracy->lexical_profile = -1.1;
+        $evaluation->Holistic = -1.1;
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(0, $record->fluency);
+        $this->assertEquals(0, $record->taskachievement);
+        $this->assertEquals(0, $record->accuracy);
+        $this->assertEquals(0, $record->lexicalprofile);
+        $this->assertEquals(0, $record->holistic);
     }
 
     /**
@@ -409,6 +424,13 @@ class locallib_test extends \advanced_testcase {
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
         $this->assertEquals(2, $record->attemptnumber);
+
+        $evaluation->GOP_score = -1.3;
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(0, $record->gop_score);
     }
 
     /**
