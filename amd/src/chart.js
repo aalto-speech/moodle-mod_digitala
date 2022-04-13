@@ -142,6 +142,8 @@ const createChart = async(id, grade, maxgrade) => {
             },
             lineAt: grade,
             indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     stacked: true,

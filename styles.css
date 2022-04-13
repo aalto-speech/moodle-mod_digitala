@@ -58,17 +58,36 @@
     width: auto;
 }
 
+.digitala-container {
+    max-width: 80vw;
+    position: relative;
+    margin: auto;
+}
+
 .digitala-column {
     margin: 0 1vh 1vh 0;
 }
 
 .digitala-card {
     margin-top: 1vh;
+    max-width: 75vw;
+}
+
+.digitala-chart-container {
+    position: relative;
+    margin: auto;
+    height: 15vh;
+    max-width: 70vw;
+}
+
+.digitala-tabs {
+    margin-top: 1vh;
 }
 
 .navbuttons {
     position: relative;
     left: 45%;
+    margin-top: 1vh;
 }
 
 .scrollbox200 {
