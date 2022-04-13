@@ -689,7 +689,10 @@ function get_all_attempts($instanceid) {
 }
 
 /**
- *
+ * Delete students attempt from the database.
+ * 
+ * @param int $instanceid - instance id of this digitala activity
+ * @param int $userid - id of the student
  */
 function delete_attempt($instanceid, $userid) {
     global $DB;
@@ -700,7 +703,9 @@ function delete_attempt($instanceid, $userid) {
 }
 
 /**
- *
+ * Delete all attempts from the database.
+ * 
+ * @param int $instanceid - instance id of this digitala activity
  */
 function delete_all_attempts($instanceid) {
     global $DB;
@@ -708,12 +713,13 @@ function delete_all_attempts($instanceid) {
     if ($DB->record_exists('digitala_attempts', array('digitala' => $instanceid))) {
         $DB->delete_records('digitala_attempts', array('digitala' => $instanceid));
     }
-
 }
 
+/**
+ * @param int $id - id of
+ * @return $button - button containing delete url
+ */
 function add_delete_button($id) {
-    //$button = html_writer::tag('button', 'delete me', array("onclick"=>delete_attempt(76, 5)));
-    //$button = create_button('deleteButton', 'btn btn-primary', 'Do not press this button');
     $deleteurl = delete_url($id);
     $button = html_writer::tag('a href=' . $deleteurl, 'Do not press this button',
         array('id' => 'deleteAllButton', 'class' => 'btn btn-primary'));

@@ -712,4 +712,55 @@ class locallib_test extends \advanced_testcase {
         $result = create_short_assignment_tabs('', '');
         $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Material</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
+
+    public function delete_attempt() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+        $recordinglength = 5;
+
+        save_attempt($assignment, 'filename1', $evaluation, $recordinglength);
+        delete_attempt($assignment->instanceid, $assignment->userid);
+
+        $records = $DB->get_records('digitala_attempts',
+                        array('digitala' => $assignment->instanceid));
+        $this->assertEquals(0, count($records));
+    }
+
+    public function delete_all_attempts() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+        $recordinglength = 5;
+
+        save_attempt($assignment, 'filename1', $evaluation, $recordinglength);
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 2;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 3;
+        $recordinglength = 5;
+
+        save_attempt($assignment, 'filename2', $evaluation, $recordinglength);
+
+        delete_all_attempts($assignment->instanceid);
+
+        $records = $DB->get_records('digitala_attempts',
+                        array('digitala' => $assignment->instanceid));
+        $this->assertEquals(0, count($records));
+    }
+
+    public function test_add_delete_button() {
+        $result = add_delete_button('abc');
+        $this->assertEquals($result, '<a href=https://www.example.com/moodle/mod/digitala/report.php?id=abc&amp;mode=delete&amp;student id="deleteAllButton" class="btn btn-primary">Do not press this button</a href=https://www.example.com/moodle/mod/digitala/report.php?id=abc&amp;mode=delete&amp;student>');  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
 }
