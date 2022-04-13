@@ -504,8 +504,7 @@ function create_microphone($maxlength = 0) {
         $limit = ' / '.convertsecondstostring($maxlength);
     }
 
-    $out = html_writer::tag('br', '');
-    $out .= html_writer::div($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
+    $out = html_writer::div($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
     $out .= html_writer::div($stopicon, '', array('id' => 'stopIcon', 'style' => 'display: none;'));
     $out .= html_writer::start_tag('p', array('id' => 'recordTimer'));
     $out .= html_writer::tag('span', '00:00', array('id' => 'recordingLength'));
@@ -799,12 +798,13 @@ function save_answerrecording($formdata, $assignment) {
  * @param digitala_assignment $assignment - assignment includes needed identifications
  */
 function create_answerrecording_form($assignment) {
+    $out = html_writer::tag('p', '', array('id' => 'submitErrors'));
     if ($formdata = $assignment->form->get_data()) {
-        $out = save_answerrecording($formdata, $assignment);
-        $out = $assignment->form->render();
+        $out .= '<br>' . save_answerrecording($formdata, $assignment);
     } else {
-        $out = $assignment->form->render();
+        $out .= '';
     }
+
     return $out;
 
 }
@@ -935,7 +935,7 @@ function create_attempt_modal($assignment) {
     $out .= html_writer::start_div('modal-footer');
     $out .= html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
                              array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
-    $out .= create_answerrecording_form($assignment);
+    $out .= $assignment->form->render();
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();

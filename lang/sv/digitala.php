@@ -163,6 +163,7 @@ $string['pronunciation-scale_error'] = 'Uttalet måste vara mellan 0 och 4';
 
 $string['error_url-not-set'] = 'url-adress har inte bestämt';
 $string['error_no-evaluation'] = 'Det finns ingen bedömning. Kolla kopplingen med API-server.';
+$string['error-save-recording'] = 'Det gick inte att spara inspelningen. Var god försök igen.';
 
 $string['results_link'] = 'Visa rapporten';
 $string['results_student'] = 'Inlärare';

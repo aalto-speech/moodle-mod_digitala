@@ -72,7 +72,6 @@ const startRecording = async() => {
             recorder = new RecordRTC(stream, options);
 
             recorder.startRecording();
-            window.console.log('Digitala: Started to record');
 
             recButton.innerHTML = '<span>' + langStrings[1] + '</span> ' + document.getElementById('stopIcon').innerHTML;
             recButton.onclick = stopRecording;
@@ -128,9 +127,13 @@ const stopRecording = () => {
                 req.open('POST', mdlcfg.wwwroot + '/repository/repository_ajax.php?action=upload');
                 req.addEventListener('readystatechange', (event) => {
                     if (event.target.readyState === 4) {
-                        document.forms.answerrecording[0].value = event.target.response;
-                        document.forms.answerrecording[1].value = sec;
-                        document.getElementById('submitModalButton').style.display = '';
+                        if (event.target.status === 200) {
+                            document.forms.answerrecording[0].value = event.target.response;
+                            document.forms.answerrecording[1].value = sec;
+                            document.getElementById('submitModalButton').style.display = '';
+                        } else {
+                            document.getElementById('submitErrors').innerHTML = langStrings[4];
+                        }
                     }
                 });
                 req.send(form);
@@ -139,7 +142,6 @@ const stopRecording = () => {
             recButton.onclick = startRecording;
             listenButton.disabled = false;
         });
-        window.console.log('Digitala: Recording stopped');
     }
 };
 
@@ -159,8 +161,6 @@ const listenRecording = () => {
 };
 
 export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, usernameIn, maxLengthIn) => {
-    window.console.log('Digitala: Starting to initalize microphones');
-
     if (pagenum !== 2) {
         pagenum = pagenumIn;
         assignmentId = assignmentIdIn;
@@ -186,7 +186,10 @@ export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, u
                 {
                     key: 'startbutton-error',
                     component: 'digitala'
-
+                },
+                {
+                    key: 'error-save-recording',
+                    component: 'digitala'
                 }
             ]
         );

@@ -167,6 +167,7 @@ $string['pronunciation-scale_error'] = 'Pronunciation needs to be between 0 and 
 
 $string['error_url-not-set'] = 'url address not set';
 $string['error_no-evaluation'] = 'No evaluation was found. Check your connection with server.';
+$string['error-save-recording'] = 'Unable to save the recording. Please try again.';
 
 $string['results_link'] = 'See report';
 $string['results_student'] = 'Student';
