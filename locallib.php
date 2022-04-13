@@ -798,15 +798,21 @@ function save_answerrecording($formdata, $assignment) {
  * @param digitala_assignment $assignment - assignment includes needed identifications
  */
 function create_answerrecording_form($assignment) {
+    return $assignment->form->render();
+}
+
+/**
+ * Handles saving answer recording form
+ *
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ */
+function save_answerrecording_form($assignment) {
     $out = html_writer::tag('p', '', array('id' => 'submitErrors'));
     if ($formdata = $assignment->form->get_data()) {
         $out .= '<br>' . save_answerrecording($formdata, $assignment);
-    } else {
-        $out .= '';
     }
 
     return $out;
-
 }
 
 /**
@@ -935,7 +941,7 @@ function create_attempt_modal($assignment) {
     $out .= html_writer::start_div('modal-footer');
     $out .= html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
                              array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
-    $out .= $assignment->form->render();
+    $out .= create_answerrecording_form($assignment);
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
