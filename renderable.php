@@ -229,6 +229,7 @@ class digitala_delete implements renderable {
     /**
      * Constructor
      * @param int $instanceid - Instance id of the activty
+     * @param int $id - Id of the activity
      * @param int $studentid - id of student
      */
     public function __construct($instanceid, $id, $studentid) {

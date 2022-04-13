@@ -248,7 +248,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         return $out;
     }
-
+    /**
+     * Renders digitala attempt deletion.
+     *
+     * @param digitala_delete $delete - An instance of digitala_delete to render.
+     */
     protected function render_digitala_delete(digitala_delete $delete) {
         global $CFG;
         if ($delete->studentid) {

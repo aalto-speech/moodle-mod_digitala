@@ -716,6 +716,8 @@ function delete_all_attempts($instanceid) {
 }
 
 /**
+ * Add delete button to delete all attempts from the database.
+ *
  * @param int $id - id of
  * @return $button - button containing delete url
  */
