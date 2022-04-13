@@ -690,7 +690,7 @@ function get_all_attempts($instanceid) {
 
 /**
  * Delete students attempt from the database.
- * 
+ *
  * @param int $instanceid - instance id of this digitala activity
  * @param int $userid - id of the student
  */
@@ -704,7 +704,7 @@ function delete_attempt($instanceid, $userid) {
 
 /**
  * Delete all attempts from the database.
- * 
+ *
  * @param int $instanceid - instance id of this digitala activity
  */
 function delete_all_attempts($instanceid) {
