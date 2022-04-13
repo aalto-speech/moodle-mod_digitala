@@ -83,13 +83,10 @@ const startRecording = async() => {
                 document.getElementById('recordingLength').textContent = convertSecondsToString(sec);
             }, 1000);
 
-            if (pagenum == 1) {
-                let timeoutLenght = maxLength * 1000;
-                if (maxLength !== 0) {
-                    timeout = setTimeout(() => {
-                        stopRecording();
-                    }, timeoutLenght);
-                }
+            if (pagenum == 1 && maxLength != 0) {
+                timeout = setTimeout(() => {
+                    stopRecording();
+                }, maxLength * 1000);
             }
             return;
         })
@@ -161,7 +158,7 @@ const listenRecording = () => {
 };
 
 export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, usernameIn, maxLengthIn) => {
-    if (pagenum !== 2) {
+    if (pagenumIn !== 2) {
         pagenum = pagenumIn;
         assignmentId = assignmentIdIn;
         userId = userIdIn;
@@ -194,7 +191,11 @@ export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, u
             ]
         );
 
-        recButton.onclick = startRecording;
-        listenButton.onclick = listenRecording;
+        try {
+            recButton.onclick = startRecording;
+            listenButton.onclick = listenRecording;
+        } catch (e) {
+            return;
+        }
     }
 };
