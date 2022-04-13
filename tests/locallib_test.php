@@ -733,7 +733,7 @@ class locallib_test extends \advanced_testcase {
                         array('digitala' => $assignment->instanceid));
         $this->assertEquals(0, count($records));
     }
-    
+
     /**
      * Tests creating delete all attempts.
      */
