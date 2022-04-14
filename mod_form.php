@@ -62,7 +62,7 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         // Adding the "attemptlang" field. Tells what language info we send with the audio file.
         $langoptions = array(
-                'fin' => get_string('fin', 'mod_digitala'),
+                'fi' => get_string('fi', 'mod_digitala'),
                 'sv' => get_string('sv', 'mod_digitala'),
         );
         $mform->addElement('select', 'attemptlang', get_string('attemptlang', 'mod_digitala'), $langoptions);

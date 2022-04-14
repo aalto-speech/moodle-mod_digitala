@@ -85,7 +85,7 @@ class digitala_assignment implements renderable {
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
-     * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
      * @param int $maxlength - maximum length of the recording in seconds, 0 = no limit
      * @param string $attemptlimit - Number of attempts that a person can submit
      */
@@ -123,7 +123,7 @@ class digitala_report implements renderable {
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
-     * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
      * @param int $attemptlimit - Number of attempts that a person can submit
      * @param int $student - User id of student
      */
@@ -153,7 +153,7 @@ class digitala_short_assignment implements renderable {
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
-     * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
      */
     public function __construct($assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
         $this->assignmenttext = $assignmenttext;
@@ -178,7 +178,7 @@ class digitala_report_editor implements renderable {
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
-     * @param string $attemptlang - Choice if the assignment is for fin (Finnish) or sve (Swedish) performance
+     * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
      * @param int $student - User id of student
      */
     public function __construct($instanceid, $contextid, $id = 0, $d = 0, $attempttype = '', $attemptlang = '',

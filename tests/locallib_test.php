@@ -46,7 +46,7 @@ class locallib_test extends \advanced_testcase {
         $this->digitala = $this->getDataGenerator()->create_module('digitala', [
             'course' => $this->course->id,
             'name' => 'new_digitala',
-            'attemptlang' => 'fin',
+            'attemptlang' => 'fi',
             'attempttype' => 'freeform',
             'assignment' => 'Assignment text',
             'resources' => array('text' => 'Resource text', 'format' => 1),

@@ -532,7 +532,7 @@ function create_microphone_icon() {
  *
  * @param stored_file $file - audio file to be sent for evaluation
  * @param string $assignmenttext - assignment text given for students
- * @param string $lang - language (fin or sve) chosen for the assignment
+ * @param string $lang - language (fi or sve) chosen for the assignment
  * @param string $type - type of assignment (readaloud or freeform)
  * @param string $key - keystring for server communication
  */

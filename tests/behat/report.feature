@@ -13,9 +13,9 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
       | olli | C1     | student |
     And the following "activities" exist:
       | activity | name               | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit |
-      | digitala | Test digitala name | Test digitala intro  | C1     | digitala1 | fin         | freeform    | Assignment text            | Resource text                              | 1               | 0            |
+      | digitala | Test digitala name | Test digitala intro  | C1     | digitala1 | fi         | freeform    | Assignment text            | Resource text                              | 1               | 0            |
       | digitala | Freeform           | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            |
-      | digitala | Readaloud          | This is a readaloud. | C1     | readaloud | fin         | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
+      | digitala | Readaloud          | This is a readaloud. | C1     | readaloud | fi         | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
     And I add freeform attempt to database:
       | name     | username | attemptnumber | file  | transcript  | fluency | fluencymean | speechrate | taskachievement | accuracy | lexicalprofile | nativeity | holistic | recordinglength |
       | Freeform | olli     | 1             | file1 | transcript1 | 1       | 2           | 3          | 1               | 2        | 3              | 1         | 2        | 1               |
