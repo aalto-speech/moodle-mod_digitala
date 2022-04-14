@@ -25,6 +25,8 @@ Feature: URL resolver works in behats
       | Readaloud | olli     | 1             | file2 | transcript2 | 0.7       | 2               |
 
   Scenario Outline: Page URL resolver works
+    When I am on the "<activity>" "mod_digitala > Invalid" page logged in as "<student>"
+    And I should see "Access denied"
     When I am on the "<activity>" "mod_digitala > Info" page logged in as "<student>"
     And I should see "Test your microphone here"
     Then I am on the "<activity>" "mod_digitala > Assignment" page logged in as "<student>"

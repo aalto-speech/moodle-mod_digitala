@@ -92,6 +92,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
         } else {
             $out .= create_card('assignmentrecord', create_attempt_number($assignment, $assignment->userid).
+                                                    save_answerrecording_form($assignment).
                                                     create_microphone($assignment->maxlength).
                                                     create_attempt_modal($assignment));
             $out .= create_nav_buttons('assignmentprev', $assignment->id, $assignment->d);

@@ -504,8 +504,7 @@ function create_microphone($maxlength = 0) {
         $limit = ' / '.convertsecondstostring($maxlength);
     }
 
-    $out = html_writer::tag('br', '');
-    $out .= html_writer::div($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
+    $out = html_writer::div($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
     $out .= html_writer::div($stopicon, '', array('id' => 'stopIcon', 'style' => 'display: none;'));
     $out .= html_writer::start_tag('p', array('id' => 'recordTimer'));
     $out .= html_writer::tag('span', '00:00', array('id' => 'recordingLength'));
@@ -576,6 +575,21 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         $attempt->transcript = $evaluation->Transcript;
     }
     if (isset($evaluation->Fluency)) {
+        if ($evaluation->Fluency->score < 0) {
+            $evaluation->Fluency->score = 0;
+        }
+        if ($evaluation->TaskAchievement < 0) {
+            $evaluation->TaskAchievement = 0;
+        }
+        if ($evaluation->Accuracy->score < 0) {
+            $evaluation->Accuracy->score = 0;
+        }
+        if ($evaluation->Accuracy->lexical_profile < 0) {
+            $evaluation->Accuracy->lexical_profile = 0;
+        }
+        if ($evaluation->Holistic < 0) {
+            $evaluation->Holistic = 0;
+        }
         $attempt->fluency = $evaluation->Fluency->score;
         $attempt->fluencymean = $evaluation->Fluency->mean_f1;
         $attempt->speechrate = $evaluation->Fluency->speech_rate;
@@ -585,6 +599,9 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         $attempt->nativeity = $evaluation->Accuracy->nativeity;
         $attempt->holistic = $evaluation->Holistic;
     } else {
+        if ($evaluation->GOP_score < 0) {
+            $evaluation->GOP_score = 0;
+        }
         $attempt->gop_score = $evaluation->GOP_score;
     }
     $attempt->timemodified = $timenow;
@@ -781,13 +798,21 @@ function save_answerrecording($formdata, $assignment) {
  * @param digitala_assignment $assignment - assignment includes needed identifications
  */
 function create_answerrecording_form($assignment) {
-    if ($formdata = $assignment->form->get_data()) {
-        $out = save_answerrecording($formdata, $assignment);
-    } else {
-        $out = $assignment->form->render();
-    }
-    return $out;
+    return $assignment->form->render();
+}
 
+/**
+ * Handles saving answer recording form
+ *
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ */
+function save_answerrecording_form($assignment) {
+    $out = html_writer::tag('p', '', array('id' => 'submitErrors'));
+    if ($formdata = $assignment->form->get_data()) {
+        $out .= '<br>' . save_answerrecording($formdata, $assignment);
+    }
+
+    return $out;
 }
 
 /**

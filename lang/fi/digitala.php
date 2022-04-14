@@ -161,6 +161,7 @@ $string['pronunciation-scale_error'] = 'Ääntäminen tulee olla välillä 0 ja 
 
 $string['error_url-not-set'] = 'url-osoitetta ei ole asetettu';
 $string['error_no-evaluation'] = 'Arviointia ei löytynyt. Tarkista yhteys arviointipalvelimeen.';
+$string['error-save-recording'] = 'Äänitteen tallennus ei onnistunut. Voit yrittää uudelleen.';
 
 $string['results_link'] = 'Näytä raportti';
 $string['results_student'] = 'Oppilas';
