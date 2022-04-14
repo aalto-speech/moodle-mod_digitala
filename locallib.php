@@ -571,37 +571,36 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
     $attempt->digitala = $assignment->instanceid;
     $attempt->userid = $assignment->userid;
     $attempt->file = $filename;
-    if (isset($evaluation->Transcript)) {
-        $attempt->transcript = $evaluation->Transcript;
-    }
-    if (isset($evaluation->Fluency)) {
-        if ($evaluation->Fluency->score < 0) {
-            $evaluation->Fluency->score = 0;
+    $attempt->transcript = $evaluation->transcript;
+    if (isset($evaluation->fluency)) {
+        if ($evaluation->fluency->score < 0) {
+            $evaluation->fluency->score = 0;
         }
-        if ($evaluation->TaskAchievement < 0) {
-            $evaluation->TaskAchievement = 0;
+        if ($evaluation->taskcompletion < 0) {
+            $evaluation->taskcompletion = 0;
         }
-        if ($evaluation->Accuracy->score < 0) {
-            $evaluation->Accuracy->score = 0;
+        if ($evaluation->pronunciation->score < 0) {
+            $evaluation->pronunciation->score = 0;
         }
-        if ($evaluation->Accuracy->lexical_profile < 0) {
-            $evaluation->Accuracy->lexical_profile = 0;
+        if ($evaluation->lexicogrammatical->score < 0) {
+            $evaluation->lexicogrammatical->score = 0;
         }
-        if ($evaluation->Holistic < 0) {
-            $evaluation->Holistic = 0;
+        if ($evaluation->holistic < 0) {
+            $evaluation->holistic = 0;
         }
-        $attempt->fluency = $evaluation->Fluency->score;
-        $attempt->fluencymean = $evaluation->Fluency->mean_f1;
-        $attempt->speechrate = $evaluation->Fluency->speech_rate;
-        $attempt->taskachievement = $evaluation->TaskAchievement;
-        $attempt->accuracy = $evaluation->Accuracy->score;
-        $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
-        $attempt->nativeity = $evaluation->Accuracy->nativeity;
-        $attempt->holistic = $evaluation->Holistic;
+        $attempt->fluency = $evaluation->fluency->score;
+        $attempt->fluency_features = $evaluation->fluency->flu_features;
+        $attempt->taskcompletion = $evaluation->taskcompletion;
+        $attempt->pronunciation = $evaluation->pronunciation->score;
+        $attempt->pronunciation_features = $evaluation->pronunciation->pron_features;
+        $attempt->lexicogrammatical = $evaluation->lexicogrammatical->score;
+        $attempt->lexicogrammatical_features = $evaluation->lexicogrammatical->lexgram_features;
+        $attempt->holistic = $evaluation->holistic;
     } else {
         if ($evaluation->GOP_score < 0) {
             $evaluation->GOP_score = 0;
         }
+        $attempt->feedback = $evaluation->feedback;
         $attempt->gop_score = $evaluation->GOP_score;
     }
     $attempt->timemodified = $timenow;
@@ -630,27 +629,25 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
     $feedback->attempt = $oldattempt->id;
 
     if ($attempttype == 'freeform') {
-
-        $feedback->old_taskachievement = $oldattempt->taskachievement;
-        $feedback->taskachievement = $fromform->taskachievement;
-        $feedback->taskachievement_reason = $fromform->taskachievementreason;
+        $feedback->old_taskcompletion = $oldattempt->taskcompletion;
+        $feedback->taskcompletion = $fromform->taskcompletion;
+        $feedback->taskcompletion_reason = $fromform->taskcompletionreason;
 
         $feedback->old_fluency = $oldattempt->fluency;
         $feedback->fluency = $fromform->fluency;
         $feedback->fluency_reason = $fromform->fluencyreason;
 
-        $feedback->old_nativeity = $oldattempt->nativeity;
-        $feedback->nativeity = $fromform->nativeity;
-        $feedback->nativeity_reason = $fromform->nativeityreason;
+        $feedback->old_pronunciation = $oldattempt->pronunciation;
+        $feedback->pronunciation = $fromform->pronunciation;
+        $feedback->pronunciation_reason = $fromform->pronunciationreason;
 
-        $feedback->old_lexicalprofile = $oldattempt->lexicalprofile;
-        $feedback->lexicalprofile = $fromform->lexicalprofile;
-        $feedback->lexicalprofile_reason = $fromform->lexicalprofilereason;
+        $feedback->old_lexicogrammatical = $oldattempt->lexicogrammatical;
+        $feedback->lexicogrammatical = $fromform->lexicogrammatical;
+        $feedback->lexicogrammatical_reason = $fromform->lexicogrammaticalreason;
 
         $feedback->old_holistic = $oldattempt->holistic;
         $feedback->holistic = $fromform->holistic;
         $feedback->holistic_reason = $fromform->holisticreason;
-
     } else if ($attempttype == 'readaloud') {
         $feedback->old_gop_score = $oldattempt->gop_score;
         $feedback->gop_score = $fromform->gop;
