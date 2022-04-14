@@ -175,3 +175,4 @@ $string['results_view'] = 'Tarkastele oppilaiden tuloksia';
 
 $string['results_delete'] = 'Poista suoritus';
 $string['results_delete-all'] = 'Poista kaikki';
+$string['results_delete-text'] = 'Haluatko varmasti poistaa?';

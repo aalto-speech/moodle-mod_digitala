@@ -172,16 +172,18 @@ class mod_digitala_renderer extends plugin_renderer_base {
             new html_table_cell(get_string('results_time', 'digitala')),
             new html_table_cell(get_string('results_tries', 'digitala')),
             new html_table_cell(get_string('results_report', 'digitala')),
-            new html_table_cell(add_delete_button($result->id)));
+            new html_table_cell(add_delete_all_attempts_button($result->id)));
         foreach ($headers as $value) {
             $value->header = true;
         }
+        $out .= create_delete_modal($result->id);
 
         $table->data[] = $headers;
         $attempts = get_all_attempts($result->instanceid);
 
         foreach ($attempts as $attempt) {
             $row = create_result_row($attempt, $result->id);
+            $out .= create_delete_modal($result->id, $attempt->userid);
             foreach ($row as $cell) {
                 $cell = new html_table_cell($cell);
             }
@@ -189,7 +191,6 @@ class mod_digitala_renderer extends plugin_renderer_base {
         }
 
         $out .= html_writer::table($table);
-        //$out .= add_delete_button($result->id);
 
         return $out;
     }

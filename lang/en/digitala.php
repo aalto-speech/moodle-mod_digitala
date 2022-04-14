@@ -181,3 +181,4 @@ $string['results_view'] = 'View student results';
 
 $string['results_delete'] = 'Delete attempt';
 $string['results_delete-all'] = 'Delete all';
+$string['results_delete-text'] = 'Are you sure you want to delete?';

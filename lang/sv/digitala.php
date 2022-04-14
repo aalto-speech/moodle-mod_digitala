@@ -177,3 +177,4 @@ $string['results_view'] = 'Se inlärarnas resultat';
 
 $string['results_delete'] = 'Ta bort försöket';
 $string['results_delete-all'] = 'Ta bort alla';
+$string['results_delete-text'] = 'Är du säkert?';
