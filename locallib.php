@@ -716,29 +716,51 @@ function delete_all_attempts($instanceid) {
 }
 
 /**
- * Add delete button to delete all attempts from the database.
+ * Add button to open deletion modal for deleting all attempts.
  *
- * @param int $id - id of
  * @return $button - button containing delete url
  */
-function add_delete_all_attempts_button($id) {
-    $deleteurl = delete_url($id);
-    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-all', 'digitala'),
+function add_delete_all_attempts_button() {
+    $button = html_writer::tag('button', get_string('results_delete-all', 'digitala'),
         array('id' => 'deleteAllButton', 'class' => 'btn btn-danger', 'data-toggle' => 'modal', 'data-target' => '#deleteAllModal'));
     return $button;
 }
 
 /**
- * Add delete button to delete given attempt from the database.
+ * Add delete button to redirect and delete all attempts from the database.
  *
  * @param int $id - id of digitala instance
- * @param int $studentid id of student
  * @return $button - button containing delete url
  */
-function add_delete_attempt_button($id, $studentid) {
+function add_delete_all_redirect_button($id) {
+    $deleteurl = delete_url($id);
+    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete', 'digitala'),
+        array('id' => 'deleteAllButton', 'class' => 'btn btn-danger'));
+    return $button;
+}
+
+/**
+ * Add button to open deletion modal for deleting single attempt.
+ *
+ * @return $button - button that opens deletion modal
+ */
+function add_delete_attempt_button() {
+    $button = html_writer::tag('button', get_string('results_delete', 'digitala'),
+        array('id' => 'deleteButton', 'class' => 'btn btn-warning', 'data-toggle' => 'modal', 'data-target' => '#deleteModal'));
+    return $button;
+}
+
+/**
+ * Add delete button to redirect and delete given attempt from the database.
+ *
+ * @param int $id - id of digitala instance
+ * @param int $studentid - id of student
+ * @return $button - button containing delete url
+ */
+function add_delete_redirect_button($id, $studentid) {
     $deleteurl = delete_url($id, $studentid);
     $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete', 'digitala'),
-        array('id' => 'deleteButton', 'class' => 'btn btn-warning', 'data-toggle' => 'modal',  'data-target' => '#deleteModal'));
+        array('id' => 'deleteButton', 'class' => 'btn btn-warning'));
     return $button;
 }
 
@@ -992,18 +1014,17 @@ function create_attempt_modal($assignment) {
 /**
  * Creates attempt modal.
  *
- * @param string $attemp - the attempt which to delete or ''
+ * @param int $id - id of the activity
+ * @param int $studentid - id of the student or null
  */
 function create_delete_modal($id, $studentid=null) {
 
     if (isset($studentid)) {
         $out = html_writer::start_div('modal', array('id' => 'deleteModal', 'tabindex' => '-1', 'role' => 'dialog'));
-        $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
     } else {
         $out = html_writer::start_div('modal', array('id' => 'deleteAllModal', 'tabindex' => '-1', 'role' => 'dialog'));
-        $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
     }
-
+    $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
     $out .= html_writer::start_div('modal-content');
     $out .= html_writer::start_div('modal-header');
     $out .= html_writer::tag('h5', 'Otsikko', array('class' => 'modal-title'));
@@ -1021,9 +1042,9 @@ function create_delete_modal($id, $studentid=null) {
     $out .= html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
                              array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
     if (isset($studentid)) {
-        $out .= add_delete_attempt_button($id, $studentid);
+        $out .= add_delete_redirect_button($id, $studentid);
     } else {
-        $out .= add_delete_all_attempts_button($id);
+        $out .= add_delete_all_redirect_button($id);
     }
 
     $out .= html_writer::end_div();
