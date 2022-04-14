@@ -11,11 +11,11 @@ Feature: Student can see assignment text and resources
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | student1 | C1     | student        |
+      | user     | course | role    |
+      | student1 | C1     | student |
     And the following "activities" exist:
-      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources              | resourcesformat | attemptlimit | maxlength |
-      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.| 1               | 2            | 5         |
+      | activity | name     | intro               | course | idnumber | attemptlang | attempttype | assignment            | resources               | resourcesformat | attemptlimit | maxlength |
+      | digitala | Freeform | This is a freeform. | C1     | freeform | sv          | freeform    | Berätta om Tigerjakt. | Här är filmen om tiger. | 1               | 2            | 5         |
     And I log in as "student1"
 
   Scenario: On assignment page the assignment text, resources text, timer and number of attempts are shown
@@ -53,7 +53,7 @@ Feature: Student can see assignment text and resources
     Then I should see "You still have 2 attempts remaining on this assignment."
     And I click on "id_submitbutton" "button"
     Then I should see "A transcript of your speech sample"
-    And I should see "Task grades"
+    And I should see "Analytic grading"
     And I should see "Proficiency level"
     And I should see "Fluency"
     And I click on "Assignment" "link"
@@ -62,7 +62,7 @@ Feature: Student can see assignment text and resources
     And I click on "submitModalButton" "button"
     Then I should see "You still have 1 attempts remaining on this assignment."
     And I click on "id_submitbutton" "button"
-    Then I should see "Task grades"
+    Then I should see "Analytic grading"
     And I click on "Assignment" "link"
     Then I should see "Your answer has already been submitted."
     And I should not see "Listen recording"

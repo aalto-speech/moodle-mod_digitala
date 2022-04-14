@@ -56,13 +56,10 @@ class behat_mod_digitala extends behat_base {
             $attempt->userid = $user->id;
             $attempt->file = $row['file'];
             $attempt->transcript = $row['transcript'];
+            $attempt->taskcompletion = $row['taskcompletion'];
             $attempt->fluency = $row['fluency'];
-            $attempt->fluencymean = $row['fluencymean'];
-            $attempt->speechrate = $row['speechrate'];
-            $attempt->taskachievement = $row['taskachievement'];
-            $attempt->accuracy = $row['accuracy'];
-            $attempt->lexicalprofile = $row['lexicalprofile'];
-            $attempt->nativeity = $row['nativeity'];
+            $attempt->pronunciation = $row['pronunciation'];
+            $attempt->lexicogrammatical = $row['lexicogrammatical'];
             $attempt->holistic = $row['holistic'];
             $attempt->timecreated = $time;
             $attempt->timemodified = $time;
@@ -94,6 +91,7 @@ class behat_mod_digitala extends behat_base {
             $attempt->userid = $user->id;
             $attempt->file = $row['file'];
             $attempt->transcript = $row['transcript'];
+            $attempt->feedback = $row['feedback'];
             $attempt->gop_score = $row['gop_score'];
             $attempt->timecreated = $time;
             $attempt->timemodified = $time;

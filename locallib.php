@@ -573,11 +573,11 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
     $attempt->file = $filename;
     $attempt->transcript = $evaluation->transcript;
     if (isset($evaluation->fluency)) {
+        if ($evaluation->task_completion < 0) {
+            $evaluation->task_completion = 0;
+        }
         if ($evaluation->fluency->score < 0) {
             $evaluation->fluency->score = 0;
-        }
-        if ($evaluation->taskcompletion < 0) {
-            $evaluation->taskcompletion = 0;
         }
         if ($evaluation->pronunciation->score < 0) {
             $evaluation->pronunciation->score = 0;
@@ -588,13 +588,13 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         if ($evaluation->holistic < 0) {
             $evaluation->holistic = 0;
         }
+        $attempt->taskcompletion = $evaluation->task_completion;
         $attempt->fluency = $evaluation->fluency->score;
-        $attempt->fluency_features = $evaluation->fluency->flu_features;
-        $attempt->taskcompletion = $evaluation->taskcompletion;
+        $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
         $attempt->pronunciation = $evaluation->pronunciation->score;
-        $attempt->pronunciation_features = $evaluation->pronunciation->pron_features;
+        $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
         $attempt->lexicogrammatical = $evaluation->lexicogrammatical->score;
-        $attempt->lexicogrammatical_features = $evaluation->lexicogrammatical->lexgram_features;
+        $attempt->lexicogrammatical_features = json_encode($evaluation->lexicogrammatical->lexgram_features);
         $attempt->holistic = $evaluation->holistic;
     } else {
         if ($evaluation->GOP_score < 0) {
@@ -612,7 +612,6 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         $attempt->timecreated = $timenow;
         $DB->insert_record('digitala_attempts', $attempt);
     }
-
 }
 
 /**
@@ -759,18 +758,17 @@ function save_answerrecording($formdata, $assignment) {
     $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
                           $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
 
-    // Change key to a hidden value later on.
-    $key = 'aalto';
-    $texttoaalto = $assignment->assignmenttext;
     if ($assignment->attempttype == 'readaloud') {
         $texttoaalto = $assignment->resourcetext;
+    } else {
+        $texttoaalto = $assignment->assignmenttext;
     }
 
     $evaluation = send_answerrecording_for_evaluation(
             $file,
             $texttoaalto,
             $assignment->attemptlang,
-            $assignment->attempttype, $key
+            $assignment->attempttype
         );
 
     if (!isset(json_decode($evaluation)->prompt)) {
