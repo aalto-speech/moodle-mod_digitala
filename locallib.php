@@ -723,8 +723,8 @@ function delete_all_attempts($instanceid) {
  */
 function add_delete_button($id) {
     $deleteurl = delete_url($id);
-    $button = html_writer::tag('a href=' . $deleteurl, 'Do not press this button',
-        array('id' => 'deleteAllButton', 'class' => 'btn btn-primary'));
+    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-all', 'digitala'),
+        array('id' => 'deleteAllButton', 'class' => 'btn btn-danger'));
     return $button;
 }
 
@@ -765,7 +765,7 @@ function create_result_row($attempt, $id) {
 
     $deleteurl = delete_url($id, $attempt->userid);
     $deletebutton = html_writer::tag('a href=' . $deleteurl, get_string('results_delete', 'digitala'),
-        array('id' => 'deleteButton', 'class' => 'btn btn-primary'));
+        array('id' => 'deleteButton', 'class' => 'btn btn-warning'));
 
     $cells = array($username, $score, $time, $tries, $urllink, $deletebutton);
     return $cells;

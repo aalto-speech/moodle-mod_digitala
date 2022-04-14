@@ -172,7 +172,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             new html_table_cell(get_string('results_time', 'digitala')),
             new html_table_cell(get_string('results_tries', 'digitala')),
             new html_table_cell(get_string('results_report', 'digitala')),
-            new html_table_cell(''));
+            new html_table_cell(add_delete_button($result->id)));
         foreach ($headers as $value) {
             $value->header = true;
         }
@@ -189,7 +189,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         }
 
         $out .= html_writer::table($table);
-        $out .= add_delete_button($result->id);
+        //$out .= add_delete_button($result->id);
 
         return $out;
     }
