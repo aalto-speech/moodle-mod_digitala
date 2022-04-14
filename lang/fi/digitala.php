@@ -80,7 +80,7 @@ $string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
 $string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi puhenäytettä, eikä se kuvaa kaikkea suullista kielitaitoasi. Automaattinen arvio on koneen tekemä. Konetta on opetettu muiden kielen oppijoiden puheella ja muulla kieliaineistolla.';
 $string['transcription'] = 'Puhenäytteesi tekstinä';
 
-$string['task_grades'] = 'Osa-arviot';
+$string['task_grades'] = 'Analyyttinen arvio';
 
 $string['gop'] = 'Ääntämisen taso (GOP)';
 $string['gop_score-0'] = 'Ääntämisen taso on 0.';
@@ -95,7 +95,7 @@ $string['gop_score-8'] = 'Ääntämisen taso on 8.';
 $string['gop_score-9'] = 'Ääntämisen taso on 9.';
 $string['gop_score-10'] = 'Ääntämisen taso on 10.';
 
-$string['holistic'] = 'Kokonaisarvosana';
+$string['holistic'] = 'Taitotasoarvio';
 $string['holistic_description'] = 'Automaattisen arvion mukaan vaikuttaa siltä, että taitotasosi on ';
 $string['holistic_level-0'] = 'Alle A1';
 $string['holistic_level-1'] = 'A1';
