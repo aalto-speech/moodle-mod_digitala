@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript
+@mod @mod_digitala @javascript @onlyone
 Feature: Teacher can delete attempts from overview page
 
   Background:
@@ -56,8 +56,8 @@ Feature: Teacher can delete attempts from overview page
     And I click on "View student results" "link"
     Then I should see "Olli Opiskelija"
     And I should see "Essi Opiskelija"
-    And I click on "deleteButton131002" "button"
+    And I click on "deleteButtonessi" "button"
     Then I should see "Warning"
-    And I click on "deleteRedirectButton131002" "link"
+    And I click on "deleteRedirectButtonessi" "link"
     Then I should see "Olli Opiskelija"
     And I should not see "Essi Opiskelija"

@@ -827,16 +827,18 @@ class locallib_test extends \advanced_testcase {
      * Tests adding delete attempt button.
      */
     public function test_add_delete_attempt_button() {
-        $result = add_delete_attempt_button(2);
-        $this->assertEquals($result, '<button id="deleteButton2" class="btn btn-warning" data-toggle="modal" data-target="#deleteModal2">Delete attempt</button>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        global $USER;
+        $result = add_delete_attempt_button($USER);
+        $this->assertEquals($result, '<button id="deleteButtonadmin" class="btn btn-warning" data-toggle="modal" data-target="#deleteModal2">Delete attempt</button>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
      * Tests adding delete redirect button.
      */
     public function test_add_delete_redirect_button() {
-        $result = add_delete_redirect_button(1, 2);
-        $this->assertEquals($result, '<a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2 id="deleteRedirectButton2" class="btn btn-warning">Confirm delete</a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        global $USER;
+        $result = add_delete_redirect_button(1, $USER);
+        $this->assertEquals($result, '<a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2 id="deleteRedirectButtonadmin" class="btn btn-warning">Confirm delete</a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -863,7 +865,7 @@ class locallib_test extends \advanced_testcase {
         global $USER;
 
         $result = create_delete_modal(1, $USER);
-        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2 id="deleteRedirectButton2" class="btn btn-warning">Confirm delete</a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2></div></div></div></div>');
+        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2 id="deleteRedirectButtonadmin" class="btn btn-warning">Confirm delete</a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2></div></div></div></div>');
     }
 
     // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded

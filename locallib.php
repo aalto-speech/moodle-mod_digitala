@@ -804,10 +804,10 @@ function add_delete_all_redirect_button($id) {
  * @param int $userid - id of the user
  * @return $button - button that opens deletion modal
  */
-function add_delete_attempt_button($userid) {
+function add_delete_attempt_button($user) {
     $button = html_writer::tag('button', get_string('results_delete', 'digitala'),
-        array('id' => 'deleteButton'.$userid, 'class' => 'btn btn-warning',
-            'data-toggle' => 'modal', 'data-target' => '#deleteModal'.$userid));
+        array('id' => 'deleteButton'.$user->username, 'class' => 'btn btn-warning',
+            'data-toggle' => 'modal', 'data-target' => '#deleteModal'.$user->id));
     return $button;
 }
 
@@ -818,10 +818,10 @@ function add_delete_attempt_button($userid) {
  * @param int $studentid - id of student
  * @return $button - button containing delete url
  */
-function add_delete_redirect_button($id, $studentid) {
-    $deleteurl = delete_url($id, $studentid);
+function add_delete_redirect_button($id, $user) {
+    $deleteurl = delete_url($id, $user->id);
     $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-confirm', 'digitala'),
-        array('id' => 'deleteRedirectButton'.$studentid, 'class' => 'btn btn-warning'));
+        array('id' => 'deleteRedirectButton'.$user->username, 'class' => 'btn btn-warning'));
     return $button;
 }
 
@@ -859,7 +859,7 @@ function create_result_row($attempt, $id, $user) {
     $urltext = results_url($id, 'detail', $attempt->userid);
     $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
 
-    $deletebutton = add_delete_attempt_button($attempt->userid);
+    $deletebutton = add_delete_attempt_button($user);
 
     $cells = array($username, $score, $time, $tries, $urllink, $deletebutton);
     return $cells;
@@ -1058,7 +1058,7 @@ function create_delete_modal($id, $user=null) {
     $out .= html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
                              array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
     if (isset($user)) {
-        $out .= add_delete_redirect_button($id, $user->id);
+        $out .= add_delete_redirect_button($id, $user);
     } else {
         $out .= add_delete_all_redirect_button($id);
     }
