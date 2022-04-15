@@ -229,22 +229,6 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022041003, 'digitala');
     }
 
-    // POISTOON
-    // fluencymean
-    // speechrate
-    // nativeity
-
-    // UUSIA
-    // feedback
-    // fluency_features
-    // pronunciation_features
-    // lexicogrammatical_features
-
-    // VAIHDA NIMI - tehty
-    // taskachievement -> taskcompletition
-    // accuracy -> pronunciation
-    // lexicalprofile -> lexicogrammatical
-
     if ($oldversion < 2022041401) {
         $table = new xmldb_table('digitala_attempts');
         // Rename field lexicalprofile on table digitala_attempts to lexicogrammatical.

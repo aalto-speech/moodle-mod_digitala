@@ -104,6 +104,11 @@ class digitala_assignment implements renderable {
         $this->maxlength = $maxlength;
         $this->attemptlimit = $attemptlimit;
         $this->form = new answerrecording_form($id, $d, 1);
+        if ($attempttype == 'readaloud') {
+            $this->servertext = format_string($resourcetext);
+        } else {
+            $this->servertext = format_string($assignmenttext);
+        }
     }
 }
 

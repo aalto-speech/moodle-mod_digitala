@@ -145,7 +145,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
                 $out .= create_report_tabs($gradings, $holistic, $information);
             } else {
-                $out .= create_report_transcription($attempt->feedback);
+                $out .= create_report_feedback($attempt->feedback);
                 $out .= create_report_gop($attempt->gop_score);
             }
         }

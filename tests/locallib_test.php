@@ -338,7 +338,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_save_answerrecording_form_with_data() {
         global $USER;
-        \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}', 'recordinglength' => 10), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $context = \context_module::instance($this->digitala->cmid);
         $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
@@ -361,12 +361,13 @@ class locallib_test extends \advanced_testcase {
     /**
      * Test saving a readaloud attempt to database.
      */
-    public function test_save_attempt_readaloud() {
+    public function test_save_attempt_freeform() {
         global $DB;
 
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 0;
+        $assignment->attempttype = 'freeform';
         $evaluation = new \stdClass();
         $evaluation->transcript = 'transcript';
         $evaluation->task_completion = 2;
@@ -416,12 +417,13 @@ class locallib_test extends \advanced_testcase {
     /**
      * Test saving a freeform attempt to database.
      */
-    public function test_save_attempt_freeform() {
+    public function test_save_attempt_readaloud() {
         global $DB;
 
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 1;
+        $assignment->attempttype = 'readaloud';
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
         $evaluation->feedback = '';
@@ -434,12 +436,18 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(true, $result);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals($evaluation->GOP_score, $record->gop_score);
+        $this->assertEquals(1.00, $record->gop_score);
+
+        $evaluation->GOP_score = 0.69;
+        save_attempt($assignment, 'filename', $evaluation, 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(0.69, $record->gop_score);
 
         save_attempt($assignment, 'filename', $evaluation, 60);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(2, $record->attemptnumber);
+        $this->assertEquals(3, $record->attemptnumber);
 
         $evaluation->GOP_score = -1.3;
 
@@ -463,7 +471,7 @@ class locallib_test extends \advanced_testcase {
         $attempt->digitala = 2;
         $attempt->userid = $USER->id;
         $attempt->file = 'filename';
-        $attempt->gop_score = 4;
+        $attempt->gop_score = 1.00;
         $attempt->timecreated = $timenow;
         $attempt->timemodified = $timenow;
         $DB->insert_record('digitala_attempts', $attempt);
@@ -513,6 +521,7 @@ class locallib_test extends \advanced_testcase {
         $assignment->instanceid = 1;
         $assignment->userid = 1;
         $assignment->attemptlimit = 0;
+        $assignment->attempttype = 'readaloud';
 
         $result = create_attempt_number($assignment, $assignment->userid);
         $this->assertEquals('There is no limit set for the number of attempts on this assignment.', $result);
@@ -524,7 +533,7 @@ class locallib_test extends \advanced_testcase {
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
         $evaluation->feedback = '';
-        $evaluation->GOP_score = 4;
+        $evaluation->GOP_score = 1;
 
         save_attempt($assignment, 'filename', $evaluation, 60);
         $assignment->attemptlimit = 3;
@@ -542,11 +551,12 @@ class locallib_test extends \advanced_testcase {
         $assignment->instanceid = 1;
         $assignment->userid = 1;
         $assignment->attemptlimit = 2;
+        $assignment->attempttype = 'readaloud';
 
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
         $evaluation->feedback = '';
-        $evaluation->GOP_score = 4;
+        $evaluation->GOP_score = 1;
 
         save_attempt($assignment, 'filename', $evaluation, 60);
 
@@ -583,6 +593,7 @@ class locallib_test extends \advanced_testcase {
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 1;
+        $assignment->attempttype = 'readaloud';
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
         $evaluation->feedback = '';
@@ -621,10 +632,11 @@ class locallib_test extends \advanced_testcase {
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 2;
+        $assignment->attempttype = 'readaloud';
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
         $evaluation->feedback = '';
-        $evaluation->GOP_score = 4;
+        $evaluation->GOP_score = 1.00;
         $recordinglength = 5;
 
         save_attempt($assignment, 'filename', $evaluation, $recordinglength);
@@ -633,7 +645,7 @@ class locallib_test extends \advanced_testcase {
 
         $result = create_result_row($record, $this->digitala->id);
         $this->assertEquals('Admin User', $result[0]);
-        $this->assertEquals(4, $result[1]);
+        $this->assertEquals(1.00, $result[1]);
         $this->assertEquals('00:05', $result[2]);
         $this->assertEquals(1, $result[3]);
         $this->assertStringContainsString('>See report</a>', $result[4]);
