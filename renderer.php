@@ -164,35 +164,41 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_results(digitala_results $result) {
-        $out = html_writer::tag('h5', 'Student results');
-
-        $table = new html_table();
-
-        $headers = array(
-            new html_table_cell(get_string('results_student', 'digitala')),
-            new html_table_cell(get_string('results_score', 'digitala')),
-            new html_table_cell(get_string('results_time', 'digitala')),
-            new html_table_cell(get_string('results_tries', 'digitala')),
-            new html_table_cell(get_string('results_report', 'digitala')),
-            new html_table_cell(add_delete_all_attempts_button()));
-        foreach ($headers as $value) {
-            $value->header = true;
-        }
-        $out .= create_delete_modal($result->id);
-
-        $table->data[] = $headers;
+        $out = html_writer::tag('h5', get_string('results_title', 'digitala'));
         $attempts = get_all_attempts($result->instanceid);
 
-        foreach ($attempts as $attempt) {
-            $row = create_result_row($attempt, $result->id);
-            $out .= create_delete_modal($result->id, $attempt->userid);
-            foreach ($row as $cell) {
-                $cell = new html_table_cell($cell);
+        if (count($attempts) > 0) {
+            $table = new html_table();
+
+            $headers = array(
+                new html_table_cell(get_string('results_student', 'digitala')),
+                new html_table_cell(get_string('results_score', 'digitala')),
+                new html_table_cell(get_string('results_time', 'digitala')),
+                new html_table_cell(get_string('results_tries', 'digitala')),
+                new html_table_cell(get_string('results_report', 'digitala')),
+                new html_table_cell(add_delete_all_attempts_button()));
+            foreach ($headers as $value) {
+                $value->header = true;
             }
-            $table->data[] = $row;
+            $out .= create_delete_modal($result->id);
+
+            $table->data[] = $headers;
+
+            foreach ($attempts as $attempt) {
+                $user = get_user($attempt->userid);
+                $row = create_result_row($attempt, $result->id, $user);
+                $out .= create_delete_modal($result->id, $user);
+                foreach ($row as $cell) {
+                    $cell = new html_table_cell($cell);
+                }
+                $table->data[] = $row;
+            }
+
+            $out .= html_writer::table($table);
+
+        } else {
+            $out .= get_string('results_no-show', 'digitala');
         }
-        
-        $out .= html_writer::table($table);
 
         return $out;
     }

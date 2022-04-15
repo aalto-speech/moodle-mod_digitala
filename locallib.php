@@ -792,7 +792,7 @@ function add_delete_all_attempts_button() {
  */
 function add_delete_all_redirect_button($id) {
     $deleteurl = delete_url($id);
-    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete', 'digitala'),
+    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-all', 'digitala'),
         array('id' => 'deleteAllButton', 'class' => 'btn btn-danger'));
     return $button;
 }
@@ -802,9 +802,9 @@ function add_delete_all_redirect_button($id) {
  *
  * @return $button - button that opens deletion modal
  */
-function add_delete_attempt_button() {
+function add_delete_attempt_button($userid) {
     $button = html_writer::tag('button', get_string('results_delete', 'digitala'),
-        array('id' => 'deleteButton', 'class' => 'btn btn-warning', 'data-toggle' => 'modal', 'data-target' => '#deleteModal'));
+        array('id' => 'deleteButton', 'class' => 'btn btn-warning', 'data-toggle' => 'modal', 'data-target' => '#deleteModal'.$userid));
     return $button;
 }
 
@@ -842,9 +842,7 @@ function get_user($id) {
  * @param int $id - activity id
  * @return $cells - cells containing table data
  */
-function create_result_row($attempt, $id) {
-    $user = get_user($attempt->userid);
-
+function create_result_row($attempt, $id, $user) {
     $username = $user->firstname . ' ' . $user->lastname;
     if ($attempt->holistic) {
         $score = $attempt->holistic;
@@ -857,7 +855,7 @@ function create_result_row($attempt, $id) {
     $urltext = results_url($id, 'detail', $attempt->userid);
     $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
 
-    $deletebutton = add_delete_attempt_button($id, $attempt->userid);
+    $deletebutton = add_delete_attempt_button($attempt->userid);
 
     $cells = array($username, $score, $time, $tries, $urllink, $deletebutton);
     return $cells;
@@ -1024,19 +1022,19 @@ function create_attempt_modal($assignment) {
  * Creates attempt modal.
  *
  * @param int $id - id of the activity
- * @param int $studentid - id of the student or null
+ * @param int $user - the user whose attempt ought to be deleted or null if deleting all attempts
  */
-function create_delete_modal($id, $studentid=null) {
+function create_delete_modal($id, $user=null) {
 
-    if (isset($studentid)) {
-        $out = html_writer::start_div('modal', array('id' => 'deleteModal', 'tabindex' => '-1', 'role' => 'dialog'));
+    if (isset($user)) {
+        $out = html_writer::start_div('modal', array('id' => 'deleteModal'.$user->id, 'tabindex' => '-1', 'role' => 'dialog'));
     } else {
         $out = html_writer::start_div('modal', array('id' => 'deleteAllModal', 'tabindex' => '-1', 'role' => 'dialog'));
     }
     $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
     $out .= html_writer::start_div('modal-content');
     $out .= html_writer::start_div('modal-header');
-    $out .= html_writer::tag('h5', 'Otsikko', array('class' => 'modal-title'));
+    $out .= html_writer::tag('h5', get_string('results_delete-title', 'digitala'), array('class' => 'modal-title'));
     $out .= html_writer::start_tag('button', array('class' => 'close', 'data-dismiss' => 'modal',
                                                    'aria-label' => 'close-cross'));
     $out .= html_writer::tag('span', '&times;', array('aria-hidden' => 'true'));
@@ -1044,14 +1042,19 @@ function create_delete_modal($id, $studentid=null) {
     $out .= html_writer::end_div();
     $out .= html_writer::start_div('modal-body');
     $out .= html_writer::start_tag('p');
-    $out .= get_string('results_delete-text', 'digitala');
+    if (isset($user)) {
+        $username = $user->firstname . ' ' . $user->lastname;
+        $out .= get_string('results_delete-one-text', 'digitala', $username);
+    } else {
+        $out .= get_string('results_delete-all-text', 'digitala');
+    }
     $out .= html_writer::end_tag('p');
     $out .= html_writer::end_div();
     $out .= html_writer::start_div('modal-footer');
     $out .= html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
                              array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
-    if (isset($studentid)) {
-        $out .= add_delete_redirect_button($id, $studentid);
+    if (isset($user)) {
+        $out .= add_delete_redirect_button($id, $user->id);
     } else {
         $out .= add_delete_all_redirect_button($id);
     }

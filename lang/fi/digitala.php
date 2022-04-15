@@ -178,4 +178,8 @@ $string['results_view'] = 'Tarkastele oppilaiden tuloksia';
 
 $string['results_delete'] = 'Poista suoritus';
 $string['results_delete-all'] = 'Poista kaikki';
-$string['results_delete-text'] = 'Haluatko varmasti poistaa?';
+$string['results_delete-one-text'] = 'Haluatko varmasti poistaa ja nollata suoritukset käyttäjältä {$a}?';
+$string['results_delete-all-text'] = 'Haluatko varmasti poistaa ja nollata suoritukset kaikilta käyttäjiltä?';
+$string['results_no-show'] = 'Ei vielä suorituksia.';
+$string['results_title'] = 'Käyttäjien suoritukset';
+$string['results_delete-title'] = 'Varoitus';
