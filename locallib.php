@@ -780,7 +780,8 @@ function delete_all_attempts($instanceid) {
  */
 function add_delete_all_attempts_button() {
     $button = html_writer::tag('button', get_string('results_delete-all', 'digitala'),
-        array('id' => 'deleteAllButton', 'class' => 'btn btn-danger', 'data-toggle' => 'modal', 'data-target' => '#deleteAllModal'));
+        array('id' => 'deleteAllButton', 'class' => 'btn btn-danger',
+            'data-toggle' => 'modal', 'data-target' => '#deleteAllModal'));
     return $button;
 }
 
@@ -792,19 +793,21 @@ function add_delete_all_attempts_button() {
  */
 function add_delete_all_redirect_button($id) {
     $deleteurl = delete_url($id);
-    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-all', 'digitala'),
-        array('id' => 'deleteAllButton', 'class' => 'btn btn-danger'));
+    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-confirm', 'digitala'),
+        array('id' => 'deleteAllRedirectButton', 'class' => 'btn btn-danger'));
     return $button;
 }
 
 /**
  * Add button to open deletion modal for deleting single attempt.
  *
+ * @param int $userid - id of the user
  * @return $button - button that opens deletion modal
  */
 function add_delete_attempt_button($userid) {
     $button = html_writer::tag('button', get_string('results_delete', 'digitala'),
-        array('id' => 'deleteButton', 'class' => 'btn btn-warning', 'data-toggle' => 'modal', 'data-target' => '#deleteModal'.$userid));
+        array('id' => 'deleteButton'.$userid, 'class' => 'btn btn-warning',
+            'data-toggle' => 'modal', 'data-target' => '#deleteModal'.$userid));
     return $button;
 }
 
@@ -817,8 +820,8 @@ function add_delete_attempt_button($userid) {
  */
 function add_delete_redirect_button($id, $studentid) {
     $deleteurl = delete_url($id, $studentid);
-    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete', 'digitala'),
-        array('id' => 'deleteButton', 'class' => 'btn btn-warning'));
+    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-confirm', 'digitala'),
+        array('id' => 'deleteRedirectButton'.$studentid, 'class' => 'btn btn-warning'));
     return $button;
 }
 
@@ -840,6 +843,7 @@ function get_user($id) {
  *
  * @param mixed $attempt - object containing attempt information
  * @param int $id - activity id
+ * @param int $user - user info from database
  * @return $cells - cells containing table data
  */
 function create_result_row($attempt, $id, $user) {

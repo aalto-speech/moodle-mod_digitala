@@ -181,6 +181,7 @@ $string['results_return'] = 'Return to Digitala front page';
 $string['results_view'] = 'View student results';
 
 $string['results_delete'] = 'Delete attempt';
+$string['results_delete-confirm'] = 'Confirm delete';
 $string['results_delete-all'] = 'Delete all';
 $string['results_delete-one-text'] = 'Are you sure you want to delete and reset attempts from user {$a}?';
 $string['results_delete-all-text'] = 'Are you sure you want to delete and reset attempts from all users?';
