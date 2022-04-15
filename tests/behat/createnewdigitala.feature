@@ -17,11 +17,11 @@ Feature: Create new digitala
     When I am on the "C1" "Course" page
     And I turn editing mode on
     Then I add a "digitala" to section "2" and I fill the form with:
-      | Name             | <name>           |
-      | Language         | <attemptlang>    |
-      | Type  | <attempttype>    |
-      | Assignment       | <assignmenttext> |
-      | Material         | <resourcestext>  |
+      | Name       | <name>           |
+      | Language   | <attemptlang>    |
+      | Type       | <attempttype>    |
+      | Assignment | <assignmenttext> |
+      | Material   | <resourcestext>  |
     And I click on "<name>" "link"
     And I click on "Next" "link"
     Then I should see "Assignment"
@@ -45,11 +45,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform IMG        |
-      | Language         | Swedish                 |
-      | Type             | Freeform                |
-      | Assignment       | Berätta om Tigerjakt.   |
-      | Material         | Här är filmen om tiger. |
+      | Name       | SWE Freeform IMG        |
+      | Language   | Swedish                 |
+      | Type       | Freeform                |
+      | Assignment | Berätta om Tigerjakt.   |
+      | Material   | Här är filmen om tiger. |
     And I press "Insert or edit image"
     And I press "Browse repositories..."
     And I select "Private files" repository in file picker
@@ -76,11 +76,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform AUDIO      |
-      | Language         | Swedish                 |
-      | Type             | Freeform                |
-      | Assignment       | Berätta om Tigerjakt.   |
-      | Material         | Här är filmen om tiger. |
+      | Name       | SWE Freeform AUDIO      |
+      | Language   | Swedish                 |
+      | Type       | Freeform                |
+      | Assignment | Berätta om Tigerjakt.   |
+      | Material   | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
     And I click on "Audio" "link"
     And I click on "//div[@data-medium-type='audio']/div/div/div/span/button[contains(text(), 'Browse repositories...')]" "xpath_element"
@@ -109,11 +109,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform VIDEO      |
-      | Language         | Swedish                 |
-      | Type             | Freeform                |
-      | Assignment       | Berätta om Tigerjakt.   |
-      | Material         | Här är filmen om tiger. |
+      | Name       | SWE Freeform VIDEO      |
+      | Language   | Swedish                 |
+      | Type       | Freeform                |
+      | Assignment | Berätta om Tigerjakt.   |
+      | Material   | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
     And I click on "Video" "link"
     And I click on "//div[@data-medium-type='video']/div/div/div/span/button[contains(text(), 'Browse repositories...')]" "xpath_element"
@@ -139,11 +139,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform INTERNET IMG |
-      | Language         | Swedish                   |
-      | Type             | Freeform                  |
-      | Assignment       | Berätta om Tigerjakt.     |
-      | Material         | Här är filmen om tiger.   |
+      | Name       | SWE Freeform INTERNET IMG |
+      | Language   | Swedish                   |
+      | Type       | Freeform                  |
+      | Assignment | Berätta om Tigerjakt.     |
+      | Material   | Här är filmen om tiger.   |
     And I press "Insert or edit image"
     And I set the field "Enter URL" to "http://digitala-api:3000/resources/pic-1.png"
     And I set the field "Describe this image for someone who cannot see it" to "nää on liikennevalot XD"
@@ -164,11 +164,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform INTERNET AUDIO |
-      | Language         | Swedish                     |
-      | Type             | Freeform                    |
-      | Assignment       | Berätta om Tigerjakt.       |
-      | Material         | Här är filmen om tiger.     |
+      | Name       | SWE Freeform INTERNET AUDIO |
+      | Language   | Swedish                     |
+      | Type       | Freeform                    |
+      | Assignment | Berätta om Tigerjakt.       |
+      | Material   | Här är filmen om tiger.     |
     And I press "Insert or edit an audio/video file"
     And I click on "Audio" "link"
     And I set the field with xpath "//div[@data-medium-type='audio']/div/div/div/input" to "http://digitala-api:3000/resources/tottoroo.wav"
@@ -190,11 +190,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform INTERNET VIDEO |
-      | Language         | Swedish                     |
-      | Type             | Freeform                    |
-      | Assignment       | Berätta om Tigerjakt.       |
-      | Material         | Här är filmen om tiger.     |
+      | Name       | SWE Freeform INTERNET VIDEO |
+      | Language   | Swedish                     |
+      | Type       | Freeform                    |
+      | Assignment | Berätta om Tigerjakt.       |
+      | Material   | Här är filmen om tiger.     |
     And I press "Insert or edit an audio/video file"
     And I click on "Video" "link"
     And I set the field with xpath "//div[@data-medium-type='video']/div/div/div/input" to "http://digitala-api:3000/resources/video-1.mp4"

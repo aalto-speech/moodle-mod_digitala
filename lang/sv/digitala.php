@@ -36,7 +36,7 @@ $string['assignmentname'] = 'Namn på uppgiftet';
 $string['assignmentname_help'] = 'Lägg till ett namn på uppgiften.';
 $string['attemptlang'] = 'Språk';
 $string['attemptlang_help'] = 'Välja vilken språkuppgift som skapas';
-$string['fin'] = 'finska';
+$string['fi'] = 'finska';
 $string['sv'] = 'svenska';
 $string['attempttype'] = 'Uppgiftstyp';
 $string['attempttype_help'] = 'I uppgiften "Läs högt" måste man läsa texten så noggrant och tydligt som man kan. I uppgiften "Fritt tal" kan man tala friare om temat.';
@@ -112,35 +112,35 @@ $string['holistic_score-4'] = 'Du kan uttrycka dig på målspråket i olika situ
 $string['holistic_score-5'] = 'Ditt tal är flytande, spontant och till stora delar ledigt. Du kan vid behov uttrycka dig detaljerat om situationen kräver det.';
 $string['holistic_score-6'] = 'Du talar flytande, naturligt och utan att tveka också i längre talsituationer. Ditt tal är precist och passar bra för situationen. Du har varierande intonation och du behärskar satsbetoningen.';
 
-$string['taskachievement'] = 'Att svara på uppgiften';
-$string['taskachievement_description'] = 'Den här mätaren grundar sig på de svar med vilka datorn har lärts att bedöma uppgiften. Automatisk bedömning tyder på att ';
-$string['taskachievement_score-0'] = 'datorn inte har bedömt tidigare just den typ av tal du presterat och datorn kan därför inte bedöma det du säger. Ge inte upp utan försök igen!';
-$string['taskachievement_score-1'] = 'du endast delvis svarar på uppgiften.';
-$string['taskachievement_score-2'] = 'du svarar bra på uppgiften.';
-$string['taskachievement_score-3'] = 'du svarar utmärkt på uppgiften.';
+$string['taskcompletion'] = 'Att svara på uppgiften';
+$string['taskcompletion_description'] = 'Den här mätaren grundar sig på de svar med vilka datorn har lärts att bedöma uppgiften. Automatisk bedömning tyder på att ';
+$string['taskcompletion_score-0'] = 'Datorn inte har bedömt tidigare just den typ av tal du presterat och datorn kan därför inte bedöma det du säger. Ge inte upp utan försök igen!';
+$string['taskcompletion_score-1'] = 'Du endast delvis svarar på uppgiften.';
+$string['taskcompletion_score-2'] = 'Du svarar bra på uppgiften.';
+$string['taskcompletion_score-3'] = 'Du svarar utmärkt på uppgiften.';
 
 $string['fluency'] = 'Flyt';
 $string['fluency_description'] = 'Den här mätaren berättar om taltempo, antalet pauser och tvekanden. Automatisk bedömning tyder på att ';
 $string['fluency_score-0'] = 'Om du får betyget 0, betyder det att datorn inte har bedömt tidigare just den typ av tal du presterat och datorn kan därför inte bedöma det du säger. Ge inte upp utan försök igen!';
-$string['fluency_score-1'] = 'du har många pauser, avbrott och tvekanden.';
-$string['fluency_score-2'] = 'du talar ganska flytande med en del pauser, avbrott och tvekanden.';
-$string['fluency_score-3'] = 'du talar flytande och ledigt; pauser, avbrott och tvekanden är inte störande.';
-$string['fluency_score-4'] = 'du talar mycket flytande och ledigt; pauser, avbrott och tvekanden är inte störande.';
+$string['fluency_score-1'] = 'Du har många pauser, avbrott och tvekanden.';
+$string['fluency_score-2'] = 'Du talar ganska flytande med en del pauser, avbrott och tvekanden.';
+$string['fluency_score-3'] = 'Du talar flytande och ledigt; pauser, avbrott och tvekanden är inte störande.';
+$string['fluency_score-4'] = 'Du talar mycket flytande och ledigt; pauser, avbrott och tvekanden är inte störande.';
 
 $string['pronunciation'] = 'Uttal';
 $string['pronunciation_description'] = 'Du ser ovan att datorn förändrade ditt tal till en text. Du kan se i texten, huruvida du uttalade alla ord rätt. Den här mätaren berättar om hur väl och säkert datorn identifierade det du sade. Detta påverkas av det talmaterial som datorn har lärts att bedöma tal med. Automatisk bedömning tyder på att ';
-$string['pronunciation_score-0'] = 'datorn inte har bedömt tidigare just den typ av tal du presterat och datorn kan därför inte bedöma det du säger. Ge inte upp utan försök igen!';
-$string['pronunciation_score-1'] = 'datorn har ganska svårt att förstå ditt tal.';
-$string['pronunciation_score-2'] = 'datorn har ganska lätt att förstå ditt tal, men du tycks ha en del problem med uttalet.';
-$string['pronunciation_score-3'] = 'datorn förstår ditt tal och du tycks inte ha några större problem med uttalet.';
-$string['pronunciation_score-4'] = 'ditt uttal är begripligt och naturligt.';
+$string['pronunciation_score-0'] = 'Datorn inte har bedömt tidigare just den typ av tal du presterat och datorn kan därför inte bedöma det du säger. Ge inte upp utan försök igen!';
+$string['pronunciation_score-1'] = 'Datorn har ganska svårt att förstå ditt tal.';
+$string['pronunciation_score-2'] = 'Datorn har ganska lätt att förstå ditt tal, men du tycks ha en del problem med uttalet.';
+$string['pronunciation_score-3'] = 'Datorn förstår ditt tal och du tycks inte ha några större problem med uttalet.';
+$string['pronunciation_score-4'] = 'Ditt uttal är begripligt och naturligt.';
 
-$string['range'] = 'Uttryckets omfång';
-$string['range_description'] = 'Den här mätaren berättar om hur mycket du talade samt hur varierat ordförråd och varierade meningar du använde. Automatisk bedömning tyder på att ';
-$string['range_score-0'] = 'datorn inte har bedömt tidigare just den typ av tal du presterat och datorn kan därför inte bedöma det du säger. Ge inte upp utan försök igen!';
-$string['range_score-1'] = 'ditt talprov är mycket kort eller består mestadels av enstaka ord.';
-$string['range_score-2'] = 'du använder vanliga ord och du kan skapa meningar av dem.';
-$string['range_score-3'] = 'du använder mångsidigt olika typer av ord och meningskonstruktioner.';
+$string['lexicogrammatical'] = 'Uttryckets omfång';
+$string['lexicogrammatical_description'] = 'Den här mätaren berättar om hur mycket du talade samt hur varierat ordförråd och varierade meningar du använde. Automatisk bedömning tyder på att ';
+$string['lexicogrammatical_score-0'] = 'Datorn inte har bedömt tidigare just den typ av tal du presterat och datorn kan därför inte bedöma det du säger. Ge inte upp utan försök igen!';
+$string['lexicogrammatical_score-1'] = 'Ditt talprov är mycket kort eller består mestadels av enstaka ord.';
+$string['lexicogrammatical_score-2'] = 'Du använder vanliga ord och du kan skapa meningar av dem.';
+$string['lexicogrammatical_score-3'] = 'Du använder mångsidigt olika typer av ord och meningskonstruktioner.';
 
 $string['moreinformation'] = 'Mer information';
 
@@ -151,14 +151,14 @@ $string['key_help'] = 'Ge API-server nyckel för identifiering.';
 
 $string['edit_report'] = 'Bearbeta bedömningsrapporten';
 $string['holistic-reason'] = 'Feedback på Färdighetsnivå';
-$string['taskachievement-reason'] = 'Feedback på Att svara på uppgiften';
+$string['taskcompletion-reason'] = 'Feedback på Att svara på uppgiften';
 $string['fluency-reason'] = 'Feedback på Flyt';
-$string['range-reason'] = 'Feedback på Uttryckets omfång';
+$string['lexicogrammatical-reason'] = 'Feedback på Uttryckets omfång';
 $string['pronunciation-reason'] = 'Feedback på Uttal';
 $string['holistic-scale_error'] = 'Färdighetsnivån måste vara mellan 0 och 7';
 $string['fluency-scale_error'] = 'Flytet måste vara mellan 0 och 4';
-$string['taskachievement-scale_error'] = 'Att svara på uppgiften måste vara mellan 0 och 3';
-$string['range-scale_error'] = 'Uttryckets omfång måste vara mellan 0 och 3';
+$string['taskcompletion-scale_error'] = 'Att svara på uppgiften måste vara mellan 0 och 3';
+$string['lexicogrammatical-scale_error'] = 'Uttryckets omfång måste vara mellan 0 och 3';
 $string['pronunciation-scale_error'] = 'Uttalet måste vara mellan 0 och 4';
 
 $string['error_url-not-set'] = 'url-adress har inte bestämt';
