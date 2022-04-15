@@ -801,7 +801,7 @@ function add_delete_all_redirect_button($id) {
 /**
  * Add button to open deletion modal for deleting single attempt.
  *
- * @param int $userid - id of the user
+ * @param mixed $user - user object
  * @return $button - button that opens deletion modal
  */
 function add_delete_attempt_button($user) {
@@ -815,7 +815,7 @@ function add_delete_attempt_button($user) {
  * Add delete button to redirect and delete given attempt from the database.
  *
  * @param int $id - id of digitala instance
- * @param int $studentid - id of student
+ * @param mixed $user - user object
  * @return $button - button containing delete url
  */
 function add_delete_redirect_button($id, $user) {
@@ -843,7 +843,7 @@ function get_user($id) {
  *
  * @param mixed $attempt - object containing attempt information
  * @param int $id - activity id
- * @param int $user - user info from database
+ * @param mixed $user - user info from database
  * @return $cells - cells containing table data
  */
 function create_result_row($attempt, $id, $user) {
@@ -1026,7 +1026,7 @@ function create_attempt_modal($assignment) {
  * Creates attempt modal.
  *
  * @param int $id - id of the activity
- * @param int $user - the user whose attempt ought to be deleted or null if deleting all attempts
+ * @param mixed $user - the user whose attempt ought to be deleted or null if deleting all attempts
  */
 function create_delete_modal($id, $user=null) {
 
