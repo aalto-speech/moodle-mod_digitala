@@ -177,6 +177,7 @@ $string['results_return'] = 'Palaa Digitalan etusivulle';
 $string['results_view'] = 'Tarkastele oppilaiden tuloksia';
 
 $string['results_delete'] = 'Poista suoritus';
+$string['results_delete-confirm'] = 'Vahvista suorituksen poistaminen';
 $string['results_delete-all'] = 'Poista kaikki';
 $string['results_delete-one-text'] = 'Haluatko varmasti poistaa ja nollata suoritukset käyttäjältä {$a}?';
 $string['results_delete-all-text'] = 'Haluatko varmasti poistaa ja nollata suoritukset kaikilta käyttäjiltä?';
