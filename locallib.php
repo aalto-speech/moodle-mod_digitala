@@ -610,6 +610,34 @@ function save_answerrecording($formdata, $assignment) {
 }
 
 /**
+ * Send user audio file to Aalto ASR for evaluation.
+ *
+ * @param stored_file $file - audio file to be sent for evaluation
+ * @param string $assignment - assignment which we get information from
+ * @param string $length - length of the recording
+ */
+function send_answerrecording_for_evaluation_new($file, $assingment, $length) {
+    $c = new curl(array('ignoresecurity' => true));
+    $url = get_config('digitala', 'api');
+    $key = get_config('digitala', 'key');
+    $add = '?prompt=' . rawurlencode($assignment->servertext) . '&lang=' .
+            $assignment->attemptlang . '&task=' . $assignment->attempttype . '&key=' . $key;
+    $params = array('file' => $file);
+
+    $task = new send_to_evaluation();
+    $task->set_custom_data(array(
+        'curl' => $c,
+        'curlurl' => $url . $add,
+        'curlparams' => $params,
+        'assignment' => $assignment,
+        'length' => $length,
+        'callback' => save_attempt,
+    ));
+
+    \core\task\manager::queue_adhoc_task($task);
+}
+
+/**
  * Save the attempt to the database.
  *
  * @param digitala_assignment $assignment - assignment includes needed identifications
