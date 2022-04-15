@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/digitala/db" VERSION="2022041003" COMMENT="XMLDB file for Moodle mod_digitala"
+<XMLDB PATH="mod/digitala/db" VERSION="2022041401" COMMENT="XMLDB file for Moodle mod_digitala"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -34,13 +34,14 @@
         <FIELD NAME="attemptnumber" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="1" SEQUENCE="false"/>
         <FIELD NAME="file" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="File name of the recording of this attempt."/>
         <FIELD NAME="transcript" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Transcript of the recording."/>
+        <FIELD NAME="feedback" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
-        <FIELD NAME="fluencymean" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Mean F1 score of fluency."/>
-        <FIELD NAME="speechrate" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Speech rate on the attempt."/>
-        <FIELD NAME="taskachievement" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How well the task was achieved."/>
-        <FIELD NAME="accuracy" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
-        <FIELD NAME="lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
-        <FIELD NAME="nativeity" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
+        <FIELD NAME="fluency_features" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="taskcompletion" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How well the task was achieved."/>
+        <FIELD NAME="pronunciation" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
+        <FIELD NAME="pronunciation_features" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="lexicogrammatical" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
+        <FIELD NAME="lexicogrammatical_features" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
         <FIELD NAME="gop_score" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -60,15 +61,15 @@
         <FIELD NAME="old_fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
         <FIELD NAME="fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
         <FIELD NAME="fluency_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="old_taskachievement" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
-        <FIELD NAME="taskachievement" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
-        <FIELD NAME="taskachievement_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="old_lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
-        <FIELD NAME="lexicalprofile" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
-        <FIELD NAME="lexicalprofile_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="old_nativeity" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
-        <FIELD NAME="nativeity" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
-        <FIELD NAME="nativeity_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="old_taskcompletion" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
+        <FIELD NAME="taskcompletion" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="How accurate the recording is compared to the prompt."/>
+        <FIELD NAME="taskcompletion_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="old_lexicogrammatical" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
+        <FIELD NAME="lexicogrammatical" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
+        <FIELD NAME="lexicogrammatical_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="old_pronunciation" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
+        <FIELD NAME="pronunciation" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Nativeity score of the attempt."/>
+        <FIELD NAME="pronunciation_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="old_holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
         <FIELD NAME="holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
         <FIELD NAME="holistic_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>

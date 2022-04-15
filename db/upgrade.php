@@ -229,5 +229,103 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022041003, 'digitala');
     }
 
+    if ($oldversion < 2022041401) {
+        $table = new xmldb_table('digitala_attempts');
+        // Rename field lexicalprofile on table digitala_attempts to lexicogrammatical.
+        $field = new xmldb_field('lexicalprofile', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'accuracy');
+        $dbman->rename_field($table, $field, 'lexicogrammatical');
+
+        // Rename field accuracy on table digitala_attempts to pronunciation.
+        $field = new xmldb_field('accuracy', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'taskachievement');
+        $dbman->rename_field($table, $field, 'pronunciation');
+
+        // Rename field taskachievement on table digitala_attempts to taskcompletion.
+        $field = new xmldb_field('taskachievement', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'speechrate');
+        $dbman->rename_field($table, $field, 'taskcompletion');
+
+        // Remove field fluencymean on table digitala_attempts.
+        $field = new xmldb_field('fluencymean');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Remove field speechrate on table digitala_attempts.
+        $field = new xmldb_field('speechrate');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Remove field nativeity on table digitala_attempts.
+        $field = new xmldb_field('nativeity');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Add field feedback to table digitala_attempts.
+        $field = new xmldb_field('feedback', XMLDB_TYPE_TEXT, null, null, null, null, null, 'transcript');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Add field fluency_features to table digitala_attempts.
+        $field = new xmldb_field('fluency_features', XMLDB_TYPE_TEXT, null, null, null, null, null, 'fluency');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Add field pronunciation_features to table digitala_attempts.
+        $field = new xmldb_field('pronunciation_features', XMLDB_TYPE_TEXT, null, null, null, null, null, 'pronunciation');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Add field lexicogrammatical_features to table digitala_attemptnativeity_reasons.
+        $field = new xmldb_field('lexicogrammatical_features', XMLDB_TYPE_TEXT, null, null, null, null, null, 'lexicogrammatical');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $table = new xmldb_table('digitala_report_feedback');
+        // Rename field nativeity_reason on table digitala_report_feedback to pronunciation_reason.
+        $field = new xmldb_field('nativeity_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, 'nativeity');
+        $dbman->rename_field($table, $field, 'pronunciation_reason');
+
+        // Rename field nativeity on table digitala_report_feedback to pronunciation.
+        $field = new xmldb_field('nativeity', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'old_nativeity');
+        $dbman->rename_field($table, $field, 'pronunciation');
+
+        // Rename field old_nativeity on table digitala_report_feedback to old_pronunciation.
+        $field = new xmldb_field('old_nativeity', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'lexicalprofile_reason');
+        $dbman->rename_field($table, $field, 'old_pronunciation');
+
+        // Rename field lexicalprofile_reason on table digitala_report_feedback to lexicogrammatical_reason.
+        $field = new xmldb_field('lexicalprofile_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, 'lexicalprofile');
+        $dbman->rename_field($table, $field, 'lexicogrammatical_reason');
+
+        // Rename field lexicalprofile on table digitala_report_feedback to lexicogrammatical.
+        $field = new xmldb_field('lexicalprofile', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'old_lexicalprofile');
+        $dbman->rename_field($table, $field, 'lexicogrammatical');
+
+        // Rename field old_lexicalprofile on table digitala_report_feedback to old_lexicogrammatical.
+        $field = new xmldb_field('old_lexicalprofile', XMLDB_TYPE_NUMBER, '10, 2',
+                                 null, null, null, null, 'taskachievement_reason');
+        $dbman->rename_field($table, $field, 'old_lexicogrammatical');
+
+        // Rename field lexicalprofile on table digitala_report_feedback to lexicogrammatical.
+        $field = new xmldb_field('taskachievement_reason', XMLDB_TYPE_TEXT, null, null, null, null, null, 'taskachievement');
+        $dbman->rename_field($table, $field, 'taskcompletion_reason');
+
+        // Rename field lexicalprofile on table digitala_report_feedback to lexicogrammatical.
+        $field = new xmldb_field('taskachievement', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'old_taskachievement');
+        $dbman->rename_field($table, $field, 'taskcompletion');
+
+        // Rename field lexicalprofile on table digitala_report_feedback to lexicogrammatical.
+        $field = new xmldb_field('old_taskachievement', XMLDB_TYPE_NUMBER, '10, 2', null, null, null, null, 'fluency_reason');
+        $dbman->rename_field($table, $field, 'old_taskcompletion');
+
+        // Digitala savepoint reached.
+        upgrade_mod_savepoint(true, 2022041401, 'digitala');
+    }
+
     return true;
 }

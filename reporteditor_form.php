@@ -59,23 +59,24 @@ class reporteditor_form extends moodleform {
         $attempttype = $this->attempttype;
 
         if ($attempttype == 'freeform') {
-            $mform->addElement('float', 'taskachievement', get_string('taskachievement', 'mod_digitala'));
-            $mform->addElement('textarea', 'taskachievementreason', get_string('taskachievement-reason', 'digitala'),
+            $mform->addElement('float', 'taskcompletion', get_string('taskcompletion', 'mod_digitala'));
+            $mform->addElement('textarea', 'taskcompletionreason', get_string('taskcompletion-reason', 'digitala'),
                                'rows="5" cols="50"');
             $mform->addElement('float', 'fluency', get_string('fluency', 'mod_digitala'));
             $mform->addElement('textarea', 'fluencyreason', get_string('fluency-reason', 'digitala'), 'rows="5" cols="50"');
-            $mform->addElement('float', 'nativeity', get_string('pronunciation', 'mod_digitala'));
-            $mform->addElement('textarea', 'nativeityreason', get_string('pronunciation-reason', 'digitala'), 'rows="5" cols="50"');
-            $mform->addElement('float', 'lexicalprofile', get_string('range', 'mod_digitala'));
-            $mform->addElement('textarea', 'lexicalprofilereason',
-                               get_string('range-reason', 'digitala'), 'rows="5" cols="50"');
+            $mform->addElement('float', 'pronunciation', get_string('pronunciation', 'mod_digitala'));
+            $mform->addElement('textarea', 'pronunciationreason', get_string('pronunciation-reason', 'digitala'),
+                               'rows="5" cols="50"');
+            $mform->addElement('float', 'lexicogrammatical', get_string('lexicogrammatical', 'mod_digitala'));
+            $mform->addElement('textarea', 'lexicogrammaticalreason',
+                               get_string('lexicogrammatical-reason', 'digitala'), 'rows="5" cols="50"');
             $mform->addElement('float', 'holistic', get_string('holistic', 'mod_digitala'));
             $mform->addElement('textarea', 'holisticreason', get_string('holistic-reason', 'digitala'), 'rows="5" cols="50"');
 
-            $mform->getElement('taskachievement')->setValue($attempt->taskachievement);
+            $mform->getElement('taskcompletion')->setValue($attempt->taskcompletion);
             $mform->getElement('fluency')->setValue($attempt->fluency);
-            $mform->getElement('nativeity')->setValue($attempt->nativeity);
-            $mform->getElement('lexicalprofile')->setValue($attempt->lexicalprofile);
+            $mform->getElement('pronunciation')->setValue($attempt->pronunciation);
+            $mform->getElement('lexicogrammatical')->setValue($attempt->lexicogrammatical);
             $mform->getElement('holistic')->setValue($attempt->holistic);
         } else if ($attempttype == 'readaloud') {
             $mform->addElement('float', 'gop', get_string('gop', 'mod_digitala'));
@@ -101,17 +102,17 @@ class reporteditor_form extends moodleform {
             if ($fromform['holistic'] < 0 || $fromform['holistic'] > 7) {
                 $errors['holistic'] = get_string('holistic-scale_error', 'digitala');
             }
-            if ($fromform['taskachievement'] < 0 || $fromform['taskachievement'] > 3) {
-                $errors['taskachievement'] = get_string('taskachievement-scale_error', 'digitala');
+            if ($fromform['taskcompletion'] < 0 || $fromform['taskcompletion'] > 3) {
+                $errors['taskcompletion'] = get_string('taskcompletion-scale_error', 'digitala');
             }
-            if ($fromform['fluency'] < 0 || $fromform['fluency'] > 3) {
+            if ($fromform['fluency'] < 0 || $fromform['fluency'] > 4) {
                 $errors['fluency'] = get_string('fluency-scale_error', 'digitala');
             }
-            if ($fromform['nativeity'] < 0 || $fromform['nativeity'] > 3) {
-                $errors['nativeity'] = get_string('nativeity-scale_error', 'digitala');
+            if ($fromform['pronunciation'] < 0 || $fromform['pronunciation'] > 4) {
+                $errors['pronunciation'] = get_string('pronunciation-scale_error', 'digitala');
             }
-            if ($fromform['lexicalprofile'] < 0 || $fromform['lexicalprofile'] > 3) {
-                $errors['lexicalprofile'] = get_string('lexicalprofile-scale_error', 'digitala');
+            if ($fromform['lexicogrammatical'] < 0 || $fromform['lexicogrammatical'] > 3) {
+                $errors['lexicogrammatical'] = get_string('lexicogrammatical-scale_error', 'digitala');
             }
         } else if ($attempttype == 'readaloud') {
             if ($fromform['gop'] < 0 || $fromform['gop'] > 1) {

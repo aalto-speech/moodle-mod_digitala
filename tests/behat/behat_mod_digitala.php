@@ -56,13 +56,10 @@ class behat_mod_digitala extends behat_base {
             $attempt->userid = $user->id;
             $attempt->file = $row['file'];
             $attempt->transcript = $row['transcript'];
+            $attempt->taskcompletion = $row['taskcompletion'];
             $attempt->fluency = $row['fluency'];
-            $attempt->fluencymean = $row['fluencymean'];
-            $attempt->speechrate = $row['speechrate'];
-            $attempt->taskachievement = $row['taskachievement'];
-            $attempt->accuracy = $row['accuracy'];
-            $attempt->lexicalprofile = $row['lexicalprofile'];
-            $attempt->nativeity = $row['nativeity'];
+            $attempt->pronunciation = $row['pronunciation'];
+            $attempt->lexicogrammatical = $row['lexicogrammatical'];
             $attempt->holistic = $row['holistic'];
             $attempt->timecreated = $time;
             $attempt->timemodified = $time;
@@ -94,6 +91,7 @@ class behat_mod_digitala extends behat_base {
             $attempt->userid = $user->id;
             $attempt->file = $row['file'];
             $attempt->transcript = $row['transcript'];
+            $attempt->feedback = $row['feedback'];
             $attempt->gop_score = $row['gop_score'];
             $attempt->timecreated = $time;
             $attempt->timemodified = $time;
@@ -132,6 +130,7 @@ class behat_mod_digitala extends behat_base {
      *
      * Recognised phase names are:
      * | phase                    | id                                | description                                          |
+     * | Invalid                  | Activity name                     | Invalid view page number                             |
      * | Info                     | Activity name                     | Microphone testing phase                             |
      * | Assignment               | Activity name                     | Assignment phase                                     |
      * | Report                   | Activity name                     | Students report phase                                |
@@ -148,6 +147,12 @@ class behat_mod_digitala extends behat_base {
         global $DB;
 
         switch (strtolower($phase)) {
+            case 'invalid':
+                $activity = $DB->get_record('digitala', array('name' => $id), '*', MUST_EXIST);
+                $cm = get_coursemodule_from_instance('digitala', $activity->id, $activity->course, false, MUST_EXIST);
+                return new moodle_url('/mod/digitala/view.php',
+                                      array('id' => $cm->id, 'page' => 4));
+
             case 'info':
                 $activity = $DB->get_record('digitala', array('name' => $id), '*', MUST_EXIST);
                 $cm = get_coursemodule_from_instance('digitala', $activity->id, $activity->course, false, MUST_EXIST);

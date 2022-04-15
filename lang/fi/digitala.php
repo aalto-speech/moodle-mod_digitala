@@ -36,7 +36,7 @@ $string['assignmentname'] = 'Tehtävän nimi';
 $string['assignmentname_help'] = 'Lisää tehtävän nimi.';
 $string['attemptlang'] = 'Suorituskieli';
 $string['attemptlang_help'] = 'Valitse, minkä kielen tehtävä luodaan.';
-$string['fin'] = 'suomi';
+$string['fi'] = 'suomi';
 $string['sv'] = 'ruotsi';
 $string['attempttype'] = 'Tehtävätyyppi';
 $string['attempttype_help'] = 'Lue ääneen -tehtävässä pitää lukea annettu teksti ääneen. Vapaa tuotto -tehtävässä voidaan puhua vapaammin tehtävänannon aiheesta.';
@@ -112,12 +112,12 @@ $string['holistic_score-4'] = 'Osaat ilmaista itseäsi kohdekielellä tilanteen 
 $string['holistic_score-5'] = 'Puheesi on sujuvaa, spontaania ja lähes vaivatonta. Osaat halutessasi ilmaista asioita yksityiskohtaisesti tilanteen vaatimalla tavalla.';
 $string['holistic_score-6'] = 'Puhut sujuvasti, luontevasti ja epäröimättä myös pitkäkestoisessa puhetilanteessa. Puheesi on täsmällistä ja asianmukaista, sopii tilanteeseen. Vaihtelet intonaatiota ja hallitset lausepainot.';
 
-$string['taskachievement'] = 'Tehtävänantoon vastaaminen';
-$string['taskachievement_description'] = 'Tämä mittari perustuu vastauksiin, joilla kone on opetettu arvioimaan tätä tehtävää. Automaattisen arvion mukaan vaikuttaa siltä, että ';
-$string['taskachievement_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
-$string['taskachievement_score-1'] = 'Vastasit tehtävänantoon vain osittain.';
-$string['taskachievement_score-2'] = 'Vastaat tehtävänantoon hyvin.';
-$string['taskachievement_score-3'] = 'Vastaat tehtävänantoon erinomaisesti.';
+$string['taskcompletion'] = 'Tehtävänantoon vastaaminen';
+$string['taskcompletion_description'] = 'Tämä mittari perustuu vastauksiin, joilla kone on opetettu arvioimaan tätä tehtävää. Automaattisen arvion mukaan vaikuttaa siltä, että ';
+$string['taskcompletion_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
+$string['taskcompletion_score-1'] = 'Vastasit tehtävänantoon vain osittain.';
+$string['taskcompletion_score-2'] = 'Vastaat tehtävänantoon hyvin.';
+$string['taskcompletion_score-3'] = 'Vastaat tehtävänantoon erinomaisesti.';
 
 $string['fluency'] = 'Sujuvuus';
 $string['fluency_description'] = 'Tämä mittari kertoo puhenäytteesi nopeudesta, taukojen määrästä ja empimisestä. Automaattisen arvion mukaan vaikuttaa siltä, että ';
@@ -125,6 +125,7 @@ $string['fluency_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaist
 $string['fluency_score-1'] = 'Puheessasi on paljon taukoja, katkoksia tai empimistä.';
 $string['fluency_score-2'] = 'Puheesi on kohtalaisen sujuvaa, joitakin taukoja, katkoksia tai empimistä.';
 $string['fluency_score-3'] = 'Puheesi on sujuvaa ja vaivatonta, ei häiritseviä taukoja, katkoksia tai empimistä.';
+$string['fluency_score-4'] = 'Puheesi on todella sujuvaa ja vaivatonta, ei häiritseviä taukoja, katkoksia tai empimistä.';
 
 $string['pronunciation'] = 'Ääntäminen';
 $string['pronunciation_description'] = 'Näet yllä, että kone muunsi puheesi tekstiksi. Voit tarkistaa tekstistä, lausuitko kaikki sanat oikein. Tämä mittari kertoo, kuinka hyvin ja varmasti kone tunnistaa puheesi. Tunnistamistarkkuuteen vaikuttavat puhenäytteet, joita kone on aiemmin opetusvaiheessa saanut. Automaattisen arvion mukaan vaikuttaa siltä, että ';
@@ -132,13 +133,14 @@ $string['pronunciation_score-0'] = 'Valitettavasti kone ei ole kuullut tämänka
 $string['pronunciation_score-1'] = 'Koneen on vaikea ymmärtää puhettasi.';
 $string['pronunciation_score-2'] = 'Koneen on melko helppo ymmärtää puhettasi, mutta näytteessä voi olla joitakin ääntämisongelmia.';
 $string['pronunciation_score-3'] = 'Kone ymmärtää puhettasi, ääntämisessäsi ei vaikuta olevan suurempia ongelmia.';
+$string['pronunciation_score-4'] = 'Ääntämisesi on selkeää ja luontevaa. ';
 
-$string['range'] = 'Laajuus';
-$string['range_description'] = 'Tämä mittari kertoo, kuinka paljon olet puhunut sekä käyttämiesi sanojen ja lauseiden monipuolisuudesta. Automaattisen arvion mukaan vaikuttaa siltä, että ';
-$string['range_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
-$string['range_score-1'] = 'Puhenäytteesi on hyvin lyhyt tai sisältää lähinnä yksittäisiä sanoja.';
-$string['range_score-2'] = 'Käytät tavallisia sanoja ja osaat tehdä niistä lauseita.';
-$string['range_score-3'] = 'Käytät monipuolisesti eri sanoja ja lauserakenteita.';
+$string['lexicogrammatical'] = 'Laajuus';
+$string['lexicogrammatical_description'] = 'Tämä mittari kertoo, kuinka paljon olet puhunut sekä käyttämiesi sanojen ja lauseiden monipuolisuudesta. Automaattisen arvion mukaan vaikuttaa siltä, että ';
+$string['lexicogrammatical_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
+$string['lexicogrammatical_score-1'] = 'Puhenäytteesi on hyvin lyhyt tai sisältää lähinnä yksittäisiä sanoja.';
+$string['lexicogrammatical_score-2'] = 'Käytät tavallisia sanoja ja osaat tehdä niistä lauseita.';
+$string['lexicogrammatical_score-3'] = 'Käytät monipuolisesti eri sanoja ja lauserakenteita.';
 
 $string['moreinformation'] = 'Lisätietoja';
 
@@ -149,18 +151,19 @@ $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain
 
 $string['edit_report'] = 'Muokkaa arviointiraporttia';
 $string['holistic-reason'] = 'Palaute Taitotasosta';
-$string['taskachievement-reason'] = 'Palaute Tehtävänantoon vastaamisesta';
+$string['taskcompletion-reason'] = 'Palaute Tehtävänantoon vastaamisesta';
 $string['fluency-reason'] = 'Palaute Sujuvuudesta';
-$string['range-reason'] = 'Palaute Laajuudesta';
+$string['lexicogrammatical-reason'] = 'Palaute Laajuudesta';
 $string['pronunciation-reason'] = 'Palaute Ääntämisestä';
 $string['holistic-scale_error'] = 'Taitotaso tulee olla välillä 0 ja 7';
 $string['fluency-scale_error'] = 'Sujuvuus tulee olla välillä 0 ja 4';
-$string['taskachievement-scale_error'] = 'Tehtävänantoon vastaaminen tulee olla välillä 0 ja 3';
-$string['range-scale_error'] = 'Laajuus tulee olla välillä 0 ja 3';
+$string['taskcompletion-scale_error'] = 'Tehtävänantoon vastaaminen tulee olla välillä 0 ja 3';
+$string['lexicogrammatical-scale_error'] = 'Laajuus tulee olla välillä 0 ja 3';
 $string['pronunciation-scale_error'] = 'Ääntäminen tulee olla välillä 0 ja 4';
 
 $string['error_url-not-set'] = 'url-osoitetta ei ole asetettu';
 $string['error_no-evaluation'] = 'Arviointia ei löytynyt. Tarkista yhteys arviointipalvelimeen.';
+$string['error-save-recording'] = 'Äänitteen tallennus ei onnistunut. Voit yrittää uudelleen.';
 
 $string['results_link'] = 'Näytä raportti';
 $string['results_student'] = 'Oppilas';

@@ -357,6 +357,25 @@ function create_report_transcription($transcription) {
 }
 
 /**
+ * Creates feedback container from report
+ *
+ * @param mixed $feedback object containing the feedback part of report
+ */
+function create_report_feedback($feedback) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('feedback', 'digitala'), array('class' => 'card-title'));
+
+    $out .= html_writer::div($feedback, 'card-text scrollbox200');
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
  * Creates tab navigation and contents for report view
  *
  * @param string $gradings html content of gradings shown
@@ -514,8 +533,7 @@ function create_microphone($maxlength = 0) {
         $limit = ' / '.convertsecondstostring($maxlength);
     }
 
-    $out = html_writer::tag('br', '');
-    $out .= html_writer::div($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
+    $out = html_writer::div($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
     $out .= html_writer::div($stopicon, '', array('id' => 'stopIcon', 'style' => 'display: none;'));
     $out .= html_writer::start_tag('p', array('id' => 'recordTimer'));
     $out .= html_writer::tag('span', '00:00', array('id' => 'recordingLength'));
@@ -542,20 +560,63 @@ function create_microphone_icon() {
  * Send user audio file to Aalto ASR for evaluation.
  *
  * @param stored_file $file - audio file to be sent for evaluation
- * @param string $assignmenttext - assignment text given for students
- * @param string $lang - language (fin or sve) chosen for the assignment
- * @param string $type - type of assignment (readaloud or freeform)
- * @param string $key - keystring for server communication
+ * @param string $assignment - assignment which we get information from
+ * @param string $length - length of the recording
  */
-function send_answerrecording_for_evaluation($file, $assignmenttext, $lang, $type, $key) {
-    $assignmenttextraw = format_string($assignmenttext);
+function send_answerrecording_for_evaluation($file, $assignment, $length) {
     $c = new curl(array('ignoresecurity' => true));
     $curlurl = get_config('digitala', 'api');
     $key = get_config('digitala', 'key');
-    $curladd = '?prompt=' . rawurlencode($assignmenttextraw) . '&lang='. $lang . '&task=' . $type . '&key=' . $key;
+    $curladd = '?prompt=' . rawurlencode($assignment->servertext) . '&lang='.
+               $assignment->attemptlang . '&task=' . $assignment->attempttype . '&key=' . $key;
     $curlparams = array('file' => $file);
     $json = $c->post($curlurl . $curladd, $curlparams);
     return $json;
+}
+
+/**
+ * Save user recored audio to server and send it to Aalto ASR for evaluation.
+ *
+ * @param array $formdata - form data includes file information
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ */
+function save_answerrecording($formdata, $assignment) {
+    $fs = get_file_storage();
+
+    $audiofile = json_decode($formdata->audiostring);
+    $recordinglength = $formdata->recordinglength;
+
+    $fileinfo = array(
+        'contextid' => $assignment->contextid,
+        'component' => 'mod_digitala',
+        'filearea' => 'recordings',
+        'itemid' => 0,
+        'filepath' => '/',
+        'filename' => $audiofile->file
+    );
+
+    file_save_draft_area_files($audiofile->id, $fileinfo['contextid'], $fileinfo['component'],
+                                $fileinfo['filearea'], $fileinfo['itemid']);
+
+    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
+                          $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
+
+    $evaluation = send_answerrecording_for_evaluation($file, $assignment, $recordinglength);
+    if (!isset(json_decode($evaluation)->prompt)) {
+        return get_string('error_no-evaluation', 'digitala');
+    }
+
+    save_attempt($assignment, $audiofile->file, json_decode($evaluation), $recordinglength);
+
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $url = $_SERVER['REQUEST_URI'];
+        $newurl = str_replace('page=1', 'page=2', $url);
+        redirect($newurl);
+    } else {
+        $out = get_string('error_url-not-set', 'digitala');
+    }
+
+    return $out;
 }
 
 /**
@@ -582,20 +643,19 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
     $attempt->digitala = $assignment->instanceid;
     $attempt->userid = $assignment->userid;
     $attempt->file = $filename;
-    if (isset($evaluation->Transcript)) {
-        $attempt->transcript = $evaluation->Transcript;
-    }
-    if (isset($evaluation->Fluency)) {
-        $attempt->fluency = $evaluation->Fluency->score;
-        $attempt->fluencymean = $evaluation->Fluency->mean_f1;
-        $attempt->speechrate = $evaluation->Fluency->speech_rate;
-        $attempt->taskachievement = $evaluation->TaskAchievement;
-        $attempt->accuracy = $evaluation->Accuracy->score;
-        $attempt->lexicalprofile = $evaluation->Accuracy->lexical_profile;
-        $attempt->nativeity = $evaluation->Accuracy->nativeity;
-        $attempt->holistic = $evaluation->Holistic;
+    $attempt->transcript = $evaluation->transcript;
+    if ($assignment->attempttype == 'freeform') {
+        $attempt->taskcompletion = round(min(max($evaluation->task_completion, 0), 3), 2);
+        $attempt->fluency = round(min(max($evaluation->fluency->score, 0), 4), 2);
+        $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
+        $attempt->pronunciation = round(min(max($evaluation->pronunciation->score, 0), 4), 2);
+        $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
+        $attempt->lexicogrammatical = round(min(max($evaluation->lexicogrammatical->score, 0), 3), 2);
+        $attempt->lexicogrammatical_features = json_encode($evaluation->lexicogrammatical->lexgram_features);
+        $attempt->holistic = round(min(max($evaluation->holistic, 0), 6), 2);
     } else {
-        $attempt->gop_score = $evaluation->GOP_score;
+        $attempt->feedback = $evaluation->feedback;
+        $attempt->gop_score = round(min(max($evaluation->GOP_score, 0), 1), 2);
     }
     $attempt->timemodified = $timenow;
     $attempt->recordinglength = $recordinglength;
@@ -622,27 +682,25 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
     $feedback->attempt = $oldattempt->id;
 
     if ($attempttype == 'freeform') {
-
-        $feedback->old_taskachievement = $oldattempt->taskachievement;
-        $feedback->taskachievement = $fromform->taskachievement;
-        $feedback->taskachievement_reason = $fromform->taskachievementreason;
+        $feedback->old_taskcompletion = $oldattempt->taskcompletion;
+        $feedback->taskcompletion = $fromform->taskcompletion;
+        $feedback->taskcompletion_reason = $fromform->taskcompletionreason;
 
         $feedback->old_fluency = $oldattempt->fluency;
         $feedback->fluency = $fromform->fluency;
         $feedback->fluency_reason = $fromform->fluencyreason;
 
-        $feedback->old_nativeity = $oldattempt->nativeity;
-        $feedback->nativeity = $fromform->nativeity;
-        $feedback->nativeity_reason = $fromform->nativeityreason;
+        $feedback->old_pronunciation = $oldattempt->pronunciation;
+        $feedback->pronunciation = $fromform->pronunciation;
+        $feedback->pronunciation_reason = $fromform->pronunciationreason;
 
-        $feedback->old_lexicalprofile = $oldattempt->lexicalprofile;
-        $feedback->lexicalprofile = $fromform->lexicalprofile;
-        $feedback->lexicalprofile_reason = $fromform->lexicalprofilereason;
+        $feedback->old_lexicogrammatical = $oldattempt->lexicogrammatical;
+        $feedback->lexicogrammatical = $fromform->lexicogrammatical;
+        $feedback->lexicogrammatical_reason = $fromform->lexicogrammaticalreason;
 
         $feedback->old_holistic = $oldattempt->holistic;
         $feedback->holistic = $fromform->holistic;
         $feedback->holistic_reason = $fromform->holisticreason;
-
     } else if ($attempttype == 'readaloud') {
         $feedback->old_gop_score = $oldattempt->gop_score;
         $feedback->gop_score = $fromform->gop;
@@ -806,75 +864,26 @@ function create_result_row($attempt, $id) {
 }
 
 /**
- * Save user recored audio to server and send it to Aalto ASR for evaluation.
- *
- * @param array $formdata - form data includes audio as base64 encoded string
- * @param digitala_assignment $assignment - assignment includes needed identifications
- */
-function save_answerrecording($formdata, $assignment) {
-    $fs = get_file_storage();
-
-    $audiofile = json_decode($formdata->audiostring);
-    $recordinglength = $formdata->recordinglength;
-
-    $fileinfo = array(
-        'contextid' => $assignment->contextid,
-        'component' => 'mod_digitala',
-        'filearea' => 'recordings',
-        'itemid' => 0,
-        'filepath' => '/',
-        'filename' => $audiofile->file
-    );
-
-    file_save_draft_area_files($audiofile->id, $fileinfo['contextid'], $fileinfo['component'],
-                                $fileinfo['filearea'], $fileinfo['itemid']);
-
-    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
-                          $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
-
-    // Change key to a hidden value later on.
-    $key = 'aalto';
-    $texttoaalto = $assignment->assignmenttext;
-    if ($assignment->attempttype == 'readaloud') {
-        $texttoaalto = $assignment->resourcetext;
-    }
-
-    $evaluation = send_answerrecording_for_evaluation(
-            $file,
-            $texttoaalto,
-            $assignment->attemptlang,
-            $assignment->attempttype, $key
-        );
-
-    if (!isset(json_decode($evaluation)->prompt)) {
-        $out = get_string('error_no-evaluation', 'digitala');
-    } else {
-        save_attempt($assignment, $file->get_filename(), json_decode($evaluation), $recordinglength);
-        if (isset($_SERVER['REQUEST_URI'])) {
-            $url = $_SERVER['REQUEST_URI'];
-            $newurl = str_replace('page=1', 'page=2', $url);
-            redirect($newurl);
-        } else {
-            $out = get_string('error_url-not-set', 'digitala');
-        }
-    }
-
-    return $out;
-}
-
-/**
  * Handles answer recording form's actions
  *
  * @param digitala_assignment $assignment - assignment includes needed identifications
  */
 function create_answerrecording_form($assignment) {
-    if ($formdata = $assignment->form->get_data()) {
-        $out = save_answerrecording($formdata, $assignment);
-    } else {
-        $out = $assignment->form->render();
-    }
-    return $out;
+    return $assignment->form->render();
+}
 
+/**
+ * Handles saving answer recording form
+ *
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ */
+function save_answerrecording_form($assignment) {
+    $out = html_writer::tag('p', '', array('id' => 'submitErrors'));
+    if ($formdata = $assignment->form->get_data()) {
+        $out .= '<br>' . save_answerrecording($formdata, $assignment);
+    }
+
+    return $out;
 }
 
 /**
