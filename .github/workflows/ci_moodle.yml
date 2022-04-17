@@ -33,6 +33,12 @@ jobs:
             coverage-location: './coverage/coverage.xml'
             coverage-engine: 'pcov'
           - php: '8.0'
+            moodle-branch: 'MOODLE_400_STABLE'
+            database: pgsql
+            experimental: false
+            coverage-location: './coverage/coverage.xml'
+            coverage-engine: 'pcov'
+          - php: '8.0'
             moodle-branch: 'master'
             database: pgsql
             experimental: false
