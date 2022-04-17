@@ -35,7 +35,7 @@ jobs:
           - php: '8.0'
             moodle-branch: 'master'
             database: pgsql
-            experimental: true
+            experimental: false
             coverage-location: './coverage/coverage.xml'
             coverage-engine: 'pcov'
 
@@ -166,7 +166,6 @@ jobs:
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
-        if: ${{ always() }}
         with:
           files: ${{ matrix.coverage-location }}
           fail_ci_if_error: false
