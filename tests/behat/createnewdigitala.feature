@@ -40,7 +40,6 @@ Feature: Create new digitala
       | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
 
   Scenario: On course page add freeform task in Swedish and add local image to resources
-    When I turn editing mode on
     Then I follow "Manage private files..."
     And I upload "mod/digitala/tests/fixtures/pic-1.png" file to "Files" filemanager
     And I click on "Save changes" "button"
@@ -72,7 +71,6 @@ Feature: Create new digitala
     And the image at "//img[@alt='nää on liikennevalot XD']" "xpath_element" should be identical to "mod/digitala/tests/fixtures/pic-1.png"
 
   Scenario: On course page add freeform task in Swedish and add local audio to resources
-    When I turn editing mode on
     Then I follow "Manage private files..."
     And I upload "mod/digitala/tests/fixtures/tottoroo.wav" file to "Files" filemanager
     And I click on "Save changes" "button"
@@ -106,7 +104,6 @@ Feature: Create new digitala
     And "//audio[@title='töttöröö :D']" "xpath_element" should exist
 
   Scenario: On course page add freeform task in Swedish and add local video to resources
-    When I turn editing mode on
     Then I follow "Manage private files..."
     And I upload "mod/digitala/tests/fixtures/video-1.mp4" file to "Files" filemanager
     And I click on "Save changes" "button"
