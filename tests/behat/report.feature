@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @onlytwo
+@mod @mod_digitala @javascript
 Feature: Student can see report with transcript, numeric gradings and verbal feedback
 
   Background:
@@ -24,29 +24,22 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
       | Readaloud | olli     | 1             | file2 | transcript2 | 0.7       | 2               |
     And I log in as "olli"
 
+  @curr
   Scenario: On a non graded report page the grading tabs are not shown
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
+    When I am on the "Test digitala name" "mod_digitala > Report" page logged in as "olli"
     Then I should not see "Task Grades"
     And I should not see "Fluency"
 
   Scenario: On a non graded report page the report not available text is shown
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
+    When I am on the "Test digitala name" "mod_digitala > Report" page logged in as "olli"
     Then I should see "A report for this assignment is not available yet."
 
   Scenario: On a non graded report page the transcription is not shown
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
-    And I click on "Report" "link"
+    When I am on the "Test digitala name" "mod_digitala > Report" page logged in as "olli"
     Then I should not see "Transcription"
 
   Scenario: Detailed report shows correctly for freeform
-    When I am on "Course 1" course homepage
-    And I click on "Freeform" "link"
-    And I click on "Report" "link"
+    When I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
     And I should see "There is no limit set for the number of attempts on this assignment."
     And I should see "Transcription"
     And I should see "transcript1"
@@ -68,9 +61,7 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And I should see "Holistic score is 2, brown score."
 
   Scenario: Detailed report shows correctly for readaloud
-    When I am on "Course 1" course homepage
-    And I click on "Readaloud" "link"
-    And I click on "Report" "link"
+    When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     And I should see "Number of attempts remaining: 1"
     And I should not see "Transcript"
     And I should not see "transcript2"
@@ -79,15 +70,11 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And I should see "Pronunciation score is 7, big pink score."
 
   Scenario: Feedback box is visible on the report page
-    When I am on "Course 1" course homepage
-    And I click on "Readaloud" "link"
-    And I click on "Report" "link"
+    When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     And I should see "Give feedback"
     And "collapser" "button" should exist
 
   Scenario: Feedback site is visible on the report page when button is clicked
-    When I am on "Course 1" course homepage
-    And I click on "Readaloud" "link"
-    And I click on "Report" "link"
+    When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     And I click on "collapser" "button"
     Then "feedbacksite" "region" should exist

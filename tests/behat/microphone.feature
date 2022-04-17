@@ -18,14 +18,14 @@ Feature: Student can record with the microphone
 
   Scenario: Start button is visible but stop button is not before starting recording
     When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    Then I am on the "Test digitala name" "digitala activity" page
     And I click on "Info" "link"
     Then I should see "Record"
     And I should not see "Stop recording"
 
   Scenario: Stop button is visible but start button is not after starting recording
     When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    Then I am on the "Test digitala name" "digitala activity" page
     And I click on "Info" "link"
     And I click on "record" "button"
     And I wait "2" seconds
@@ -34,7 +34,7 @@ Feature: Student can record with the microphone
 
   Scenario: After first recording, record button shows record again label
     When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    Then I am on the "Test digitala name" "digitala activity" page
     And I click on "Info" "link"
     And I click on "record" "button"
     Then I wait "2" seconds
@@ -44,7 +44,7 @@ Feature: Student can record with the microphone
 
   Scenario: Listening button should always be visible
     When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    Then I am on the "Test digitala name" "digitala activity" page
     And I click on "Info" "link"
     Then "listen" "button" should be visible
     And I click on "record" "button"
@@ -54,7 +54,7 @@ Feature: Student can record with the microphone
 
   Scenario: Microphone border should be visible
     When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    Then I am on the "Test digitala name" "digitala activity" page
     And I click on "Info" "link"
     And I click on "record" "button"
     And I wait "2" seconds

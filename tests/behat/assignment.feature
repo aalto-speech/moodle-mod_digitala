@@ -11,16 +11,16 @@ Feature: Student can see assignment text and resources
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | student1 | C1     | student        |
+      | user     | course | role    |
+      | student1 | C1     | student |
     And the following "activities" exist:
-      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources              | resourcesformat | attemptlimit | maxlength |
-      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.| 1               | 2            | 5         |
+      | activity | name     | intro               | course | idnumber | attemptlang | attempttype | assignment            | resources               | resourcesformat | attemptlimit | maxlength |
+      | digitala | Freeform | This is a freeform. | C1     | freeform | sv          | freeform    | Berätta om Tigerjakt. | Här är filmen om tiger. | 1               | 2            | 5         |
     And I log in as "student1"
 
   Scenario: On assignment page the assignment text, resources text, timer and number of attempts are shown
     When I am on "Course 1" course homepage
-    And I click on "Freeform" "link"
+    Then I am on the "Freeform" "digitala activity" page
     And I click on "Assignment" "link"
     Then I should see "Berätta om Tigerjakt."
     And I should see "Här är filmen om tiger."
@@ -31,7 +31,7 @@ Feature: Student can see assignment text and resources
 
   Scenario: Submit button is shown when the timer runs out and when pressing stop button
     When I am on "Course 1" course homepage
-    And I click on "Freeform" "link"
+    Then I am on the "Freeform" "digitala activity" page
     And I click on "Assignment" "link"
     And I click on "record" "button"
     And I wait "6" seconds
@@ -45,7 +45,7 @@ Feature: Student can see assignment text and resources
 
   Scenario: Succesful submit directs to report page and the attemptlimit decreases
     When I am on "Course 1" course homepage
-    And I click on "Freeform" "link"
+    Then I am on the "Freeform" "digitala activity" page
     And I click on "Assignment" "link"
     And I click on "record" "button"
     And I wait "6" seconds
