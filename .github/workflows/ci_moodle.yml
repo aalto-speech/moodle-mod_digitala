@@ -151,7 +151,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch != 'master' }}
+        if: ${{ matrix.moodle-branch != 'master' && matrix.moodle-branch != 'MOODLE_400_STABLE' }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0
 
       - name: PHPUnit tests 7 # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
