@@ -20,16 +20,16 @@ Feature: Create new digitala
     When I am on the "C1" "Course" page
     And I turn editing mode on
     Then I add a "digitala" to section "2" and I fill the form with:
-      | Name             | <name>           |
-      | Attempt language | <attemptlang>    |
-      | Attempt type     | <attempttype>    |
-      | Assignment       | <assignmenttext> |
-      | Resources        | <resourcestext>  |
+      | Name       | <name>           |
+      | Language   | <attemptlang>    |
+      | Type       | <attempttype>    |
+      | Assignment | <assignmenttext> |
+      | Material   | <resourcestext>  |
     Then I am on the "<name>" "digitala activity" page
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "<assignmenttext>"
-    And I should see "Resources"
+    And I should see "Material"
     And I should see "<resourcestext>"
 
     Examples:
@@ -49,11 +49,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform IMG        |
-      | Attempt language | Swedish                 |
-      | Attempt type     | Freeform                |
-      | Assignment       | Berätta om Tigerjakt.   |
-      | Resources        | Här är filmen om tiger. |
+      | Name       | SWE Freeform IMG        |
+      | Language   | Swedish                 |
+      | Type       | Freeform                |
+      | Assignment | Berätta om Tigerjakt.   |
+      | Material   | Här är filmen om tiger. |
     And I press "Insert or edit image"
     And I press "Browse repositories..."
     And I select "Private files" repository in file picker
@@ -66,7 +66,7 @@ Feature: Create new digitala
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "Berätta om Tigerjakt."
-    And I should see "Resources"
+    And I should see "Material"
     And I should see "Här är filmen om tiger."
     And "//img[@alt='nää on liikennevalot XD']" "xpath_element" should exist
     And the image at "//img[@alt='nää on liikennevalot XD']" "xpath_element" should be identical to "mod/digitala/tests/fixtures/pic-1.png"
@@ -81,11 +81,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform AUDIO      |
-      | Attempt language | Swedish                 |
-      | Attempt type     | Freeform                |
-      | Assignment       | Berätta om Tigerjakt.   |
-      | Resources        | Här är filmen om tiger. |
+      | Name       | SWE Freeform AUDIO      |
+      | Language   | Swedish                 |
+      | Type       | Freeform                |
+      | Assignment | Berätta om Tigerjakt.   |
+      | Material   | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
     And I click on "Audio" "link"
     And I click on "Browse repositories..." "button" in the "#id_resources_audio .atto_media_source.atto_media_media_source" "css_element"
@@ -101,7 +101,7 @@ Feature: Create new digitala
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "Berätta om Tigerjakt."
-    And I should see "Resources"
+    And I should see "Material"
     And I should see "Här är filmen om tiger."
     And "//audio[@title='töttöröö :D']" "xpath_element" should exist
 
@@ -115,11 +115,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform VIDEO      |
-      | Attempt language | Swedish                 |
-      | Attempt type     | Freeform                |
-      | Assignment       | Berätta om Tigerjakt.   |
-      | Resources        | Här är filmen om tiger. |
+      | Name       | SWE Freeform VIDEO      |
+      | Language   | Swedish                 |
+      | Type       | Freeform                |
+      | Assignment | Berätta om Tigerjakt.   |
+      | Material   | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
     And I click on "Video" "link"
     And I click on "Browse repositories..." "button" in the "#id_resources_video .atto_media_source.atto_media_media_source" "css_element"
@@ -135,7 +135,7 @@ Feature: Create new digitala
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "Berätta om Tigerjakt."
-    And I should see "Resources"
+    And I should see "Material"
     And I should see "Här är filmen om tiger."
     And "//video[@title='behats are all over the places :D']" "xpath_element" should exist
 
@@ -145,11 +145,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform INTERNET IMG |
-      | Attempt language | Swedish                   |
-      | Attempt type     | Freeform                  |
-      | Assignment       | Berätta om Tigerjakt.     |
-      | Resources        | Här är filmen om tiger.   |
+      | Name       | SWE Freeform INTERNET IMG |
+      | Language   | Swedish                   |
+      | Type       | Freeform                  |
+      | Assignment | Berätta om Tigerjakt.     |
+      | Material   | Här är filmen om tiger.   |
     And I press "Insert or edit image"
     And I set the field "Enter URL" to "http://digitala-api:3000/resources/pic-1.png"
     And I set the field "Describe this image for someone who cannot see it" to "nää on liikennevalot XD"
@@ -159,7 +159,7 @@ Feature: Create new digitala
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "Berätta om Tigerjakt."
-    And I should see "Resources"
+    And I should see "Material"
     And I should see "Här är filmen om tiger."
     And "//img[@alt='nää on liikennevalot XD']" "xpath_element" should exist
     And the image at "//img[@alt='nää on liikennevalot XD']" "xpath_element" should be identical to "mod/digitala/tests/fixtures/pic-1.png"
@@ -170,11 +170,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform INTERNET AUDIO |
-      | Attempt language | Swedish                     |
-      | Attempt type     | Freeform                    |
-      | Assignment       | Berätta om Tigerjakt.       |
-      | Resources        | Här är filmen om tiger.     |
+      | Name       | SWE Freeform INTERNET AUDIO |
+      | Language   | Swedish                     |
+      | Type       | Freeform                    |
+      | Assignment | Berätta om Tigerjakt.       |
+      | Material   | Här är filmen om tiger.     |
     And I press "Insert or edit an audio/video file"
     And I click on "Audio" "link"
     And I set the field with xpath "//div[@data-medium-type='audio']/div/div/div/input" to "http://digitala-api:3000/resources/tottoroo.wav"
@@ -186,7 +186,7 @@ Feature: Create new digitala
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "Berätta om Tigerjakt."
-    And I should see "Resources"
+    And I should see "Material"
     And I should see "Här är filmen om tiger."
     And "//audio[@title='töttöröö :D']" "xpath_element" should exist
 
@@ -196,11 +196,11 @@ Feature: Create new digitala
     And I add a "digitala" to section "2"
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | SWE Freeform INTERNET VIDEO |
-      | Attempt language | Swedish                     |
-      | Attempt type     | Freeform                    |
-      | Assignment       | Berätta om Tigerjakt.       |
-      | Resources        | Här är filmen om tiger.     |
+      | Name       | SWE Freeform INTERNET VIDEO |
+      | Language   | Swedish                     |
+      | Type       | Freeform                    |
+      | Assignment | Berätta om Tigerjakt.       |
+      | Material   | Här är filmen om tiger.     |
     And I press "Insert or edit an audio/video file"
     And I click on "Video" "link"
     And I set the field with xpath "//div[@data-medium-type='video']/div/div/div/input" to "http://digitala-api:3000/resources/video-1.mp4"
@@ -212,6 +212,6 @@ Feature: Create new digitala
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "Berätta om Tigerjakt."
-    And I should see "Resources"
+    And I should see "Material"
     And I should see "Här är filmen om tiger."
     And "//video[@title='behats are all over the places :D']" "xpath_element" should exist

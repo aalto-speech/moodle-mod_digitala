@@ -13,7 +13,7 @@ Feature: Student can see current progress in the assignment.
       | student1 | C1     | student |
     And the following "activities" exist:
       | activity | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | attemptlimit |
-      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
+      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fi          | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
     And I log in as "student1"
 
   Scenario: On first page only info progress is active on progress bar

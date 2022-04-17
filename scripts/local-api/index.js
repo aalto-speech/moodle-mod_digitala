@@ -1,5 +1,5 @@
 const express = require('express')
-const fileUpoad = require('express-fileupload')
+const fileUpload = require('express-fileupload')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
@@ -10,7 +10,7 @@ const port = 3000
 
 const random = new Random()
 
-app.use(fileUpoad({
+app.use(fileUpload({
   createParentPath: true
 }))
 app.use(cors())
@@ -32,30 +32,40 @@ app.post('/', (req, res) => {
             } else {
                 const audioFile = req.files.file
                 const freeform = {
-                    "prompt": req.query.prompt,
+                    "file_name": audioFile.name,
                     "Language": req.query.lang,
                     "Task": req.query.task,
-                    "file_name": audioFile.name,
-                    "Transcript": "Lorem ipsum dolor sit amet.",
-                    "Fluency": {
-                        "score": 3.00,
-                        "mean_f1": 0.19,
-                        "speech_rate": 3.12,
+                    "prompt": req.query.prompt,
+                    "transcript": "Lorem ipsum dolor sit amet.",
+                    "task_completion": 0.39,
+                    "holistic": 2,
+                    "fluency": {
+                        "score": 1,
+                        "flu_features": {
+                            "invalid": 1
+                        }
                     },
-                    "TaskAchievement": 0.40,
-                    "Accuracy": {
-                        "score": 2.00,
-                        "lexical_profile": 3.12,
-                        "nativeity": 0.40,
+                    "pronunciation": {
+                        "score": 3,
+                        "pron_features": {
+                            "invalid": 2
+                        }
                     },
-                    "Holistic": 2.40,
+                    "lexicogrammatical": {
+                        "score": 2,
+                        "lexgram_features": {
+                            "invalid": 3
+                        }
+                    },
                 }
                 const readaloud = {
-                    "prompt": req.query.prompt,
+                    "file_name": audioFile.name,
                     "Language": req.query.lang,
                     "Task": req.query.task,
-                    "file_name": audioFile.name,
-                    "GOP_score": 0.7,
+                    "prompt": req.query.prompt,
+                    "transcript": "Lorem ipsum dolor sit amet.",
+                    "feedback": "<p style='color: green'>Lorem <del style='color: red'>ipsum</del> dolor sit amet.</p>",
+                    "GOP_score": 1,
                 }
 
                 const answer = req.query.task === "freeform" ? freeform : readaloud

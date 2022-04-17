@@ -72,7 +72,6 @@ const startRecording = async() => {
             recorder = new RecordRTC(stream, options);
 
             recorder.startRecording();
-            window.console.log('Digitala: Started to record');
 
             recButton.innerHTML = '<span>' + langStrings[1] + '</span> ' + document.getElementById('stopIcon').innerHTML;
             recButton.onclick = stopRecording;
@@ -84,13 +83,10 @@ const startRecording = async() => {
                 document.getElementById('recordingLength').textContent = convertSecondsToString(sec);
             }, 1000);
 
-            if (pagenum == 1) {
-                let timeoutLenght = maxLength * 1000;
-                if (maxLength !== 0) {
-                    timeout = setTimeout(() => {
-                        stopRecording();
-                    }, timeoutLenght);
-                }
+            if (pagenum == 1 && maxLength != 0) {
+                timeout = setTimeout(() => {
+                    stopRecording();
+                }, maxLength * 1000);
             }
             return;
         })
@@ -128,9 +124,13 @@ const stopRecording = () => {
                 req.open('POST', mdlcfg.wwwroot + '/repository/repository_ajax.php?action=upload');
                 req.addEventListener('readystatechange', (event) => {
                     if (event.target.readyState === 4) {
-                        document.forms.answerrecording[0].value = event.target.response;
-                        document.forms.answerrecording[1].value = sec;
-                        document.getElementById('submitModalButton').style.display = '';
+                        if (event.target.status === 200) {
+                            document.forms.answerrecording[0].value = event.target.response;
+                            document.forms.answerrecording[1].value = sec;
+                            document.getElementById('submitModalButton').style.display = '';
+                        } else {
+                            document.getElementById('submitErrors').innerHTML = langStrings[4];
+                        }
                     }
                 });
                 req.send(form);
@@ -139,7 +139,6 @@ const stopRecording = () => {
             recButton.onclick = startRecording;
             listenButton.disabled = false;
         });
-        window.console.log('Digitala: Recording stopped');
     }
 };
 
@@ -159,9 +158,7 @@ const listenRecording = () => {
 };
 
 export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, usernameIn, maxLengthIn) => {
-    window.console.log('Digitala: Starting to initalize microphones');
-
-    if (pagenum !== 2) {
+    if (pagenumIn !== 2) {
         pagenum = pagenumIn;
         assignmentId = assignmentIdIn;
         userId = userIdIn;
@@ -186,12 +183,19 @@ export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, u
                 {
                     key: 'startbutton-error',
                     component: 'digitala'
-
+                },
+                {
+                    key: 'error-save-recording',
+                    component: 'digitala'
                 }
             ]
         );
 
-        recButton.onclick = startRecording;
-        listenButton.onclick = listenRecording;
+        try {
+            recButton.onclick = startRecording;
+            listenButton.onclick = listenRecording;
+        } catch (e) {
+            return;
+        }
     }
 };

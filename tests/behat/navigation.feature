@@ -15,7 +15,7 @@ Feature: Student can see all the phases and curren progress of the assignment
       | student1 | C1     | student |
     And the following "activities" exist:
       | activity | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | attemptlimit |
-      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
+      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fi          | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
     And I log in as "student1"
 
   Scenario: The digitala activity is shown on course page
@@ -24,9 +24,9 @@ Feature: Student can see all the phases and curren progress of the assignment
 
   Scenario: All the phases of activity are shown
     When I am on the "Test digitala name" "mod_digitala > Info" page logged in as "student1"
-    Then I should see "Info"
+    Then I should see "Begin"
     And I should see "Assignment"
-    And I should see "Report"
+    And I should see "Evaluation"
 
   Scenario: On first page only info progress is shown highlighted on progress bar
     When I am on the "Test digitala name" "mod_digitala > Info" page logged in as "student1"

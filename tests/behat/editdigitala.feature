@@ -13,7 +13,7 @@ Feature: Edit digitala activity
       | ossi | C1     | manager |
     And the following "activities" exist:
       | activity | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | attemptlimit |
-      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
+      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fi          | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
     And I log in as "ossi"
 
   Scenario Outline: Edit a task on course page
@@ -23,17 +23,17 @@ Feature: Edit digitala activity
     Then I choose "Edit settings" in the open action menu
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | <name>           |
-      | Attempt language | <attemptlang>    |
-      | Attempt type     | <attempttype>    |
-      | Assignment       | <assignmenttext> |
-      | Resources        | <resourcestext>  |
+      | Name       | <name>           |
+      | Language   | <attemptlang>    |
+      | Type       | <attempttype>    |
+      | Assignment | <assignmenttext> |
+      | Material   | <resourcestext>  |
     And I press "Save and display"
     Then I am on the "<name>" "digitala activity" page
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "<assignmenttext>"
-    And I should see "Resources"
+    And I should see "Material"
     And I should see "<resourcestext>"
 
     Examples:
