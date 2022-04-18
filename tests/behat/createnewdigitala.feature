@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @_file_upload
+@mod @mod_digitala @javascript @_file_upload @onlyone
 Feature: Create new digitala
 
   Background:
@@ -11,9 +11,6 @@ Feature: Create new digitala
     And the following "course enrolments" exist:
       | user | course | role    |
       | ossi | C1     | manager |
-    And the following "blocks" exist:
-      | blockname     | contextlevel | reference | pagetypepattern | defaultregion |
-      | private_files | System       | 1         | my-index        | side-post     |
     And I log in as "ossi"
 
   Scenario Outline: On course page add new task
@@ -40,7 +37,9 @@ Feature: Create new digitala
       | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
 
   Scenario: On course page add freeform task in Swedish and add local image to resources
-    When I follow "Manage private files..."
+    When I turn editing mode on
+    And I add the "Private files" block if not present
+    Then I follow "Manage private files..."
     And I upload "mod/digitala/tests/fixtures/pic-1.png" file to "Files" filemanager
     And I click on "Save changes" "button"
     Then I am on the "C1" "Course" page
@@ -71,7 +70,9 @@ Feature: Create new digitala
     And the image at "//img[@alt='nää on liikennevalot XD']" "xpath_element" should be identical to "mod/digitala/tests/fixtures/pic-1.png"
 
   Scenario: On course page add freeform task in Swedish and add local audio to resources
-    When I follow "Manage private files..."
+    When I turn editing mode on
+    And I add the "Private files" block if not present
+    Then I follow "Manage private files..."
     And I upload "mod/digitala/tests/fixtures/tottoroo.wav" file to "Files" filemanager
     And I click on "Save changes" "button"
     Then I am on the "C1" "Course" page
@@ -104,7 +105,9 @@ Feature: Create new digitala
     And "//audio[@title='töttöröö :D']" "xpath_element" should exist
 
   Scenario: On course page add freeform task in Swedish and add local video to resources
-    When I follow "Manage private files..."
+    When I turn editing mode on
+    And I add the "Private files" block if not present
+    Then I follow "Manage private files..."
     And I upload "mod/digitala/tests/fixtures/video-1.mp4" file to "Files" filemanager
     And I click on "Save changes" "button"
     Then I am on the "C1" "Course" page

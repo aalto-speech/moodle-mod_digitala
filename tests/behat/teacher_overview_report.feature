@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @onlyone
+@mod @mod_digitala @javascript
 Feature: Teacher can see students overview report
 
   Background:
