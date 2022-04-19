@@ -76,9 +76,12 @@ $string['submitbody'] = 'Du har {$a} svarsförsök kvar i den här uppgiften';
 $string['alreadysubmitted'] = 'Du har redan lämnat in svaret. Gå till nästa sida för att se rapporten';
 $string['report'] = 'Bedömning';
 $string['report-title'] = 'Bedömningsrapporten';
+$string['report-title-feedback'] = 'innehåller viss lärarfeedback';
 $string['reportnotavailable'] = 'Bedömningsrapporten är ännu inte tillgänglig.';
 $string['reportinformation'] = 'Den här feedbacken gäller endast den uppgift som du har spelat in, inte muntlig färdighet generellt. Den automatiska bedömningen har gjorts av datorn. Datorn har lärts att bedöma tal med hjälp av andra språkinlärares tal och andra taluppgifter.';
 $string['transcription'] = 'Ditt tal som text';
+$string['server-feedback'] = 'Feedback om transkription';
+$string['teacher-feedback'] = 'Föreslå ändringar i bedömning';
 
 $string['task_grades'] = 'Analytisk bedömning';
 
@@ -184,3 +187,6 @@ $string['results_delete-all-text'] = 'Vill du ta bort och återställa försök 
 $string['results_no-show'] = 'Inga resultat än.';
 $string['results_title'] = 'Användarresultat';
 $string['results_delete-title'] = 'Obs';
+
+$string['teachergrade'] = "Lärarens betygsförslag: ";
+$string['teacherreason'] = "Lärarens kommentar för betygsändring: ";
