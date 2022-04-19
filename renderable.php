@@ -221,3 +221,25 @@ class digitala_results implements renderable {
         $this->d = $d;
     }
 }
+
+/**
+ * Implements a renderable report panel used on the last page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ */
+class digitala_delete implements renderable {
+    /**
+     * Constructor
+     * @param int $instanceid - Instance id of the activty
+     * @param int $id - Id of the activity
+     * @param int $studentid - id of student
+     */
+    public function __construct($instanceid, $id, $studentid) {
+        $this->instanceid = $instanceid;
+        $this->studentid = $studentid;
+        $this->id = $id;
+    }
+}

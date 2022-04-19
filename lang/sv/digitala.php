@@ -175,3 +175,12 @@ $string['results_report'] = 'Rapporten';
 $string['results_denied'] = 'Tillträde förbjudet';
 $string['results_return'] = 'Gå tillbaka till DigiTalas huvudsida';
 $string['results_view'] = 'Se inlärarnas resultat';
+
+$string['results_delete'] = 'Ta bort försöket';
+$string['results_delete-confirm'] = 'Bekräfta borttagning';
+$string['results_delete-all'] = 'Ta bort alla';
+$string['results_delete-one-text'] = 'Vill du ta bort och återställa försök från {$a}?';
+$string['results_delete-all-text'] = 'Vill du ta bort och återställa försök från alla användare?';
+$string['results_no-show'] = 'Inga resultat än.';
+$string['results_title'] = 'Användarresultat';
+$string['results_delete-title'] = 'Obs';
