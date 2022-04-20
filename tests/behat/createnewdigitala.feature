@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @_file_upload @onlyone
+@mod @mod_digitala @javascript @_file_upload
 Feature: Create new digitala
 
   Background:
@@ -12,6 +12,12 @@ Feature: Create new digitala
       | user | course | role    |
       | ossi | C1     | manager |
     And I log in as "ossi"
+    And I add the "Private files" block if not present
+    And I follow "Manage private files..."
+    And I upload "mod/digitala/tests/fixtures/tottoroo.wav" file to "Files" filemanager
+    And I upload "mod/digitala/tests/fixtures/pic-1.png" file to "Files" filemanager
+    And I upload "mod/digitala/tests/fixtures/video-1.mp4" file to "Files" filemanager
+    And I click on "Save changes" "button"
 
   Scenario Outline: On course page add new task
     When I am on the "C1" "Course" page
@@ -36,13 +42,9 @@ Feature: Create new digitala
       | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                |
       | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
 
+  @onlyone
   Scenario: On course page add freeform task in Swedish and add local image to resources
-    When I turn editing mode on
-    And I add the "Private files" block if not present
-    Then I follow "Manage private files..."
-    And I upload "mod/digitala/tests/fixtures/pic-1.png" file to "Files" filemanager
-    And I click on "Save changes" "button"
-    Then I am on the "C1" "Course" page
+    When I am on the "C1" "Course" page
     And I turn editing mode on
     And I add a "digitala" to section "2"
     And I wait until the page is ready
@@ -70,12 +72,7 @@ Feature: Create new digitala
     And the image at "//img[@alt='nää on liikennevalot XD']" "xpath_element" should be identical to "mod/digitala/tests/fixtures/pic-1.png"
 
   Scenario: On course page add freeform task in Swedish and add local audio to resources
-    When I turn editing mode on
-    And I add the "Private files" block if not present
-    Then I follow "Manage private files..."
-    And I upload "mod/digitala/tests/fixtures/tottoroo.wav" file to "Files" filemanager
-    And I click on "Save changes" "button"
-    Then I am on the "C1" "Course" page
+    When I am on the "C1" "Course" page
     And I turn editing mode on
     And I add a "digitala" to section "2"
     And I wait until the page is ready
@@ -105,12 +102,7 @@ Feature: Create new digitala
     And "//audio[@title='töttöröö :D']" "xpath_element" should exist
 
   Scenario: On course page add freeform task in Swedish and add local video to resources
-    When I turn editing mode on
-    And I add the "Private files" block if not present
-    Then I follow "Manage private files..."
-    And I upload "mod/digitala/tests/fixtures/video-1.mp4" file to "Files" filemanager
-    And I click on "Save changes" "button"
-    Then I am on the "C1" "Course" page
+    When I am on the "C1" "Course" page
     And I turn editing mode on
     And I add a "digitala" to section "2"
     And I wait until the page is ready
