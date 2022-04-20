@@ -41,7 +41,6 @@ Feature: Create new digitala
       | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                |
       | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
 
-  @onlyone
   Scenario: On course page add freeform task in Swedish and add local image to resources
     When I am on the "C1" "Course" page
     And I turn editing mode on
