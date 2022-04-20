@@ -184,3 +184,6 @@ $string['results_delete-all-text'] = 'Vill du ta bort och återställa försök 
 $string['results_no-show'] = 'Inga resultat än.';
 $string['results_title'] = 'Användarresultat';
 $string['results_delete-title'] = 'Obs';
+
+$string['feedback_success'] = 'Kommentar till studentrapport sparad framgångsrikt.';
+$string['feedback_not-found'] = 'Inga resultat hittades för studenten.';

@@ -235,6 +235,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
         global $CFG;
 
         $attempt = get_attempt($reporteditor->instanceid, $reporteditor->student);
+        if(!isset($attempt->id)) {
+            redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$reporteditor->id.'&mode=overview',
+                     get_string('feedback_not-found', 'digitala'),
+                     null, \core\output\notification::NOTIFY_ERROR);
+        }
         $form = new \reporteditor_form($reporteditor->id, $reporteditor->attempttype, $attempt);
 
         $out = '';
@@ -246,7 +251,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
             // In the future third phase, update evaluation in digitala_attempt here...
             save_report_feedback($reporteditor->attempttype, $fromform, $attempt);
             redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$reporteditor->id.'&mode=detail&student='
-                     .$reporteditor->student);
+                     .$reporteditor->student, get_string('feedback_success', 'digitala'),
+                     null, \core\output\notification::NOTIFY_SUCCESS);
         } else {
             $out = start_container('digitala-report_editor');
             $out .= start_column();
