@@ -119,9 +119,9 @@ class lib_test extends \advanced_testcase {
     public function test_digitala_get_editor_options() {
         $result = digitala_get_editor_options(null);
 
-        $this->assertEquals(false, $result->trusttext);
-        $this->assertEquals(true, $result->subdirs);
-        $this->assertEquals(-1, $result->maxfiles);
-        $this->assertEquals(null, $result->context);
+        $this->assertEquals(false, $result['trusttext']);
+        $this->assertEquals(true, $result['subdirs']);
+        $this->assertEquals(-1, $result['maxfiles']);
+        $this->assertEquals(null, $result['context']);
     }
 }

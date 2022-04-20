@@ -113,7 +113,7 @@ class mod_digitala_mod_form extends moodleform_mod {
                            array('rows' => 10), digitala_get_editor_options($this->context));
 
         $mform->setType('resources_editor', PARAM_RAW);
-        $mform->addHelpButton('resources', 'assignmentresource', 'mod_digitala');
+        $mform->addHelpButton('resources_editor', 'assignmentresource', 'mod_digitala');
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
