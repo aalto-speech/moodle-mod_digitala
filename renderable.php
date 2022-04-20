@@ -259,6 +259,7 @@ class digitala_export implements renderable {
      * @param int $contextid - Context id of the activty
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
+     * @param string $mode - Mode of export, attempts or feedback
      */
     public function __construct($instanceid, $contextid, $id, $d, $mode) {
         $this->instanceid = $instanceid;

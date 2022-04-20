@@ -291,7 +291,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
                      get_string('results_denied', 'digitala'), null, \core\output\notification::NOTIFY_ERROR);
         }
 
-        redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$export->id.'&mode=overview', get_string('export_success', 'digitala'),
-                 null, \core\output\notification::NOTIFY_SUCCESS);
+        redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$export->id.'&mode=overview',
+                get_string('export_success', 'digitala'),
+                null, \core\output\notification::NOTIFY_SUCCESS);
     }
 }
