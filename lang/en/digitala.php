@@ -189,5 +189,5 @@ $string['results_no-show'] = 'No results to show yet.';
 $string['results_title'] = 'User results';
 $string['results_delete-title'] = 'Warning';
 
-$string['feedback_success'] = 'Comment added successfully to student`s report.';
+$string['feedback_success'] = 'Comment added successfully to students report.';
 $string['feedback_not-found'] = 'Report for given student is not found';

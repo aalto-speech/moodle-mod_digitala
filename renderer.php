@@ -235,7 +235,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         global $CFG;
 
         $attempt = get_attempt($reporteditor->instanceid, $reporteditor->student);
-        if(!isset($attempt->id)) {
+        if (!isset($attempt->id)) {
             redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$reporteditor->id.'&mode=overview',
                      get_string('feedback_not-found', 'digitala'),
                      null, \core\output\notification::NOTIFY_ERROR);
