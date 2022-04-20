@@ -214,7 +214,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                   ' | '.get_string('attempttype', 'digitala').': '.
                                   get_string($assignment->attempttype, 'digitala').'<br>';
         $assignmentcard = create_card('assignment', $attemptinfo.$assignment->assignmenttext);
-        $resourcescard = create_card('assignmentresource', $assignment->resourcetext);
+        $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
+                                                  'mod_digitala', 'files', 0);
+        $resourcescard = create_card('assignmentresource', $resources);
 
         $out = start_container('digitala-short_assignment');
         $out .= start_column();
