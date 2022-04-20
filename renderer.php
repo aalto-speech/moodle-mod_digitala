@@ -100,7 +100,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= end_column();
 
         $out .= start_column();
-        $out .= create_card('assignmentresource', create_resource($assignment->resourcetext));
+        $out .= create_card('assignmentresource', create_resource($assignment));
         $out .= end_column();
 
         $out .= end_container();

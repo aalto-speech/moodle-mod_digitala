@@ -241,10 +241,12 @@ function create_assignment($content) {
 /**
  * Used to create text inside resource card - helper function for box sizing
  *
- * @param string $content text inside resource text card
+ * @param digitala_assignment $assignment - assignment includes resource text
  */
-function create_resource($content) {
-    $out = html_writer::div($content, 'card-text scrollbox400');
+function create_resource($assignment) {
+    $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
+                                              'mod_digitala', 'files', 0);
+    $out = html_writer::div($resources, 'card-text scrollbox400');
 
     return $out;
 }
