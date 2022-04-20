@@ -665,8 +665,8 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         $attempt->holistic = round($attempt->holistic, 2);
     } else {
         $attempt->feedback = $evaluation->feedback;
-        $attempt->gop_score = $evaluation->GOP_score < 1 ? 0 : $evaluation->GOP_score;
-        $attempt->gop_score = $attempt->gop_score > 0 ? 0 : $attempt->gop_score;
+        $attempt->gop_score = $evaluation->GOP_score > 1 ? 0 : $evaluation->GOP_score;
+        $attempt->gop_score = $attempt->gop_score < 0 ? 0 : $attempt->gop_score;
         $attempt->gop_score = round($attempt->gop_score, 2);
     }
     $attempt->timemodified = $timenow;
