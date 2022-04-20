@@ -12,7 +12,7 @@ Feature: Create new digitala
       | user | course | role    |
       | ossi | C1     | manager |
     And I log in as "ossi"
-    And I select "Private files" from flat navigation drawer
+    And I visit "/user/files.php"
     And I upload "mod/digitala/tests/fixtures/tottoroo.wav" file to "Files" filemanager
     And I upload "mod/digitala/tests/fixtures/pic-1.png" file to "Files" filemanager
     And I upload "mod/digitala/tests/fixtures/video-1.mp4" file to "Files" filemanager
