@@ -61,7 +61,7 @@ $string['infotext'] = 'Testa mikrofonen innan du gör uppgiften.';
 $string['startbutton'] = 'Start';
 $string['startbutton-again'] = 'Spela in på nytt';
 $string['startbutton-loading'] = 'Väntas pä mikrofonen.';
-$string['startbutton-error'] = 'Fel på mikrofonen. Kontrollera mikrofoninställningarna.';
+$string['startbutton-error'] = 'Fel på mikrofonen. Kontrollera mikrofoninställningarna. Ladda om sidan.';
 $string['startbutton-no_permissions'] = 'Klicka på nytt för att spela in.';
 $string['stopbutton'] = 'Stopp';
 $string['microphone'] = 'Testa mikrofonen här';
@@ -184,3 +184,6 @@ $string['results_delete-all-text'] = 'Vill du ta bort och återställa försök 
 $string['results_no-show'] = 'Inga resultat än.';
 $string['results_title'] = 'Användarresultat';
 $string['results_delete-title'] = 'Obs';
+
+$string['feedback_success'] = 'Kommentar till studentrapport sparad framgångsrikt.';
+$string['feedback_not-found'] = 'Inga resultat hittades för studenten.';
