@@ -135,11 +135,11 @@ class mod_digitala_mod_form extends moodleform_mod {
      * @param array $defaultvalues
      */
     public function data_preprocessing(&$defaultvalues) {
-        $defaultvalues['resources'] = file_rewrite_pluginfile_urls($defaultvalues['resources'], 'pluginfile.php',
-                                                                   $this->context->id, 'mod_digitala', 'files', 0);
         file_prepare_standard_editor($defaultvalues, 'resources', digitala_get_editor_options($this->context),
                                      $this->context, 'mod_digitala', 'files', 0);
-        if (!empty($defaultvalues['resources'])) {
+        if (isset($defaultvalues['resources']) && !empty($defaultvalues['resources'])) {
+            $defaultvalues['resources'] = file_rewrite_pluginfile_urls($defaultvalues['resources'], 'pluginfile.php',
+                                                                       $this->context->id, 'mod_digitala', 'files', 0);
             $defaultvalues['resources_editor'] = array(
                 'text' => $defaultvalues['resources'],
                 'format' => $defaultvalues['resourcesformat']
