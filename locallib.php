@@ -22,6 +22,9 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+require_once($CFG->libdir . '/csvlib.class.php');
+
 /**
  * Used to generate page urls for digitala module student views.
  *
@@ -52,6 +55,16 @@ function results_url($id, $mode, $studentid=null) {
  */
 function delete_url($id, $studentid=null) {
     return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => 'delete', 'student' => $studentid));
+}
+
+/**
+ * Used to generate page urls for exporting attempts.
+ *
+ * @param number $id id of the activity instance
+ * @param number $mode mode of export
+ */
+function export_url($id, $mode) {
+    return new moodle_url('/mod/digitala/export.php', array('id' => $id, 'mode' => $mode));
 }
 
 /**
@@ -680,6 +693,7 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
 
     $feedback = new stdClass();
     $feedback->attempt = $oldattempt->id;
+    $feedback->digitala = $oldattempt->digitala;
 
     if ($attempttype == 'freeform') {
         $feedback->old_taskcompletion = $oldattempt->taskcompletion;
@@ -742,7 +756,7 @@ function get_attempt($instanceid, $userid) {
 function get_all_attempts($instanceid) {
     global $DB;
 
-    $attempts = $DB->get_records('digitala_attempts', array('digitala'  => $instanceid));
+    $attempts = $DB->get_records('digitala_attempts', array('digitala' => $instanceid));
     return $attempts;
 }
 
@@ -1070,4 +1084,119 @@ function create_delete_modal($id, $user=null) {
     return $out;
 }
 
+/**
+ * Generates csv of activitys attempts
+ *
+ * @param int $id - id of the activity
+ */
+function generate_attempts_csv($id) {
+    $attempts = get_all_attempts($id);
 
+    $writer = new \csv_export_writer();
+
+    $header = 'id;digitala;userid;attemptnumber;file;transcript;feedback;'
+           .'fluency;fluency_features;taskcompletion;pronunciation;pronunciation_features;'
+           .'lexicogrammatical;lexicogrammatical_features;holistic;gop_score;timecreated;'
+           .'timemodified;recordinglength';
+    $writer->add_data(explode(';', $header));
+
+    foreach ($attempts as $attempt) {
+        $arr = [
+            $attempt->id,
+            $attempt->digitala,
+            $attempt->userid,
+            $attempt->attemptnumber,
+            $attempt->file,
+            $attempt->transcript,
+            $attempt->feedback,
+            $attempt->fluency,
+            $attempt->fluency_features,
+            $attempt->taskcompletion,
+            $attempt->pronunciation,
+            $attempt->pronunciation_features,
+            $attempt->lexicogrammatical,
+            $attempt->lexicogrammatical_features,
+            $attempt->holistic,
+            $attempt->gop_score,
+            $attempt->timecreated,
+            $attempt->timemodified,
+            $attempt->recordinglength
+        ];
+        $writer->add_data($arr);
+    }
+    $writer->set_filename('digitala-attempts');
+    $writer->download_file();
+}
+
+/**
+ * Load all feedbacks from the database.
+ *
+ * @param int $id - id of the activity
+ * @return $feedbacks - object containing all feedback information
+ */
+function get_all_feedbacks($id) {
+    global $DB;
+
+    $feedbacks = $DB->get_records('digitala_report_feedback', array('digitala' => $id));
+    return $feedbacks;
+}
+
+/**
+ * Generates csv of activitys attempts
+ *
+ * @param int $id - id of the activity
+ */
+function generate_report_feedback_csv($id) {
+    $feedbacks = get_all_feedbacks($id);
+    $header = 'id;attempt;digitala;old_fluency;fluency;fluency_reason;old_taskcompletion;'
+           .'taskcompletion;taskcompletion_reason;old_lexicogrammatical;lexicogrammatical;'
+           .'lexicogrammatical_reason;old_pronunciation;pronunciation;pronunciation_reason;'
+           .'old_holistic;holistic;holistic_reason;old_gop_score;gop_score;'
+           .'gop_score_reason;timecreated';
+    $writer = new \csv_export_writer();
+    $writer->add_data(explode(';', $header));
+
+    foreach ($feedbacks as $feedback) {
+        $arr = [
+            $feedback->id,
+            $feedback->attempt,
+            $feedback->digitala,
+            $feedback->old_fluency,
+            $feedback->fluency,
+            $feedback->fluency_reason,
+            $feedback->old_taskcompletion,
+            $feedback->taskcompletion,
+            $feedback->taskcompletion_reason,
+            $feedback->old_lexicogrammatical,
+            $feedback->lexicogrammatical,
+            $feedback->lexicogrammatical_reason,
+            $feedback->old_pronunciation,
+            $feedback->pronunciation,
+            $feedback->pronunciation_reason,
+            $feedback->old_holistic,
+            $feedback->holistic,
+            $feedback->holistic_reason,
+            $feedback->old_gop_score,
+            $feedback->gop_score,
+            $feedback->gop_score_reason,
+            $feedback->timecreated
+        ];
+        $writer->add_data($arr);
+    }
+
+    $writer->set_filename('digitala-attempts-feedback');
+    $writer->download_file();
+}
+
+/**
+ * Create export buttons
+ *
+ * @param int $id - id of the activity
+ */
+function create_export_buttons($id) {
+    $out = html_writer::tag('a', get_string('export_attempts', 'digitala'),
+                array('href' => export_url($id, 'attempts'), 'id' => 'export_attempts', 'class' => 'btn btn-primary'));
+    $out .= html_writer::tag('a', get_string('export_attempts_feedback', 'digitala'),
+                array('href' => export_url($id, 'feedback'), 'id' => 'export_attempts_feedback', 'class' => 'btn btn-primary'));
+    return $out;
+}

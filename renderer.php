@@ -196,6 +196,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
             $out .= html_writer::table($table);
 
+            $out .= create_export_buttons($result->id);
+
         } else {
             $out .= get_string('results_no-show', 'digitala');
         }
@@ -271,5 +273,25 @@ class mod_digitala_renderer extends plugin_renderer_base {
         }
 
         redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$delete->id.'&mode=overview');
+    }
+
+    /**
+     * Renders digitala report export view.
+     *
+     * @param digitala_export $export - An instance of digitala_export to render.
+     */
+    protected function render_digitala_export(digitala_export $export) {
+        global $CFG;
+        if ($export->mode == "attempts") {
+            $out = generate_attempts_csv($export->instanceid);
+        } else if ($export->mode == "feedback") {
+            $out = generate_report_feedback_csv($export->instanceid);
+        } else {
+            redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$delete->id.'&mode=overview',
+                     get_string('results_denied', 'digitala'), null, \core\output\notification::NOTIFY_ERROR);
+        }
+
+        redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$export->id.'&mode=overview', get_string('export_success', 'digitala'),
+                 null, \core\output\notification::NOTIFY_SUCCESS);
     }
 }

@@ -327,5 +327,20 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022041401, 'digitala');
     }
 
+    if ($oldversion < 2022042001) {
+
+        // Define field attemptlang to be added to digitala.
+        $table = new xmldb_table('digitala_report_feedback');
+        $field = new xmldb_field('digitala', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'id');
+
+        // Conditionally launch add field attemptlang.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Digitala savepoint reached.
+        upgrade_mod_savepoint(true, 2022042001, 'digitala');
+    }
+
     return true;
 }

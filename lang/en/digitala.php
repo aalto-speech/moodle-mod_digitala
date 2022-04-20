@@ -188,3 +188,7 @@ $string['results_delete-all-text'] = 'Are you sure you want to delete and reset 
 $string['results_no-show'] = 'No results to show yet.';
 $string['results_title'] = 'User results';
 $string['results_delete-title'] = 'Warning';
+
+$string['export_attempts'] = 'Export all attempts as CSV';
+$string['export_attempts_feedback'] = 'Export all feedbacks for attempts as CSV';
+$string['export_success'] = 'Creation of CSV-file was successful.';

@@ -184,3 +184,7 @@ $string['results_delete-all-text'] = 'Vill du ta bort och återställa försök 
 $string['results_no-show'] = 'Inga resultat än.';
 $string['results_title'] = 'Användarresultat';
 $string['results_delete-title'] = 'Obs';
+
+$string['export_attempts'] = 'Ladda ner alla företag i CSV-format';
+$string['export_attempts_feedback'] = 'Ladda ner all feedback för varje företag i CSV-format';
+$string['export_success'] = 'CSV-filen har skapats';

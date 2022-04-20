@@ -184,3 +184,7 @@ $string['results_delete-all-text'] = 'Haluatko varmasti poistaa ja nollata suori
 $string['results_no-show'] = 'Ei vielä suorituksia.';
 $string['results_title'] = 'Käyttäjien suoritukset';
 $string['results_delete-title'] = 'Varoitus';
+
+$string['export_attempts'] = 'Lataa kaikki yritykset CSV-muodossa';
+$string['export_attempts_feedback'] = 'Lataa kaikki palautteet jokaiselle yritykselle CSV-muodossa';
+$string['export_success'] = 'CSV-tiedoston luonti onnistui.';
