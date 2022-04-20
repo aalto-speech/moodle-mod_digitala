@@ -273,7 +273,10 @@ class locallib_test extends \advanced_testcase {
      * Test creating create resource.
      */
     public function test_create_resource() {
-        $result = create_resource('testresource');
+        $context = \context_module::instance($this->digitala->cmid);
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, 'testresource', $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+
+        $result = create_resource($assignment);
         $this->assertEquals('<div class="card-text scrollbox400">testresource</div>', $result);
     }
 

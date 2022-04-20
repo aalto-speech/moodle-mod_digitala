@@ -55,9 +55,9 @@ function digitala_add_instance($moduleinstance, $mform = null) {
 
     $moduleinstance->timecreated = time();
 
-    $context = context_module::instance($moduleinstance->coursemodule);
-
     if (!empty($moduleinstance->resources_editor)) {
+        $context = context_module::instance($moduleinstance->coursemodule);
+
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
     }
@@ -83,9 +83,9 @@ function digitala_update_instance($moduleinstance, $mform = null) {
     $moduleinstance->id = $moduleinstance->instance;
     $moduleinstance->timemodified = time();
 
-    $context = context_module::instance($moduleinstance->coursemodule);
-
     if (!empty($moduleinstance->resources_editor)) {
+        $context = context_module::instance($moduleinstance->coursemodule);
+
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
     }
