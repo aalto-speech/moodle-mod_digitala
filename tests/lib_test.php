@@ -113,4 +113,15 @@ class lib_test extends \advanced_testcase {
         $this->assertEquals(null, digitala_get_file_info(null, null, null, null, null, null, null, null, null));
     }
 
+    /**
+     * Test digitala get editor options function.
+     */
+    public function test_digitala_get_editor_options() {
+        $result = digitala_get_editor_options(null);
+
+        $this->assertEquals(false, $result->trusttext);
+        $this->assertEquals(true, $result->subdirs);
+        $this->assertEquals(-1, $result->maxfiles);
+        $this->assertEquals(null, $result->context);
+    }
 }
