@@ -645,17 +645,29 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
     $attempt->file = $filename;
     $attempt->transcript = $evaluation->transcript;
     if ($assignment->attempttype == 'freeform') {
-        $attempt->taskcompletion = round(min(max($evaluation->task_completion, 0), 3), 2);
-        $attempt->fluency = round(min(max($evaluation->fluency->score, 0), 4), 2);
+        $attempt->taskcompletion = $attempt->taskcompletion > 3 ? 0 : $attempt->taskcompletion;
+        $attempt->taskcompletion = $attempt->taskcompletion < 0 ? 0 : $attempt->taskcompletion;
+        $attempt->taskcompletion = round($evaluation->task_completion, 0, 2);
+        $attempt->fluency = $attempt->fluency > 4 ? 0 : $attempt->fluency;
+        $attempt->fluency = $attempt->fluency < 0 ? 0 : $attempt->fluency;
+        $attempt->fluency = round($evaluation->fluency->score, 2);
         $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
-        $attempt->pronunciation = round(min(max($evaluation->pronunciation->score, 0), 4), 2);
+        $attempt->pronunciation = $attempt->pronunciation > 4 ? 0 : $attempt->pronunciation;
+        $attempt->pronunciation = $attempt->pronunciation < 0 ? 0 : $attempt->pronunciation;
+        $attempt->pronunciation = round($evaluation->pronunciation->score, 2);
         $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
-        $attempt->lexicogrammatical = round(min(max($evaluation->lexicogrammatical->score, 0), 3), 2);
+        $attempt->lexicogrammatical = $attempt->lexicogrammatical > 3 ? 0 : $attempt->lexicogrammatical;
+        $attempt->lexicogrammatical = $attempt->lexicogrammatical < 0 ? 0 : $attempt->lexicogrammatical;
+        $attempt->lexicogrammatical = round($evaluation->lexicogrammatical->score, 2);
         $attempt->lexicogrammatical_features = json_encode($evaluation->lexicogrammatical->lexgram_features);
-        $attempt->holistic = round(min(max($evaluation->holistic, 0), 6), 2);
+        $attempt->holistic = $attempt->holistic > 6 ? 0 : $attempt->holistic;
+        $attempt->holistic = $attempt->holistic < 0 ? 0 : $attempt->holistic;
+        $attempt->holistic = round($evaluation->holistic, 2);
     } else {
         $attempt->feedback = $evaluation->feedback;
-        $attempt->gop_score = round(min(max($evaluation->GOP_score, 0), 1), 2);
+        $attempt->gop_score = $attempt->gop_score < 1 ? 0 : $attempt->gop_score;
+        $attempt->gop_score = $attempt->gop_score > 0 ? 0 : $attempt->gop_score;
+        $attempt->gop_score = round($evaluation->GOP_score, 2);
     }
     $attempt->timemodified = $timenow;
     $attempt->recordinglength = $recordinglength;
