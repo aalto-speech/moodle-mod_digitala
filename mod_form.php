@@ -44,6 +44,8 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         $mform = $this->_form;
         $current = $this->current;
+        $current = file_prepare_standard_editor($current, 'resources', digitala_get_editor_options($this->context),
+                                                $this->context, 'mod_digitala', 'files', 0);
 
         // Adding the "general" fieldset, where all the common settings are shown.
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -135,15 +137,9 @@ class mod_digitala_mod_form extends moodleform_mod {
      * @param array $defaultvalues
      */
     public function data_preprocessing(&$defaultvalues) {
-        file_prepare_standard_editor($defaultvalues, 'resources', digitala_get_editor_options($this->context),
-                                     $this->context, 'mod_digitala', 'files', 0);
         if (isset($defaultvalues['resources']) && !empty($defaultvalues['resources'])) {
             $defaultvalues['resources'] = file_rewrite_pluginfile_urls($defaultvalues['resources'], 'pluginfile.php',
                                                                        $this->context->id, 'mod_digitala', 'files', 0);
-            $defaultvalues['resources_editor'] = array(
-                'text' => $defaultvalues['resources'],
-                'format' => $defaultvalues['resourcesformat']
-            );
         }
     }
 }
