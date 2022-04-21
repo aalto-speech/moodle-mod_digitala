@@ -61,7 +61,7 @@ $string['infotext'] = 'Kokeile mikrofonin toimintaa ennen tehtävän tekemistä.
 $string['startbutton'] = 'Nauhoita';
 $string['startbutton-again'] = 'Nauhoita uudelleen';
 $string['startbutton-loading'] = 'Odotetaan mikrofonia.';
-$string['startbutton-error'] = 'Virhe mikrofonin kanssa. Tarkasta mikrofoniasetukset.';
+$string['startbutton-error'] = 'Virhe mikrofonin kanssa. Tarkasta mikrofoniasetukset ja lataa sivu uudelleen.';
 $string['startbutton-no_permissions'] = "Paina uudelleen nauhoittaaksesi.";
 $string['stopbutton'] = 'Pysäytä';
 $string['microphone'] = 'Testaa mikrofoniasi tässä';
@@ -190,3 +190,5 @@ $string['results_delete-title'] = 'Varoitus';
 
 $string['teachergrade'] = "Opettajan arvosanaehdotus: ";
 $string['teacherreason'] = "Kommentti arvosanan muutoksesta: ";
+$string['feedback_success'] = 'Kommentti opiskelijan raportista on tallennettu onnistuneesti.';
+$string['feedback_not-found'] = 'Opiskelijalle ei löydy tuloksia.';

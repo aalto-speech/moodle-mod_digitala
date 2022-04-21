@@ -61,7 +61,7 @@ $string['infotext'] = 'Try out the microphone before moving on to the assignment
 $string['startbutton'] = 'Record';
 $string['startbutton-again'] = 'Record again';
 $string['startbutton-loading'] = 'Waiting for microphone';
-$string['startbutton-error'] = 'Error while interacting with microphone. Please check your microphone settings.';
+$string['startbutton-error'] = 'Error while interacting with microphone. Please check your microphone settings and refresh the page.';
 $string['startbutton-no_permissions'] = "Press again to record";
 $string['stopbutton'] = 'Stop recording';
 $string['microphone'] = 'Test your microphone here';
@@ -194,3 +194,5 @@ $string['results_delete-title'] = 'Warning';
 
 $string['teachergrade'] = "Teacher's grade suggestion: ";
 $string['teacherreason'] = "Comments about grade suggestion: ";
+$string['feedback_success'] = 'Comment added successfully to students report.';
+$string['feedback_not-found'] = 'Report for given student is not found';

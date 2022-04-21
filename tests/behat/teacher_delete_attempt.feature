@@ -28,18 +28,12 @@ Feature: Teacher can delete attempts from overview page
       | Readaloud | essi     | 1             | file4 | transcript4 | feedback | 0.7       | 3               |
 
   Scenario: Delete buttons show for teacher
-    When I am on the "C1" "Course" page logged in as "ossi"
-    And I click on "Freeform" "link"
-    And I click on "Actions menu" "link"
-    And I click on "View student results" "link"
+    When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
     Then I should see "Delete all"
     And I should see "Delete attempt"
 
   Scenario: Teacher can delete all attempts
-    When I am on the "C1" "Course" page logged in as "ossi"
-    And I click on "Freeform" "link"
-    And I click on "Actions menu" "link"
-    And I click on "View student results" "link"
+    When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
     Then I should see "Olli Opiskelija"
     And I should see "Essi Opiskelija"
     And I click on "Delete all" "button"
@@ -50,10 +44,7 @@ Feature: Teacher can delete attempts from overview page
     And I should see "No results to show yet."
 
   Scenario: Teacher can delete one attempt
-    When I am on the "C1" "Course" page logged in as "ossi"
-    And I click on "Freeform" "link"
-    And I click on "Actions menu" "link"
-    And I click on "View student results" "link"
+    When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
     Then I should see "Olli Opiskelija"
     And I should see "Essi Opiskelija"
     And I click on "deleteButtonessi" "button"
