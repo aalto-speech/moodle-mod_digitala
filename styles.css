@@ -183,3 +183,14 @@
     flex: 0;
     padding: 0;
 }
+
+.digitala-transcript-error {
+    text-decoration: underline solid orange 4px;
+}
+
+.digitala-transcript-warning {
+    text-decoration: underline dashed skyblue 4px;
+}
+
+.digitala-transcript-success {
+}
