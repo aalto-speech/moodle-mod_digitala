@@ -2,6 +2,7 @@ fixes:
   - "moodle/mod/digitala/::"
 
 ignore:
+  - "classes/task"
   - "classes/event"
   - "tests"
   - "answerrecording_form.php"

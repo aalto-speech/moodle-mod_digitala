@@ -184,6 +184,10 @@ $string['results_delete-all-text'] = 'Haluatko varmasti poistaa ja nollata suori
 $string['results_no-show'] = 'Ei vielä suorituksia.';
 $string['results_title'] = 'Käyttäjien suoritukset';
 $string['results_delete-title'] = 'Varoitus';
+$string['results_waiting-title'] = 'Evaluation in progress';
+$string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
+$string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
+$string['results_waiting-loading'] = 'Loading...';
 
 $string['feedback_success'] = 'Kommentti opiskelijan raportista on tallennettu onnistuneesti.';
 $string['feedback_not-found'] = 'Opiskelijalle ei löydy tuloksia.';

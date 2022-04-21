@@ -86,8 +86,12 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
 
         $attempt = get_attempt($assignment->instanceid, $assignment->userid);
-
-        if ($assignment->attemptlimit != 0 && isset($attempt) && $attempt->attemptnumber >= $assignment->attemptlimit) {
+        if (isset($attempt) && $attempt->status == 'waiting') {
+            $url = str_replace('page=1', 'page=2', $_SERVER['REQUEST_URI']);
+            $out .= create_card('assignmentrecord', get_string('results_waiting-info', 'digitala'));
+            $out .= html_writer::tag('a', get_string('results_waiting-refresh', 'digitala'),
+                array('id' => 'nextButton', 'class' => 'btn btn-primary', 'href' => $url));
+        } else if ($assignment->attemptlimit != 0 && isset($attempt) && $attempt->attemptnumber >= $assignment->attemptlimit) {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
         } else {
@@ -119,15 +123,17 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
 
         $attempt = get_attempt($report->instanceid, $report->student);
+        $remaining = $report->attemptlimit;
 
         if (is_null($attempt)) {
-            $remaining = $report->attemptlimit;
             $out .= create_card('report-title', get_string('reportnotavailable', 'digitala'));
-        } else {
-            $remaining = $report->attemptlimit - $attempt->attemptnumber;
+        } else if ($attempt->status == 'waiting') {
+            $remaining -= $attempt->attemptnumber;
+            $out .= create_report_waiting();
+        } else if ($attempt->status == 'evaluated') {
+            $remaining -= $attempt->attemptnumber;
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
-            $remaining = $report->attemptlimit;
             $out .= create_card('report-title', get_string('reportinformation', 'digitala').
                                           '<br><br>'.create_attempt_number($report, $report->student).
                                           '<br><br><audio controls><source src='.$audiourl.'></audio>');
@@ -148,7 +154,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $out .= create_report_feedback($attempt->feedback);
                 $out .= create_report_gop($attempt->gop_score);
             }
+        } else {
+            $out .= create_card('report-title', get_string('reportnotavailable', 'digitala'));
         }
+
         $out .= create_nav_buttons('report', $report->id, $report->d, $remaining);
         $out .= create_fixed_box();
         $out .= end_column();

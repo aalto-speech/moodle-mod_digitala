@@ -184,6 +184,10 @@ $string['results_delete-all-text'] = 'Vill du ta bort och återställa försök 
 $string['results_no-show'] = 'Inga resultat än.';
 $string['results_title'] = 'Användarresultat';
 $string['results_delete-title'] = 'Obs';
+$string['results_waiting-title'] = 'Evaluation in progress';
+$string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
+$string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
+$string['results_waiting-loading'] = 'Loading...';
 
 $string['feedback_success'] = 'Kommentar till studentrapport sparad framgångsrikt.';
 $string['feedback_not-found'] = 'Inga resultat hittades för studenten.';

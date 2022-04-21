@@ -188,6 +188,10 @@ $string['results_delete-all-text'] = 'Are you sure you want to delete and reset 
 $string['results_no-show'] = 'No results to show yet.';
 $string['results_title'] = 'User results';
 $string['results_delete-title'] = 'Warning';
+$string['results_waiting-title'] = 'Evaluation in progress';
+$string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
+$string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
+$string['results_waiting-loading'] = 'Loading...';
 
 $string['feedback_success'] = 'Comment added successfully to students report.';
 $string['feedback_not-found'] = 'Report for given student is not found';

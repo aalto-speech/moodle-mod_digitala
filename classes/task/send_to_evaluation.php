@@ -22,11 +22,28 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_digitala\task;
+defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__.'/../../locallib.php');
+
 class send_to_evaluation extends \core\task\adhoc_task {
     public function execute() {
         // Get the custom data.
         $data = $this->get_custom_data();
+        echo 'Evaluation in progress';
+        $fs = get_file_storage();
+        $fileinfo = $data->fileinfo;
+        $file = $fs->get_file($fileinfo->contextid, $fileinfo->component, $fileinfo->filearea,
+                          $fileinfo->itemid, $fileinfo->filepath, $fileinfo->filename);
+        $url = get_config('digitala', 'api');
+        $key = get_config('digitala', 'key');
+        $add = '?prompt=' . rawurlencode($data->assignment->servertext) . '&lang=' .
+               $data->assignment->attemptlang . '&task=' . $data->assignment->attempttype . '&key=' . $key;
+        $params = array('file' => $file);
 
-        $json = $data->curl->post($data->curlurl, $data->curlparams);
+        $c = new \curl(array('ignoresecurity' => true));
+
+        $evaluation = $c->post($url . $add, $params);
+        save_attempt($data->assignment, $file->get_filename(), json_decode($evaluation), $data->length);
     }
 }

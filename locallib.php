@@ -302,6 +302,34 @@ function create_report_holistic($grade) {
  *
  * @param string $text information to show on report page given by the server
  */
+function create_report_waiting() {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('results_waiting-title', 'digitala'), array('class' => 'card-title'));
+
+    $out .= html_writer::start_div('card-text');
+
+    $out .= html_writer::start_div('spinner-border text-primary', array('role' => 'status'));
+    $out .= html_writer::tag('span', get_string('results_waiting-loading', 'digitala'), array('class' => 'sr-only'));
+    $out .= html_writer::end_div();
+
+    $out .= html_writer::tag('p', get_string('results_waiting-info', 'digitala'));
+    $out .= html_writer::tag('a', get_string('results_waiting-refresh', 'digitala'),
+                             array('id' => 'nextButton', 'class' => 'btn btn-primary', 'href' => $_SERVER['REQUEST_URI']));
+    $out .= html_writer::end_div();
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates more information container from report
+ *
+ * @param string $text information to show on report page given by the server
+ */
 function create_report_information($text) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
@@ -557,56 +585,27 @@ function create_microphone_icon() {
 }
 
 /**
- * Send user audio file to Aalto ASR for evaluation.
- *
- * @param stored_file $file - audio file to be sent for evaluation
- * @param string $assignment - assignment which we get information from
- * @param string $length - length of the recording
- */
-function send_answerrecording_for_evaluation($file, $assignment, $length) {
-    $c = new curl(array('ignoresecurity' => true));
-    $curlurl = get_config('digitala', 'api');
-    $key = get_config('digitala', 'key');
-    $curladd = '?prompt=' . rawurlencode($assignment->servertext) . '&lang='.
-               $assignment->attemptlang . '&task=' . $assignment->attempttype . '&key=' . $key;
-    $curlparams = array('file' => $file);
-    $json = $c->post($curlurl . $curladd, $curlparams);
-    return $json;
-}
-
-/**
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
  * @param array $formdata - form data includes file information
  * @param digitala_assignment $assignment - assignment includes needed identifications
  */
 function save_answerrecording($formdata, $assignment) {
-    $fs = get_file_storage();
-
     $audiofile = json_decode($formdata->audiostring);
     $recordinglength = $formdata->recordinglength;
 
-    $fileinfo = array(
-        'contextid' => $assignment->contextid,
-        'component' => 'mod_digitala',
-        'filearea' => 'recordings',
-        'itemid' => 0,
-        'filepath' => '/',
-        'filename' => $audiofile->file
-    );
+    $fileinfo = new stdClass();
+    $fileinfo->contextid = $assignment->contextid;
+    $fileinfo->component = 'mod_digitala';
+    $fileinfo->filearea = 'recordings';
+    $fileinfo->itemid = 0;
+    $fileinfo->filepath = '/';
+    $fileinfo->filename = $audiofile->file;
 
-    file_save_draft_area_files($audiofile->id, $fileinfo['contextid'], $fileinfo['component'],
-                                $fileinfo['filearea'], $fileinfo['itemid']);
+    file_save_draft_area_files($audiofile->id, $fileinfo->contextid, $fileinfo->component,
+                                $fileinfo->filearea, $fileinfo->itemid);
 
-    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
-                          $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
-
-    $evaluation = send_answerrecording_for_evaluation($file, $assignment, $recordinglength);
-    if (!isset(json_decode($evaluation)->prompt)) {
-        return get_string('error_no-evaluation', 'digitala');
-    }
-
-    save_attempt($assignment, $audiofile->file, json_decode($evaluation), $recordinglength);
+    send_answerrecording_for_evaluation($fileinfo, $assignment, $recordinglength);
 
     if (isset($_SERVER['REQUEST_URI'])) {
         $url = $_SERVER['REQUEST_URI'];
@@ -622,29 +621,55 @@ function save_answerrecording($formdata, $assignment) {
 /**
  * Send user audio file to Aalto ASR for evaluation.
  *
- * @param stored_file $file - audio file to be sent for evaluation
+ * @param any $fileinfo - audio file to be sent for evaluation
  * @param string $assignment - assignment which we get information from
  * @param string $length - length of the recording
  */
-function send_answerrecording_for_evaluation_new($file, $assingment, $length) {
-    $c = new curl(array('ignoresecurity' => true));
-    $url = get_config('digitala', 'api');
-    $key = get_config('digitala', 'key');
-    $add = '?prompt=' . rawurlencode($assignment->servertext) . '&lang=' .
-            $assignment->attemptlang . '&task=' . $assignment->attempttype . '&key=' . $key;
-    $params = array('file' => $file);
-
-    $task = new send_to_evaluation();
+function send_answerrecording_for_evaluation($fileinfo, $assignment, $length) {
+    create_waiting_attempt($assignment, $fileinfo->filename, $length);
+    $task = new \mod_digitala\task\send_to_evaluation();
     $task->set_custom_data(array(
-        'curl' => $c,
-        'curlurl' => $url . $add,
-        'curlparams' => $params,
         'assignment' => $assignment,
-        'length' => $length,
-        'callback' => save_attempt,
+        'fileinfo' => $fileinfo,
+        'length' => $length
     ));
 
-    \core\task\manager::queue_adhoc_task($task);
+    \core\task\manager::queue_adhoc_task($task, true);
+}
+
+/**
+ * Save the attempt to the database.
+ *
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ * @param string $filename - file name of the recording
+ * @param mixed $recordinglength - length of recording in seconds
+ */
+function create_waiting_attempt($assignment, $filename, $recordinglength) {
+    global $DB;
+
+    $attempt = get_attempt($assignment->instanceid, $assignment->userid);
+
+    if (isset($attempt)) {
+        $attempt->attemptnumber++;
+    } else {
+        $attempt = new stdClass();
+    }
+
+    $attempt->digitala = $assignment->instanceid;
+    $attempt->userid = $assignment->userid;
+    $attempt->status = 'waiting';
+    $attempt->file = $filename;
+    $attempt->recordinglength = $recordinglength;
+
+    $timenow = time();
+    $attempt->timemodified = $timenow;
+
+    if (isset($attempt->attemptnumber)) {
+        $DB->update_record('digitala_attempts', $attempt);
+    } else {
+        $attempt->timecreated = $timenow;
+        $DB->insert_record('digitala_attempts', $attempt);
+    }
 }
 
 /**
@@ -659,18 +684,7 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
     global $DB;
 
     $attempt = get_attempt($assignment->instanceid, $assignment->userid);
-
-    if (isset($attempt)) {
-        $attempt->attemptnumber++;
-    } else {
-        $attempt = new stdClass();
-    }
-
-    $timenow = time();
-
-    $attempt->digitala = $assignment->instanceid;
-    $attempt->userid = $assignment->userid;
-    $attempt->file = $filename;
+    $attempt->status = 'evaluated';
     $attempt->transcript = $evaluation->transcript;
     if ($assignment->attempttype == 'freeform') {
         $attempt->taskcompletion = $evaluation->task_completion > 3 ? 0 : $evaluation->task_completion;
@@ -697,15 +711,10 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         $attempt->gop_score = $attempt->gop_score < 0 ? 0 : $attempt->gop_score;
         $attempt->gop_score = round($attempt->gop_score, 2);
     }
-    $attempt->timemodified = $timenow;
-    $attempt->recordinglength = $recordinglength;
+    $attempt->timemodified = time();
 
-    if (isset($attempt->attemptnumber)) {
-        $DB->update_record('digitala_attempts', $attempt);
-    } else {
-        $attempt->timecreated = $timenow;
-        $DB->insert_record('digitala_attempts', $attempt);
-    }
+    $DB->update_record('digitala_attempts', $attempt);
+
 }
 
 /**
@@ -924,7 +933,6 @@ function save_answerrecording_form($assignment) {
     if ($formdata = $assignment->form->get_data()) {
         $out .= '<br>' . save_answerrecording($formdata, $assignment);
     }
-
     return $out;
 }
 
