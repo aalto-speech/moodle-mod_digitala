@@ -88,7 +88,7 @@ Feature: Create new digitala
     And I select "Private files" repository in file picker
     And I click on "tottoroo.wav" "file" in repository content area
     And I press "Select this file"
-    And I click on "//a[@aria-controls='id_resources_audio-display-options']" "xpath_element"
+    And I click on "//a[@aria-controls='id_resources_editor_audio-display-options']" "xpath_element"
     And I set the field with xpath "//input[@id='audio_media-title-entry']" to "töttöröö :D"
     And I press "Insert media"
     And I wait "1" seconds
@@ -121,7 +121,7 @@ Feature: Create new digitala
     And I select "Private files" repository in file picker
     And I click on "video-1.mp4" "file" in repository content area
     And I press "Select this file"
-    And I click on "//a[@aria-controls='id_resources_video-display-options']" "xpath_element"
+    And I click on "//a[@aria-controls='id_resources_editor_video-display-options']" "xpath_element"
     And I set the field with xpath "//input[@id='video_media-title-entry']" to "behats are all over the places :D"
     And I press "Insert media"
     And I wait "1" seconds
@@ -172,7 +172,7 @@ Feature: Create new digitala
     And I press "Insert or edit an audio/video file"
     And I click on "Audio" "link"
     And I set the field with xpath "//div[@data-medium-type='audio']/div/div/div/input" to "http://digitala-api:3000/resources/tottoroo.wav"
-    And I click on "//a[@aria-controls='id_resources_audio-display-options']" "xpath_element"
+    And I click on "//a[@aria-controls='id_resources_editor_audio-display-options']" "xpath_element"
     And I set the field with xpath "//input[@id='audio_media-title-entry']" to "töttöröö :D"
     And I press "Insert media"
     And I wait "1" seconds
@@ -198,7 +198,7 @@ Feature: Create new digitala
     And I press "Insert or edit an audio/video file"
     And I click on "Video" "link"
     And I set the field with xpath "//div[@data-medium-type='video']/div/div/div/input" to "http://digitala-api:3000/resources/video-1.mp4"
-    And I click on "//a[@aria-controls='id_resources_video-display-options']" "xpath_element"
+    And I click on "//a[@aria-controls='id_resources_editor_video-display-options']" "xpath_element"
     And I set the field with xpath "//input[@id='video_media-title-entry']" to "behats are all over the places :D"
     And I press "Insert media"
     And I wait "1" seconds
