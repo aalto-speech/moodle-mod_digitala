@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/mod/digitala/answerrecording_form.php');
  * Unit tests for view creation helpers: container, card and column.
  *
  * @group       mod_digitala
+ * @covers      \mod_digitala
  * @package     mod_digitala
  * @category    test
  * @copyright   2022 Name
@@ -417,6 +418,21 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(0, $record->pronunciation);
         $this->assertEquals(0, $record->lexicogrammatical);
         $this->assertEquals(0, $record->holistic);
+
+        $evaluation->task_completion = 10.666;
+        $evaluation->fluency->score = 10.666;
+        $evaluation->pronunciation->score = 10.666;
+        $evaluation->lexicogrammatical->score = 10.666;
+        $evaluation->holistic = 10.666;
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(0, $record->taskcompletion);
+        $this->assertEquals(0, $record->fluency);
+        $this->assertEquals(0, $record->pronunciation);
+        $this->assertEquals(0, $record->lexicogrammatical);
+        $this->assertEquals(0, $record->holistic);
     }
 
     /**
@@ -441,7 +457,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(true, $result);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(1.00, $record->gop_score);
+        $this->assertEquals(0.00, $record->gop_score);
 
         $evaluation->GOP_score = 0.69;
         save_attempt($assignment, 'filename', $evaluation, 60);
