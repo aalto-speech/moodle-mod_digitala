@@ -26,15 +26,13 @@ Feature: Teacher can see students overview report
 
   Scenario: Overview report link shows for teacher on actions menu
     When I am on the "C1" "Course" page logged in as "ossi"
-    And I click on "Freeform" "link"
-    And I click on "Actions menu" "link"
-    Then I should see "View student results"
+    Then I am on the "Freeform" "digitala activity" page
+    And "View student results" "link_or_button" should exist in current page administration
 
   Scenario: Overview report link shows for teacher
     When I am on the "C1" "Course" page logged in as "ossi"
-    And I click on "Freeform" "link"
-    And I click on "Actions menu" "link"
-    And I click on "View student results" "link"
+    Then I am on the "Freeform" "digitala activity" page
+    And I navigate to "View student results" in current page administration
     Then I should see "Student"
     And I should see "Proficiency/Analytic grades"
     And I should see "Time"

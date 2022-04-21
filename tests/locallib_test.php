@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/mod/digitala/answerrecording_form.php');
  * Unit tests for view creation helpers: container, card and column.
  *
  * @group       mod_digitala
+ * @covers      \mod_digitala
  * @package     mod_digitala
  * @category    test
  * @copyright   2022 Name
