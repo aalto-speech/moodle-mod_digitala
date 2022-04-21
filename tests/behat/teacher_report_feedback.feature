@@ -1,5 +1,6 @@
 @mod @mod_digitala @javascript
 Feature: Teacher can give feedback on ASR evaluation
+  Student can see given evaluation on the report page
 
   Background:
     Given the following "users" exist:
@@ -34,7 +35,7 @@ Feature: Teacher can give feedback on ASR evaluation
     And I click on "Suggest changes to grading" "link"
     And I should see "Feedback on goodness of pronunciation"
 
-  Scenario: Feedback can be given on Freeform
+  Scenario: Feedback can be given on Freeform and student can see it on their report
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
     Then I set the following fields to these values:
       | Fluency                     | 2.00                              |
@@ -51,8 +52,13 @@ Feature: Teacher can give feedback on ASR evaluation
     And the following feedback is found:
       | name     | username |
       | Freeform | olli     |
+    And I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
+    Then I should see "Teacher's grade suggestion: 2.0"
+    And I should see "Evaluation was too high."
+    And I should see "Teacher's grade suggestion: 3.0"
+    And I should see "Evaluation was too low."
 
-  Scenario: Feedback can be given on Readaloud
+  Scenario: Feedback can be given on Readaloud and student can see it on their report
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
     Then I set the following fields to these values:
       | Goodness of pronunciation             | 0.56                  |
@@ -61,3 +67,6 @@ Feature: Teacher can give feedback on ASR evaluation
     And the following feedback is found:
       | name      | username |
       | Readaloud | olli     |
+    And I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
+    Then I should see "Teacher's grade suggestion: 0.56"
+    And I should see "Evaluation was wrong."

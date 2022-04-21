@@ -763,6 +763,62 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(false, isset($feedback->gop_score));
     }
 
+    /**
+     * Tests fetching latest teacher feedback from batabase.
+     */
+    public function test_get_feedback() {
+        global $DB;
+
+        $fromform = new \stdClass();
+        $fromform->taskcompletion = 2;
+        $fromform->taskcompletionreason = "I'm a taskcompletion reason, did you know!?";
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = "I'm a fluency reason, did you know!?";
+        $fromform->pronunciation = 2;
+        $fromform->pronunciationreason = "I'm a pronunciation reason, did you know!?";
+        $fromform->lexicogrammatical = 3;
+        $fromform->lexicogrammaticalreason = "I'm a lexicogrammatical reason, did you know!?";
+        $fromform->holistic = 1;
+        $fromform->holisticreason = "I'm a holistic reason, did you know!?";
+
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 6;
+        $oldattempt->taskcompletion = 1;
+        $oldattempt->fluency = 3;
+        $oldattempt->pronunciation = 0;
+        $oldattempt->lexicogrammatical = 2;
+        $oldattempt->holistic = 3;
+
+        $fromform2 = new \stdClass();
+        $fromform2->taskcompletion = 3;
+        $fromform2->taskcompletionreason = "I should be found in test";
+        $fromform2->fluency = 2;
+        $fromform2->fluencyreason = "I should be found in test";
+        $fromform2->pronunciation = 3;
+        $fromform2->pronunciationreason = "I should be found in test";
+        $fromform2->lexicogrammatical = 2;
+        $fromform2->lexicogrammaticalreason = "I should be found in test";
+        $fromform2->holistic = 6;
+        $fromform2->holisticreason = "I should be found in test";
+
+        save_report_feedback('freeform', $fromform, $oldattempt);
+        save_report_feedback('freeform', $fromform, $oldattempt);
+        save_report_feedback('freeform', $fromform2, $oldattempt);
+
+        $result = get_feedback($oldattempt);
+        $this->assertEquals(1, $result->old_taskcompletion);
+        $this->assertEquals(3, $result->old_fluency);
+        $this->assertEquals(0, $result->old_pronunciation);
+        $this->assertEquals(2, $result->old_lexicogrammatical);
+        $this->assertEquals(3, $result->old_holistic);
+        $this->assertEquals(3, $result->taskcompletion);
+        $this->assertEquals(2, $result->fluency);
+        $this->assertEquals(3, $result->pronunciation);
+        $this->assertEquals(2, $result->lexicogrammatical);
+        $this->assertEquals(6, $result->holistic);
+        $this->assertEquals("I should be found in test", $result->taskcompletion_reason);
+    }
+
     public function test_create_short_assignment_tabs() {
         $result = create_short_assignment_tabs('', '');
         $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Material</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
