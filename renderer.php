@@ -119,7 +119,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
 
         $attempt = get_attempt($report->instanceid, $report->student);
-        $feedback = get_feedback($attempt);
+        if (isset($attempt)) {
+            $feedback = get_feedback($attempt);
+        }
 
         if (is_null($attempt)) {
             $remaining = $report->attemptlimit;

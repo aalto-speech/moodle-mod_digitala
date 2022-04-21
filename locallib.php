@@ -310,7 +310,7 @@ function create_report_holistic($grade, $feedback = null) {
             $out .= html_writer::tag('p', get_string('teachergrade', 'digitala').$feedback->holistic);
         }
         if (!empty($feedback->holistic_reason)) {
-            $out .=  html_writer::tag('p', get_string('teacherreason', 'digitala').$feedback->holistic_reason);
+            $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedback->holistic_reason);
         }
     }
 
@@ -362,7 +362,7 @@ function create_report_gop($grade, $feedback = null) {
             $out .= html_writer::tag('p', get_string('teachergrade', 'digitala').$feedback->gop_score);
         }
         if (!empty($feedback->gop_score_reason)) {
-            $out .=  html_writer::tag('p', get_string('teacherreason', 'digitala').$feedback->gop_score_reason);
+            $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedback->gop_score_reason);
         }
     }
 
@@ -374,10 +374,10 @@ function create_report_gop($grade, $feedback = null) {
 }
 
 /**
-* Creates transcription container from report
-*
-* @param mixed $transcription object containing the transcription part of report
-*/
+ * Creates transcription container from report
+ *
+ * @param mixed $transcription object containing the transcription part of report
+ */
 function create_report_transcription($transcription) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');

@@ -26,12 +26,12 @@ Feature: Teacher can give feedback on ASR evaluation
 
   Scenario: Feedback button works correctly in teachers report detail page in freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I click on "Give feedback on report" "link"
+    And I click on "Suggest changes to grading" "link"
     And I should see "Feedback on Fluency"
 
   Scenario: Feedback button works correctly in teachers report detail page in readaloud
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I click on "Give feedback on report" "link"
+    And I click on "Suggest changes to grading" "link"
     And I should see "Feedback on goodness of pronunciation"
 
   Scenario: Feedback can be given on Freeform

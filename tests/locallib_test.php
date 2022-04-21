@@ -206,10 +206,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_grading_html_output() {
         $result = create_report_grading('fluency', 0, 0);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5>'.
-            '<canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart" height="40px"></canvas>'. // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-            '<h6 class="grade-number">0/0</h6>'.
-            '<div class="card-text">This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart" height="40px"></canvas><h6 class="grade-number">0/0</h6><div class="card-text"><p>This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -217,7 +214,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_holistic_html_output() {
         $result = create_report_holistic(3);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart" height="40px"></canvas><h6 class="grade-number">B1</h6><div class="card-text">Based on the automatic grading, it seems that your proficiency level is B1:<br>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart" height="40px"></canvas><h6 class="grade-number">B1</h6><div class="card-text"><p>Based on the automatic grading, it seems that your proficiency level is B1:<br>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -233,7 +230,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_gop_html_output() {
         $result = create_report_gop(0.72);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72%</h6><div class="card-text">Pronunciation score is 7, big pink score.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72%</h6><div class="card-text"><p>Pronunciation score is 7, big pink score.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
