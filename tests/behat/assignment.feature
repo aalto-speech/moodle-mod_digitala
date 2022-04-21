@@ -20,7 +20,7 @@ Feature: Student can see assignment text and resources
 
   Scenario: On assignment page the assignment text, resources text, timer and number of attempts are shown
     When I am on "Course 1" course homepage
-    And I click on "Freeform" "link"
+    Then I am on the "Freeform" "digitala activity" page
     And I click on "Assignment" "link"
     Then I should see "Berätta om Tigerjakt."
     And I should see "Här är filmen om tiger."
@@ -31,7 +31,7 @@ Feature: Student can see assignment text and resources
 
   Scenario: Submit button is shown when the timer runs out and when pressing stop button
     When I am on "Course 1" course homepage
-    And I click on "Freeform" "link"
+    Then I am on the "Freeform" "digitala activity" page
     And I click on "Assignment" "link"
     And I click on "record" "button"
     And I wait "6" seconds
@@ -43,9 +43,10 @@ Feature: Student can see assignment text and resources
     And I click on "Stop recording" "button"
     Then I should see "Submit answer"
 
+  @onlyone
   Scenario: Succesful submit directs to report page and the attemptlimit decreases
     When I am on "Course 1" course homepage
-    And I click on "Freeform" "link"
+    Then I am on the "Freeform" "digitala activity" page
     And I click on "Assignment" "link"
     And I click on "record" "button"
     And I wait "6" seconds

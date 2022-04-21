@@ -33,9 +33,15 @@ jobs:
             coverage-location: './coverage/coverage.xml'
             coverage-engine: 'pcov'
           - php: '8.0'
+            moodle-branch: 'MOODLE_400_STABLE'
+            database: pgsql
+            experimental: false
+            coverage-location: './coverage/coverage.xml'
+            coverage-engine: 'pcov'
+          - php: '8.0'
             moodle-branch: 'master'
             database: pgsql
-            experimental: true
+            experimental: false
             coverage-location: './coverage/coverage.xml'
             coverage-engine: 'pcov'
 
@@ -145,7 +151,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch != 'master' }}
+        if: ${{ matrix.moodle-branch != 'master' && matrix.moodle-branch != 'MOODLE_400_STABLE' }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0
 
       - name: PHPUnit tests 7 # Something wrong with making coverage with PHP 8.0 and Moodle 3.11, so skipping it
@@ -166,7 +172,6 @@ jobs:
 
       - name: Codecov upload
         uses: codecov/codecov-action@v2
-        if: ${{ always() }}
         with:
           files: ${{ matrix.coverage-location }}
           fail_ci_if_error: false

@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/mod/digitala/answerrecording_form.php');
  * Unit tests for view creation helpers: container, card and column.
  *
  * @group       mod_digitala
+ * @covers      \mod_digitala
  * @package     mod_digitala
  * @category    test
  * @copyright   2022 Name
@@ -412,6 +413,21 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(0, $record->pronunciation);
         $this->assertEquals(0, $record->lexicogrammatical);
         $this->assertEquals(0, $record->holistic);
+
+        $evaluation->task_completion = 10.666;
+        $evaluation->fluency->score = 10.666;
+        $evaluation->pronunciation->score = 10.666;
+        $evaluation->lexicogrammatical->score = 10.666;
+        $evaluation->holistic = 10.666;
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(0, $record->taskcompletion);
+        $this->assertEquals(0, $record->fluency);
+        $this->assertEquals(0, $record->pronunciation);
+        $this->assertEquals(0, $record->lexicogrammatical);
+        $this->assertEquals(0, $record->holistic);
     }
 
     /**
@@ -436,7 +452,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(true, $result);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(1.00, $record->gop_score);
+        $this->assertEquals(0.00, $record->gop_score);
 
         $evaluation->GOP_score = 0.69;
         save_attempt($assignment, 'filename', $evaluation, 60);
@@ -627,7 +643,7 @@ class locallib_test extends \advanced_testcase {
      * Tests creating result row.
      */
     public function test_create_result_row() {
-        global $DB;
+        global $DB, $USER;
 
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
@@ -643,7 +659,7 @@ class locallib_test extends \advanced_testcase {
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
 
-        $result = create_result_row($record, $this->digitala->id);
+        $result = create_result_row($record, $this->digitala->id, $USER);
         $this->assertEquals('Admin User', $result[0]);
         $this->assertEquals(1.00, $result[1]);
         $this->assertEquals('00:05', $result[2]);
@@ -770,4 +786,103 @@ class locallib_test extends \advanced_testcase {
         $result = create_short_assignment_tabs('', '');
         $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Material</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
+
+    /**
+     * Tests creating delete attempt.
+     */
+    public function delete_attempt() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+        $recordinglength = 5;
+
+        save_attempt($assignment, 'filename1', $evaluation, $recordinglength);
+        delete_attempt($assignment->instanceid, $assignment->userid);
+
+        $records = $DB->get_records('digitala_attempts',
+                        array('digitala' => $assignment->instanceid));
+        $this->assertEquals(0, count($records));
+    }
+
+    /**
+     * Tests creating delete all attempts.
+     */
+    public function delete_all_attempts() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 4;
+        $recordinglength = 5;
+
+        save_attempt($assignment, 'filename1', $evaluation, $recordinglength);
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 2;
+        $evaluation = new \stdClass();
+        $evaluation->GOP_score = 3;
+        $recordinglength = 5;
+
+        save_attempt($assignment, 'filename2', $evaluation, $recordinglength);
+
+        delete_all_attempts($assignment->instanceid);
+
+        $records = $DB->get_records('digitala_attempts',
+                        array('digitala' => $assignment->instanceid));
+        $this->assertEquals(0, count($records));
+    }
+
+    /**
+     * Tests adding delete attempt button.
+     */
+    public function test_add_delete_attempt_button() {
+        global $USER;
+        $result = add_delete_attempt_button($USER);
+        $this->assertEquals($result, '<button id="deleteButtonadmin" class="btn btn-warning" data-toggle="modal" data-target="#deleteModal2">Delete attempt</button>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
+
+    /**
+     * Tests adding delete redirect button.
+     */
+    public function test_add_delete_redirect_button() {
+        global $USER;
+        $result = add_delete_redirect_button(1, $USER);
+        $this->assertEquals($result, '<a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2 id="deleteRedirectButtonadmin" class="btn btn-warning">Confirm delete</a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
+
+    /**
+     * Tests adding delete all redirect button.
+     */
+    public function test_add_delete_all_redirect_button() {
+        $result = add_delete_all_redirect_button(2);
+        $this->assertEquals($result, '<a href=https://www.example.com/moodle/mod/digitala/report.php?id=2&amp;mode=delete&amp;student id="deleteAllRedirectButton" class="btn btn-danger">Confirm delete</a href=https://www.example.com/moodle/mod/digitala/report.php?id=2&amp;mode=delete&amp;student>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
+
+    /**
+     * Tests adding delete all attempts button.
+     */
+    public function test_add_delete_all_attempts_button() {
+        $result = add_delete_all_attempts_button();
+        $this->assertEquals($result, '<button id="deleteAllButton" class="btn btn-danger" data-toggle="modal" data-target="#deleteAllModal">Delete all</button>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
+    // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+
+    /**
+     * Tests creating delete modal.
+     */
+    public function test_create_delete_modal() {
+        global $USER;
+
+        $result = create_delete_modal(1, $USER);
+        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2 id="deleteRedirectButtonadmin" class="btn btn-warning">Confirm delete</a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2></div></div></div></div>');
+    }
+
+    // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 }

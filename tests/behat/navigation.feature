@@ -1,4 +1,4 @@
-@mod @mod_digitala
+@mod @mod_digitala @javascript
 Feature: Student can see all the phases and curren progress of the assignment
   Student can send answer for evaluation to Aalto ASR
   Student can receive assessment from Aalto ASR
@@ -23,21 +23,17 @@ Feature: Student can see all the phases and curren progress of the assignment
     Then I should see "Test digitala name"
 
   Scenario: All the phases of activity are shown
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    When I am on the "Test digitala name" "mod_digitala > Info" page logged in as "student1"
     Then I should see "Begin"
     And I should see "Assignment"
     And I should see "Evaluation"
 
   Scenario: On first page only info progress is shown highlighted on progress bar
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    When I am on the "Test digitala name" "mod_digitala > Info" page logged in as "student1"
     Then ".pb-step.active" "css_element" should exist in the ".pb-step.first" "css_element"
     And ".pb-step.active" "css_element" should not exist in the ".pb-step.last" "css_element"
 
   Scenario: On report page only report progress is shown highlighted on progress bar
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
-    And I click on "Evaluation" "link"
+    When I am on the "Test digitala name" "mod_digitala > Report" page logged in as "student1"
     Then ".pb-step.active" "css_element" should exist in the ".pb-step.last" "css_element"
     And ".pb-step.active" "css_element" should not exist in the ".pb-step.first" "css_element"

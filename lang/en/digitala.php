@@ -61,7 +61,7 @@ $string['infotext'] = 'Try out the microphone before moving on to the assignment
 $string['startbutton'] = 'Record';
 $string['startbutton-again'] = 'Record again';
 $string['startbutton-loading'] = 'Waiting for microphone';
-$string['startbutton-error'] = 'Error while interacting with microphone. Please check your microphone settings.';
+$string['startbutton-error'] = 'Error while interacting with microphone. Please check your microphone settings and refresh the page.';
 $string['startbutton-no_permissions'] = "Press again to record";
 $string['stopbutton'] = 'Stop recording';
 $string['microphone'] = 'Test your microphone here';
@@ -179,3 +179,15 @@ $string['results_report'] = 'Evaluation report';
 $string['results_denied'] = 'Access denied';
 $string['results_return'] = 'Return to Digitala front page';
 $string['results_view'] = 'View student results';
+
+$string['results_delete'] = 'Delete attempt';
+$string['results_delete-confirm'] = 'Confirm delete';
+$string['results_delete-all'] = 'Delete all';
+$string['results_delete-one-text'] = 'Are you sure you want to delete and reset attempts from user {$a}?';
+$string['results_delete-all-text'] = 'Are you sure you want to delete and reset attempts from all users?';
+$string['results_no-show'] = 'No results to show yet.';
+$string['results_title'] = 'User results';
+$string['results_delete-title'] = 'Warning';
+
+$string['feedback_success'] = 'Comment added successfully to students report.';
+$string['feedback_not-found'] = 'Report for given student is not found';
