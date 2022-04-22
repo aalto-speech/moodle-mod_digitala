@@ -66,23 +66,30 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
+     * Test generating switch_page
+     */
+    public function test_switch_page() {
+        $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&d=1&page=0';
+        $url = switch_page(0);
+        $this->assertEquals('/mod/digitala/view.php?id=1&d=1&page=0', $url);
+        $url = switch_page(1);
+        $this->assertEquals('/mod/digitala/view.php?id=1&d=1&page=1', $url);
+        $url = switch_page(2);
+        $this->assertEquals('/mod/digitala/view.php?id=1&d=1&page=2', $url);
+    }
+
+    /**
      * Test generating progress bar step link as non active and active
      */
     public function test_create_progress_bar_step_link() {
-        $info = create_progress_bar_step_link('info', 0, 1, 1, false);
-        $assignment = create_progress_bar_step_link('assignment', 1, 1, 1, false);
-        $report = create_progress_bar_step_link('report', 2, 1, 1, false);
+        $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&d=1&page=0';
+        $info = create_progress_bar_step_link('info', 0, false);
+        $assignment = create_progress_bar_step_link('assignment', 1, false);
+        $report = create_progress_bar_step_link('report', 2, false);
         // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
-        $this->assertEquals($info, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a>');
-        $this->assertEquals($assignment, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a>');
-        $this->assertEquals($report, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a>');
-
-        $infoactive = create_progress_bar_step_link('info', 0, 1, 1, true);
-        $assignmentactive = create_progress_bar_step_link('assignment', 1, 1, 1, true);
-        $reportactive = create_progress_bar_step_link('report', 2, 1, 1, true);
-        $this->assertEquals($infoactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num active">1</span><span class="pb-phase-name">Begin</span></a>');
-        $this->assertEquals($assignmentactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num active">2</span><span class="pb-phase-name">Assignment</span></a>');
-        $this->assertEquals($reportactive, '<a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num active">3</span><span class="pb-phase-name">Evaluation</span></a>');
+        $this->assertEquals($info, '<a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a>');
+        $this->assertEquals($assignment, '<a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a>');
+        $this->assertEquals($report, '<a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a>');
         // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
     }
 
@@ -106,19 +113,20 @@ class locallib_test extends \advanced_testcase {
      * Test generating whole step in the progress bar
      */
     public function test_create_progress_bar_step() {
-        $info = create_progress_bar_step('info', 0, 1, 1, 1);
-        $assignment = create_progress_bar_step('assignment', 1, 1, 1, 0);
-        $report = create_progress_bar_step('report', 2, 1, 1, 0);
-        $infoactive = create_progress_bar_step('info', 0, 1, 1, 0);
-        $assignmentactive = create_progress_bar_step('assignment', 1, 1, 1, 1);
-        $reportactive = create_progress_bar_step('report', 2, 1, 1, 2);
+        $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&d=1&page=0';
+        $info = create_progress_bar_step('info', 0, 1);
+        $assignment = create_progress_bar_step('assignment', 1, 0);
+        $report = create_progress_bar_step('report', 2, 0);
+        $infoactive = create_progress_bar_step('info', 0, 0);
+        $assignmentactive = create_progress_bar_step('assignment', 1, 1);
+        $reportactive = create_progress_bar_step('report', 2, 2);
         // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
-        $this->assertEquals($info, '<div class="pb-step first"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
-        $this->assertEquals($assignment, '<div class="pb-step"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
-        $this->assertEquals($report, '<div class="pb-step last"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
-        $this->assertEquals($infoactive, '<div class="pb-step active first"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num active">1</span><span class="pb-phase-name">Begin</span></a></div>');
-        $this->assertEquals($assignmentactive, '<div class="pb-step active"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num active">2</span><span class="pb-phase-name">Assignment</span></a></div>');
-        $this->assertEquals($reportactive, '<div class="pb-step active last"><a class="display-6" href="https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num active">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
+        $this->assertEquals($info, '<div class="pb-step first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
+        $this->assertEquals($assignment, '<div class="pb-step"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
+        $this->assertEquals($report, '<div class="pb-step last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
+        $this->assertEquals($infoactive, '<div class="pb-step active first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
+        $this->assertEquals($assignmentactive, '<div class="pb-step active"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
+        $this->assertEquals($reportactive, '<div class="pb-step active last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
         // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
     }
 
@@ -155,21 +163,22 @@ class locallib_test extends \advanced_testcase {
      * Test creating navigation buttons for view
      */
     public function test_navbuttons_html_output() {
-        $result = create_nav_buttons('info', 1, 2);
+        $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&d=2&page=0';
+        $result = create_nav_buttons('info');
         // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
-        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
+        $this->assertEquals('<div class="navbuttons"><a href=/mod/digitala/view.php?id=1&d=2&page=1 id="nextButton" class="btn btn-primary">Next ></a href=/mod/digitala/view.php?id=1&d=2&page=1></div>',
             $result);
-        $result = create_nav_buttons('assignmentprev', 1, 2);
-        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0 id="prevButton" class="btn btn-primary">< Previous</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=0></div>',
+        $result = create_nav_buttons('assignmentprev');
+        $this->assertEquals('<div class="navbuttons"><a href=/mod/digitala/view.php?id=1&d=2&page=0 id="prevButton" class="btn btn-primary">< Previous</a href=/mod/digitala/view.php?id=1&d=2&page=0></div>',
             $result);
-        $result = create_nav_buttons('assignmentnext', 1, 2);
-        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2 id="nextButton" class="btn btn-primary">Next ></a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=2></div>',
+        $result = create_nav_buttons('assignmentnext');
+        $this->assertEquals('<div class="navbuttons"><a href=/mod/digitala/view.php?id=1&d=2&page=2 id="nextButton" class="btn btn-primary">Next ></a href=/mod/digitala/view.php?id=1&d=2&page=2></div>',
             $result);
-        $result = create_nav_buttons('report', 1, 2);
-        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="tryAgainButton" class="btn btn-primary">See the assignment</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
+        $result = create_nav_buttons('report');
+        $this->assertEquals('<div class="navbuttons"><a href=/mod/digitala/view.php?id=1&d=2&page=1 id="tryAgainButton" class="btn btn-primary">See the assignment</a href=/mod/digitala/view.php?id=1&d=2&page=1></div>',
             $result);
-        $result = create_nav_buttons('report', 1, 2, 1);
-        $this->assertEquals('<div class="navbuttons"><a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1 id="tryAgainButton" class="btn btn-primary">Try again</a href=https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=2&amp;page=1></div>',
+        $result = create_nav_buttons('report', 1);
+        $this->assertEquals('<div class="navbuttons"><a href=/mod/digitala/view.php?id=1&d=2&page=1 id="tryAgainButton" class="btn btn-primary">Try again</a href=/mod/digitala/view.php?id=1&d=2&page=1></div>',
             $result);
         // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
     }
@@ -284,8 +293,9 @@ class locallib_test extends \advanced_testcase {
     public function test_save_answerrecording() {
         global $USER;
 
+        $_SERVER['REQUEST_URI'] = '';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
         $fileinfo = array(
             'contextid' => \context_user::instance($USER->id)->id,
@@ -314,24 +324,25 @@ class locallib_test extends \advanced_testcase {
     public function test_create_answerrecording_form() {
         global $USER;
 
+        $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=4&d=5&page=1';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 4, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
         $result = create_answerrecording_form($assignment);
         if (PHPUnitVersion::series() < 9) {
-            $this->assertRegExp('/form id="answerrecording"/', $result);
-            $this->assertRegExp('/id=4/', $result);
-            $this->assertRegExp('/d=5/', $result);
-            $this->assertRegExp('/page=1/', $result);
-            $this->assertRegExp('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
+            $assertRegExp = function($a, $b) {
+                return $this->assertRegExp($a, $b);
+            };
         } else {
-            $this->assertMatchesRegularExpression('/form id="answerrecording"/', $result);
-            $this->assertMatchesRegularExpression('/id=4/', $result);
-            $this->assertMatchesRegularExpression('/d=5/', $result);
-            $this->assertMatchesRegularExpression('/page=1/', $result);
-            $this->assertMatchesRegularExpression('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
+            $assertRegExp = function($a, $b) {
+                return $this->assertMatchesRegularExpression($a, $b);
+            };
         }
-
+        $assertRegExp('/form id="answerrecording"/', $result);
+        $assertRegExp('/id=4/', $result);
+        $assertRegExp('/d=5/', $result);
+        $assertRegExp('/page=1/', $result);
+        $assertRegExp('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
     }
 
     /**
@@ -340,8 +351,9 @@ class locallib_test extends \advanced_testcase {
     public function test_save_answerrecording_form_with_data() {
         global $USER;
         \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}', 'recordinglength' => 10), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&page=1';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
         $result = save_answerrecording_form($assignment);
         $this->assertEquals('<p id="submitErrors"></p><br>No evaluation was found. Check your connection with server.', $result);
@@ -352,8 +364,9 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_save_answerrecording_form_wo_data() {
         global $USER;
+        $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&page=1';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
         $result = save_answerrecording_form($assignment);
         $this->assertEquals('<p id="submitErrors"></p>', $result);
@@ -577,8 +590,9 @@ class locallib_test extends \advanced_testcase {
         save_attempt($assignment, 'filename', $evaluation, 60);
 
         \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form');
+        $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&page=1';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $result = create_attempt_modal($assignment);
         $this->assertStringStartsWith('<button id="submitModalButton" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#attemptModal" style="display: none">Submit answer</button><div class="modal" id="attemptModal" tabindex="-1" role="dialog" aria-labelledby="submitModal" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Are you sure you want to submit this attempt?</h5><button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>You still have 1 attempts remaining on this assignment.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>', $result);

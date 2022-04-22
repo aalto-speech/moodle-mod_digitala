@@ -55,26 +55,31 @@ function delete_url($id, $studentid=null) {
 }
 
 /**
+ * Used to generate page urls for digitala module student views.
+ *
+ * @param number $page number of the step
+ * @param number $id id of the course module
+ * @param number $d id of the activity instance
+ */
+function switch_page($page) {
+    $count = 0;
+    $url = preg_replace('/&page=\d/i', '&page='.$page, $_SERVER['REQUEST_URI'], -1, $count);
+    if ($count) {
+        return $url;
+    }
+    return $url . '&page='.$page;
+}
+
+/**
  * Used to generate links in the steps of the progress bar.
  *
  * @param string $name name of the step
  * @param number $page number of the step
- * @param number $id id of the course module
- * @param number $d id of the activity instance
- * @param bool $iscurrent true if page is currently active
  */
-function create_progress_bar_step_link($name, $page, $id, $d, $iscurrent) {
-    $url = page_url($page, $id, $d);
-    $pageout = $page + 1;
-    $name = get_string($name, 'digitala');
-    if ($iscurrent) {
-        $title = '<span class="pb-num active">'.$pageout.'</span>'.
-                 '<span class="pb-phase-name">'.$name.'</span>';
-    } else {
-        $title = '<span class="pb-num">'.$pageout.'</span>'.
-                 '<span class="pb-phase-name">'.$name.'</span>';
-    }
-    $out = html_writer::link($url, $title, array('class' => 'display-6'));
+function create_progress_bar_step_link($name, $page) {
+    $title = '<span class="pb-num">'.$page+1 .'</span>'.
+             '<span class="pb-phase-name">'.get_string($name, 'digitala').'</span>';
+    $out = html_writer::link(switch_page($page), $title, array('class' => 'display-6'));
     return $out;
 }
 
@@ -99,25 +104,21 @@ function end_progress_bar() {
  *
  * @param string $name name of the step as lang API compatible id
  * @param number $page number of the step
- * @param number $id id of the course module
- * @param number $d id of the activity instance
  * @param number $currentpage number of the active page
  */
-function create_progress_bar_step($name, $page, $id, $d, $currentpage) {
+function create_progress_bar_step($name, $page, $currentpage) {
     $classes = 'pb-step';
-    $iscurrent = $page == $currentpage;
-    if ($iscurrent) {
+    if ($page == $currentpage) {
         $classes .= ' active';
     }
     if ($page == 0) {
         $classes .= ' first';
-    }
-    if ($page == 2) {
+    } else if ($page == 2) {
         $classes .= ' last';
     }
 
     $out = html_writer::start_div($classes);
-    $out .= create_progress_bar_step_link($name, $page, $id, $d, $iscurrent);
+    $out .= create_progress_bar_step_link($name, $page);
     $out .= html_writer::end_div();
     return $out;
 }
@@ -159,9 +160,7 @@ function create_progress_bar_spacer($mode) {
 
     if ($mode == 'left-empty') {
         $out .= '<path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/>';
-    }
-
-    if ($mode == 'right-empty') {
+    } else if ($mode == 'right-empty') {
         $out .= '<path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/>';
     }
     $out .= '<path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/>';
@@ -448,7 +447,6 @@ function create_short_assignment_tabs($assignment, $resources) {
 /**
  * Creates a button with identical id and
  * Send user audio file to Aalto ASR for evaluation.
- * class
  *
  * @param string $id of the button
  * @param string $class of the button
@@ -457,11 +455,11 @@ function create_short_assignment_tabs($assignment, $resources) {
  *
  */
 function create_button($id, $class, $text, $disabled = false) {
+    $options = array('id' => $id, 'class' => $class);
     if ($disabled) {
-        $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class, 'disabled' => 'true'));
-    } else {
-        $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class));
+        $options['disabled'] = 'true';
     }
+    $out = html_writer::tag('button', $text, $options);
 
     return $out;
 }
@@ -470,34 +468,33 @@ function create_button($id, $class, $text, $disabled = false) {
  * Creates navigation buttons with identical id and class
  *
  * @param string $buttonlocation location (info, assignmentprev, assignmentnext report) of the step
- * @param number $id id of the course module
- * @param number $d id of the activity instance
  * @param number $remaining remaining number of attempts used in report page
  */
-function create_nav_buttons($buttonlocation, $id, $d, $remaining = 0) {
+function create_nav_buttons($buttonlocation, $remaining = 0) {
     $out = html_writer::start_div('navbuttons');
     if ($buttonlocation == 'info') {
-        $newurl = page_url(1, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('navnext', 'digitala'),
-                array('id' => 'nextButton', 'class' => 'btn btn-primary'));
+        $newurl = switch_page(1);
+        $string = 'navnext';
+        $id = 'nextButton';
     } else if ($buttonlocation == 'assignmentprev') {
-        $newurl = page_url(0, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('navprevious', 'digitala'),
-                array('id' => 'prevButton', 'class' => 'btn btn-primary'));
+        $newurl = switch_page(0);
+        $string = 'navprevious';
+        $id = 'prevButton';
     } else if ($buttonlocation == 'assignmentnext') {
-        $newurl = page_url(2, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('navnext', 'digitala'),
-                array('id' => 'nextButton', 'class' => 'btn btn-primary'));
+        $newurl = switch_page(2);
+        $string = 'navnext';
+        $id = 'nextButton';
     } else if ($buttonlocation == 'report') {
-        $newurl = page_url(1, $id, $d);
+        $newurl = switch_page(1);
         if ($remaining == 0) {
             $string = 'navstartagain';
         } else {
             $string = 'navtryagain';
         }
-        $out .= html_writer::tag('a href=' . $newurl, get_string($string, 'digitala'),
-                array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
+        $id = 'tryAgainButton';
     }
+    $out .= html_writer::tag('a href=' . $newurl, get_string($string, 'digitala'),
+            array('id' => $id, 'class' => 'btn btn-primary'));
     $out .= html_writer::end_div();
 
     return $out;
@@ -608,10 +605,8 @@ function save_answerrecording($formdata, $assignment) {
 
     save_attempt($assignment, $audiofile->file, json_decode($evaluation), $recordinglength);
 
-    if (isset($_SERVER['REQUEST_URI'])) {
-        $url = $_SERVER['REQUEST_URI'];
-        $newurl = str_replace('page=1', 'page=2', $url);
-        redirect($newurl);
+    if (!empty($_SERVER['REQUEST_URI'])) {
+        redirect(switch_page(2));
     } else {
         $out = get_string('error_url-not-set', 'digitala');
     }

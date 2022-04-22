@@ -66,7 +66,7 @@ $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
 $pagenum = optional_param('page', 0, PARAM_INT);
 
-$content = $OUTPUT->render(new digitala_progress_bar($id, $d, $pagenum));
+$content = $OUTPUT->render(new digitala_progress_bar($pagenum));
 
 $config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC',
 'chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'], 'waitSeconds' => 40, 'enforceDefine' => false];
@@ -79,16 +79,14 @@ $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
 $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($pagenum));
 
 if ($pagenum == 0) {
-    $content .= $OUTPUT->render(new digitala_info($id, $d));
+    $content .= $OUTPUT->render(new digitala_info());
 } else if ($pagenum == 1) {
-    $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id,
-                                $id, $d, $moduleinstance->assignment, $moduleinstance->resources,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang,
-                                $moduleinstance->maxlength, $moduleinstance->attemptlimit));
+    $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id, $id,
+                                $moduleinstance->assignment, $moduleinstance->resources, $moduleinstance->attempttype,
+                                $moduleinstance->attemptlang, $moduleinstance->maxlength, $moduleinstance->attemptlimit));
 } else if ($pagenum == 2) {
-    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
-                                $USER->id));
+    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $moduleinstance->attempttype,
+                                $moduleinstance->attemptlang, $moduleinstance->attemptlimit, $USER->id));
 } else {
     $content = get_string('results_denied', 'digitala');
 }

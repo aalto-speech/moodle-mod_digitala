@@ -44,11 +44,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_progress_bar(digitala_progress_bar $progressbar) {
         $spacers = calculate_progress_bar_spacers($progressbar->currpage);
         $out = start_progress_bar();
-        $out .= create_progress_bar_step('info', 0, $progressbar->id, $progressbar->d, $progressbar->currpage);
+        $out .= create_progress_bar_step('info', 0,  $progressbar->currpage);
         $out .= create_progress_bar_spacer($spacers['left']);
-        $out .= create_progress_bar_step('assignment', 1, $progressbar->id, $progressbar->d, $progressbar->currpage);
+        $out .= create_progress_bar_step('assignment', 1, $progressbar->currpage);
         $out .= create_progress_bar_spacer($spacers['right']);
-        $out .= create_progress_bar_step('report', 2, $progressbar->id, $progressbar->d, $progressbar->currpage);
+        $out .= create_progress_bar_step('report', 2, $progressbar->currpage);
         $out .= end_progress_bar();
         return $out;
     }
@@ -62,11 +62,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_info(digitala_info $info) {
         $out = start_container('digitala-info');
 
-        // For the info text and microphone.
         $out .= start_column();
         $out .= create_card('microphone', create_microphone_icon());
         $out .= create_card('info', get_string('infotext', 'digitala') . create_microphone());
-        $out .= create_nav_buttons('info', $info->id, $info->d);
+        $out .= create_nav_buttons('info');
         $out .= end_column();
 
         $out .= end_container();
@@ -89,13 +88,13 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         if ($assignment->attemptlimit != 0 && isset($attempt) && $attempt->attemptnumber >= $assignment->attemptlimit) {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
-            $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
+            $out .= create_nav_buttons('assignmentnext');
         } else {
             $out .= create_card('assignmentrecord', create_attempt_number($assignment, $assignment->userid).
                                                     save_answerrecording_form($assignment).
                                                     create_microphone($assignment->maxlength).
                                                     create_attempt_modal($assignment));
-            $out .= create_nav_buttons('assignmentprev', $assignment->id, $assignment->d);
+            $out .= create_nav_buttons('assignmentprev');
         }
         $out .= end_column();
 
@@ -149,7 +148,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $out .= create_report_gop($attempt->gop_score);
             }
         }
-        $out .= create_nav_buttons('report', $report->id, $report->d, $remaining);
+        $out .= create_nav_buttons('report', $remaining);
         $out .= create_fixed_box();
         $out .= end_column();
 
