@@ -68,23 +68,27 @@ $pagenum = optional_param('page', 0, PARAM_INT);
 
 $content = $OUTPUT->render(new digitala_progress_bar($pagenum));
 
-$config = ['paths' => ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC',
-'chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'], 'waitSeconds' => 40, 'enforceDefine' => false];
+$config = ['waitSeconds' => 40, 'enforceDefine' => false];
+if ($pagenum == 0 || $pagenum == 1) {
+    $config['paths'] = ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC'];
+} else if ($pagenum == 2){
+    $config['paths'] = ['chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'];
+}
 $requirejs = 'require.config(' . json_encode($config) . ')';
 $PAGE->requires->js_amd_inline($requirejs);
 
-$maxlength = $moduleinstance->maxlength;
-$PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
-                             array($pagenum, $id, $USER->id, $USER->username, $maxlength));
-$PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($pagenum));
-
 if ($pagenum == 0) {
+    $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
+                                array($pagenum, $id, $USER->id, $USER->username, $moduleinstance->maxlength));
     $content .= $OUTPUT->render(new digitala_info());
 } else if ($pagenum == 1) {
+    $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
+                                array($pagenum, $id, $USER->id, $USER->username, $moduleinstance->maxlength));
     $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id, $id,
                                 $moduleinstance->assignment, $moduleinstance->resources, $moduleinstance->attempttype,
                                 $moduleinstance->attemptlang, $moduleinstance->maxlength, $moduleinstance->attemptlimit));
 } else if ($pagenum == 2) {
+    $PAGE->requires->js_call_amd('mod_digitala/chart', 'init');
     $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $moduleinstance->attempttype,
                                 $moduleinstance->attemptlang, $moduleinstance->attemptlimit, $USER->id));
 } else {
