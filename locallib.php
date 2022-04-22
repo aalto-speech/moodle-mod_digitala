@@ -299,8 +299,6 @@ function create_report_holistic($grade) {
 
 /**
  * Creates more information container from report
- *
- * @param string $text information to show on report page given by the server
  */
 function create_report_waiting() {
     $out = html_writer::start_div('card row digitala-card');
@@ -327,6 +325,30 @@ function create_report_waiting() {
 
 /**
  * Creates more information container from report
+ */
+function create_report_retry() {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= html_writer::tag('h5', get_string('results_retry-title', 'digitala'), array('class' => 'card-title'));
+
+    $out .= html_writer::start_div('card-text');
+
+    $out .= html_writer::start_div('spinner-border text-primary', array('role' => 'status'));
+    $out .= html_writer::tag('span', get_string('results_waiting-loading', 'digitala'), array('class' => 'sr-only'));
+    $out .= html_writer::end_div();
+
+    $out .= html_writer::tag('p', get_string('results_retry-info', 'digitala'));
+    $out .= html_writer::end_div();
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
+ * Creates more information container from report
  *
  * @param string $text information to show on report page given by the server
  */
@@ -337,27 +359,6 @@ function create_report_information($text) {
     $out .= html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::div($text, 'card-text');
-
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-
-    return $out;
-}
-
-/**
- * Creates grading information container from report
- *
- * @param int $grade grading number given by the server
- */
-function create_report_gop($grade) {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
-
-    $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array('class' => 'card-title'));
-
-    $out .= html_writer::tag('h6', $grade * 100 . '%', array('class' => 'grade-number'));
-
-    $out .= html_writer::div(get_string('gop_score-'.floor($grade * 10), 'digitala'), 'card-text');
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
@@ -605,17 +606,15 @@ function save_answerrecording($formdata, $assignment) {
     file_save_draft_area_files($audiofile->id, $fileinfo->contextid, $fileinfo->component,
                                 $fileinfo->filearea, $fileinfo->itemid);
 
+    create_waiting_attempt($assignment, $fileinfo->filename, $recordinglength);
     send_answerrecording_for_evaluation($fileinfo, $assignment, $recordinglength);
 
     if (isset($_SERVER['REQUEST_URI'])) {
-        $url = $_SERVER['REQUEST_URI'];
-        $newurl = str_replace('page=1', 'page=2', $url);
+        $newurl = str_replace('page=1', 'page=2', $_SERVER['REQUEST_URI']);
         redirect($newurl);
     } else {
-        $out = get_string('error_url-not-set', 'digitala');
+        return get_string('error_url-not-set', 'digitala');
     }
-
-    return $out;
 }
 
 /**
@@ -626,7 +625,6 @@ function save_answerrecording($formdata, $assignment) {
  * @param string $length - length of the recording
  */
 function send_answerrecording_for_evaluation($fileinfo, $assignment, $length) {
-    create_waiting_attempt($assignment, $fileinfo->filename, $length);
     $task = new \mod_digitala\task\send_to_evaluation();
     $task->set_custom_data(array(
         'assignment' => $assignment,
@@ -673,31 +671,70 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
 }
 
 /**
+ * Set attempt status in database.
+ *
+ * @param mixed $attempt - object containing attempt information
+ * @param string $status - status of the attempt
+ */
+function set_attempt_status($attempt, $status) {
+    global $DB;
+
+    $attempt->status = $status;
+    $attempt->timemodified = time();
+
+    $DB->update_record('digitala_attempts', $attempt);
+}
+
+/**
+ * Save attempt as failed in database.
+ *
+ * @param mixed $attempt - object containing attempt information
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ */
+function save_failed_attempt($attempt, $assignment) {
+    global $DB;
+
+    $attempt->status = 'failed';
+    $attempt->transcript = '';
+    $attempt->attemptnumber--;
+    $attempt->fluency = 0;
+    $attempt->pronunciation = 0;
+    if ($assignment->attempttype == 'freeform') {
+        $attempt->taskcompletion = 0;
+        $attempt->lexicogrammatical = 0;
+        $attempt->holistic = 0;
+    } else {
+        $attempt->feedback = '';
+    }
+    $attempt->timemodified = time();
+
+    $DB->update_record('digitala_attempts', $attempt);
+}
+
+/**
  * Save the attempt to the database.
  *
  * @param digitala_assignment $assignment - assignment includes needed identifications
- * @param string $filename - file name of the recording
  * @param mixed $evaluation - mixed object containing evaluation info
- * @param mixed $recordinglength - length of recording in seconds
  */
-function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
+function save_attempt($assignment, $evaluation) {
     global $DB;
 
     $attempt = get_attempt($assignment->instanceid, $assignment->userid);
     $attempt->status = 'evaluated';
     $attempt->transcript = $evaluation->transcript;
+    $attempt->fluency = $evaluation->fluency->score > 4 ? 0 : $evaluation->fluency->score;
+    $attempt->fluency = $attempt->fluency < 0 ? 0 : $attempt->fluency;
+    $attempt->fluency = round($attempt->fluency, 2);
+    $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
+    $attempt->pronunciation = $evaluation->pronunciation->score > 4 ? 0 : $evaluation->pronunciation->score;
+    $attempt->pronunciation = $attempt->pronunciation < 0 ? 0 : $attempt->pronunciation;
+    $attempt->pronunciation = round($attempt->pronunciation, 2);
+    $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
     if ($assignment->attempttype == 'freeform') {
         $attempt->taskcompletion = $evaluation->task_completion > 3 ? 0 : $evaluation->task_completion;
         $attempt->taskcompletion = $attempt->taskcompletion < 0 ? 0 : $attempt->taskcompletion;
         $attempt->taskcompletion = round($attempt->taskcompletion, 0, 2);
-        $attempt->fluency = $evaluation->fluency->score > 4 ? 0 : $evaluation->fluency->score;
-        $attempt->fluency = $attempt->fluency < 0 ? 0 : $attempt->fluency;
-        $attempt->fluency = round($attempt->fluency, 2);
-        $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
-        $attempt->pronunciation = $evaluation->pronunciation->score > 4 ? 0 : $evaluation->pronunciation->score;
-        $attempt->pronunciation = $attempt->pronunciation < 0 ? 0 : $attempt->pronunciation;
-        $attempt->pronunciation = round($attempt->pronunciation, 2);
-        $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
         $attempt->lexicogrammatical = $evaluation->lexicogrammatical->score > 3 ? 0 : $evaluation->lexicogrammatical->score;
         $attempt->lexicogrammatical = $attempt->lexicogrammatical < 0 ? 0 : $attempt->lexicogrammatical;
         $attempt->lexicogrammatical = round($attempt->lexicogrammatical, 2);
@@ -706,15 +743,11 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         $attempt->holistic = $attempt->holistic < 0 ? 0 : $attempt->holistic;
         $attempt->holistic = round($attempt->holistic, 2);
     } else {
-        $attempt->feedback = $evaluation->feedback;
-        $attempt->gop_score = $evaluation->GOP_score > 1 ? 0 : $evaluation->GOP_score;
-        $attempt->gop_score = $attempt->gop_score < 0 ? 0 : $attempt->gop_score;
-        $attempt->gop_score = round($attempt->gop_score, 2);
+        $attempt->feedback = $evaluation->annotated_response;
     }
     $attempt->timemodified = time();
 
     $DB->update_record('digitala_attempts', $attempt);
-
 }
 
 /**
@@ -730,18 +763,18 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
     $feedback = new stdClass();
     $feedback->attempt = $oldattempt->id;
 
+    $feedback->old_fluency = $oldattempt->fluency;
+    $feedback->fluency = $fromform->fluency;
+    $feedback->fluency_reason = $fromform->fluencyreason;
+
+    $feedback->old_pronunciation = $oldattempt->pronunciation;
+    $feedback->pronunciation = $fromform->pronunciation;
+    $feedback->pronunciation_reason = $fromform->pronunciationreason;
+
     if ($attempttype == 'freeform') {
         $feedback->old_taskcompletion = $oldattempt->taskcompletion;
         $feedback->taskcompletion = $fromform->taskcompletion;
         $feedback->taskcompletion_reason = $fromform->taskcompletionreason;
-
-        $feedback->old_fluency = $oldattempt->fluency;
-        $feedback->fluency = $fromform->fluency;
-        $feedback->fluency_reason = $fromform->fluencyreason;
-
-        $feedback->old_pronunciation = $oldattempt->pronunciation;
-        $feedback->pronunciation = $fromform->pronunciation;
-        $feedback->pronunciation_reason = $fromform->pronunciationreason;
 
         $feedback->old_lexicogrammatical = $oldattempt->lexicogrammatical;
         $feedback->lexicogrammatical = $fromform->lexicogrammatical;
@@ -750,15 +783,9 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
         $feedback->old_holistic = $oldattempt->holistic;
         $feedback->holistic = $fromform->holistic;
         $feedback->holistic_reason = $fromform->holisticreason;
-    } else if ($attempttype == 'readaloud') {
-        $feedback->old_gop_score = $oldattempt->gop_score;
-        $feedback->gop_score = $fromform->gop;
-        $feedback->gop_score_reason = $fromform->gopreason;
     }
 
-    $timenow = time();
-
-    $feedback->timecreated = $timenow;
+    $feedback->timecreated = time();
 
     $DB->insert_record('digitala_report_feedback', $feedback);
 }
@@ -900,7 +927,7 @@ function create_result_row($attempt, $id, $user) {
     if ($attempt->holistic) {
         $score = $attempt->holistic;
     } else {
-        $score = $attempt->gop_score;
+        $score = $attempt->fluency;
     }
     $time = convertsecondstostring($attempt->recordinglength);
     $tries = ($attempt->attemptnumber);
@@ -931,7 +958,7 @@ function create_answerrecording_form($assignment) {
 function save_answerrecording_form($assignment) {
     $out = html_writer::tag('p', '', array('id' => 'submitErrors'));
     if ($formdata = $assignment->form->get_data()) {
-        $out .= '<br>' . save_answerrecording($formdata, $assignment);
+        save_answerrecording($formdata, $assignment);
     }
     return $out;
 }

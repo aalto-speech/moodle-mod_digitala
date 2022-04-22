@@ -82,19 +82,6 @@ $string['transcription'] = 'Puhenäytteesi tekstinä';
 
 $string['task_grades'] = 'Analyyttinen arvio';
 
-$string['gop'] = 'Ääntämisen taso (GOP)';
-$string['gop_score-0'] = 'Ääntämisen taso on 0.';
-$string['gop_score-1'] = 'Ääntämisen taso on 1.';
-$string['gop_score-2'] = 'Ääntämisen taso on 2.';
-$string['gop_score-3'] = 'Ääntämisen taso on 3.';
-$string['gop_score-4'] = 'Ääntämisen taso on 4.';
-$string['gop_score-5'] = 'Ääntämisen taso on 5.';
-$string['gop_score-6'] = 'Ääntämisen taso on 6.';
-$string['gop_score-7'] = 'Ääntämisen taso on 7.';
-$string['gop_score-8'] = 'Ääntämisen taso on 8.';
-$string['gop_score-9'] = 'Ääntämisen taso on 9.';
-$string['gop_score-10'] = 'Ääntämisen taso on 10.';
-
 $string['holistic'] = 'Taitotasoarvio';
 $string['holistic_description'] = 'Automaattisen arvion mukaan vaikuttaa siltä, että taitotasosi on ';
 $string['holistic_level-0'] = 'Alle A1';

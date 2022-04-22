@@ -26,11 +26,28 @@ namespace mod_digitala\task;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/../../locallib.php');
 
+/**
+ * Sends attempt to evaluation
+ */
 class send_to_evaluation extends \core\task\adhoc_task {
+    /**
+     * Return the task's name as shown in admin screens.
+     *
+     * @return string
+     */
+    public function get_name() {
+        return get_string('task-send_to_evaluations', 'digitala');
+    }
+
+    /**
+     * Sends attempt to evaluation
+     */
     public function execute() {
+        global $DB;
+        \set_time_limit(0);
         // Get the custom data.
         $data = $this->get_custom_data();
-        echo 'Evaluation in progress';
+        mtrace('Evaluation in progress');
         $fs = get_file_storage();
         $fileinfo = $data->fileinfo;
         $file = $fs->get_file($fileinfo->contextid, $fileinfo->component, $fileinfo->filearea,
@@ -42,8 +59,21 @@ class send_to_evaluation extends \core\task\adhoc_task {
         $params = array('file' => $file);
 
         $c = new \curl(array('ignoresecurity' => true));
+        $c->setopt(array('CURLOPT_CONNECTTIMEOUT' => 0, 'CURLOPT_TIMEOUT' => 1800));
 
-        $evaluation = $c->post($url . $add, $params);
-        save_attempt($data->assignment, $file->get_filename(), json_decode($evaluation), $data->length);
+        $evaluation = json_decode($c->post($url . $add, $params));
+        if (isset($evaluation->transcript)) {
+            save_attempt($data->assignment, $evaluation);
+            mtrace('Evaluation done');
+        } else {
+            $attempt = get_attempt($data->assignment->instanceid, $data->assignment->userid);
+            if ($attempt->status == 'waiting') {
+                set_attempt_status($attempt, 'retry');
+                mtrace('Evaluation in will be tried again');
+            } else if ($attempt->status == 'retry') {
+                save_failed_attempt($attempt, $data->assignment);
+                mtrace('Evaluation failed totally');
+            }
+        }
     }
 }

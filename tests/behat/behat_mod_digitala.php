@@ -64,6 +64,7 @@ class behat_mod_digitala extends behat_base {
             $attempt->timecreated = $time;
             $attempt->timemodified = $time;
             $attempt->recordinglength = $row['recordinglength'];
+            $attempt->status = $row['status'];
 
             $DB->insert_record('digitala_attempts', $attempt);
         }
@@ -92,10 +93,12 @@ class behat_mod_digitala extends behat_base {
             $attempt->file = $row['file'];
             $attempt->transcript = $row['transcript'];
             $attempt->feedback = $row['feedback'];
-            $attempt->gop_score = $row['gop_score'];
+            $attempt->fluency = $row['fluency'];
+            $attempt->pronunciation = $row['pronunciation'];
             $attempt->timecreated = $time;
             $attempt->timemodified = $time;
             $attempt->recordinglength = $row['recordinglength'];
+            $attempt->status = $row['status'];
 
             $DB->insert_record('digitala_attempts', $attempt);
         }

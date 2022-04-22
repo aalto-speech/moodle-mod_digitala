@@ -82,19 +82,6 @@ $string['transcription'] = 'A transcript of your speech sample';
 
 $string['task_grades'] = 'Analytic grading';
 
-$string['gop'] = 'Goodness of pronunciation';
-$string['gop_score-0'] = 'Pronunciation score is 0, red score.';
-$string['gop_score-1'] = 'Pronunciation score is 1, light red score.';
-$string['gop_score-2'] = 'Pronunciation score is 2, pink score.';
-$string['gop_score-3'] = 'Pronunciation score is 3, brown score.';
-$string['gop_score-4'] = 'Pronunciation score is 4, light yellow score.';
-$string['gop_score-5'] = 'Pronunciation score is 5, yellow score.';
-$string['gop_score-6'] = 'Pronunciation score is 6, teal score.';
-$string['gop_score-7'] = 'Pronunciation score is 7, big pink score.';
-$string['gop_score-8'] = 'Pronunciation score is 8, cyan score.';
-$string['gop_score-9'] = 'Pronunciation score is 9, light green score.';
-$string['gop_score-10'] = 'Pronunciation score is 10, green score.';
-
 $string['holistic'] = 'Proficiency level';
 $string['holistic_description'] = 'Based on the automatic grading, it seems that your proficiency level is ';
 $string['holistic_level-0'] = 'Below A1';
@@ -192,6 +179,8 @@ $string['results_waiting-title'] = 'Evaluation in progress';
 $string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
 $string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
 $string['results_waiting-loading'] = 'Loading...';
+$string['results_retry-title'] = 'Evaluation failed';
+$string['results_retry-info'] = 'Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities.';
 
 $string['feedback_success'] = 'Comment added successfully to students report.';
 $string['feedback_not-found'] = 'Report for given student is not found';

@@ -86,7 +86,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
 
         $attempt = get_attempt($assignment->instanceid, $assignment->userid);
-        if (isset($attempt) && $attempt->status == 'waiting') {
+        if (isset($attempt) && ($attempt->status == 'waiting' || $attempt->status == 'retry')) {
             $url = str_replace('page=1', 'page=2', $_SERVER['REQUEST_URI']);
             $out .= create_card('assignmentrecord', get_string('results_waiting-info', 'digitala'));
             $out .= html_writer::tag('a', get_string('results_waiting-refresh', 'digitala'),
@@ -130,7 +130,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
         } else if ($attempt->status == 'waiting') {
             $remaining -= $attempt->attemptnumber;
             $out .= create_report_waiting();
-        } else if ($attempt->status == 'evaluated') {
+        } else if ($attempt->status == 'retry') {
+            $remaining -= $attempt->attemptnumber;
+            $out .= create_report_retry();
+        } else if ($attempt->status == 'evaluated' || $attempt->status == 'failed') {
             $remaining -= $attempt->attemptnumber;
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
@@ -139,10 +142,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                           '<br><br><audio controls><source src='.$audiourl.'></audio>');
 
             $out .= create_report_transcription($attempt->transcript);
+            $gradings = create_report_grading('fluency', $attempt->fluency, 4);
+            $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
             if ($report->attempttype == 'freeform') {
-                $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
-                $gradings .= create_report_grading('fluency', $attempt->fluency, 4);
-                $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
+                $gradings .= create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
                 $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
 
                 $holistic = create_report_holistic(floor($attempt->holistic));
@@ -152,7 +155,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $out .= create_report_tabs($gradings, $holistic, $information);
             } else {
                 $out .= create_report_feedback($attempt->feedback);
-                $out .= create_report_gop($attempt->gop_score);
+                $out .= $gradings;
             }
         } else {
             $out .= create_card('report-title', get_string('reportnotavailable', 'digitala'));
