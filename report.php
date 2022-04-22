@@ -68,7 +68,7 @@ $mode = optional_param('mode', 'overview', PARAM_TEXT);
 $student = optional_param('student', 0, PARAM_INT);
 
 if ($mode == 'overview') {
-    $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $modulecontext->id, $id, $d));
+    $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $id));
 } else if ($mode == 'detail') {
     $config = ['paths' => ['chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'],
             'waitSeconds' => 40, 'enforceDefine' => false];

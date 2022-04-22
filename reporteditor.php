@@ -66,8 +66,7 @@ $PAGE->set_context($modulecontext);
 
 $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
-$content = $OUTPUT->render(new digitala_report_editor($moduleinstance->id, $modulecontext->id, $id, $d,
-                           $moduleinstance->attempttype, $moduleinstance->attemptlang, $student));
+$content = $OUTPUT->render(new digitala_report_editor($moduleinstance->id, $id, $moduleinstance->attempttype, $student));
 
 echo $OUTPUT->header();
 

@@ -248,7 +248,6 @@ class mod_digitala_renderer extends plugin_renderer_base {
             redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$reporteditor->id.'&mode=detail&student='
                      .$reporteditor->student);
         } else if ($fromform = $form->get_data()) {
-            // In the future third phase, update evaluation in digitala_attempt here...
             save_report_feedback($reporteditor->attempttype, $fromform, $attempt);
             redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$reporteditor->id.'&mode=detail&student='
                      .$reporteditor->student, get_string('feedback_success', 'digitala'),

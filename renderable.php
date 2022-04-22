@@ -79,7 +79,6 @@ class digitala_assignment implements renderable {
      * @param int $instanceid - Instance id of the activty
      * @param int $contextid - Context id of the activty
      * @param int $userid - Id of the current active user
-     * @param string $username - Username of the current active user
      * @param int $id - Id of the activity
      * @param int $d - Id of the course
      * @param string $assignmenttext - Assignment text for the assignment
@@ -89,14 +88,13 @@ class digitala_assignment implements renderable {
      * @param int $maxlength - maximum length of the recording in seconds, 0 = no limit
      * @param string $attemptlimit - Number of attempts that a person can submit
      */
-    public function __construct($instanceid, $contextid, $userid, $username, $id = 0, $d = 0,
+    public function __construct($instanceid, $contextid, $userid, $id = 0, $d = 0,
         $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '',  $maxlength = 0, $attemptlimit = 1) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
         $this->d = $d;
         $this->userid = $userid;
-        $this->username = $username;
         $this->assignmenttext = $assignmenttext;
         $this->resourcetext = $resourcetext;
         $this->attempttype = $attempttype;
@@ -179,21 +177,14 @@ class digitala_report_editor implements renderable {
     /**
      * Constructor
      * @param int $instanceid - Instance id of the activty
-     * @param int $contextid - Context id of the activty
      * @param int $id - Id of the activity
-     * @param int $d - Id of the course
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
-     * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
      * @param int $student - User id of student
      */
-    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $attempttype = '', $attemptlang = '',
-                                $student = null) {
+    public function __construct($instanceid, $id = $attempttype = '', $student = null) {
         $this->instanceid = $instanceid;
-        $this->contextid = $contextid;
         $this->id = $id;
-        $this->d = $d;
         $this->attempttype = $attempttype;
-        $this->attemptlang = $attemptlang;
         $this->student = $student;
     }
 }
@@ -210,15 +201,11 @@ class digitala_results implements renderable {
     /**
      * Constructor
      * @param int $instanceid - Instance id of the activty
-     * @param int $contextid - Context id of the activty
      * @param int $id - Id of the activity
-     * @param int $d - Id of the course
      */
-    public function __construct($instanceid, $contextid, $id, $d) {
+    public function __construct($instanceid, $id) {
         $this->instanceid = $instanceid;
-        $this->contextid = $contextid;
         $this->id = $id;
-        $this->d = $d;
     }
 }
 
@@ -239,7 +226,7 @@ class digitala_delete implements renderable {
      */
     public function __construct($instanceid, $id, $studentid) {
         $this->instanceid = $instanceid;
-        $this->studentid = $studentid;
         $this->id = $id;
+        $this->studentid = $studentid;
     }
 }
