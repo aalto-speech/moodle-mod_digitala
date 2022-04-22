@@ -79,6 +79,8 @@ $string['report-title'] = 'Evaluation report';
 $string['reportnotavailable'] = 'A report for this assignment is not available yet.';
 $string['reportinformation'] = 'This feedback concerns only the speech sample you produced and it does not cover all aspects of your oral language skills. A machine produces your grades automatically. We have taught the machine with speech from other language learners together with other language-specific data.';
 $string['transcription'] = 'A transcript of your speech sample';
+$string['transcription_tab-plain'] = 'Plain text';
+$string['transcription_tab-corrected'] = 'Show corrections';
 
 $string['task_grades'] = 'Analytic grading';
 

@@ -446,6 +446,40 @@ function create_short_assignment_tabs($assignment, $resources) {
 }
 
 /**
+ * Creates pills navigation between plain and corrected transcription
+ *
+ * @param string $transcript content of transcript shown
+ * @param string $feedback content of corrected transcription shown
+ */
+function create_transcript_toggle($transcript, $feedback) {
+    $transcript = create_report_transcription($transcript);
+    $feedback = create_report_feedback($feedback);
+    $out = html_writer::start_tag('nav');
+    $out .= html_writer::start_div('nav nav-pills', array('id' => 'nav-pills', 'role' => 'tablist'));
+    $out .= html_writer::tag('button', get_string('transcription_tab-corrected', 'digitala'),
+                             array('class' => 'nav-link active ml-1', 'id' => 'readaloud-feedback-tab', 'data-toggle' => 'tab',
+                                   'href' => '#readaloud-feedback', 'role' => 'tab', 'aria-controls' => 'readaloud-feedback',
+                                   'aria-selected' => 'true'));
+    $out .= html_writer::tag('button', get_string('transcription_tab-plain', 'digitala'),
+                             array('class' => 'nav-link ml-1', 'id' => 'readaloud-transcript-tab', 'data-toggle' => 'tab',
+                                   'href' => '#readaloud-transcript', 'role' => 'tab', 'aria-controls' => 'readaloud-transcript',
+                                   'aria-selected' => 'false'));
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_tag('nav');
+
+    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
+    $out .= html_writer::div($feedback, 'tab-pane fade show active',
+                            array('id' => 'readaloud-feedback', 'role' => 'tabpanel',
+                                  'aria-labelledby' => 'readaloud-feedback-tab'));
+    $out .= html_writer::div($transcript, 'tab-pane fade',
+                            array('id' => 'readaloud-transcript', 'role' => 'tabpanel',
+                                  'aria-labelledby' => 'readaloud-transcript-tab'));
+    $out .= html_writer::end_div();
+
+    return $out;
+}
+
+/**
  * Creates a button with identical id and
  * Send user audio file to Aalto ASR for evaluation.
  * class
