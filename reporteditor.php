@@ -49,6 +49,7 @@ if ($id) {
 require_login($course, true, $cm);
 
 $modulecontext = context_module::instance($cm->id);
+require_capability('mod/digitala:editreport', $modulecontext);
 
 $event = \mod_digitala\event\course_module_viewed::create(array(
     'objectid' => $moduleinstance->id,
@@ -65,14 +66,8 @@ $PAGE->set_context($modulecontext);
 
 $OUTPUT = $PAGE->get_renderer('mod_digitala');
 
-
-if (has_capability('mod/digitala:editreport', $modulecontext)) {
-    $content = $OUTPUT->render(new digitala_report_editor($moduleinstance->id, $modulecontext->id, $id, $d,
-                               $moduleinstance->attempttype, $moduleinstance->attemptlang, $student));
-
-} else {
-    $content = 'Nothing to see here, mate!';
-}
+$content = $OUTPUT->render(new digitala_report_editor($moduleinstance->id, $modulecontext->id, $id, $d,
+                           $moduleinstance->attempttype, $moduleinstance->attemptlang, $student));
 
 echo $OUTPUT->header();
 
