@@ -56,16 +56,6 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
-     * Test generating page_url
-     */
-    public function test_page_url() {
-        for ($i = 0; $i <= 2; $i++) {
-            $generatedurl = (page_url($i, 1, 1))->out();
-            $this->assertEquals($generatedurl, 'https://www.example.com/moodle/mod/digitala/view.php?id=1&amp;d=1&amp;page='.$i);
-        }
-    }
-
-    /**
      * Test generating switch_page
      */
     public function test_switch_page() {
