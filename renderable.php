@@ -88,8 +88,9 @@ class digitala_assignment implements renderable {
      * @param int $maxlength - maximum length of the recording in seconds, 0 = no limit
      * @param string $attemptlimit - Number of attempts that a person can submit
      */
-    public function __construct($instanceid, $contextid, $userid, $id = 0, $d = 0,
-        $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '',  $maxlength = 0, $attemptlimit = 1) {
+    public function __construct($instanceid, $contextid, $userid, $id, $d = 0,
+                                $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '',
+                                $maxlength = 0, $attemptlimit = 1) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
@@ -130,7 +131,7 @@ class digitala_report implements renderable {
      * @param int $attemptlimit - Number of attempts that a person can submit
      * @param int $student - User id of student
      */
-    public function __construct($instanceid, $contextid, $id = 0, $d = 0, $attempttype = '', $attemptlang = '',
+    public function __construct($instanceid, $contextid, $id, $d = 0, $attempttype = '', $attemptlang = '',
                                 $attemptlimit = 1, $student = null) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
@@ -181,7 +182,7 @@ class digitala_report_editor implements renderable {
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param int $student - User id of student
      */
-    public function __construct($instanceid, $id = $attempttype = '', $student = null) {
+    public function __construct($instanceid, $id, $attempttype = '', $student = null) {
         $this->instanceid = $instanceid;
         $this->id = $id;
         $this->attempttype = $attempttype;
