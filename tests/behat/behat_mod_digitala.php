@@ -115,8 +115,6 @@ class behat_mod_digitala extends behat_base {
         global $DB;
 
         foreach ($data->getHash() as $row) {
-
-
             $activity = $DB->get_record('digitala', array('name' => $row['name']), '*', MUST_EXIST);
             $user = $DB->get_record('user', ['username' => $row['username']], '*', MUST_EXIST);
 

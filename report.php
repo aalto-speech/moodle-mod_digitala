@@ -81,9 +81,6 @@ if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
         $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
                                 $student));
-        $content .= '<a class="btn btn-primary" href="'.$CFG->wwwroot
-                                .'/mod/digitala/reporteditor.php?id='.$id.'&student='.$student.'">'.
-                                'Give feedback on report</a>';
     } else if ($mode == 'delete') {
         $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $student));
 
