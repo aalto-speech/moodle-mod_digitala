@@ -448,13 +448,13 @@ function create_short_assignment_tabs($assignment, $resources) {
 /**
  * Creates pills navigation between plain and corrected transcription
  *
- * @param string $tarnscript content of transcript shown
+ * @param string $transcript content of transcript shown
  * @param string $feedback content of corrected transcription shown
  */
 function create_transcript_toggle($transcript, $feedback) {
     $transcript = create_report_transcription($transcript);
     $feedback = create_report_feedback($feedback);
-    $out .= html_writer::start_tag('nav');
+    $out = html_writer::start_tag('nav');
     $out .= html_writer::start_div('nav nav-pills', array('id' => 'nav-pills', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('transcription_tab-corrected', 'digitala'),
                              array('class' => 'nav-link active ml-1', 'id' => 'readaloud-feedback-tab', 'data-toggle' => 'tab',
