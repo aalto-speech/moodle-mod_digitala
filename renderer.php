@@ -159,7 +159,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $out .= create_report_feedback($attempt->feedback);
                 $out .= $gradings;
             }
-            if ($report->student != $USER->id && $report->status == 'evaluated') {
+            if ($report->student != $USER->id && $attempt->status == 'evaluated') {
                 $out .= '<a class="btn btn-primary" href="'.$CFG->wwwroot.
                         '/mod/digitala/reporteditor.php?id='.$report->id.'&student='.$report->student.'">'.
                         'Give feedback on report</a>';
