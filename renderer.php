@@ -118,6 +118,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_report(digitala_report $report) {
+        global $USER, $CFG;
+
         $out = start_container('digitala-report');
 
         $out .= start_column();

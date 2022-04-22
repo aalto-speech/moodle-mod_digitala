@@ -200,4 +200,3 @@ Feature: Teacher can see students detailed report
     And I should see "0/4"
     And I should see "Above you can see that the machine transformed your speech into text. There you can check whether you pronounced all the words right. This measure reflects how well the machine understands your speech. The speech samples that the machine has heard before affect its ability to understand you. Based on the automatic grading, it seems that"
     And I should see "unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!"
-
