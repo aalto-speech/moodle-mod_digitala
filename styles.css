@@ -71,6 +71,10 @@
     left: 45%;
 }
 
+.nav-pills {
+    margin-top: 5px;
+}
+
 .scrollbox200 {
     height: 200px;
     line-height: 2em;
