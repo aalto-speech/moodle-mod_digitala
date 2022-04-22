@@ -784,7 +784,8 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(1, $result[1]);
         $this->assertEquals('00:05', $result[2]);
         $this->assertEquals(1, $result[3]);
-        $this->assertStringContainsString('>See report</a>', $result[4]);
+        $this->assertEquals('Evaluated', $result[4]);
+        $this->assertStringContainsString('>See report</a>', $result[5]);
     }
 
     /**

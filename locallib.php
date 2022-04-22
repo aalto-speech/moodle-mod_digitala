@@ -924,20 +924,24 @@ function get_user($id) {
  */
 function create_result_row($attempt, $id, $user) {
     $username = $user->firstname . ' ' . $user->lastname;
-    if ($attempt->holistic) {
+    if (isset($attempt->holistic)) {
         $score = $attempt->holistic;
     } else {
         $score = $attempt->fluency;
     }
+    if ($attempt->status == 'waiting' || $attempt->status == "retry" || $attempt->status == "failed") {
+        $score = "-";
+    }
     $time = convertsecondstostring($attempt->recordinglength);
     $tries = ($attempt->attemptnumber);
+    $status = get_string('results_status-'.$attempt->status, 'digitala');
 
     $urltext = results_url($id, 'detail', $attempt->userid);
     $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
 
     $deletebutton = add_delete_attempt_button($user);
 
-    $cells = array($username, $score, $time, $tries, $urllink, $deletebutton);
+    $cells = array($username, $score, $time, $tries, $status, $urllink, $deletebutton);
     return $cells;
 }
 

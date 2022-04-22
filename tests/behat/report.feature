@@ -35,7 +35,6 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
       | Readaloud | seppo    | 1             | file7 | transcript7 | feedback | 0       | 0             | 8               | retry     |
       | Readaloud | milla    | 1             | file8 | transcript8 | feedback | 0       | 0             | 9               | failed    |
 
-  @curr
   Scenario: On a non graded report page the grading tabs are not shown
     When I am on the "Test digitala name" "mod_digitala > Report" page logged in as "olli"
     Then I should not see "Analytical gradings"
@@ -67,7 +66,7 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And I should see "Range"
     And I should see "3/3"
     And I should see "This measure reflects how much you have spoken and how comprehensive your vocabulary and sentence structures are. Based on the automatic grading, it seems that you have comprehensive vocabulary and use a variety of sentence structures."
-    And I click on "Proficiency level" "button"
+    Then I click on "Proficiency level" "button"
     And I should see "Proficiency level"
     And I should see "A1"
     And I should see "You are able to produce some sentences in the target language (for example, greet somebody or tell about yourself)."
@@ -120,11 +119,12 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And I should see "transcript4"
     And I should see "Task completion"
     And I should see "0/3"
-    And I should see "This measure is based on the previous responses that have been used in teaching the machine to grade this task. Based on the automatic grading, it seems that you only partially responded to the assignment."
+    And I should see "This measure is based on the previous responses that have been used in teaching the machine to grade this task. Based on the automatic grading, it seems that"
+    And I should see "unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!"
     And I should see "Fluency"
     And I should see "0/4"
-    And I should see "This measure reflects the speed, pauses, and hesitations in your speech."
-    And I should see "Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!"
+    And I should see "This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that"
+    And I should see "unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!"
     And I should see "Pronunciation"
     And I should see "0/4"
     And I should see "Above you can see that the machine transformed your speech into text. There you can check whether you pronounced all the words right. This measure reflects how well the machine understands your speech. The speech samples that the machine has heard before affect its ability to understand you. Based on the automatic grading, it seems that"
@@ -133,11 +133,11 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And I should see "0/3"
     And I should see "This measure reflects how much you have spoken and how comprehensive your vocabulary and sentence structures are. Based on the automatic grading, it seems that"
     And I should see "unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!"
-    And I click on "Proficiency level" "button"
+    Then I click on "Proficiency level" "button"
     And I should see "Proficiency level"
     And I should see "Below A1"
     And I should see "Based on the automatic grading, it seems that your proficiency level is"
-    And I should see "you are able to produce some words in the target language."
+    And I should see "You are able to produce some words in the target language."
 
   Scenario: Detailed report shows correctly for readaloud if failed to evaluate
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "milla"
@@ -156,7 +156,7 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario: Feedback box is visible on the report page
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     And I should see "Give feedback"
-    And "collapser" "button" should exist
+    Then "collapser" "button" should exist
 
   Scenario: Feedback site is visible on the report page when button is clicked
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"

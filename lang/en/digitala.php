@@ -162,10 +162,16 @@ $string['results_text'] = 'Type';
 $string['results_score'] = 'Proficiency/Analytic grades';
 $string['results_time'] = 'Time';
 $string['results_tries'] = 'Tries';
+$string['results_status'] = 'Status';
 $string['results_report'] = 'Evaluation report';
 $string['results_denied'] = 'Access denied';
 $string['results_return'] = 'Return to Digitala front page';
 $string['results_view'] = 'View student results';
+
+$string['results_status-evaluated'] = "Evaluated";
+$string['results_status-waiting'] = "Waiting";
+$string['results_status-retry'] = "Retrying";
+$string['results_status-failed'] = "Failed";
 
 $string['results_delete'] = 'Delete attempt';
 $string['results_delete-confirm'] = 'Confirm delete';
