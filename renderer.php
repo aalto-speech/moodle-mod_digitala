@@ -151,7 +151,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
             if (isset($feedback)) {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 4,
-                                                  $feedback->fluency, $feedback->fluency_reason));
+                                                  $feedback->fluency, $feedback->fluency_reason);
                 $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4,
                                                    $feedback->pronunciation, $feedback->pronunciation_reason);
             } else {
