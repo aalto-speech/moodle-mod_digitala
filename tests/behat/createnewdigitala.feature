@@ -12,6 +12,11 @@ Feature: Create new digitala
       | user | course | role    |
       | ossi | C1     | manager |
     And I log in as "ossi"
+    And I visit "/user/files.php"
+    And I upload "mod/digitala/tests/fixtures/tottoroo.wav" file to "Files" filemanager
+    And I upload "mod/digitala/tests/fixtures/pic-1.png" file to "Files" filemanager
+    And I upload "mod/digitala/tests/fixtures/video-1.mp4" file to "Files" filemanager
+    And I click on "Save changes" "button"
 
   Scenario Outline: On course page add new task
     When I am on the "C1" "Course" page
@@ -22,7 +27,7 @@ Feature: Create new digitala
       | Type       | <attempttype>    |
       | Assignment | <assignmenttext> |
       | Material   | <resourcestext>  |
-    And I click on "<name>" "link"
+    Then I am on the "<name>" "digitala activity" page
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "<assignmenttext>"
@@ -37,10 +42,7 @@ Feature: Create new digitala
       | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
 
   Scenario: On course page add freeform task in Swedish and add local image to resources
-    When I follow "Manage private files..."
-    And I upload "mod/digitala/tests/fixtures/pic-1.png" file to "Files" filemanager
-    And I click on "Save changes" "button"
-    Then I am on the "C1" "Course" page
+    When I am on the "C1" "Course" page
     And I turn editing mode on
     And I add a "digitala" to section "2"
     And I wait until the page is ready
@@ -68,10 +70,7 @@ Feature: Create new digitala
     And the image at "//img[@alt='nää on liikennevalot XD']" "xpath_element" should be identical to "mod/digitala/tests/fixtures/pic-1.png"
 
   Scenario: On course page add freeform task in Swedish and add local audio to resources
-    When I follow "Manage private files..."
-    And I upload "mod/digitala/tests/fixtures/tottoroo.wav" file to "Files" filemanager
-    And I click on "Save changes" "button"
-    Then I am on the "C1" "Course" page
+    When I am on the "C1" "Course" page
     And I turn editing mode on
     And I add a "digitala" to section "2"
     And I wait until the page is ready
@@ -83,13 +82,13 @@ Feature: Create new digitala
       | Material   | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
     And I click on "Audio" "link"
-    And I click on "//div[@data-medium-type='audio']/div/div/div/span/button[contains(text(), 'Browse repositories...')]" "xpath_element"
+    And I click on "Browse repositories..." "button" in the "#id_resources_editor_audio .atto_media_source.atto_media_media_source" "css_element"
     And I wait "1" seconds
     And I select "Private files" repository in file picker
     And I click on "tottoroo.wav" "file" in repository content area
     And I press "Select this file"
-    And I click on "//a[@aria-controls='id_resources_audio-display-options']" "xpath_element"
-    And I set the field with xpath "//input[@id='audio_media-title-entry']" to "töttöröö :D"
+    And I click on "Display options" "link" in the "#id_resources_editor_audio" "css_element"
+    And I set the field "audio_media-title-entry" to "töttöröö :D"
     And I press "Insert media"
     And I wait "1" seconds
     And I press "Save and display"
@@ -101,10 +100,7 @@ Feature: Create new digitala
     And "//audio[@title='töttöröö :D']" "xpath_element" should exist
 
   Scenario: On course page add freeform task in Swedish and add local video to resources
-    When I follow "Manage private files..."
-    And I upload "mod/digitala/tests/fixtures/video-1.mp4" file to "Files" filemanager
-    And I click on "Save changes" "button"
-    Then I am on the "C1" "Course" page
+    When I am on the "C1" "Course" page
     And I turn editing mode on
     And I add a "digitala" to section "2"
     And I wait until the page is ready
@@ -116,13 +112,13 @@ Feature: Create new digitala
       | Material   | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
     And I click on "Video" "link"
-    And I click on "//div[@data-medium-type='video']/div/div/div/span/button[contains(text(), 'Browse repositories...')]" "xpath_element"
+    And I click on "Browse repositories..." "button" in the "#id_resources_editor_video .atto_media_source.atto_media_media_source" "css_element"
     And I wait "1" seconds
     And I select "Private files" repository in file picker
     And I click on "video-1.mp4" "file" in repository content area
     And I press "Select this file"
-    And I click on "//a[@aria-controls='id_resources_video-display-options']" "xpath_element"
-    And I set the field with xpath "//input[@id='video_media-title-entry']" to "behats are all over the places :D"
+    And I click on "Display options" "link" in the "#id_resources_editor_video" "css_element"
+    And I set the field "video_media-title-entry" to "behats are all over the places :D"
     And I press "Insert media"
     And I wait "1" seconds
     And I press "Save and display"
@@ -172,8 +168,8 @@ Feature: Create new digitala
     And I press "Insert or edit an audio/video file"
     And I click on "Audio" "link"
     And I set the field with xpath "//div[@data-medium-type='audio']/div/div/div/input" to "http://digitala-api:3000/resources/tottoroo.wav"
-    And I click on "//a[@aria-controls='id_resources_audio-display-options']" "xpath_element"
-    And I set the field with xpath "//input[@id='audio_media-title-entry']" to "töttöröö :D"
+    And I click on "Display options" "link" in the "#id_resources_editor_audio" "css_element"
+    And I set the field "audio_media-title-entry" to "töttöröö :D"
     And I press "Insert media"
     And I wait "1" seconds
     And I press "Save and display"
@@ -198,8 +194,8 @@ Feature: Create new digitala
     And I press "Insert or edit an audio/video file"
     And I click on "Video" "link"
     And I set the field with xpath "//div[@data-medium-type='video']/div/div/div/input" to "http://digitala-api:3000/resources/video-1.mp4"
-    And I click on "//a[@aria-controls='id_resources_video-display-options']" "xpath_element"
-    And I set the field with xpath "//input[@id='video_media-title-entry']" to "behats are all over the places :D"
+    And I click on "Display options" "link" in the "#id_resources_editor_video" "css_element"
+    And I set the field "video_media-title-entry" to "behats are all over the places :D"
     And I press "Insert media"
     And I wait "1" seconds
     And I press "Save and display"

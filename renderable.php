@@ -155,12 +155,14 @@ class digitala_report implements renderable {
 class digitala_short_assignment implements renderable {
     /**
      * Constructor
+     * @param int $contextid - Context id of the activty
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
      */
-    public function __construct($assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+    public function __construct($contextid = 0, $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+        $this->contextid = $contextid;
         $this->assignmenttext = $assignmenttext;
         $this->resourcetext = $resourcetext;
         $this->attempttype = $attempttype;
@@ -219,5 +221,27 @@ class digitala_results implements renderable {
         $this->contextid = $contextid;
         $this->id = $id;
         $this->d = $d;
+    }
+}
+
+/**
+ * Implements a renderable report panel used on the last page of the activity.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ */
+class digitala_delete implements renderable {
+    /**
+     * Constructor
+     * @param int $instanceid - Instance id of the activty
+     * @param int $id - Id of the activity
+     * @param int $studentid - id of student
+     */
+    public function __construct($instanceid, $id, $studentid) {
+        $this->instanceid = $instanceid;
+        $this->studentid = $studentid;
+        $this->id = $id;
     }
 }

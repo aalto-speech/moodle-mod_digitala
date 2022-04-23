@@ -23,7 +23,8 @@ global $CFG;
 /**
  * Unit tests for adding a digitala plugin
  *
- * @group mod_digitala
+ * @group       mod_digitala
+ * @covers      \mod_digitala
  * @package     mod_digitala
  * @category    test
  * @copyright   2022 Name
@@ -113,4 +114,15 @@ class lib_test extends \advanced_testcase {
         $this->assertEquals(null, digitala_get_file_info(null, null, null, null, null, null, null, null, null));
     }
 
+    /**
+     * Test digitala get editor options function.
+     */
+    public function test_digitala_get_editor_options() {
+        $result = digitala_get_editor_options(null);
+
+        $this->assertEquals(false, $result['trusttext']);
+        $this->assertEquals(true, $result['subdirs']);
+        $this->assertEquals(-1, $result['maxfiles']);
+        $this->assertEquals(null, $result['context']);
+    }
 }

@@ -29,7 +29,7 @@ Feature: Edit digitala activity
       | Assignment | <assignmenttext> |
       | Material   | <resourcestext>  |
     And I press "Save and display"
-    And I click on "<name>" "link"
+    Then I am on the "<name>" "digitala activity" page
     And I click on "Next" "link"
     Then I should see "Assignment"
     And I should see "<assignmenttext>"

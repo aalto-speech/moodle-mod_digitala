@@ -55,10 +55,15 @@ function digitala_add_instance($moduleinstance, $mform = null) {
 
     $moduleinstance->timecreated = time();
 
-    $moduleinstance->assignmentformat = 1;
-    $moduleinstance->assignment = $moduleinstance->assignment;
-    $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
-    $moduleinstance->resources = $moduleinstance->resources['text'];
+    if (!empty($moduleinstance->resources_editor)) {
+        $context = context_module::instance($moduleinstance->coursemodule);
+
+        $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
+                                                          $context, 'mod_digitala', 'files', 0);
+    } else {
+        $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
+        $moduleinstance->resources = $moduleinstance->resources['text'];
+    }
 
     $id = $DB->insert_record('digitala', $moduleinstance);
 
@@ -81,8 +86,15 @@ function digitala_update_instance($moduleinstance, $mform = null) {
     $moduleinstance->id = $moduleinstance->instance;
     $moduleinstance->timemodified = time();
 
-    $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
-    $moduleinstance->resources = $moduleinstance->resources['text'];
+    if (!empty($moduleinstance->resources_editor)) {
+        $context = context_module::instance($moduleinstance->coursemodule);
+
+        $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
+                                                          $context, 'mod_digitala', 'files', 0);
+    } else {
+        $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
+        $moduleinstance->resources = $moduleinstance->resources['text'];
+    }
 
     return $DB->update_record('digitala', $moduleinstance);
 }
@@ -267,7 +279,7 @@ function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedow
         return false;
     }
 
-    if ($filearea !== 'recordings') {
+    if ($filearea !== 'recordings' && $filearea !== 'files') {
         return false;
     }
 
@@ -327,3 +339,15 @@ function digitala_extend_settings_navigation($settingsnav, $digitalanode) {
     }
 }
 
+/**
+ * Returns editor options for resource field
+ *
+ * @param stdClass $context context object
+ * @return array array containing editor options
+ */
+function digitala_get_editor_options($context) {
+    global $CFG;
+
+    return array('trusttext' => false, 'subdirs' => true, 'maxfiles' => -1, 'maxbytes' => $CFG->maxbytes,
+                 'context' => $context, 'changeformat' => true, 'noclean' => true);
+}
