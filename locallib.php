@@ -889,8 +889,8 @@ function save_answerrecording_form($assignment) {
  * @param mixed $maxgrade of the chart
  */
 function create_chart($name, $grade, $maxgrade) {
-    return html_writer::empty_tag('canvas', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
-                                            'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart', 'height' => '40px'));
+    return html_writer::tag('canvas', '', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
+                                                'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart', 'height' => '40px'));
 }
 
 /**

@@ -154,7 +154,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                           get_string('reportfeedback', 'digitala'), array('class' => 'btn btn-primary'));
             }
         }
-        if (str_contains($_SERVER['REQUEST_URI'], 'view.php')) {
+        if (preg_match('/view\.php/', $_SERVER['REQUEST_URI'])) {
             $out .= create_nav_buttons('report', $remaining);
         }
         $out .= create_fixed_box();
