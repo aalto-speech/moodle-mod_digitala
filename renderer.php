@@ -138,7 +138,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             }
             $out .= create_card($reporttitle, get_string('reportinformation', 'digitala').
                                           '<br><br>'.create_attempt_number($report, $report->student).
-                                          '<br><br><audio controls><source src='.$audiourl.'></audio>');
+                                          '<br><br><audio title="attempt_recording" controls><source src='.$audiourl.'></audio>');
 
             if ($report->attempttype == 'freeform') {
                 $out .= create_report_transcription($attempt->transcript);
