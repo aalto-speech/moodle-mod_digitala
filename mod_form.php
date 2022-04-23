@@ -80,7 +80,7 @@ class mod_digitala_mod_form extends moodleform_mod {
         $mform->addHelpButton('attempttype', 'attempttype', 'mod_digitala');
 
         // Adding the "maxlength" field for assignment timelimit.
-        $mform->addElement('duration', 'maxlength', get_string('timelimit', 'mod_digitala'), 
+        $mform->addElement('duration', 'maxlength', get_string('timelimit', 'mod_digitala'),
                 array('optional' => false, 'units' => array(1, MINSECS)));
 
         // Adding the "attemptnumber" field.
