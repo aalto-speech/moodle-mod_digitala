@@ -176,8 +176,8 @@ function create_progress_bar_spacer($mode) {
  * @param string $classname steps classname for css styling
  */
 function start_container($classname) {
-    $out = html_writer::start_div($classname);
-    $out .= html_writer::start_div('container-fluid');
+    $out = html_writer::start_div($classname . ' digitala-container');
+    $out .= html_writer::start_div('container');
     $out .= html_writer::start_div('row');
     return $out;
 }
@@ -194,9 +194,10 @@ function end_container() {
 
 /**
  * Used to create column inside content container
+ * @param string $size - width of the container, defaults to auto
  */
-function start_column() {
-    $out = html_writer::start_div('col digitala-column');
+function start_column($size='') {
+    $out = html_writer::start_div('col'.$size.' digitala-column');
     return $out;
 }
 
@@ -422,7 +423,7 @@ function create_report_feedback($feedback) {
  */
 function create_report_tabs($gradings, $holistic, $information) {
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::start_div('nav nav-tabs digitala-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('task_grades', 'digitala'),
                              array('class' => 'nav-link active ml-2', 'id' => 'report-grades-tab', 'data-toggle' => 'tab',
                                    'href' => '#report-grades', 'role' => 'tab', 'aria-controls' => 'report-grades',
@@ -459,7 +460,7 @@ function create_report_tabs($gradings, $holistic, $information) {
  */
 function create_short_assignment_tabs($assignment, $resources) {
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::start_div('nav nav-tabs digitala-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('assignment', 'digitala'),
                              array('class' => 'nav-link active ml-2', 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
                                    'href' => '#assignment-assignment', 'role' => 'tab', 'aria-controls' => 'assignment-assignment',
@@ -493,12 +494,12 @@ function create_transcript_toggle($transcript, $feedback) {
     $transcript = create_report_transcription($transcript);
     $feedback = create_report_feedback($feedback);
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-pills', array('id' => 'nav-pills', 'role' => 'tablist'));
-    $out .= html_writer::tag('button', get_string('transcription_tab-corrected', 'digitala'),
+    $out .= html_writer::start_div('nav nav-pills digitala-tabs', array('id' => 'nav-pills', 'role' => 'tablist'));
+    $out .= html_writer::tag('a', get_string('transcription_tab-corrected', 'digitala'),
                              array('class' => 'nav-link active ml-1', 'id' => 'readaloud-feedback-tab', 'data-toggle' => 'tab',
                                    'href' => '#readaloud-feedback', 'role' => 'tab', 'aria-controls' => 'readaloud-feedback',
                                    'aria-selected' => 'true'));
-    $out .= html_writer::tag('button', get_string('transcription_tab-plain', 'digitala'),
+    $out .= html_writer::tag('a', get_string('transcription_tab-plain', 'digitala'),
                              array('class' => 'nav-link ml-1', 'id' => 'readaloud-transcript-tab', 'data-toggle' => 'tab',
                                    'href' => '#readaloud-transcript', 'role' => 'tab', 'aria-controls' => 'readaloud-transcript',
                                    'aria-selected' => 'false'));
@@ -999,8 +1000,10 @@ function save_answerrecording_form($assignment) {
  * @param mixed $maxgrade of the chart
  */
 function create_chart($name, $grade, $maxgrade) {
-    $out = html_writer::tag('canvas', '', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
-                                                'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart', 'height' => '40px'));
+    $out = html_writer::start_div('digitala-chart-container');
+    $out .= html_writer::tag('canvas', '', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
+                                                'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart'));
+    $out .= html_writer::end_div();
     return $out;
 }
 

@@ -76,7 +76,7 @@ Feature: Teacher can see students detailed report
     And I should see "Show corrections"
     And I should see "Plain text"
     And I should see "feedback"
-    And I click on "readaloud-transcript-tab" "button"
+    And I click on "readaloud-transcript-tab" "link"
     And I should see "transcript2"
     And I should see "Goodness of pronunciation"
     And I should see "70%"
