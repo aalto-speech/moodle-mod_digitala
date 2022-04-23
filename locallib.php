@@ -944,21 +944,35 @@ function convertsecondstostring($secs) {
 }
 
 /**
+ * Gets number of attempts remaining for the user.
+ *
+ * @param digitala_assignment $assignment - assignment containing id information
+ * @param int $userid - id of the user
+ */
+function get_remaining_number($assignment, $userid) {
+    $remaining = $assignment->attemptlimit;
+    if ($remaining == 0) {
+        return null;
+    } else {
+        $attempt = get_attempt($assignment->instanceid, $userid);
+        if (isset($attempt)) {
+            $remaining -= $attempt->attemptnumber;
+        }
+        return $remaining;
+    }
+}
+
+/**
  * Creates attempt number visualization for assignment view.
  *
  * @param digitala_assignment $assignment - assignment containing id information
  * @param int $userid - id of the user
  */
 function create_attempt_number($assignment, $userid) {
-    $remaining = $assignment->attemptlimit;
-    if ($remaining == 0) {
+    $remaining = get_remaining_number($assignment, $userid);
+    if (is_null($remaining)) {
         $out = get_string('attemptsunlimited', 'mod_digitala');
     } else {
-        $attempt = get_attempt($assignment->instanceid, $userid);
-        if (isset($attempt)) {
-            $remaining -= $attempt->attemptnumber;
-        }
-
         $out = get_string('attemptsremaining', 'mod_digitala', $remaining);
     }
 
@@ -1016,14 +1030,17 @@ function create_modal($id, $title, $body, $buttons) {
  * @param digitala_assignment $assignment - assignment that this object is created for
  */
 function create_attempt_modal($assignment) {
-    $remaining = $assignment->attemptlimit;
-
     $out = html_writer::tag('button', get_string('submit', 'mod_digitala'),
                             array('id' => 'submitModalButton', 'type' => 'button', 'class' => 'btn btn-primary ml-2',
                                   'data-toggle' => 'modal',  'data-target' => '#attemptModal', 'style' => 'display: none'));
     $id = 'attemptModal';
     $title = get_string('submittitle', 'digitala');
-    $body = create_attempt_number($assignment, $assignment->userid);
+    $remaining = get_remaining_number($assignment, $assignment->userid);
+    if (is_null($remaining)) {
+        $body = get_string('attemptsunlimited', 'mod_digitala');
+    } else {
+        $body = get_string('submitbody', 'mod_digitala', $remaining);
+    }
     $buttons = html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
                                 array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
     $buttons .= create_answerrecording_form($assignment);

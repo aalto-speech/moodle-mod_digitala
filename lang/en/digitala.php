@@ -73,6 +73,7 @@ $string['assignmentrecord'] = 'Record your answer';
 $string['submit'] = 'Submit answer';
 $string['submitclose'] = 'Close';
 $string['submittitle'] = 'Are you sure you want to submit this attempt?';
+$string['submitbody'] = 'You still have {$a} attempts remaining on this assignment.';
 $string['alreadysubmitted'] = 'Your answer has already been submitted. Move to next page to see the report.';
 $string['report'] = 'Evaluation';
 $string['report-title'] = 'Evaluation report';

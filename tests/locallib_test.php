@@ -561,6 +561,34 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
+     * Tests getting remaining number of attempts.
+     */
+    public function test_get_remaining_number() {
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $assignment->attemptlimit = 0;
+        $assignment->attempttype = 'readaloud';
+
+        $result = get_remaining_number($assignment, $assignment->userid);
+        $this->assertEquals(null, $result);
+
+        $assignment->attemptlimit = 1;
+        $result = get_remaining_number($assignment, $assignment->userid);
+        $this->assertEquals(1, $result);
+
+        $evaluation = new \stdClass();
+        $evaluation->transcript = '';
+        $evaluation->feedback = '';
+        $evaluation->GOP_score = 1;
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+        $assignment->attemptlimit = 3;
+        $result = get_remaining_number($assignment, $assignment->userid);
+        $this->assertEquals(2, $result);
+    }
+
+    /**
      * Tests creating attempt number.
      */
     public function test_create_attempt_number() {
@@ -622,7 +650,7 @@ class locallib_test extends \advanced_testcase {
         $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $result = create_attempt_modal($assignment);
-        $this->assertStringStartsWith('<button id="submitModalButton" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#attemptModal" style="display: none">Submit answer</button><div class="modal" id="attemptModal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Are you sure you want to submit this attempt?</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Number of attempts remaining: 1</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>', $result);
+        $this->assertStringStartsWith('<button id="submitModalButton" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#attemptModal" style="display: none">Submit answer</button><div class="modal" id="attemptModal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Are you sure you want to submit this attempt?</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>You still have 1 attempts remaining on this assignment.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>', $result);
         $this->assertStringEndsWith('</form></div></div></div></div>', $result);
 
         $assignment->attemptlimit = 0;

@@ -73,6 +73,7 @@ $string['assignmentrecord'] = 'Vastauksen nauhoittaminen';
 $string['submit'] = 'Palauta vastaus';
 $string['submitclose'] = 'Sulje';
 $string['submittitle'] = 'Oletko varma, että haluat palauttaa tämän vastauksen?';
+$string['submitbody'] = 'Sinulla on vielä {$a} vastausyritystä tässä tehtävässä.';
 $string['alreadysubmitted'] = 'Olet jo palauttanut vastauksen. Siirry seuraavalle sivulle nähdäksesi raportin.';
 $string['report'] = 'Arviointi';
 $string['report-title'] = 'Arviointiraportti';

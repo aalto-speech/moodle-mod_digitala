@@ -73,6 +73,7 @@ $string['assignmentrecord'] = 'Spela in svaret';
 $string['submit'] = 'Lämna in svaret';
 $string['submitclose'] = 'Stäng av';
 $string['submittitle'] = 'Är du säker att du vill lämna in svaret?';
+$string['submitbody'] = 'Du har {$a} svarsförsök kvar i den här uppgiften';
 $string['alreadysubmitted'] = 'Du har redan lämnat in svaret. Gå till nästa sida för att se rapporten';
 $string['report'] = 'Bedömning';
 $string['report-title'] = 'Bedömningsrapporten';

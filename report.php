@@ -47,7 +47,6 @@ if ($id) {
 require_login($course, true, $cm);
 
 $modulecontext = context_module::instance($cm->id);
-require_capability('mod/digitala:viewdetailreport', $modulecontext);
 
 $event = \mod_digitala\event\course_module_viewed::create(array(
     'objectid' => $moduleinstance->id,
@@ -67,23 +66,26 @@ $OUTPUT = $PAGE->get_renderer('mod_digitala');
 $mode = optional_param('mode', 'overview', PARAM_TEXT);
 $student = optional_param('student', 0, PARAM_INT);
 
-if ($mode == 'overview') {
-    $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $id));
-} else if ($mode == 'detail') {
-    $config = ['paths' => ['chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'],
-            'waitSeconds' => 40, 'enforceDefine' => false];
-    $requirejs = 'require.config(' . json_encode($config) . ')';
-    $PAGE->requires->js_amd_inline($requirejs);
-    $PAGE->requires->js_call_amd('mod_digitala/chart', 'init');
+if has_capability('mod/digitala:viewdetailreport', $modulecontext) {
+    if ($mode == 'overview') {
+        $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $id));
+    } else if ($mode == 'detail') {
+        $config = ['paths' => ['chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'],
+                   'waitSeconds' => 40, 'enforceDefine' => false];
+        $requirejs = 'require.config(' . json_encode($config) . ')';
+        $PAGE->requires->js_amd_inline($requirejs);
+        $PAGE->requires->js_call_amd('mod_digitala/chart', 'init');
 
-    $content = $OUTPUT->render(new digitala_short_assignment($moduleinstance->assignment, $moduleinstance->resources,
-                            $moduleinstance->attempttype, $moduleinstance->attemptlang));
-    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id,
-                            $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
-                            $student));
-} else if ($mode == 'delete') {
-    $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $student));
-
+        $content = $OUTPUT->render(new digitala_short_assignment($moduleinstance->assignment, $moduleinstance->resources,
+                                   $moduleinstance->attempttype, $moduleinstance->attemptlang));
+        $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id,
+                                   $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
+                                   $student));
+    } else if ($mode == 'delete') {
+        $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $student));
+    } else {
+        $content = get_string('results_denied', 'digitala');
+    }
 } else {
     $content = get_string('results_denied', 'digitala');
 }
