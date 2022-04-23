@@ -336,19 +336,19 @@ class locallib_test extends \advanced_testcase {
 
         $result = create_answerrecording_form($assignment);
         if (PHPUnitVersion::series() < 9) {
-            $assertRegExp = function($a, $b) {
+            $assertregexp = function($a, $b) {
                 return $this->assertRegExp($a, $b);
             };
         } else {
-            $assertRegExp = function($a, $b) {
+            $assertregexp = function($a, $b) {
                 return $this->assertMatchesRegularExpression($a, $b);
             };
         }
-        $assertRegExp('/form id="answerrecording"/', $result);
-        $assertRegExp('/id=4/', $result);
-        $assertRegExp('/d=5/', $result);
-        $assertRegExp('/page=1/', $result);
-        $assertRegExp('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
+        $assertregexp('/form id="answerrecording"/', $result);
+        $assertregexp('/id=4/', $result);
+        $assertregexp('/d=5/', $result);
+        $assertregexp('/page=1/', $result);
+        $assertregexp('/input name="audiostring" type="hidden" value="answerrecording_form"/', $result);
     }
 
     /**

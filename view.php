@@ -71,7 +71,7 @@ $content = $OUTPUT->render(new digitala_progress_bar($pagenum));
 $config = ['waitSeconds' => 40, 'enforceDefine' => false];
 if ($pagenum == 0 || $pagenum == 1) {
     $config['paths'] = ['RecordRTC' => '//cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC'];
-} else if ($pagenum == 2){
+} else if ($pagenum == 2) {
     $config['paths'] = ['chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'];
 }
 $requirejs = 'require.config(' . json_encode($config) . ')';

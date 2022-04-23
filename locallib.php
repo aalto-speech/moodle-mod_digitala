@@ -66,7 +66,7 @@ function switch_page($page) {
  * @param number $page number of the step
  */
 function create_progress_bar_step_link($name, $page) {
-    $title = html_writer::span($page+1, 'pb-num').html_writer::span(get_string($name, 'digitala'), 'pb-phase-name');
+    $title = html_writer::span($page + 1, 'pb-num').html_writer::span(get_string($name, 'digitala'), 'pb-phase-name');
     return html_writer::link(switch_page($page), $title, array('class' => 'display-6'));
 }
 
@@ -454,7 +454,7 @@ function create_nav_buttons($buttonlocation, $remaining = 0) {
         $id = 'tryAgainButton';
     }
     $out = html_writer::start_div('navbuttons');
-    $out .= html_writer::link($newurl, get_string($string, 'digitala',),
+    $out .= html_writer::link($newurl, get_string($string, 'digitala'),
                               array('id' => $id, 'class' => 'btn btn-primary'));
     $out .= html_writer::end_div();
 
@@ -511,8 +511,8 @@ function create_microphone_icon() {
                                                 'id' => 'microphoneIcon'));
     $out .= html_writer::start_tag('defs');
     $out .= html_writer::start_tag('linearGradient', array('id' => 'b'));
-    $out .= html_writer::empty_tag('stop', array('offset' => 0, 'stop-color' =>'#fff'));
-    $out .= html_writer::empty_tag('stop', array('offset' => 1, 'stop-color' =>'#fff', 'stop-opacity' => 0));
+    $out .= html_writer::empty_tag('stop', array('offset' => 0, 'stop-color' => '#fff'));
+    $out .= html_writer::empty_tag('stop', array('offset' => 1, 'stop-color' => '#fff', 'stop-opacity' => 0));
     $out .= html_writer::end_tag('linearGradient');
     $out .= html_writer::empty_tag('linearGradient', array('xlink:href' => '#a', 'id' => 'd', 'x1' => 119.4, 'x2' => 164,
                                                            'y1' => 133, 'y2' => '133', 'gradientUnits' => 'userSpaceOnUse',
