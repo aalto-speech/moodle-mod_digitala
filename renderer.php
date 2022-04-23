@@ -165,7 +165,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
             } else {
                 $out .= create_transcript_toggle($attempt->transcript, $attempt->feedback);
-                $out .= create_report_gop($attempt->gop_score);
+                $out .= create_report_gop($attempt->gop_score, $feedback);
             }
         }
         $out .= create_nav_buttons('report', $report->id, $report->d, $remaining);
