@@ -113,6 +113,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_report(digitala_report $report) {
+        global $USER, $CFG;
+
         $out = start_container('digitala-report');
 
         $out .= start_column();
@@ -127,9 +129,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
             $remaining = $report->attemptlimit;
-            $out .= create_card('report-title', get_string('reportinformation', 'digitala').
-                                          '<br><br>'.create_attempt_number($report, $report->student).
-                                          '<br><br><audio controls><source src='.$audiourl.'></audio>');
+            $out .= create_card('report-title', html_writer::tag('p', get_string('reportinformation', 'digitala')).
+                                                html_writer::tag('p', create_attempt_number($report, $report->student)).
+                                                html_writer::tag('p', create_audio_controls($audiourl)));
 
             $out .= create_report_transcription($attempt->transcript);
             if ($report->attempttype == 'freeform') {
@@ -147,8 +149,14 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $out .= create_report_feedback($attempt->feedback);
                 $out .= create_report_gop($attempt->gop_score);
             }
+            if ($report->student != $USER->id) {
+                $out .= html_writer::link(str_replace('report.php', 'reporteditor.php', $_SERVER['REQUEST_URI']),
+                                          get_string('reportfeedback', 'digitala'), array('class' => 'btn btn-primary'));
+            }
         }
-        $out .= create_nav_buttons('report', $remaining);
+        if (str_contains($_SERVER['REQUEST_URI'], 'view.php')) {
+            $out .= create_nav_buttons('report', $remaining);
+        }
         $out .= create_fixed_box();
         $out .= end_column();
 
@@ -209,10 +217,12 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_short_assignment(digitala_short_assignment $assignment) {
-        $attemptinfo = get_string('attemptlang', 'digitala').': '.get_string($assignment->attemptlang, 'digitala').
-                                  ' | '.get_string('attempttype', 'digitala').': '.
-                                  get_string($assignment->attempttype, 'digitala').'<br>';
-        $assignmentcard = create_card('assignment', $attemptinfo.$assignment->assignmenttext);
+        $assignmentinfo = html_writer::tag('p', get_string('attemptlang', 'digitala').': '.
+                                                get_string($assignment->attemptlang, 'digitala').' | '.
+                                                get_string('attempttype', 'digitala').': '.
+                                                get_string($assignment->attempttype, 'digitala'));
+        $assignmentinfo .= html_writer::tag('p', $assignment->assignmenttext);
+        $assignmentcard = create_card('assignment', $assignmentinfo);
         $resourcescard = create_card('assignmentresource', $assignment->resourcetext);
 
         $out = start_container('digitala-short_assignment');

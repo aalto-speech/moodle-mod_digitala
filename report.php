@@ -74,16 +74,13 @@ if ($mode == 'overview') {
             'waitSeconds' => 40, 'enforceDefine' => false];
     $requirejs = 'require.config(' . json_encode($config) . ')';
     $PAGE->requires->js_amd_inline($requirejs);
-    $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($mode));
+    $PAGE->requires->js_call_amd('mod_digitala/chart', 'init');
 
     $content = $OUTPUT->render(new digitala_short_assignment($moduleinstance->assignment, $moduleinstance->resources,
                             $moduleinstance->attempttype, $moduleinstance->attemptlang));
-    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
+    $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id,
                             $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
                             $student));
-    $content .= '<a class="btn btn-primary" href="'.$CFG->wwwroot
-                .'/mod/digitala/reporteditor.php?id='.$id.'&student='.$student.'">'.
-                'Give feedback on report</a>';
 } else if ($mode == 'delete') {
     $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $student));
 
