@@ -720,6 +720,7 @@ class locallib_test extends \advanced_testcase {
         $oldattempt = new \stdClass();
         $oldattempt->id = 5;
         $oldattempt->gop_score = 4;
+        $oldattempt->digitala = 2;
 
         save_report_feedback('readaloud', $fromform, $oldattempt);
 
@@ -760,6 +761,7 @@ class locallib_test extends \advanced_testcase {
         $oldattempt->pronunciation = 0;
         $oldattempt->lexicogrammatical = 2;
         $oldattempt->holistic = 3;
+        $oldattempt->digitala = 2;
 
         save_report_feedback('freeform', $fromform, $oldattempt);
 
