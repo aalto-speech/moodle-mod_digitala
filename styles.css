@@ -91,13 +91,14 @@
 }
 
 .scrollbox200 {
-    height: 200px;
+    max-height: 200px;
     line-height: 2em;
     overflow: auto;
 }
 
 .scrollbox400 {
-    height: 408px;
+    min-height: 100px;
+    max-height: 408px;
     line-height: 2em;
     overflow: auto;
 }

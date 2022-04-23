@@ -177,7 +177,7 @@ function create_progress_bar_spacer($mode) {
  */
 function start_container($classname) {
     $out = html_writer::start_div($classname . ' digitala-container');
-    $out .= html_writer::start_div('container-fluid');
+    $out .= html_writer::start_div('container');
     $out .= html_writer::start_div('row');
     return $out;
 }
