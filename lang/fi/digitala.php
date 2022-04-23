@@ -76,9 +76,12 @@ $string['submitbody'] = 'Sinulla on vielä {$a} vastausyritystä tässä tehtäv
 $string['alreadysubmitted'] = 'Olet jo palauttanut vastauksen. Siirry seuraavalle sivulle nähdäksesi raportin.';
 $string['report'] = 'Arviointi';
 $string['report-title'] = 'Arviointiraportti';
+$string['report-title-feedback'] = 'Arviointiraportti - sisältää opettajan arvosanaehdotuksia';
 $string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
 $string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi puhenäytettä, eikä se kuvaa kaikkea suullista kielitaitoasi. Automaattinen arvio on koneen tekemä. Konetta on opetettu muiden kielen oppijoiden puheella ja muulla kieliaineistolla.';
 $string['transcription'] = 'Puhenäytteesi tekstinä';
+$string['server-feedback'] = 'Puhenäytteesi palaute';
+$string['teacher-feedback'] = 'Ehdota arvioinnin muutoksia';
 $string['transcription_tab-plain'] = 'Pelkkä teksti';
 $string['transcription_tab-corrected'] = 'Näytä korjaukset';
 
@@ -178,5 +181,7 @@ $string['results_waiting-info'] = 'Evaluation is in progress, please hold. This 
 $string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
 $string['results_waiting-loading'] = 'Loading...';
 
+$string['teachergrade'] = "Opettajan arvosanaehdotus: ";
+$string['teacherreason'] = "Kommentti arvosanan muutoksesta: ";
 $string['feedback_success'] = 'Kommentti opiskelijan raportista on tallennettu onnistuneesti.';
 $string['feedback_not-found'] = 'Opiskelijalle ei löydy tuloksia.';

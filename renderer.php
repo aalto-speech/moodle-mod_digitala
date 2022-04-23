@@ -137,19 +137,39 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_report_retry();
         } else if ($attempt->status == 'evaluated' || $attempt->status == 'failed') {
             $remaining -= $attempt->attemptnumber;
+            $feedback = get_feedback($attempt);
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
-                    $attempt->file, false);
-            $out .= create_card('report-title', get_string('reportinformation', 'digitala').
+                                                        $attempt->file, false);
+            if (isset($feedback)) {
+                $reporttitle = 'report-title-feedback';
+            } else {
+                $reporttitle = 'report-title';
+            }
+            $out .= create_card($reporttitle, get_string('reportinformation', 'digitala').
                                           '<br><br>'.create_attempt_number($report, $report->student).
                                           '<br><br><audio controls><source src='.$audiourl.'></audio>');
 
-            $gradings = create_report_grading('fluency', $attempt->fluency, 4);
-            $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
+            if (isset($feedback)) {
+                $gradings = create_report_grading('fluency', $attempt->fluency, 4,
+                                                  $feedback->fluency, $feedback->fluency_reason));
+                $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4,
+                                                   $feedback->pronunciation, $feedback->pronunciation_reason);
+            } else {
+                $gradings = create_report_grading('fluency', $attempt->fluency, 4);
+                $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
+            }
             if ($report->attempttype == 'freeform') {
-                $gradings .= create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
-                $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
+                if (isset($feedback)) {
+                    $gradings .= create_report_grading('taskcompletion', $attempt->taskcompletion, 3,
+                                                       $feedback->taskcompletion, $feedback->taskcompletion_reason);
+                    $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3,
+                                                       $feedback->lexicogrammatical, $feedback->lexicogrammatical_reason);
+                } else {
+                    $gradings .= create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
+                    $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
+                }
 
-                $holistic = create_report_holistic(floor($attempt->holistic));
+                $holistic = create_report_holistic(floor($attempt->holistic), $feedback));
 
                 $information = create_report_information($attempt->transcript);
 

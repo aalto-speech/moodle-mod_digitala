@@ -46,6 +46,7 @@ Feature: Teacher can see students detailed report
 
   Scenario: Detailed report shows correctly for freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
+    Then I should see "Olli Opiskelija"
     And I should see "Assignment"
     And I should see "Language: Swedish"
     And I should see "Type: Freeform"

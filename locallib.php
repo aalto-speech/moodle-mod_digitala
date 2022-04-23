@@ -257,8 +257,10 @@ function create_resource($assignment) {
  * @param string $name name of the grading
  * @param int $grade grading number given by the server
  * @param int $maxgrade maximum number of this grade
+ * @param int $feedbackgrade grade given manually by the teacher
+ * @param string $feedbackreason reason for the grade change
  */
-function create_report_grading($name, $grade, $maxgrade) {
+function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, $feedbackreason = null) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
@@ -267,9 +269,18 @@ function create_report_grading($name, $grade, $maxgrade) {
     $out .= create_chart($name, $grade, $maxgrade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string($name.'_description', 'digitala').
-                             lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')), 'card-text');
+    $out .= html_writer::start_div('card-text');
+    $out .= html_writer::tag('p', get_string($name.'_description', 'digitala').
+                                  lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')));
 
+    if (isset($feedbackgrade) && $grade != $feedbackgrade) {
+        $out .= html_writer::tag('p', get_string('teachergrade', 'digitala').$feedbackgrade);
+    }
+    if (isset($feedbackreason) && !empty($feedbackreason)) {
+        $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedbackreason);
+    }
+
+    $out .= html_writer::end_div();
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
 
@@ -280,8 +291,9 @@ function create_report_grading($name, $grade, $maxgrade) {
  * Creates holistic information container from report
  *
  * @param int $grade grading number given by the server
+ * @param mixed $feedback information given by the teacher
  */
-function create_report_holistic($grade) {
+function create_report_holistic($grade, $feedback = null) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
@@ -290,9 +302,21 @@ function create_report_holistic($grade) {
     $out .= create_chart('holistic', $grade, 6);
     $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string('holistic_description', 'digitala').get_string('holistic_level-'.$grade, 'digitala').
-                             ':<br>'.get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
+    $out .= html_writer::start_div('card-text');
+    $out .= html_writer::tag('p', get_string('holistic_description', 'digitala').
+                                  get_string('holistic_level-'.$grade, 'digitala').
+                                  ':<br>'.get_string('holistic_score-'.$grade, 'digitala'));
 
+    if (isset($feedback)) {
+        if ($grade != $feedback->holistic) {
+            $out .= html_writer::tag('p', get_string('teachergrade', 'digitala').$feedback->holistic);
+        }
+        if (!empty($feedback->holistic_reason)) {
+            $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedback->holistic_reason);
+        }
+    }
+
+    $out .= html_writer::end_div();
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
 
@@ -364,6 +388,7 @@ function create_report_information($text) {
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
 
     return $out;
 }
@@ -396,7 +421,7 @@ function create_report_feedback($feedback) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string('feedback', 'digitala'), array('class' => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('server-feedback', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::div($feedback, 'card-text scrollbox200');
 
@@ -935,6 +960,25 @@ function add_delete_redirect_button($id, $user) {
     $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-confirm', 'digitala'),
         array('id' => 'deleteRedirectButton'.$user->username, 'class' => 'btn btn-warning'));
     return $button;
+}
+
+/**
+ * Load current users latest feedback from the database.
+ *
+ * @param int $attempt - attempt object
+ * @return mixed $feedback - object containing latest feedback information
+ */
+function get_feedback($attempt) {
+    global $DB;
+
+    if (!$DB->record_exists('digitala_report_feedback', array('attempt' => $attempt->id))) {
+        return null;
+    }
+
+    $sql = 'SELECT * FROM {digitala_report_feedback} WHERE attempt = ? ORDER BY id DESC LIMIT 1';
+    $feedback = $DB->get_record_sql($sql, array($attempt->id));
+
+    return $feedback;
 }
 
 /**

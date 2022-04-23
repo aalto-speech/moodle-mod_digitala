@@ -1,5 +1,6 @@
 @mod @mod_digitala @javascript @onlyone
 Feature: Teacher can give feedback on ASR evaluation
+  Student can see given evaluation on the report page
 
   Background:
     Given the following "users" exist:
@@ -38,15 +39,15 @@ Feature: Teacher can give feedback on ASR evaluation
 
   Scenario: Feedback button works correctly in teachers report detail page in freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I click on "Give feedback on report" "link"
-    And I should see "Feedback on Range"
+    And I click on "Suggest changes to grading" "link"
+    And I should see "Feedback on Fluency"
 
   Scenario: Feedback button works correctly in teachers report detail page in readaloud
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I click on "Give feedback on report" "link"
+    And I click on "Suggest changes to grading" "link"
     And I should see "Feedback on Fluency"
 
-  Scenario: Feedback can be given on Freeform
+  Scenario: Feedback can be given on Freeform and student can see it on their report
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
     Then I set the following fields to these values:
       | Fluency                     | 2.00                              |
@@ -64,8 +65,13 @@ Feature: Teacher can give feedback on ASR evaluation
       | name     | username |
       | Freeform | olli     |
     And I should see "Comment added successfully to students report."
+    And I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
+    Then I should see "Teacher's grade suggestion: 2.0"
+    And I should see "Evaluation was too high."
+    And I should see "Teacher's grade suggestion: 3.0"
+    And I should see "Evaluation was too low."
 
-  Scenario: Feedback can be given on Readaloud
+  Scenario: Feedback can be given on Readaloud and student can see it on their report
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
     Then I set the following fields to these values:
       | Fluency                   | 2.00                     |
@@ -77,6 +83,9 @@ Feature: Teacher can give feedback on ASR evaluation
       | name      | username |
       | Readaloud | olli     |
     And I should see "Comment added successfully to students report."
+    And I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
+    Then I should see "Teacher's grade suggestion: 0.56"
+    And I should see "Evaluation was wrong."
 
   Scenario Outline: Give feedback button is shown only for evaluated attempts
     When I am on the "<activity> > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
