@@ -47,8 +47,6 @@ function delete_url($id, $studentid=null) {
  * Used to generate page urls for digitala module student views.
  *
  * @param number $page number of the step
- * @param number $id id of the course module
- * @param number $d id of the activity instance
  */
 function switch_page($page) {
     $count = 0;
