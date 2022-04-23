@@ -82,7 +82,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_assignment(digitala_assignment $assignment) {
         $out = start_container('digitala-assignment');
 
-        $out .= start_column();
+        $out .= start_column('-4');
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
 
         $attempt = get_attempt($assignment->instanceid, $assignment->userid);
@@ -147,7 +147,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             }
             $out .= create_card($reporttitle, get_string('reportinformation', 'digitala').
                                           '<br><br>'.create_attempt_number($report, $report->student).
-                                          '<br><br><audio controls><source src='.$audiourl.'></audio>');
+                                          '<br><br><audio title="attempt_recording" controls><source src='.$audiourl.'></audio>');
 
             if (isset($feedback)) {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 4,

@@ -51,6 +51,7 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario: Detailed report shows correctly for freeform
     When I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
     And I should see "There is no limit set for the number of attempts on this assignment."
+    And "//audio[@title='attempt_recording']" "xpath_element" should exist
     And I should see "A transcript of your speech sample"
     And I should see "transcript1"
     And I should see "Task completion"
@@ -74,8 +75,9 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario: Detailed report shows correctly for readaloud
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     And I should see "Number of attempts remaining: 1"
+    And "//audio[@title='attempt_recording']" "xpath_element" should exist
     And I should see "feedback"
-    And I click on "readaloud-transcript-tab" "button"
+    And I click on "readaloud-transcript-tab" "link"
     And I should see "A transcript of your speech sample"
     And I should see "transcript5"
     And I should see "Fluency"
@@ -144,7 +146,7 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario: Detailed report shows correctly for readaloud if failed to evaluate
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "milla"
     And I should see "Number of attempts remaining: 1"
-    And I click on "readaloud-transcript-tab" "button"
+    And I click on "readaloud-transcript-tab" "link"
     And I should see "A transcript of your speech sample"
     And I should see "transcript8"
     And I should see "Fluency"
