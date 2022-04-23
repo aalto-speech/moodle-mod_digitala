@@ -327,7 +327,7 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022041401, 'digitala');
     }
 
-    if ($oldversion < 2022042001) {
+    if ($oldversion < 2022042102) {
 
         // Define field attemptlang to be added to digitala.
         $table = new xmldb_table('digitala_report_feedback');
@@ -339,7 +339,7 @@ function xmldb_digitala_upgrade($oldversion) {
         }
 
         // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022042001, 'digitala');
+        upgrade_mod_savepoint(true, 2022042102, 'digitala');
     }
 
     return true;

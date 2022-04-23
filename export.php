@@ -25,6 +25,7 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once(__DIR__.'/renderable.php');
+require_once(__DIR__.'/locallib.php');
 
 global $USER;
 
@@ -63,18 +64,13 @@ $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
-$OUTPUT = $PAGE->get_renderer('mod_digitala');
-
-
 if (has_capability('mod/digitala:exportreports', $modulecontext)) {
-    $content = $OUTPUT->render(new digitala_export($moduleinstance->id, $modulecontext->id, $id, $d, $mode));
-
+    if ($mode == 'attempts') {
+        generate_attempts_csv($id);
+    } else if ($mode == 'feedback') {
+        generate_report_feedback_csv($id);
+    }
 } else {
     $content = get_string('results_denied', 'digitala');
+    redirect($CFG->wwwroot.'/mod/digitala/export.php?id='.$moduleinstance->id.'&mode='.$mode);
 }
-
-echo $OUTPUT->header();
-
-echo $content;
-
-echo $OUTPUT->footer();

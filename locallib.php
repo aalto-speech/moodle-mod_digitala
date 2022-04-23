@@ -1234,6 +1234,7 @@ function generate_report_feedback_csv($id) {
 
     $writer->set_filename('digitala-attempts-feedback');
     $writer->download_file();
+    return $writer->print_csv_data();
 }
 
 /**
