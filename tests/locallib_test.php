@@ -271,7 +271,12 @@ class locallib_test extends \advanced_testcase {
      * Test creating create resource.
      */
     public function test_create_resource() {
-        $result = create_resource('testresource');
+        global $USER;
+
+        $context = \context_module::instance($this->digitala->cmid);
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 4, 5, $this->digitala->assignment, 'testresource', $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+
+        $result = create_resource($assignment);
         $this->assertEquals('<div class="card-text scrollbox400">testresource</div>', $result);
     }
 
@@ -838,6 +843,11 @@ class locallib_test extends \advanced_testcase {
     public function test_create_short_assignment_tabs() {
         $result = create_short_assignment_tabs('', '');
         $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Material</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
+
+    public function test_create_transcript_toggle() {
+        $result = create_transcript_toggle('transcript', 'feedback');
+        $this->assertEquals('<nav><div class="nav nav-pills" id="nav-pills" role="tablist"><button class="nav-link active ml-1" id="readaloud-feedback-tab" data-toggle="tab" href="#readaloud-feedback" role="tab" aria-controls="readaloud-feedback" aria-selected="true">Show corrections</button><button class="nav-link ml-1" id="readaloud-transcript-tab" data-toggle="tab" href="#readaloud-transcript" role="tab" aria-controls="readaloud-transcript" aria-selected="false">Plain text</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="readaloud-feedback" role="tabpanel" aria-labelledby="readaloud-feedback-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Give feedback</h5><div class="card-text scrollbox200">feedback</div></div></div></div><div class="tab-pane fade" id="readaloud-transcript" role="tabpanel" aria-labelledby="readaloud-transcript-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">transcript</div></div></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**

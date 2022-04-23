@@ -100,7 +100,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= end_column();
 
         $out .= start_column();
-        $out .= create_card('assignmentresource', create_resource($assignment->resourcetext));
+        $out .= create_card('assignmentresource', create_resource($assignment));
         $out .= end_column();
 
         $out .= end_container();
@@ -162,9 +162,10 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $information = create_report_information($attempt->transcript);
 
                 $out .= create_report_tabs($gradings, $holistic, $information);
+
             } else {
-                $out .= create_report_feedback($attempt->feedback);
-                $out .= create_report_gop($attempt->gop_score, $feedback);
+                $out .= create_transcript_toggle($attempt->transcript, $attempt->feedback);
+                $out .= create_report_gop($attempt->gop_score);
             }
         }
         $out .= create_nav_buttons('report', $report->id, $report->d, $remaining);
@@ -232,7 +233,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                   ' | '.get_string('attempttype', 'digitala').': '.
                                   get_string($assignment->attempttype, 'digitala').'<br>';
         $assignmentcard = create_card('assignment', $attemptinfo.$assignment->assignmenttext);
-        $resourcescard = create_card('assignmentresource', $assignment->resourcetext);
+        $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
+                                                  'mod_digitala', 'files', 0);
+        $resourcescard = create_card('assignmentresource', $resources);
 
         $out = start_container('digitala-short_assignment');
         $out .= start_column();

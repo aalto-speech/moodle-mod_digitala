@@ -82,6 +82,8 @@ $string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi 
 $string['transcription'] = 'Puhenäytteesi tekstinä';
 $string['server-feedback'] = 'Puhenäytteesi palaute';
 $string['teacher-feedback'] = 'Ehdota arvioinnin muutoksia';
+$string['transcription_tab-plain'] = 'Pelkkä teksti';
+$string['transcription_tab-corrected'] = 'Näytä korjaukset';
 
 $string['task_grades'] = 'Analyyttinen arvio';
 

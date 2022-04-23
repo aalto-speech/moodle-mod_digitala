@@ -82,6 +82,8 @@ $string['reportinformation'] = 'This feedback concerns only the speech sample yo
 $string['transcription'] = 'A transcript of your speech sample';
 $string['server-feedback'] = 'Transcript feedback';
 $string['teacher-feedback'] = 'Suggest changes to grading';
+$string['transcription_tab-plain'] = 'Plain text';
+$string['transcription_tab-corrected'] = 'Show corrections';
 
 $string['task_grades'] = 'Analytic grading';
 

@@ -80,8 +80,8 @@ $string['report-title-feedback'] = 'innehåller viss lärarfeedback';
 $string['reportnotavailable'] = 'Bedömningsrapporten är ännu inte tillgänglig.';
 $string['reportinformation'] = 'Den här feedbacken gäller endast den uppgift som du har spelat in, inte muntlig färdighet generellt. Den automatiska bedömningen har gjorts av datorn. Datorn har lärts att bedöma tal med hjälp av andra språkinlärares tal och andra taluppgifter.';
 $string['transcription'] = 'Ditt tal som text';
-$string['server-feedback'] = 'Feedback om transkription';
-$string['teacher-feedback'] = 'Föreslå ändringar i bedömning';
+$string['transcription_tab-plain'] = 'Klartext';
+$string['transcription_tab-corrected'] = 'Visa korrigeringar';
 
 $string['task_grades'] = 'Analytisk bedömning';
 
