@@ -58,31 +58,47 @@
     width: auto;
 }
 
+.digitala-container {
+    max-width: 80vw;
+    position: relative;
+    margin: auto;
+}
+
 .digitala-column {
     margin: 0 1vh 1vh 0;
 }
 
 .digitala-card {
     margin-top: 1vh;
+    max-width: 75vw;
+}
+
+.digitala-chart-container {
+    position: relative;
+    margin: auto;
+    height: 15vh;
+    max-width: 70vw;
+}
+
+.digitala-tabs {
+    margin-top: 1vh;
 }
 
 .navbuttons {
     position: relative;
     left: 45%;
-}
-
-.nav-pills {
-    margin-top: 5px;
+    margin-top: 1vh;
 }
 
 .scrollbox200 {
-    height: 200px;
+    max-height: 200px;
     line-height: 2em;
     overflow: auto;
 }
 
 .scrollbox400 {
-    height: 408px;
+    min-height: 100px;
+    max-height: 408px;
     line-height: 2em;
     overflow: auto;
 }
