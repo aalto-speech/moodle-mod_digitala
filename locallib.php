@@ -1136,8 +1136,10 @@ function create_delete_modal($id, $user=null) {
  * Generates csv of activitys attempts
  *
  * @param int $id - id of the activity
+ * @param string $mode - mode of the url
+ * @return string $data - data of the array
  */
-function generate_attempts_csv($id) {
+function generate_attempts_csv($id, $mode) {
     $attempts = get_all_attempts($id);
 
     $writer = new \csv_export_writer();
@@ -1147,7 +1149,6 @@ function generate_attempts_csv($id) {
            .'lexicogrammatical;lexicogrammatical_features;holistic;gop_score;timecreated;'
            .'timemodified;recordinglength';
     $writer->add_data(explode(';', $header));
-
     foreach ($attempts as $attempt) {
         $arr = [
             $attempt->id,
@@ -1173,7 +1174,12 @@ function generate_attempts_csv($id) {
         $writer->add_data($arr);
     }
     $writer->set_filename('digitala-attempts');
-    $writer->download_file();
+    if ($mode == 'attempts') {
+        $writer->download_file();
+    } else {
+        $data = $writer->print_csv_data(true);
+        return $data;
+    }
 }
 
 /**
@@ -1193,8 +1199,10 @@ function get_all_feedbacks($id) {
  * Generates csv of activitys attempts
  *
  * @param int $id - id of the activity
+ * @param string $mode - mode of the url
+ * @return string $data - data of the array
  */
-function generate_report_feedback_csv($id) {
+function generate_report_feedback_csv($id, $mode) {
     $feedbacks = get_all_feedbacks($id);
     $header = 'id;attempt;digitala;old_fluency;fluency;fluency_reason;old_taskcompletion;'
            .'taskcompletion;taskcompletion_reason;old_lexicogrammatical;lexicogrammatical;'
@@ -1231,10 +1239,13 @@ function generate_report_feedback_csv($id) {
         ];
         $writer->add_data($arr);
     }
-
     $writer->set_filename('digitala-attempts-feedback');
-    $writer->download_file();
-    return $writer->print_csv_data();
+    if ($mode == 'feedback') {
+        $writer->download_file();
+    } else {
+        $data = $writer->print_csv_data(true);
+        return $data;
+    }
 }
 
 /**

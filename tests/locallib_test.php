@@ -897,4 +897,105 @@ class locallib_test extends \advanced_testcase {
     }
 
     // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+
+    // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+    public function test_generate_attempts_csv() {
+        global $CFG, $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 500;
+        $assignment->userid = 501;
+        $assignment->attempttype = 'readaloud';
+        $evaluation = new \stdClass();
+        $evaluation->transcript = '';
+        $evaluation->feedback = '';
+        $evaluation->GOP_score = 4;
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+
+        $result = generate_attempts_csv($assignment->instanceid, 'moodi');
+
+        $this->assertEquals(str_contains($result, 'filename'), true);
+        $this->assertEquals(str_contains($result, 500), true);
+        $this->assertEquals(str_contains($result, 501), true);
+    }
+
+    public function test_get_all_feedbacks() {
+        global $DB;
+
+        $fromform = new \stdClass();
+        $fromform->gop = 1;
+        $fromform->gopreason = "Gopreason";
+
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 1;
+        $oldattempt->gop_score = 1;
+        $oldattempt->digitala = 2;
+
+        save_report_feedback('readaloud', $fromform, $oldattempt);
+
+        global $DB;
+
+        $fromform = new \stdClass();
+        $fromform->taskcompletion = 1;
+        $fromform->taskcompletionreason = "Taskcompletioness";
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = "Fluencyness";
+        $fromform->pronunciation = 1;
+        $fromform->pronunciationreason = "Pronounciationess";
+        $fromform->lexicogrammatical = 1;
+        $fromform->lexicogrammaticalreason = "Lexicogrammaticalness";
+        $fromform->holistic = 1;
+        $fromform->holisticreason = "Holisticness";
+
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 2;
+        $oldattempt->taskcompletion = 1;
+        $oldattempt->fluency = 1;
+        $oldattempt->pronunciation = 1;
+        $oldattempt->lexicogrammatical = 1;
+        $oldattempt->holistic = 1;
+        $oldattempt->digitala = 2;
+
+        save_report_feedback('freeform', $fromform, $oldattempt);
+
+        $result = get_all_feedbacks(2);
+        $this->assertEquals(count($result), 2);
+    }
+
+    public function test_generate_report_feedback_csv() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 808;
+        $assignment->userid = 809;
+        $assignment->attempttype = 'freeform';
+        $evaluation = new \stdClass();
+        $evaluation->transcript = 'transcript';
+        $evaluation->task_completion = 2;
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 1;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 1;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
+        $evaluation->lexicogrammatical = new \stdClass();
+        $evaluation->lexicogrammatical->score = 3;
+        $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
+        $evaluation->holistic = 4;
+
+        save_attempt($assignment, 'filename', $evaluation, 60);
+
+        $result = generate_attempts_csv($assignment->instanceid, 'moodi');
+
+        $this->assertEquals(str_contains($result, 'filename'), true);
+        $this->assertEquals(str_contains($result, 808), true);
+        $this->assertEquals(str_contains($result, 809), true);
+    }
+
+    public function test_create_export_buttons() {
+        $result = create_export_buttons(2);
+        $this->assertEquals($result, '<a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=attempts" id="export_attempts" class="btn btn-primary">Export all attempts as CSV</a><a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=feedback" id="export_attempts_feedback" class="btn btn-primary">Export all feedbacks for attempts as CSV</a>');
+    }
+    // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 }
