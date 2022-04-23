@@ -169,7 +169,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                     $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
                 }
 
-                $holistic = create_report_holistic(floor($attempt->holistic), $feedback));
+                $holistic = create_report_holistic(floor($attempt->holistic), $feedback);
 
                 $information = create_report_information($attempt->transcript);
 
