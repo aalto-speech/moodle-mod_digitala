@@ -24,7 +24,6 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
       | Readaloud | olli     | 1             | file2 | transcript2 | feedback | 0.7       | 2               |
     And I log in as "olli"
 
-  @curr
   Scenario: On a non graded report page the grading tabs are not shown
     When I am on the "Test digitala name" "mod_digitala > Report" page logged in as "olli"
     Then I should not see "Analytical gradings"
@@ -65,7 +64,7 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     And I should see "Number of attempts remaining: 1"
     And I should see "feedback"
-    And I click on "readaloud-transcript-tab" "button"
+    And I click on "readaloud-transcript-tab" "link"
     And I should see "transcript2"
     And I should see "Goodness of pronunciation"
     And I should see "70%"
