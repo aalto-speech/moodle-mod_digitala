@@ -61,7 +61,7 @@ $string['infotext'] = 'Testa mikrofonen innan du gör uppgiften.';
 $string['startbutton'] = 'Start';
 $string['startbutton-again'] = 'Spela in på nytt';
 $string['startbutton-loading'] = 'Väntas pä mikrofonen.';
-$string['startbutton-error'] = 'Fel på mikrofonen. Kontrollera mikrofoninställningarna.';
+$string['startbutton-error'] = 'Fel på mikrofonen. Kontrollera mikrofoninställningarna. Ladda om sidan.';
 $string['startbutton-no_permissions'] = 'Klicka på nytt för att spela in.';
 $string['stopbutton'] = 'Stopp';
 $string['microphone'] = 'Testa mikrofonen här';
@@ -79,6 +79,8 @@ $string['report-title'] = 'Bedömningsrapporten';
 $string['reportnotavailable'] = 'Bedömningsrapporten är ännu inte tillgänglig.';
 $string['reportinformation'] = 'Den här feedbacken gäller endast den uppgift som du har spelat in, inte muntlig färdighet generellt. Den automatiska bedömningen har gjorts av datorn. Datorn har lärts att bedöma tal med hjälp av andra språkinlärares tal och andra taluppgifter.';
 $string['transcription'] = 'Ditt tal som text';
+$string['transcription_tab-plain'] = 'Klartext';
+$string['transcription_tab-corrected'] = 'Visa korrigeringar';
 
 $string['task_grades'] = 'Analytisk bedömning';
 
@@ -188,3 +190,5 @@ $string['results_delete-title'] = 'Obs';
 $string['export_attempts'] = 'Ladda ner alla företag i CSV-format';
 $string['export_attempts_feedback'] = 'Ladda ner all feedback för varje företag i CSV-format';
 $string['export_success'] = 'CSV-filen har skapats';
+$string['feedback_success'] = 'Kommentar till studentrapport sparad framgångsrikt.';
+$string['feedback_not-found'] = 'Inga resultat hittades för studenten.';

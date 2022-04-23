@@ -61,7 +61,7 @@ $string['infotext'] = 'Kokeile mikrofonin toimintaa ennen tehtävän tekemistä.
 $string['startbutton'] = 'Nauhoita';
 $string['startbutton-again'] = 'Nauhoita uudelleen';
 $string['startbutton-loading'] = 'Odotetaan mikrofonia.';
-$string['startbutton-error'] = 'Virhe mikrofonin kanssa. Tarkasta mikrofoniasetukset.';
+$string['startbutton-error'] = 'Virhe mikrofonin kanssa. Tarkasta mikrofoniasetukset ja lataa sivu uudelleen.';
 $string['startbutton-no_permissions'] = "Paina uudelleen nauhoittaaksesi.";
 $string['stopbutton'] = 'Pysäytä';
 $string['microphone'] = 'Testaa mikrofoniasi tässä';
@@ -79,6 +79,8 @@ $string['report-title'] = 'Arviointiraportti';
 $string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
 $string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi puhenäytettä, eikä se kuvaa kaikkea suullista kielitaitoasi. Automaattinen arvio on koneen tekemä. Konetta on opetettu muiden kielen oppijoiden puheella ja muulla kieliaineistolla.';
 $string['transcription'] = 'Puhenäytteesi tekstinä';
+$string['transcription_tab-plain'] = 'Pelkkä teksti';
+$string['transcription_tab-corrected'] = 'Näytä korjaukset';
 
 $string['task_grades'] = 'Analyyttinen arvio';
 
@@ -188,3 +190,5 @@ $string['results_delete-title'] = 'Varoitus';
 $string['export_attempts'] = 'Lataa kaikki yritykset CSV-muodossa';
 $string['export_attempts_feedback'] = 'Lataa kaikki palautteet jokaiselle yritykselle CSV-muodossa';
 $string['export_success'] = 'CSV-tiedoston luonti onnistui.';
+$string['feedback_success'] = 'Kommentti opiskelijan raportista on tallennettu onnistuneesti.';
+$string['feedback_not-found'] = 'Opiskelijalle ei löydy tuloksia.';

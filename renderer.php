@@ -100,7 +100,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= end_column();
 
         $out .= start_column();
-        $out .= create_card('assignmentresource', create_resource($assignment->resourcetext));
+        $out .= create_card('assignmentresource', create_resource($assignment));
         $out .= end_column();
 
         $out .= end_container();
@@ -132,8 +132,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                           '<br><br>'.create_attempt_number($report, $report->student).
                                           '<br><br><audio controls><source src='.$audiourl.'></audio>');
 
-            $out .= create_report_transcription($attempt->transcript);
             if ($report->attempttype == 'freeform') {
+                $out .= create_report_transcription($attempt->transcript);
                 $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
                 $gradings .= create_report_grading('fluency', $attempt->fluency, 4);
                 $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
@@ -144,8 +144,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 $information = create_report_information($attempt->transcript);
 
                 $out .= create_report_tabs($gradings, $holistic, $information);
+
             } else {
-                $out .= create_report_feedback($attempt->feedback);
+                $out .= create_transcript_toggle($attempt->transcript, $attempt->feedback);
                 $out .= create_report_gop($attempt->gop_score);
             }
         }
@@ -216,7 +217,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                   ' | '.get_string('attempttype', 'digitala').': '.
                                   get_string($assignment->attempttype, 'digitala').'<br>';
         $assignmentcard = create_card('assignment', $attemptinfo.$assignment->assignmenttext);
-        $resourcescard = create_card('assignmentresource', $assignment->resourcetext);
+        $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
+                                                  'mod_digitala', 'files', 0);
+        $resourcescard = create_card('assignmentresource', $resources);
 
         $out = start_container('digitala-short_assignment');
         $out .= start_column();
@@ -237,6 +240,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
         global $CFG;
 
         $attempt = get_attempt($reporteditor->instanceid, $reporteditor->student);
+        if (!isset($attempt->id)) {
+            redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$reporteditor->id.'&mode=overview',
+                     get_string('feedback_not-found', 'digitala'),
+                     null, \core\output\notification::NOTIFY_ERROR);
+        }
         $form = new \reporteditor_form($reporteditor->id, $reporteditor->attempttype, $attempt);
 
         $out = '';
@@ -248,7 +256,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
             // In the future third phase, update evaluation in digitala_attempt here...
             save_report_feedback($reporteditor->attempttype, $fromform, $attempt);
             redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$reporteditor->id.'&mode=detail&student='
-                     .$reporteditor->student);
+                     .$reporteditor->student, get_string('feedback_success', 'digitala'),
+                     null, \core\output\notification::NOTIFY_SUCCESS);
         } else {
             $out = start_container('digitala-report_editor');
             $out .= start_column();
