@@ -155,12 +155,14 @@ class digitala_report implements renderable {
 class digitala_short_assignment implements renderable {
     /**
      * Constructor
+     * @param int $contextid - Context id of the activty
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
      */
-    public function __construct($assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+    public function __construct($contextid = 0, $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+        $this->contextid = $contextid;
         $this->assignmenttext = $assignmenttext;
         $this->resourcetext = $resourcetext;
         $this->attempttype = $attempttype;

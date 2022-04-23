@@ -79,6 +79,8 @@ $string['report-title'] = 'Arviointiraportti';
 $string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
 $string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi puhenäytettä, eikä se kuvaa kaikkea suullista kielitaitoasi. Automaattinen arvio on koneen tekemä. Konetta on opetettu muiden kielen oppijoiden puheella ja muulla kieliaineistolla.';
 $string['transcription'] = 'Puhenäytteesi tekstinä';
+$string['transcription_tab-plain'] = 'Pelkkä teksti';
+$string['transcription_tab-corrected'] = 'Näytä korjaukset';
 
 $string['task_grades'] = 'Analyyttinen arvio';
 

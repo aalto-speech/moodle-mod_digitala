@@ -74,6 +74,8 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario: Detailed report shows correctly for readaloud
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     And I should see "Number of attempts remaining: 1"
+    And I should see "feedback"
+    And I click on "readaloud-transcript-tab" "button"
     And I should see "A transcript of your speech sample"
     And I should see "transcript5"
     And I should see "Fluency"
