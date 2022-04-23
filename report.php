@@ -75,15 +75,17 @@ if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
         $requirejs = 'require.config(' . json_encode($config) . ')';
         $PAGE->requires->js_amd_inline($requirejs);
         $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($mode));
+        $studentobject = $DB->get_record('user', array('id' => $student));
 
-        $content = $OUTPUT->render(new digitala_short_assignment($modulecontext->id, $moduleinstance->assignment,
-                                   $moduleinstance->resources, $moduleinstance->attempttype, $moduleinstance->attemptlang));
+        $content = '<h5>'.$studentobject->firstname.' '.$studentobject->lastname.'</h5>';
+        $content .= $OUTPUT->render(new digitala_short_assignment($modulecontext->id, $moduleinstance->assignment,
+                                $moduleinstance->resources, $moduleinstance->attempttype, $moduleinstance->attemptlang));
         $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
                                 $student));
         $content .= '<a class="btn btn-primary" href="'.$CFG->wwwroot
                     .'/mod/digitala/reporteditor.php?id='.$id.'&student='.$student.'">'.
-                    'Give feedback on report</a>';
+                    get_string('teacher-feedback', 'digitala') . '</a>';
     } else if ($mode == 'delete') {
         $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $student));
 

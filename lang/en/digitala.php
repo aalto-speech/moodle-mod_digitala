@@ -76,9 +76,12 @@ $string['submitbody'] = 'You still have {$a} attempts remaining on this assignme
 $string['alreadysubmitted'] = 'Your answer has already been submitted. Move to next page to see the report.';
 $string['report'] = 'Evaluation';
 $string['report-title'] = 'Evaluation report';
+$string['report-title-feedback'] = 'Evaluation report - includes some teacher feedback';
 $string['reportnotavailable'] = 'A report for this assignment is not available yet.';
 $string['reportinformation'] = 'This feedback concerns only the speech sample you produced and it does not cover all aspects of your oral language skills. A machine produces your grades automatically. We have taught the machine with speech from other language learners together with other language-specific data.';
 $string['transcription'] = 'A transcript of your speech sample';
+$string['server-feedback'] = 'Transcript feedback';
+$string['teacher-feedback'] = 'Suggest changes to grading';
 $string['transcription_tab-plain'] = 'Plain text';
 $string['transcription_tab-corrected'] = 'Show corrections';
 
@@ -191,5 +194,7 @@ $string['results_no-show'] = 'No results to show yet.';
 $string['results_title'] = 'User results';
 $string['results_delete-title'] = 'Warning';
 
+$string['teachergrade'] = "Teacher's grade suggestion: ";
+$string['teacherreason'] = "Comments about grade suggestion: ";
 $string['feedback_success'] = 'Comment added successfully to students report.';
 $string['feedback_not-found'] = 'Report for given student is not found';

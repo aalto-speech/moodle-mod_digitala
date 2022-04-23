@@ -119,6 +119,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
 
         $attempt = get_attempt($report->instanceid, $report->student);
+        if (isset($attempt)) {
+            $feedback = get_feedback($attempt);
+        }
 
         if (is_null($attempt)) {
             $remaining = $report->attemptlimit;
@@ -128,18 +131,33 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
                     $attempt->file, false);
             $remaining = $report->attemptlimit;
-            $out .= create_card('report-title', get_string('reportinformation', 'digitala').
+            if (isset($feedback)) {
+                $reporttitle = 'report-title-feedback';
+            } else {
+                $reporttitle = 'report-title';
+            }
+            $out .= create_card($reporttitle, get_string('reportinformation', 'digitala').
                                           '<br><br>'.create_attempt_number($report, $report->student).
                                           '<br><br><audio controls><source src='.$audiourl.'></audio>');
 
             if ($report->attempttype == 'freeform') {
                 $out .= create_report_transcription($attempt->transcript);
-                $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
-                $gradings .= create_report_grading('fluency', $attempt->fluency, 4);
-                $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
-                $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
-
-                $holistic = create_report_holistic(floor($attempt->holistic));
+                if (isset($feedback)) {
+                    $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3,
+                                                      $feedback->taskcompletion, $feedback->taskcompletion_reason);
+                    $gradings .= create_report_grading('fluency', $attempt->fluency, 4,
+                                                      $feedback->fluency, $feedback->fluency_reason);
+                    $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4,
+                                                      $feedback->pronunciation, $feedback->pronunciation_reason);
+                    $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3,
+                                                      $feedback->lexicogrammatical, $feedback->lexicogrammatical_reason);
+                } else {
+                    $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
+                    $gradings .= create_report_grading('fluency', $attempt->fluency, 4);
+                    $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
+                    $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
+                }
+                $holistic = create_report_holistic(floor($attempt->holistic), $feedback);
 
                 $information = create_report_information($attempt->transcript);
 
@@ -147,7 +165,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
             } else {
                 $out .= create_transcript_toggle($attempt->transcript, $attempt->feedback);
-                $out .= create_report_gop($attempt->gop_score);
+                $out .= create_report_gop($attempt->gop_score, $feedback);
             }
         }
         $out .= create_nav_buttons('report', $report->id, $report->d, $remaining);
