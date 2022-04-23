@@ -66,7 +66,7 @@ $OUTPUT = $PAGE->get_renderer('mod_digitala');
 $mode = optional_param('mode', 'overview', PARAM_TEXT);
 $student = optional_param('student', 0, PARAM_INT);
 
-if has_capability('mod/digitala:viewdetailreport', $modulecontext) {
+if (has_capability('mod/digitala:viewdetailreport', $modulecontext) {
     if ($mode == 'overview') {
         $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $id));
     } else if ($mode == 'detail') {
