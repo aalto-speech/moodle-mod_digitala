@@ -76,14 +76,17 @@ if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
         $PAGE->requires->js_amd_inline($requirejs);
         $PAGE->requires->js_call_amd('mod_digitala/chart', 'init', array($mode));
 
-        $content = $OUTPUT->render(new digitala_short_assignment($moduleinstance->assignment, $moduleinstance->resources,
-                                $moduleinstance->attempttype, $moduleinstance->attemptlang));
+        $content = $OUTPUT->render(new digitala_short_assignment($modulecontext->id, $moduleinstance->assignment,
+                                   $moduleinstance->resources, $moduleinstance->attempttype, $moduleinstance->attemptlang));
         $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
                                 $student));
         $content .= '<a class="btn btn-primary" href="'.$CFG->wwwroot
                     .'/mod/digitala/reporteditor.php?id='.$id.'&student='.$student.'">'.
                     'Give feedback on report</a>';
+    } else if ($mode == 'delete') {
+        $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $student));
+
     } else {
         $content = get_string('results_denied', 'digitala');
     }

@@ -90,7 +90,7 @@ if ($pagenum == 0) {
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
                                 $USER->id));
 } else {
-    $content .= 'Nothing to see here, mate.';
+    $content = get_string('results_denied', 'digitala');
 }
 
 echo $OUTPUT->header();

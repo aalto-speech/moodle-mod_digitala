@@ -155,12 +155,7 @@ const createChart = async(id, grade, maxgrade) => {
                 },
                 y: {
                     stacked: true
-                },
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                    }
-                }]
+                }
             }
         }
     });

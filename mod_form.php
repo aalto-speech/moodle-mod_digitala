@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
+require_once('lib.php');
 
 /**
  * Module instance settings form.
@@ -42,7 +43,9 @@ class mod_digitala_mod_form extends moodleform_mod {
         global $CFG;
 
         $mform = $this->_form;
-        $current = $this->current;
+        $id = empty($this->current->id) ? null : 0;
+        $this->current = file_prepare_standard_editor($this->current, 'resources', digitala_get_editor_options($this->context),
+                                                      $this->context, 'mod_digitala', 'files', $id);
 
         // Adding the "general" fieldset, where all the common settings are shown.
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -62,7 +65,7 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         // Adding the "attemptlang" field. Tells what language info we send with the audio file.
         $langoptions = array(
-                'fin' => get_string('fin', 'mod_digitala'),
+                'fi' => get_string('fi', 'mod_digitala'),
                 'sv' => get_string('sv', 'mod_digitala'),
         );
         $mform->addElement('select', 'attemptlang', get_string('attemptlang', 'mod_digitala'), $langoptions);
@@ -105,25 +108,12 @@ class mod_digitala_mod_form extends moodleform_mod {
         $mform->addRule('assignment', null, 'required', null, 'client');
         $mform->addHelpButton('assignment', 'assignment', 'mod_digitala');
 
-        // Adding the "resources" field.
-        $textfieldoptions = array('trusttext' => false, 'subdirs' => true, 'maxfiles' => -1, 'maxbytes' => $CFG->maxbytes,
-                                  'context' => $this->context, 'changeformat' => true, 'noclean' => true);
-        $mform->addElement('editor', 'resources', get_string('assignmentresource', 'mod_digitala'),
-                           array('rows' => 10), $textfieldoptions);
+        // Adding the "resources_editor" field.
+        $mform->addElement('editor', 'resources_editor', get_string('assignmentresource', 'mod_digitala'),
+                           array('rows' => 10), digitala_get_editor_options($this->context));
 
-        $mform->setType('resources', PARAM_RAW);
-        $mform->addHelpButton('resources', 'assignmentresource', 'mod_digitala');
-        if (isset($current->resources)) {
-            $text = $current->resources;
-        } else {
-            $text = '';
-        }
-        if (isset($current->resourcesformat)) {
-            $format = $current->resourcesformat;
-        } else {
-            $format = 1;
-        }
-        $mform->getElement('resources')->setValue(array('text' => $text, 'format' => $format));
+        $mform->setType('resources_editor', PARAM_RAW);
+        $mform->addHelpButton('resources_editor', 'assignmentresource', 'mod_digitala');
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
@@ -140,5 +130,16 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         // Add standard buttons.
         $this->add_action_buttons();
+    }
+
+    /**
+     * Any data processing needed before the form is displayed
+     * @param array $defaultvalues
+     */
+    public function data_preprocessing(&$defaultvalues) {
+        if (isset($defaultvalues['resources']) && !empty($defaultvalues['resources'])) {
+            $defaultvalues['resources'] = file_rewrite_pluginfile_urls($defaultvalues['resources'], 'pluginfile.php',
+                                                                       $this->context->id, 'mod_digitala', 'files', 0);
+        }
     }
 }

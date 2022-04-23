@@ -9,22 +9,19 @@ Feature: Student can see current progress in the assignment.
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | student1 | C1     | student        |
+      | user     | course | role    |
+      | student1 | C1     | student |
     And the following "activities" exist:
-      | activity    | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | attemptlimit |
-      | digitala    | Test digitala name | Test digitala intro | C1     | digitala1 | fin         | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
+      | activity | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | attemptlimit |
+      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fi          | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
     And I log in as "student1"
 
   Scenario: On first page only info progress is active on progress bar
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
+    When I am on the "Test digitala name" "mod_digitala > Info" page logged in as "student1"
     Then ".pb-step.active" "css_element" should exist in the ".pb-step.first" "css_element"
     And ".pb-step.active" "css_element" should not exist in the ".pb-step.last" "css_element"
 
   Scenario: On report page only report progress is shown on progress bar
-    When I am on "Course 1" course homepage
-    And I click on "Test digitala name" "link"
-    And I click on "Evaluation" "link"
+    When I am on the "Test digitala name" "mod_digitala > Report" page logged in as "student1"
     Then ".pb-step.active" "css_element" should exist in the ".pb-step.last" "css_element"
     And ".pb-step.active" "css_element" should not exist in the ".pb-step.first" "css_element"
