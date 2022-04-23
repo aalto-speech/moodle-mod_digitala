@@ -388,7 +388,6 @@ function create_report_information($text) {
 
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
 
     return $out;
 }

@@ -84,7 +84,7 @@ Feature: Teacher can give feedback on ASR evaluation
       | Readaloud | olli     |
     And I should see "Comment added successfully to students report."
     And I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
-    Then I should see "Teacher's grade suggestion: 0.56"
+    Then I should see "Teacher's grade suggestion: 2.37"
     And I should see "Evaluation was wrong."
 
   Scenario Outline: Give feedback button is shown only for evaluated attempts
