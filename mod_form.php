@@ -143,4 +143,25 @@ class mod_digitala_mod_form extends moodleform_mod {
                                                                        $this->context->id, 'mod_digitala', 'files', 0);
         }
     }
+
+    /**
+     * Validates the data processed by the form.
+     *
+     * @param mixed $data
+     * @param array $files
+     * @return array
+     */
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+        if (isset($data['maxlength'])) {
+            if ($data['maxlength'] > 300) {
+                $len = $data['maxlength'] / 60;
+                if ($len > 300) {
+                    $errors['maxlength'] = get_string('maxlength_error', 'digitala');
+                }
+                $errors['maxlength'] = get_string('maxlength_error', 'digitala');
+            }
+        }
+        return $errors;
+    }
 }

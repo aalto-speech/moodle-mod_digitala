@@ -50,6 +50,7 @@ $string['assignment'] = 'Assignment';
 $string['assignment_help'] = 'The assignment that the user will need to complete.';
 $string['assignmentresource'] = 'Material';
 $string['assignmentresource_help'] = 'The material can be added here. In "Read aloud" type, place the text to be read here. In "Freeform" type, you can add text, images, charts, and videos, which the user should utilize in their response.';
+$string['maxlength_error'] = 'The recording can be at most 5 minutes long';
 
 $string['navnext'] = 'Next >';
 $string['navprevious'] = '< Previous';
