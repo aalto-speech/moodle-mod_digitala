@@ -146,16 +146,15 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $gradings = create_report_grading('fluency', $attempt->fluency, 4);
             $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
             if ($report->attempttype == 'freeform') {
-                $out .= create_report_transcription($attempt->transcript);
-                $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
+                $gradings .= create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
                 $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
 
                 $holistic = create_report_holistic(floor($attempt->holistic));
 
                 $information = create_report_information($attempt->transcript);
 
+                $out .= create_report_transcription($attempt->transcript);
                 $out .= create_report_tabs($gradings, $holistic, $information);
-
             } else {
                 $out .= create_transcript_toggle($attempt->transcript, $attempt->feedback);
                 $out .= $gradings;
