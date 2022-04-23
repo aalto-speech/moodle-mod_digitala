@@ -194,6 +194,7 @@ Feature: Teacher can see students detailed report
     And I should see "Material"
     And I should see "Tämä on liikennevalojen perusteet -kurssi."
     And I should see "Number of attempts remaining: 1"
+    And I click on "readaloud-transcript-tab" "button"
     And I should see "A transcript of your speech sample"
     And I should see "transcript8"
     And I should see "Fluency"
