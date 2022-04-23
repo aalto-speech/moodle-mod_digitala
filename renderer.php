@@ -140,8 +140,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                           '<br><br>'.create_attempt_number($report, $report->student).
                                           '<br><br><audio controls><source src='.$audiourl.'></audio>');
 
-            $out .= create_report_transcription($attempt->transcript);
             if ($report->attempttype == 'freeform') {
+                $out .= create_report_transcription($attempt->transcript);
                 if (isset($feedback)) {
                     $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3,
                                                       $feedback->taskcompletion, $feedback->taskcompletion_reason);
