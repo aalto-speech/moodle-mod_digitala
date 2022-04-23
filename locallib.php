@@ -194,9 +194,10 @@ function end_container() {
 
 /**
  * Used to create column inside content container
+ * @param string $size - width of the container, defaults to auto
  */
-function start_column() {
-    $out = html_writer::start_div('col digitala-column');
+function start_column($size='') {
+    $out = html_writer::start_div('col'.$size.' digitala-column');
     return $out;
 }
 
