@@ -180,8 +180,7 @@ class locallib_test extends \advanced_testcase {
     public function test_container_html_output_right() {
         $result = start_container('some_step_of_digitala');
         $result .= end_container();
-        $this->assertEquals('<div class="some_step_of_digitala"><div class="container-fluid">'.
-            '<div class="row"></div></div></div>', $result);
+        $this->assertEquals('<div class="some_step_of_digitala digitala-container"><div class="container"><div class="row"></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -207,10 +206,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_grading_html_output() {
         $result = create_report_grading('fluency', 0, 0);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5>'.
-            '<canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart" height="40px"></canvas>'. // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-            '<h6 class="grade-number">0/0</h6>'.
-            '<div class="card-text">This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text">This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -218,7 +214,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_holistic_html_output() {
         $result = create_report_holistic(3);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart" height="40px"></canvas><h6 class="grade-number">B1</h6><div class="card-text">Based on the automatic grading, it seems that your proficiency level is B1:<br>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><div class="digitala-chart-container"><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart"></canvas></div><h6 class="grade-number">B1</h6><div class="card-text">Based on the automatic grading, it seems that your proficiency level is B1:<br>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -242,7 +238,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_tabs_html_output() {
         $result = create_report_tabs('', '', '');
-        $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" aria-controls="report-grades" aria-selected="true">Analytic grading</button><button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" aria-controls="report-holistic" aria-selected="false">Proficiency level</button><button class="nav-link ml-2" id="report-information-tab" data-toggle="tab" href="#report-information" role="tab" aria-controls="report-information" aria-selected="false">More information</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div><div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab"></div><div class="tab-pane fade" id="report-information" role="tabpanel" aria-labelledby="report-information-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" aria-controls="report-grades" aria-selected="true">Analytic grading</button><button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" aria-controls="report-holistic" aria-selected="false">Proficiency level</button><button class="nav-link ml-2" id="report-information-tab" data-toggle="tab" href="#report-information" role="tab" aria-controls="report-information" aria-selected="false">More information</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div><div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab"></div><div class="tab-pane fade" id="report-information" role="tabpanel" aria-labelledby="report-information-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -530,8 +526,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_chart() {
         $result = create_chart('nimi', '2.00', '4');
-        $this->assertEquals('<canvas id="nimi" data-eval-name="nimi" data-eval-grade="2.00" data-eval-maxgrade="4" class="report-chart" height="40px"></canvas>',
-                            $result);
+        $this->assertEquals('<div class="digitala-chart-container"><canvas id="nimi" data-eval-name="nimi" data-eval-grade="2.00" data-eval-maxgrade="4" class="report-chart"></canvas></div>',$result);
     }
 
     /**
@@ -789,7 +784,7 @@ class locallib_test extends \advanced_testcase {
 
     public function test_create_short_assignment_tabs() {
         $result = create_short_assignment_tabs('', '');
-        $this->assertEquals('<nav><div class="nav nav-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Material</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link active ml-2" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Material</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     public function test_create_transcript_toggle() {
