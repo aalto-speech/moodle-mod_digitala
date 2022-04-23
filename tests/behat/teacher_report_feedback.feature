@@ -85,17 +85,17 @@ Feature: Teacher can give feedback on ASR evaluation
     And I should see "Comment added successfully to students report."
     And I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     Then I should see "Teacher's grade suggestion: 2.37"
-    And I should see "Evaluation was wrong."
+    And I should see "Evaluation was too high."
 
   Scenario Outline: Give feedback button is shown only for evaluated attempts
     When I am on the "<activity> > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should see "Give feedback on report"
+    And I should see "Suggest changes to grading"
     When I am on the "<activity> > essi" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should not see "Give feedback on report"
+    And I should not see "Suggest changes to grading"
     When I am on the "<activity> > seppo" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should not see "Give feedback on report"
+    And I should not see "Suggest changes to grading"
     When I am on the "<activity> > milla" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should not see "Give feedback on report"
+    And I should not see "Suggest changes to grading"
 
     Examples:
       | activity  |
