@@ -423,7 +423,7 @@ function create_report_tabs($gradings, $holistic, $information) {
  */
 function create_short_assignment_tabs($assignment, $resources) {
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::start_div('nav nav-tabs digitala-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('assignment', 'digitala'),
                              array('class' => 'nav-link active ml-2', 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
                                    'href' => '#assignment-assignment', 'role' => 'tab', 'aria-controls' => 'assignment-assignment',
@@ -457,12 +457,12 @@ function create_transcript_toggle($transcript, $feedback) {
     $transcript = create_report_transcription($transcript);
     $feedback = create_report_feedback($feedback);
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-pills', array('id' => 'nav-pills', 'role' => 'tablist'));
-    $out .= html_writer::tag('button', get_string('transcription_tab-corrected', 'digitala'),
+    $out .= html_writer::start_div('nav nav-pills digitala-tabs', array('id' => 'nav-pills', 'role' => 'tablist'));
+    $out .= html_writer::tag('a', get_string('transcription_tab-corrected', 'digitala'),
                              array('class' => 'nav-link active ml-1', 'id' => 'readaloud-feedback-tab', 'data-toggle' => 'tab',
                                    'href' => '#readaloud-feedback', 'role' => 'tab', 'aria-controls' => 'readaloud-feedback',
                                    'aria-selected' => 'true'));
-    $out .= html_writer::tag('button', get_string('transcription_tab-plain', 'digitala'),
+    $out .= html_writer::tag('a', get_string('transcription_tab-plain', 'digitala'),
                              array('class' => 'nav-link ml-1', 'id' => 'readaloud-transcript-tab', 'data-toggle' => 'tab',
                                    'href' => '#readaloud-transcript', 'role' => 'tab', 'aria-controls' => 'readaloud-transcript',
                                    'aria-selected' => 'false'));
