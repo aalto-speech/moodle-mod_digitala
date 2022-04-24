@@ -238,29 +238,26 @@ class locallib_test extends \advanced_testcase {
     /**
      * Test creating report view information helper object.
      */
-    public function test_information_html_output() {
-        $result = create_report_information('text');
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">text</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    public function test_create_report_waiting() {
+        $_SERVER['REQUEST_URI'] = 'toot';
+        $result = create_report_waiting();
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation in progress</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div><p>Evaluation is in progress, please hold. This could take up to few eternities.</p><a id="nextButton" class="btn btn-primary" href="toot">Press here to check if evaluation is completed.</a></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
-     * Test creating report view GOP helper object.
+     * Test creating report view information helper object.
      */
-    public function test_gop_html_output() {
-        $result = create_report_gop(0.72);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72%</h6><div class="card-text"><p>Pronunciation score is 7, big pink score.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-        $feedback = new \stdClass();
-        $feedback->gop_score = 0.1;
-        $feedback->gop_score_reason = 'bad';
-        $result = create_report_gop(0.72, $feedback);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72%</h6><div class="card-text"><p>Pronunciation score is 7, big pink score.</p><p>Teacher\'s grade suggestion: 0.1</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-        $feedback->gop_score_reason = '';
-        $result = create_report_gop(0.72, $feedback);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72%</h6><div class="card-text"><p>Pronunciation score is 7, big pink score.</p><p>Teacher\'s grade suggestion: 0.1</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-        $feedback->gop_score = 0.72;
-        $feedback->gop_score_reason = 'bad';
-        $result = create_report_gop(0.72, $feedback);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Goodness of pronunciation</h5><h6 class="grade-number">72%</h6><div class="card-text"><p>Pronunciation score is 7, big pink score.</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    public function test_create_report_retry() {
+        $result = create_report_retry();
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation failed</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div><p>Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+    }
+
+    /**
+     * Test creating report view information helper object.
+     */
+    public function test_information_html_output() {
+        $result = create_report_information('text');
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">text</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -375,7 +372,7 @@ class locallib_test extends \advanced_testcase {
         $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, $USER->username, 1, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
 
         $result = save_answerrecording_form($assignment);
-        $this->assertEquals('<p id="submitErrors"></p><br>No evaluation was found. Check your connection with server.', $result);
+        $this->assertEquals('<p id="submitErrors"></p>', $result);
     }
 
     /**
@@ -388,6 +385,94 @@ class locallib_test extends \advanced_testcase {
 
         $result = save_answerrecording_form($assignment);
         $this->assertEquals('<p id="submitErrors"></p>', $result);
+    }
+
+    /**
+     * Test creating an attempt to database.
+     */
+    public function test_create_waiting_attempt() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+
+        create_waiting_attempt($assignment, 'filename', 60);
+
+        $result = $DB->record_exists('digitala_attempts',
+                                     array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(true, $result);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals('waiting', $record->status);
+        $this->assertEquals('filename', $record->file);
+        $this->assertEquals(60, $record->recordinglength);
+
+        create_waiting_attempt($assignment, 'filename', 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals(2, $record->attemptnumber);
+    }
+
+    /**
+     * Test saving attempt status to database.
+     */
+    public function test_set_attempt_status() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+
+        create_waiting_attempt($assignment, 'filename', 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+
+        set_attempt_status($record, 'retry');
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals('retry', $record->status);
+    }
+
+    /**
+     * Test saving failed attempt to database.
+     */
+    public function test_save_failed_attempt() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 1;
+        $assignment->userid = 1;
+        $assignment->attempttype = 'freeform';
+
+        create_waiting_attempt($assignment, 'filename', 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+
+        save_failed_attempt($record, $assignment);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals('failed', $record->status);
+        $this->assertEquals(0, $record->taskcompletion);
+        $this->assertEquals(0, $record->fluency);
+        $this->assertEquals(0, $record->pronunciation);
+        $this->assertEquals(0, $record->lexicogrammatical);
+        $this->assertEquals(0, $record->holistic);
+
+        $assignment->instanceid = 2;
+        $assignment->userid = 2;
+        $assignment->attempttype = 'readaloud';
+        create_waiting_attempt($assignment, 'filename', 60);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals('waiting', $record->status);
+
+        save_failed_attempt($record, $assignment);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $this->assertEquals('failed', $record->status);
+        $this->assertEquals(0, $record->fluency);
+        $this->assertEquals(0, $record->pronunciation);
     }
 
     /**
@@ -414,21 +499,15 @@ class locallib_test extends \advanced_testcase {
         $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
         $evaluation->holistic = 4;
 
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        create_waiting_attempt($assignment, 'filename', 60);
+        save_attempt($assignment, $evaluation);
 
-        $result = $DB->record_exists('digitala_attempts',
-                                     array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(true, $result);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
         $this->assertEquals($evaluation->transcript, $record->transcript);
+        $this->assertEquals('evaluated', $record->status);
         $this->assertEquals($evaluation->holistic, $record->holistic);
         $this->assertEquals('{"invalid":1}', $record->fluency_features);
-
-        save_attempt($assignment, 'filename', $evaluation, 60);
-        $record = $DB->get_record('digitala_attempts',
-                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(2, $record->attemptnumber);
 
         $evaluation->task_completion = -1.1;
         $evaluation->fluency->score = -1.1;
@@ -436,7 +515,7 @@ class locallib_test extends \advanced_testcase {
         $evaluation->lexicogrammatical->score = -1.1;
         $evaluation->holistic = -1.1;
 
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        save_attempt($assignment, $evaluation);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
         $this->assertEquals(0, $record->taskcompletion);
@@ -451,7 +530,7 @@ class locallib_test extends \advanced_testcase {
         $evaluation->lexicogrammatical->score = 10.666;
         $evaluation->holistic = 10.666;
 
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        save_attempt($assignment, $evaluation);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
         $this->assertEquals(0, $record->taskcompletion);
@@ -473,35 +552,33 @@ class locallib_test extends \advanced_testcase {
         $assignment->attempttype = 'readaloud';
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
-        $evaluation->feedback = '';
-        $evaluation->GOP_score = 4;
+        $evaluation->annotated_response = '';
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 2;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 1;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
 
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        create_waiting_attempt($assignment, 'filename', 60);
+        save_attempt($assignment, $evaluation);
 
-        $result = $DB->record_exists('digitala_attempts',
-                                     array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(true, $result);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(0.00, $record->gop_score);
+        $this->assertEquals(2, $record->fluency);
+        $this->assertEquals(1, $record->pronunciation);
 
-        $evaluation->GOP_score = 0.69;
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        $evaluation->pronunciation->score = 5;
+        save_attempt($assignment, $evaluation);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(0.69, $record->gop_score);
+        $this->assertEquals(0, $record->pronunciation);
 
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        $evaluation->pronunciation->score = -1;
+        save_attempt($assignment, $evaluation);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(3, $record->attemptnumber);
-
-        $evaluation->GOP_score = -1.3;
-
-        save_attempt($assignment, 'filename', $evaluation, 60);
-        $record = $DB->get_record('digitala_attempts',
-                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
-        $this->assertEquals(0, $record->gop_score);
+        $this->assertEquals(0, $record->pronunciation);
     }
 
     /**
@@ -518,13 +595,14 @@ class locallib_test extends \advanced_testcase {
         $attempt->digitala = 2;
         $attempt->userid = $USER->id;
         $attempt->file = 'filename';
-        $attempt->gop_score = 1.00;
+        $attempt->fluency = 1;
+        $attempt->pronunciation = 1;
         $attempt->timecreated = $timenow;
         $attempt->timemodified = $timenow;
         $DB->insert_record('digitala_attempts', $attempt);
 
         $result = get_attempt(2, $USER->id);
-        $this->assertEquals($attempt->gop_score, $result->gop_score);
+        $this->assertEquals($attempt->fluency, $result->fluency);
     }
 
 // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
@@ -578,10 +656,16 @@ class locallib_test extends \advanced_testcase {
 
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
-        $evaluation->feedback = '';
-        $evaluation->GOP_score = 1;
+        $evaluation->annotated_response = '';
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 1;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 1;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
 
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        create_waiting_attempt($assignment, 'filename', 60);
+        save_attempt($assignment, $evaluation);
         $assignment->attemptlimit = 3;
         $result = create_attempt_number($assignment, $assignment->userid);
         $this->assertEquals('Number of attempts remaining: 2', $result);
@@ -601,10 +685,16 @@ class locallib_test extends \advanced_testcase {
 
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
-        $evaluation->feedback = '';
-        $evaluation->GOP_score = 1;
+        $evaluation->annotated_response = '';
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 1;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 1;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
 
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        create_waiting_attempt($assignment, 'filename', 60);
+        save_attempt($assignment, $evaluation);
 
         \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'), null, 'post', 'answerrecording_form');
         $context = \context_module::instance($this->digitala->cmid);
@@ -642,18 +732,30 @@ class locallib_test extends \advanced_testcase {
         $assignment->attempttype = 'readaloud';
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
-        $evaluation->feedback = '';
-        $evaluation->GOP_score = 4;
+        $evaluation->annotated_response = '';
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 1;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 1;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
         $recordinglength = 5;
 
-        save_attempt($assignment, 'filename1', $evaluation, $recordinglength);
+        create_waiting_attempt($assignment, 'filename1', $recordinglength);
+        save_attempt($assignment, $evaluation);
 
         $assignment->instanceid = 1;
         $assignment->userid = 2;
-        $evaluation->GOP_score = 3;
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 2;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 2;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
         $recordinglength = 5;
 
-        save_attempt($assignment, 'filename2', $evaluation, $recordinglength);
+        create_waiting_attempt($assignment, 'filename2', $recordinglength);
+        save_attempt($assignment, $evaluation);
 
         $records = $DB->get_records('digitala_attempts',
                                   array('digitala' => $assignment->instanceid));
@@ -681,20 +783,27 @@ class locallib_test extends \advanced_testcase {
         $assignment->attempttype = 'readaloud';
         $evaluation = new \stdClass();
         $evaluation->transcript = '';
-        $evaluation->feedback = '';
-        $evaluation->GOP_score = 1.00;
+        $evaluation->annotated_response = '';
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 1;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 1;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
         $recordinglength = 5;
 
-        save_attempt($assignment, 'filename', $evaluation, $recordinglength);
+        create_waiting_attempt($assignment, 'filename', $recordinglength);
+        save_attempt($assignment, $evaluation);
         $record = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
 
         $result = create_result_row($record, $this->digitala->id, $USER);
         $this->assertEquals('Admin User', $result[0]);
-        $this->assertEquals(1.00, $result[1]);
+        $this->assertEquals(1, $result[1]);
         $this->assertEquals('00:05', $result[2]);
         $this->assertEquals(1, $result[3]);
-        $this->assertStringContainsString('>See report</a>', $result[4]);
+        $this->assertEquals('Evaluated', $result[4]);
+        $this->assertStringContainsString('>See report</a>', $result[5]);
     }
 
     /**
@@ -739,12 +848,15 @@ class locallib_test extends \advanced_testcase {
         global $DB;
 
         $fromform = new \stdClass();
-        $fromform->gop = 1;
-        $fromform->gopreason = "I'm a reason, did you know!?";
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = "I'm a fluency reason, did you know!?";
+        $fromform->pronunciation = 2;
+        $fromform->pronunciationreason = "I'm a pronunciation reason, did you know!?";
 
         $oldattempt = new \stdClass();
         $oldattempt->id = 5;
-        $oldattempt->gop_score = 4;
+        $oldattempt->fluency = 3;
+        $oldattempt->pronunciation = 0;
 
         save_report_feedback('readaloud', $fromform, $oldattempt);
 
@@ -754,12 +866,15 @@ class locallib_test extends \advanced_testcase {
 
         $feedback = $DB->get_record('digitala_report_feedback',
                                     array('attempt' => 5));
-        $this->assertEquals(4, $feedback->old_gop_score);
-        $this->assertEquals(1, $feedback->gop_score);
-        $this->assertEquals("I'm a reason, did you know!?", $feedback->gop_score_reason);
-        $this->assertEquals(false, isset($feedback->old_fluency));
+        $this->assertEquals(3, $feedback->old_fluency);
+        $this->assertEquals(0, $feedback->old_pronunciation);
+        $this->assertEquals(1, $feedback->fluency);
+        $this->assertEquals(2, $feedback->pronunciation);
+        $this->assertEquals("I'm a fluency reason, did you know!?", $feedback->fluency_reason);
+        $this->assertEquals("I'm a pronunciation reason, did you know!?", $feedback->pronunciation_reason);
+        $this->assertEquals(false, isset($feedback->old_holistic));
         $this->assertEquals(false, isset($feedback->taskcompletion));
-        $this->assertEquals(false, isset($feedback->pronunciation_reason));
+        $this->assertEquals(false, isset($feedback->lexicogrammatical_reason));
 
     }
 
@@ -809,7 +924,6 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals("I'm a pronunciation reason, did you know!?", $feedback->pronunciation_reason);
         $this->assertEquals("I'm a lexicogrammatical reason, did you know!?", $feedback->lexicogrammatical_reason);
         $this->assertEquals("I'm a holistic reason, did you know!?", $feedback->holistic_reason);
-        $this->assertEquals(false, isset($feedback->gop_score));
     }
 
     /**
@@ -891,10 +1005,12 @@ class locallib_test extends \advanced_testcase {
         $assignment->instanceid = 1;
         $assignment->userid = 1;
         $evaluation = new \stdClass();
-        $evaluation->GOP_score = 4;
+        $evaluation->annotated_response = '';
+        $evaluation->fluency = 1;
+        $evaluation->pronunciation = 1;
         $recordinglength = 5;
 
-        save_attempt($assignment, 'filename1', $evaluation, $recordinglength);
+        create_waiting_attempt($assignment, 'filename1', $recordinglength);
         delete_attempt($assignment->instanceid, $assignment->userid);
 
         $records = $DB->get_records('digitala_attempts',
@@ -912,19 +1028,25 @@ class locallib_test extends \advanced_testcase {
         $assignment->instanceid = 1;
         $assignment->userid = 1;
         $evaluation = new \stdClass();
-        $evaluation->GOP_score = 4;
+        $evaluation->annotated_response = '';
+        $evaluation->fluency = 1;
+        $evaluation->pronunciation = 1;
         $recordinglength = 5;
 
-        save_attempt($assignment, 'filename1', $evaluation, $recordinglength);
+        create_waiting_attempt($assignment, 'filename1', $recordinglength);
+        save_attempt($assignment, $evaluation);
 
         $assignment = new \stdClass();
         $assignment->instanceid = 1;
         $assignment->userid = 2;
         $evaluation = new \stdClass();
-        $evaluation->GOP_score = 3;
+        $evaluation->annotated_response = '';
+        $evaluation->fluency = 2;
+        $evaluation->pronunciation = 2;
         $recordinglength = 5;
 
-        save_attempt($assignment, 'filename2', $evaluation, $recordinglength);
+        create_waiting_attempt($assignment, 'filename2', $recordinglength);
+        save_attempt($assignment, $evaluation);
 
         delete_all_attempts($assignment->instanceid);
 

@@ -87,19 +87,6 @@ $string['transcription_tab-corrected'] = 'Näytä korjaukset';
 
 $string['task_grades'] = 'Analyyttinen arvio';
 
-$string['gop'] = 'Ääntämisen taso (GOP)';
-$string['gop_score-0'] = 'Ääntämisen taso on 0.';
-$string['gop_score-1'] = 'Ääntämisen taso on 1.';
-$string['gop_score-2'] = 'Ääntämisen taso on 2.';
-$string['gop_score-3'] = 'Ääntämisen taso on 3.';
-$string['gop_score-4'] = 'Ääntämisen taso on 4.';
-$string['gop_score-5'] = 'Ääntämisen taso on 5.';
-$string['gop_score-6'] = 'Ääntämisen taso on 6.';
-$string['gop_score-7'] = 'Ääntämisen taso on 7.';
-$string['gop_score-8'] = 'Ääntämisen taso on 8.';
-$string['gop_score-9'] = 'Ääntämisen taso on 9.';
-$string['gop_score-10'] = 'Ääntämisen taso on 10.';
-
 $string['holistic'] = 'Taitotasoarvio';
 $string['holistic_description'] = 'Automaattisen arvion mukaan vaikuttaa siltä, että taitotasosi on ';
 $string['holistic_level-0'] = 'Alle A1';
@@ -189,6 +176,10 @@ $string['results_delete-all-text'] = 'Haluatko varmasti poistaa ja nollata suori
 $string['results_no-show'] = 'Ei vielä suorituksia.';
 $string['results_title'] = 'Käyttäjien suoritukset';
 $string['results_delete-title'] = 'Varoitus';
+$string['results_waiting-title'] = 'Evaluation in progress';
+$string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
+$string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
+$string['results_waiting-loading'] = 'Loading...';
 
 $string['teachergrade'] = "Opettajan arvosanaehdotus: ";
 $string['teacherreason'] = "Kommentti arvosanan muutoksesta: ";

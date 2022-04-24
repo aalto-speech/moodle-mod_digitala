@@ -87,19 +87,6 @@ $string['transcription_tab-corrected'] = 'Show corrections';
 
 $string['task_grades'] = 'Analytic grading';
 
-$string['gop'] = 'Goodness of pronunciation';
-$string['gop_score-0'] = 'Pronunciation score is 0, red score.';
-$string['gop_score-1'] = 'Pronunciation score is 1, light red score.';
-$string['gop_score-2'] = 'Pronunciation score is 2, pink score.';
-$string['gop_score-3'] = 'Pronunciation score is 3, brown score.';
-$string['gop_score-4'] = 'Pronunciation score is 4, light yellow score.';
-$string['gop_score-5'] = 'Pronunciation score is 5, yellow score.';
-$string['gop_score-6'] = 'Pronunciation score is 6, teal score.';
-$string['gop_score-7'] = 'Pronunciation score is 7, big pink score.';
-$string['gop_score-8'] = 'Pronunciation score is 8, cyan score.';
-$string['gop_score-9'] = 'Pronunciation score is 9, light green score.';
-$string['gop_score-10'] = 'Pronunciation score is 10, green score.';
-
 $string['holistic'] = 'Proficiency level';
 $string['holistic_description'] = 'Based on the automatic grading, it seems that your proficiency level is ';
 $string['holistic_level-0'] = 'Below A1';
@@ -180,10 +167,16 @@ $string['results_text'] = 'Type';
 $string['results_score'] = 'Proficiency/Analytic grades';
 $string['results_time'] = 'Time';
 $string['results_tries'] = 'Tries';
+$string['results_status'] = 'Status';
 $string['results_report'] = 'Evaluation report';
 $string['results_denied'] = 'Access denied';
 $string['results_return'] = 'Return to Digitala front page';
 $string['results_view'] = 'View student results';
+
+$string['results_status-evaluated'] = "Evaluated";
+$string['results_status-waiting'] = "Waiting";
+$string['results_status-retry'] = "Retrying";
+$string['results_status-failed'] = "Failed";
 
 $string['results_delete'] = 'Delete attempt';
 $string['results_delete-confirm'] = 'Confirm delete';
@@ -193,6 +186,12 @@ $string['results_delete-all-text'] = 'Are you sure you want to delete and reset 
 $string['results_no-show'] = 'No results to show yet.';
 $string['results_title'] = 'User results';
 $string['results_delete-title'] = 'Warning';
+$string['results_waiting-title'] = 'Evaluation in progress';
+$string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
+$string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
+$string['results_waiting-loading'] = 'Loading...';
+$string['results_retry-title'] = 'Evaluation failed';
+$string['results_retry-info'] = 'Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities.';
 
 $string['teachergrade'] = "Teacher's grade suggestion: ";
 $string['teacherreason'] = "Comments about grade suggestion: ";

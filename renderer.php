@@ -86,8 +86,12 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
 
         $attempt = get_attempt($assignment->instanceid, $assignment->userid);
-
-        if ($assignment->attemptlimit != 0 && isset($attempt) && $attempt->attemptnumber >= $assignment->attemptlimit) {
+        if (isset($attempt) && ($attempt->status == 'waiting' || $attempt->status == 'retry')) {
+            $url = str_replace('page=1', 'page=2', $_SERVER['REQUEST_URI']);
+            $out .= create_card('assignmentrecord', get_string('results_waiting-info', 'digitala'));
+            $out .= html_writer::tag('a', get_string('results_waiting-refresh', 'digitala'),
+                array('id' => 'nextButton', 'class' => 'btn btn-primary', 'href' => $url));
+        } else if ($assignment->attemptlimit != 0 && isset($attempt) && $attempt->attemptnumber >= $assignment->attemptlimit) {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext', $assignment->id, $assignment->d);
         } else {
@@ -114,23 +118,28 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_report(digitala_report $report) {
+        global $USER, $CFG;
+
         $out = start_container('digitala-report');
 
         $out .= start_column();
 
         $attempt = get_attempt($report->instanceid, $report->student);
-        if (isset($attempt)) {
-            $feedback = get_feedback($attempt);
-        }
+        $remaining = $report->attemptlimit;
 
         if (is_null($attempt)) {
-            $remaining = $report->attemptlimit;
             $out .= create_card('report-title', get_string('reportnotavailable', 'digitala'));
-        } else {
-            $remaining = $report->attemptlimit - $attempt->attemptnumber;
+        } else if ($attempt->status == 'waiting') {
+            $remaining -= $attempt->attemptnumber;
+            $out .= create_report_waiting();
+        } else if ($attempt->status == 'retry') {
+            $remaining -= $attempt->attemptnumber;
+            $out .= create_report_retry();
+        } else if ($attempt->status == 'evaluated' || $attempt->status == 'failed') {
+            $remaining -= $attempt->attemptnumber;
+            $feedback = get_feedback($attempt);
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
-                    $attempt->file, false);
-            $remaining = $report->attemptlimit;
+                                                        $attempt->file, false);
             if (isset($feedback)) {
                 $reporttitle = 'report-title-feedback';
             } else {
@@ -140,34 +149,45 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                           '<br><br>'.create_attempt_number($report, $report->student).
                                           '<br><br><audio title="attempt_recording" controls><source src='.$audiourl.'></audio>');
 
+            if (isset($feedback)) {
+                $gradings = create_report_grading('fluency', $attempt->fluency, 4,
+                                                  $feedback->fluency, $feedback->fluency_reason);
+                $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4,
+                                                   $feedback->pronunciation, $feedback->pronunciation_reason);
+            } else {
+                $gradings = create_report_grading('fluency', $attempt->fluency, 4);
+                $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
+            }
             if ($report->attempttype == 'freeform') {
-                $out .= create_report_transcription($attempt->transcript);
                 if (isset($feedback)) {
-                    $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3,
-                                                      $feedback->taskcompletion, $feedback->taskcompletion_reason);
-                    $gradings .= create_report_grading('fluency', $attempt->fluency, 4,
-                                                      $feedback->fluency, $feedback->fluency_reason);
-                    $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4,
-                                                      $feedback->pronunciation, $feedback->pronunciation_reason);
+                    $gradings .= create_report_grading('taskcompletion', $attempt->taskcompletion, 3,
+                                                       $feedback->taskcompletion, $feedback->taskcompletion_reason);
                     $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3,
-                                                      $feedback->lexicogrammatical, $feedback->lexicogrammatical_reason);
+                                                       $feedback->lexicogrammatical, $feedback->lexicogrammatical_reason);
                 } else {
-                    $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
-                    $gradings .= create_report_grading('fluency', $attempt->fluency, 4);
-                    $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
+                    $gradings .= create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
                     $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
                 }
+
                 $holistic = create_report_holistic(floor($attempt->holistic), $feedback);
 
                 $information = create_report_information($attempt->transcript);
 
+                $out .= create_report_transcription($attempt->transcript);
                 $out .= create_report_tabs($gradings, $holistic, $information);
-
             } else {
                 $out .= create_transcript_toggle($attempt->transcript, $attempt->feedback);
-                $out .= create_report_gop($attempt->gop_score, $feedback);
+                $out .= $gradings;
             }
+            if ($report->student != $USER->id && $attempt->status == 'evaluated') {
+                $out .= '<a class="btn btn-primary" href="'.$CFG->wwwroot.
+                        '/mod/digitala/reporteditor.php?id='.$report->id.'&student='.$report->student.'">'.
+                        get_string('teacher-feedback', 'digitala').'</a>';
+            }
+        } else {
+            $out .= create_card('report-title', get_string('reportnotavailable', 'digitala'));
         }
+
         $out .= create_nav_buttons('report', $report->id, $report->d, $remaining);
         $out .= create_fixed_box();
         $out .= end_column();
@@ -194,6 +214,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 new html_table_cell(get_string('results_score', 'digitala')),
                 new html_table_cell(get_string('results_time', 'digitala')),
                 new html_table_cell(get_string('results_tries', 'digitala')),
+                new html_table_cell(get_string('results_status', 'digitala')),
                 new html_table_cell(get_string('results_report', 'digitala')),
                 new html_table_cell(add_delete_all_attempts_button()));
             foreach ($headers as $value) {
