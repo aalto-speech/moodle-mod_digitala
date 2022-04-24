@@ -201,3 +201,6 @@ $string['teachergrade'] = "Teacher's grade suggestion: ";
 $string['teacherreason'] = "Comments about grade suggestion: ";
 $string['feedback_success'] = 'Comment added successfully to students report.';
 $string['feedback_not-found'] = 'Report for given student is not found';
+
+$string['task-send_to_evaluations'] = 'Send to evaluation';
+$string['task-check_failed_evaluation'] = 'Check for failed evaluations';
