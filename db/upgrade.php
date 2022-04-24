@@ -328,7 +328,7 @@ function xmldb_digitala_upgrade($oldversion) {
     }
 
     // Conditionally launch add field status.
-    if ($oldversion < 2022042402) {
+    if ($oldversion < 2022042302) {
 
         // Define field status to be added to digitala_attempts.
         $table = new xmldb_table('digitala_attempts');
@@ -338,7 +338,7 @@ function xmldb_digitala_upgrade($oldversion) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        upgrade_mod_savepoint(true, 2022042402, 'digitala');
+        upgrade_mod_savepoint(true, 2022042302, 'digitala');
     }
 
     // Conditionally launch add field digitala.
