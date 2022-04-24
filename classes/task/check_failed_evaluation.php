@@ -45,7 +45,7 @@ class check_failed_evaluation extends \core\task\scheduled_task {
      */
     public function execute() {
         global $DB;
-        $time = time()-7200; // Checks if attempt has been waiting for over two hour before re-evaluation.
+        $time = time() - 7200; // Checks if attempt has been waiting for over two hour before re-evaluation.
         $waiting = $DB->get_records_select('digitala_attempts', "status='waiting' AND timemodified < ".$time);
         foreach ($waiting as $attempt) {
             set_attempt_status($attempt, 'retry');
