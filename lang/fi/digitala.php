@@ -189,3 +189,6 @@ $string['teachergrade'] = "Opettajan arvosanaehdotus: ";
 $string['teacherreason'] = "Kommentti arvosanan muutoksesta: ";
 $string['feedback_success'] = 'Kommentti opiskelijan raportista on tallennettu onnistuneesti.';
 $string['feedback_not-found'] = 'Opiskelijalle ei löydy tuloksia.';
+
+$string['task-send_to_evaluations'] = 'Send to evaluation';
+$string['task-check_failed_evaluation'] = 'Check for failed evaluations';

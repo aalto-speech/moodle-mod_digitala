@@ -189,3 +189,6 @@ $string['teachergrade'] = "Lärarens betygsförslag: ";
 $string['teacherreason'] = "Lärarens kommentar för betygsändring: ";
 $string['feedback_success'] = 'Kommentar till studentrapport sparad framgångsrikt.';
 $string['feedback_not-found'] = 'Inga resultat hittades för studenten.';
+
+$string['task-send_to_evaluations'] = 'Send to evaluation';
+$string['task-check_failed_evaluation'] = 'Check for failed evaluations';

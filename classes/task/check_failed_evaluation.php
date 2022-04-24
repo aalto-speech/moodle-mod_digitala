@@ -54,32 +54,34 @@ class check_failed_evaluation extends \core\task\scheduled_task {
         $attempts = $DB->get_records('digitala_attempts', array('status' => 'retry'));
 
         foreach ($attempts as $attempt) {
-            $activity = $DB->get_record('digitala', array('id' => $attempt->digitala), '*', MUST_EXIST);
-            $course = $DB->get_record('course', array('id' => $activity->course), '*', MUST_EXIST);
-            $cm = get_coursemodule_from_instance('digitala', $activity->id, $course->id, false, MUST_EXIST);
-            $modulecontext = \context_module::instance($cm->id);
+            if ($DB->record_exists('digitala', array('id' => $attempt->digitala))){
+                $activity = $DB->get_record('digitala', array('id' => $attempt->digitala), '*', MUST_EXIST);
+                $course = $DB->get_record('course', array('id' => $activity->course), '*', MUST_EXIST);
+                $cm = get_coursemodule_from_instance('digitala', $activity->id, $course->id, false, MUST_EXIST);
+                $modulecontext = \context_module::instance($cm->id);
 
-            $assignment = new \stdClass();
-            $assignment->instanceid = $attempt->digitala;
-            $assignment->userid = $attempt->userid;
-            $assignment->attemptlang = $activity->attemptlang;
-            $assignment->attempttype = $activity->attempttype;
+                $assignment = new \stdClass();
+                $assignment->instanceid = $attempt->digitala;
+                $assignment->userid = $attempt->userid;
+                $assignment->attemptlang = $activity->attemptlang;
+                $assignment->attempttype = $activity->attempttype;
 
-            if ($activity->attempttype == 'readaloud') {
-                $assignment->servertext = format_string($activity->resources);
-            } else {
-                $assignment->servertext = format_string($activity->assignment);
+                if ($activity->attempttype == 'readaloud') {
+                    $assignment->servertext = format_string($activity->resources);
+                } else {
+                    $assignment->servertext = format_string($activity->assignment);
+                }
+
+                $fileinfo = new \stdClass();
+                $fileinfo->contextid = $modulecontext->id;
+                $fileinfo->component = 'mod_digitala';
+                $fileinfo->filearea = 'recordings';
+                $fileinfo->itemid = 0;
+                $fileinfo->filepath = '/';
+                $fileinfo->filename = $attempt->file;
+
+                send_answerrecording_for_evaluation($fileinfo, $assignment, $attempt->recordinglength);
             }
-
-            $fileinfo = new \stdClass();
-            $fileinfo->contextid = $modulecontext->id;
-            $fileinfo->component = 'mod_digitala';
-            $fileinfo->filearea = 'recordings';
-            $fileinfo->itemid = 0;
-            $fileinfo->filepath = '/';
-            $fileinfo->filename = $attempt->file;
-
-            send_answerrecording_for_evaluation($fileinfo, $assignment, $attempt->recordinglength);
         }
 
     }
