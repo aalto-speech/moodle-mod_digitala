@@ -34,6 +34,7 @@ Feature: Teacher can see students detailed report
 
   Scenario: Detailed report shows correctly for freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
+    Then I should see "Olli Opiskelija"
     And I should see "Assignment"
     And I should see "Language: Swedish"
     And I should see "Type: Freeform"
@@ -42,6 +43,7 @@ Feature: Teacher can see students detailed report
     And I should see "Material"
     And I should see "Här är filmen om tiger."
     And I should see "There is no limit set for the number of attempts on this assignment."
+    And "//audio[@title='attempt_recording']" "xpath_element" should exist
     And I should see "A transcript of your speech sample"
     And I should see "transcript1"
     And I should see "Task completion"
@@ -72,10 +74,11 @@ Feature: Teacher can see students detailed report
     And I should see "Material"
     And I should see "Tämä on liikennevalojen perusteet -kurssi."
     And I should see "Number of attempts remaining: 1"
+    And "//audio[@title='attempt_recording']" "xpath_element" should exist
     And I should see "Show corrections"
     And I should see "Plain text"
     And I should see "feedback"
-    And I click on "readaloud-transcript-tab" "button"
+    And I click on "readaloud-transcript-tab" "link"
     And I should see "transcript2"
     And I should see "Goodness of pronunciation"
     And I should see "70%"

@@ -189,8 +189,8 @@ function create_progress_bar_spacer($mode) {
  * @param string $classname steps classname for css styling
  */
 function start_container($classname) {
-    $out = html_writer::start_div($classname);
-    $out .= html_writer::start_div('container-fluid');
+    $out = html_writer::start_div($classname . ' digitala-container');
+    $out .= html_writer::start_div('container');
     $out .= html_writer::start_div('row');
     return $out;
 }
@@ -207,9 +207,10 @@ function end_container() {
 
 /**
  * Used to create column inside content container
+ * @param string $size - width of the container, defaults to auto
  */
-function start_column() {
-    $out = html_writer::start_div('col digitala-column');
+function start_column($size='') {
+    $out = html_writer::start_div('col'.$size.' digitala-column');
     return $out;
 }
 
@@ -270,8 +271,10 @@ function create_resource($assignment) {
  * @param string $name name of the grading
  * @param int $grade grading number given by the server
  * @param int $maxgrade maximum number of this grade
+ * @param int $feedbackgrade grade given manually by the teacher
+ * @param string $feedbackreason reason for the grade change
  */
-function create_report_grading($name, $grade, $maxgrade) {
+function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, $feedbackreason = null) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
@@ -280,9 +283,18 @@ function create_report_grading($name, $grade, $maxgrade) {
     $out .= create_chart($name, $grade, $maxgrade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string($name.'_description', 'digitala').
-                             lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')), 'card-text');
+    $out .= html_writer::start_div('card-text');
+    $out .= html_writer::tag('p', get_string($name.'_description', 'digitala').
+                                  lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')));
 
+    if (isset($feedbackgrade) && $grade != $feedbackgrade) {
+        $out .= html_writer::tag('p', get_string('teachergrade', 'digitala').$feedbackgrade);
+    }
+    if (isset($feedbackreason) && !empty($feedbackreason)) {
+        $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedbackreason);
+    }
+
+    $out .= html_writer::end_div();
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
 
@@ -293,8 +305,9 @@ function create_report_grading($name, $grade, $maxgrade) {
  * Creates holistic information container from report
  *
  * @param int $grade grading number given by the server
+ * @param mixed $feedback information given by the teacher
  */
-function create_report_holistic($grade) {
+function create_report_holistic($grade, $feedback = null) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
@@ -303,9 +316,21 @@ function create_report_holistic($grade) {
     $out .= create_chart('holistic', $grade, 6);
     $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string('holistic_description', 'digitala').get_string('holistic_level-'.$grade, 'digitala').
-                             ':<br>'.get_string('holistic_score-'.$grade, 'digitala'), 'card-text');
+    $out .= html_writer::start_div('card-text');
+    $out .= html_writer::tag('p', get_string('holistic_description', 'digitala').
+                                  get_string('holistic_level-'.$grade, 'digitala').
+                                  ':<br>'.get_string('holistic_score-'.$grade, 'digitala'));
 
+    if (isset($feedback)) {
+        if ($grade != $feedback->holistic) {
+            $out .= html_writer::tag('p', get_string('teachergrade', 'digitala').$feedback->holistic);
+        }
+        if (!empty($feedback->holistic_reason)) {
+            $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedback->holistic_reason);
+        }
+    }
+
+    $out .= html_writer::end_div();
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
 
@@ -335,8 +360,9 @@ function create_report_information($text) {
  * Creates grading information container from report
  *
  * @param int $grade grading number given by the server
+ * @param mixed $feedback information given by the teacher
  */
-function create_report_gop($grade) {
+function create_report_gop($grade, $feedback = null) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
@@ -344,8 +370,19 @@ function create_report_gop($grade) {
 
     $out .= html_writer::tag('h6', $grade * 100 . '%', array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string('gop_score-'.floor($grade * 10), 'digitala'), 'card-text');
+    $out .= html_writer::start_div('card-text');
+    $out .= html_writer::tag('p', get_string('gop_score-'.floor($grade * 10), 'digitala'));
 
+    if (isset($feedback)) {
+        if ($grade != $feedback->gop_score) {
+            $out .= html_writer::tag('p', get_string('teachergrade', 'digitala').$feedback->gop_score);
+        }
+        if (!empty($feedback->gop_score_reason)) {
+            $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedback->gop_score_reason);
+        }
+    }
+
+    $out .= html_writer::end_div();
     $out .= html_writer::end_div();
     $out .= html_writer::end_div();
 
@@ -380,7 +417,7 @@ function create_report_feedback($feedback) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
-    $out .= html_writer::tag('h5', get_string('feedback', 'digitala'), array('class' => 'card-title'));
+    $out .= html_writer::tag('h5', get_string('server-feedback', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::div($feedback, 'card-text scrollbox200');
 
@@ -399,7 +436,7 @@ function create_report_feedback($feedback) {
  */
 function create_report_tabs($gradings, $holistic, $information) {
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::start_div('nav nav-tabs digitala-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('task_grades', 'digitala'),
                              array('class' => 'nav-link active ml-2', 'id' => 'report-grades-tab', 'data-toggle' => 'tab',
                                    'href' => '#report-grades', 'role' => 'tab', 'aria-controls' => 'report-grades',
@@ -436,7 +473,7 @@ function create_report_tabs($gradings, $holistic, $information) {
  */
 function create_short_assignment_tabs($assignment, $resources) {
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::start_div('nav nav-tabs digitala-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= html_writer::tag('button', get_string('assignment', 'digitala'),
                              array('class' => 'nav-link active ml-2', 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
                                    'href' => '#assignment-assignment', 'role' => 'tab', 'aria-controls' => 'assignment-assignment',
@@ -470,12 +507,12 @@ function create_transcript_toggle($transcript, $feedback) {
     $transcript = create_report_transcription($transcript);
     $feedback = create_report_feedback($feedback);
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-pills', array('id' => 'nav-pills', 'role' => 'tablist'));
-    $out .= html_writer::tag('button', get_string('transcription_tab-corrected', 'digitala'),
+    $out .= html_writer::start_div('nav nav-pills digitala-tabs', array('id' => 'nav-pills', 'role' => 'tablist'));
+    $out .= html_writer::tag('a', get_string('transcription_tab-corrected', 'digitala'),
                              array('class' => 'nav-link active ml-1', 'id' => 'readaloud-feedback-tab', 'data-toggle' => 'tab',
                                    'href' => '#readaloud-feedback', 'role' => 'tab', 'aria-controls' => 'readaloud-feedback',
                                    'aria-selected' => 'true'));
-    $out .= html_writer::tag('button', get_string('transcription_tab-plain', 'digitala'),
+    $out .= html_writer::tag('a', get_string('transcription_tab-plain', 'digitala'),
                              array('class' => 'nav-link ml-1', 'id' => 'readaloud-transcript-tab', 'data-toggle' => 'tab',
                                    'href' => '#readaloud-transcript', 'role' => 'tab', 'aria-controls' => 'readaloud-transcript',
                                    'aria-selected' => 'false'));
@@ -888,6 +925,25 @@ function add_delete_redirect_button($id, $user) {
 }
 
 /**
+ * Load current users latest feedback from the database.
+ *
+ * @param int $attempt - attempt object
+ * @return mixed $feedback - object containing latest feedback information
+ */
+function get_feedback($attempt) {
+    global $DB;
+
+    if (!$DB->record_exists('digitala_report_feedback', array('attempt' => $attempt->id))) {
+        return null;
+    }
+
+    $sql = 'SELECT * FROM {digitala_report_feedback} WHERE attempt = ? ORDER BY id DESC LIMIT 1';
+    $feedback = $DB->get_record_sql($sql, array($attempt->id));
+
+    return $feedback;
+}
+
+/**
  * Load users name based on their id.
  *
  * @param int $id - id of the user
@@ -958,8 +1014,10 @@ function save_answerrecording_form($assignment) {
  * @param mixed $maxgrade of the chart
  */
 function create_chart($name, $grade, $maxgrade) {
-    $out = html_writer::tag('canvas', '', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
-                                                'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart', 'height' => '40px'));
+    $out = html_writer::start_div('digitala-chart-container');
+    $out .= html_writer::tag('canvas', '', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
+                                                'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart'));
+    $out .= html_writer::end_div();
     return $out;
 }
 

@@ -76,9 +76,12 @@ $string['submitbody'] = 'Sinulla on vielä {$a} vastausyritystä tässä tehtäv
 $string['alreadysubmitted'] = 'Olet jo palauttanut vastauksen. Siirry seuraavalle sivulle nähdäksesi raportin.';
 $string['report'] = 'Arviointi';
 $string['report-title'] = 'Arviointiraportti';
+$string['report-title-feedback'] = 'Arviointiraportti - sisältää opettajan arvosanaehdotuksia';
 $string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
 $string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi puhenäytettä, eikä se kuvaa kaikkea suullista kielitaitoasi. Automaattinen arvio on koneen tekemä. Konetta on opetettu muiden kielen oppijoiden puheella ja muulla kieliaineistolla.';
 $string['transcription'] = 'Puhenäytteesi tekstinä';
+$string['server-feedback'] = 'Puhenäytteesi palaute';
+$string['teacher-feedback'] = 'Ehdota arvioinnin muutoksia';
 $string['transcription_tab-plain'] = 'Pelkkä teksti';
 $string['transcription_tab-corrected'] = 'Näytä korjaukset';
 
@@ -187,8 +190,13 @@ $string['results_no-show'] = 'Ei vielä suorituksia.';
 $string['results_title'] = 'Käyttäjien suoritukset';
 $string['results_delete-title'] = 'Varoitus';
 
+<<<<<<< HEAD
 $string['export_attempts'] = 'Lataa kaikki yritykset CSV-muodossa';
 $string['export_attempts_feedback'] = 'Lataa kaikki palautteet jokaiselle yritykselle CSV-muodossa';
 $string['export_success'] = 'CSV-tiedoston luonti onnistui.';
+=======
+$string['teachergrade'] = "Opettajan arvosanaehdotus: ";
+$string['teacherreason'] = "Kommentti arvosanan muutoksesta: ";
+>>>>>>> origin
 $string['feedback_success'] = 'Kommentti opiskelijan raportista on tallennettu onnistuneesti.';
 $string['feedback_not-found'] = 'Opiskelijalle ei löydy tuloksia.';
