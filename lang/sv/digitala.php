@@ -50,6 +50,7 @@ $string['assignment'] = 'Uppgift';
 $string['assignment_help'] = 'En instruktionstext om vad och hur man ska tala i uppgiften';
 $string['assignmentresource'] = 'Material';
 $string['assignmentresource_help'] = 'Material placeras här. I uppgiften "Läs högt" placeras texten här. I uppgiften "Fritt tal" kan man placera här t.ex. text, bilder och figurer som utnyttjas i uppgiften.';
+$string['maxlength_error'] = 'Inspelningen får inte överstiga 5 minuter';
 
 $string['navnext'] = 'Nästa >';
 $string['navprevious'] = '< Föregående';
