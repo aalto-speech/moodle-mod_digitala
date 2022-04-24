@@ -1260,7 +1260,7 @@ function generate_attempts_csv($id, $mode) {
     $header = 'id;digitala;userid;attemptnumber;file;transcript;feedback;'
            .'fluency;fluency_features;taskcompletion;pronunciation;pronunciation_features;'
            .'lexicogrammatical;lexicogrammatical_features;holistic;gop_score;timecreated;'
-           .'timemodified;recordinglength';
+           .'timemodified;recordinglength;status';
     $writer->add_data(explode(';', $header));
     foreach ($attempts as $attempt) {
         $arr = [
@@ -1282,7 +1282,8 @@ function generate_attempts_csv($id, $mode) {
             $attempt->gop_score,
             $attempt->timecreated,
             $attempt->timemodified,
-            $attempt->recordinglength
+            $attempt->recordinglength,
+            $attempt->status
         ];
         $writer->add_data($arr);
     }
