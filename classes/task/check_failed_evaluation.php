@@ -54,7 +54,7 @@ class check_failed_evaluation extends \core\task\scheduled_task {
         $attempts = $DB->get_records('digitala_attempts', array('status' => 'retry'));
 
         foreach ($attempts as $attempt) {
-            if ($DB->record_exists('digitala', array('id' => $attempt->digitala))){
+            if ($DB->record_exists('digitala', array('id' => $attempt->digitala))) {
                 $activity = $DB->get_record('digitala', array('id' => $attempt->digitala), '*', MUST_EXIST);
                 $course = $DB->get_record('course', array('id' => $activity->course), '*', MUST_EXIST);
                 $cm = get_coursemodule_from_instance('digitala', $activity->id, $course->id, false, MUST_EXIST);
