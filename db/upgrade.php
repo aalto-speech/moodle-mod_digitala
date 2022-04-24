@@ -347,7 +347,7 @@ function xmldb_digitala_upgrade($oldversion) {
         // Define field digitala to be added to digitala_report_feedback.
         $table = new xmldb_table('digitala_report_feedback');
         $field = new xmldb_field('digitala', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'id');
-    
+
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
