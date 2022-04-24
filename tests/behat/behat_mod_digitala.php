@@ -64,6 +64,7 @@ class behat_mod_digitala extends behat_base {
             $attempt->timecreated = $time;
             $attempt->timemodified = $time;
             $attempt->recordinglength = $row['recordinglength'];
+            $attempt->status = $row['status'];
 
             $DB->insert_record('digitala_attempts', $attempt);
         }
@@ -92,12 +93,36 @@ class behat_mod_digitala extends behat_base {
             $attempt->file = $row['file'];
             $attempt->transcript = $row['transcript'];
             $attempt->feedback = $row['feedback'];
-            $attempt->gop_score = $row['gop_score'];
+            $attempt->fluency = $row['fluency'];
+            $attempt->pronunciation = $row['pronunciation'];
             $attempt->timecreated = $time;
             $attempt->timemodified = $time;
             $attempt->recordinglength = $row['recordinglength'];
+            $attempt->status = $row['status'];
 
             $DB->insert_record('digitala_attempts', $attempt);
+        }
+    }
+
+    /**
+     * Sets evaluation status in attempt
+     *
+     * @Given /^I set evaluation status to:$/
+     *
+     * @param TableNode $data
+     */
+    public function i_set_evaluation_status(TableNode $data) {
+        global $DB;
+
+        foreach ($data->getHash() as $row) {
+            $activity = $DB->get_record('digitala', array('name' => $row['name']), '*', MUST_EXIST);
+            $user = $DB->get_record('user', ['username' => $row['username']], '*', MUST_EXIST);
+
+            $attempt = $DB->get_record('digitala_attempts', array('userid' => $user->id), '*', MUST_EXIST);
+            $attempt->status = $row['status'];
+            $attempt->timemodified = time();
+
+            $DB->update_record('digitala_attempts', $attempt);
         }
     }
 

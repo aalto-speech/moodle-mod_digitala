@@ -50,6 +50,7 @@ $string['assignment'] = 'Uppgift';
 $string['assignment_help'] = 'En instruktionstext om vad och hur man ska tala i uppgiften';
 $string['assignmentresource'] = 'Material';
 $string['assignmentresource_help'] = 'Material placeras här. I uppgiften "Läs högt" placeras texten här. I uppgiften "Fritt tal" kan man placera här t.ex. text, bilder och figurer som utnyttjas i uppgiften.';
+$string['maxlength_error'] = 'Inspelningen får inte överstiga 5 minuter';
 
 $string['navnext'] = 'Nästa >';
 $string['navprevious'] = '< Föregående';
@@ -86,19 +87,6 @@ $string['transcription_tab-plain'] = 'Klartext';
 $string['transcription_tab-corrected'] = 'Visa korrigeringar';
 
 $string['task_grades'] = 'Analytisk bedömning';
-
-$string['gop'] = 'Goodness of Pronunciation';
-$string['gop_score-0'] = 'Ääntämisen taso on 0.';
-$string['gop_score-1'] = 'Ääntämisen taso on 1.';
-$string['gop_score-2'] = 'Ääntämisen taso on 2.';
-$string['gop_score-3'] = 'Ääntämisen taso on 3.';
-$string['gop_score-4'] = 'Ääntämisen taso on 4.';
-$string['gop_score-5'] = 'Ääntämisen taso on 5.';
-$string['gop_score-6'] = 'Ääntämisen taso on 6.';
-$string['gop_score-7'] = 'Ääntämisen taso on 7.';
-$string['gop_score-8'] = 'Ääntämisen taso on 8.';
-$string['gop_score-9'] = 'Ääntämisen taso on 9.';
-$string['gop_score-10'] = 'Ääntämisen taso on 10.';
 
 $string['holistic'] = 'Bedömning av färdighetsnivån';
 $string['holistic_description'] = 'Automatisk bedömning visar att din färdighetsnivå verkar vara ';
@@ -189,6 +177,10 @@ $string['results_delete-all-text'] = 'Vill du ta bort och återställa försök 
 $string['results_no-show'] = 'Inga resultat än.';
 $string['results_title'] = 'Användarresultat';
 $string['results_delete-title'] = 'Obs';
+$string['results_waiting-title'] = 'Evaluation in progress';
+$string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
+$string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
+$string['results_waiting-loading'] = 'Loading...';
 
 $string['export_attempts'] = 'Ladda ner alla företag i CSV-format';
 $string['export_attempts_feedback'] = 'Ladda ner all feedback för varje företag i CSV-format';

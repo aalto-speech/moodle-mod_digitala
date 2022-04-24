@@ -327,19 +327,31 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022041401, 'digitala');
     }
 
-    if ($oldversion < 2022042102) {
+    // Conditionally launch add field status.
+    if ($oldversion < 2022042401) {
 
-        // Define field attemptlang to be added to digitala.
-        $table = new xmldb_table('digitala_report_feedback');
-        $field = new xmldb_field('digitala', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'id');
+        // Define field status to be added to digitala_attempts.
+        $table = new xmldb_table('digitala_attempts');
+        $field = new xmldb_field('status', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, 'waiting', 'attemptnumber');
 
-        // Conditionally launch add field attemptlang.
+        // Conditionally launch add field status.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
+        upgrade_mod_savepoint(true, 2022042401, 'digitala');
+    }
 
-        // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022042102, 'digitala');
+    // Conditionally launch add field digitala.
+    if ($oldversion < 2022042401) {
+
+        // Define field digitala to be added to digitala_report_feedback.
+        $table = new xmldb_table('digitala_report_feedback');
+        $field = new xmldb_field('digitala', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'id');
+    
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        upgrade_mod_savepoint(true, 2022042401, 'digitala');
     }
 
     return true;

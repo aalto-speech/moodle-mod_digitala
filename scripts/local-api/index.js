@@ -64,8 +64,19 @@ app.post('/', (req, res) => {
                     "Task": req.query.task,
                     "prompt": req.query.prompt,
                     "transcript": "Lorem ipsum dolor sit amet.",
-                    "feedback": "<p style='color: green'>Lorem <del style='color: red'>ipsum</del> dolor sit amet.</p>",
-                    "GOP_score": 1,
+                    "annotated_response": "<p><span class=\"digitala-transcript-success\">Lorem </span><span class=\"digitala-transcript-error\">ipsum </span><span class=\"digitala-transcript-warning\">dol</span>or <span class=\"digitala-transcript-success\">sit </span><span class=\"digitala-transcript-error\">a</span><span class=\"digitala-transcript-warning\">met.</span></p>",
+                    "fluency": {
+                        "score": 1,
+                        "flu_features": {
+                            "invalid": 1
+                        }
+                    },
+                    "pronunciation": {
+                        "score": 3,
+                        "pron_features": {
+                            "invalid": 2
+                        }
+                    },
                 }
 
                 const answer = req.query.task === "freeform" ? freeform : readaloud
