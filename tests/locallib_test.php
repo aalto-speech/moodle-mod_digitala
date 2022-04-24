@@ -857,6 +857,7 @@ class locallib_test extends \advanced_testcase {
         $oldattempt->id = 5;
         $oldattempt->fluency = 3;
         $oldattempt->pronunciation = 0;
+        $oldattempt->digitala = 2;
 
         save_report_feedback('readaloud', $fromform, $oldattempt);
 
@@ -952,6 +953,7 @@ class locallib_test extends \advanced_testcase {
         $oldattempt->pronunciation = 0;
         $oldattempt->lexicogrammatical = 2;
         $oldattempt->holistic = 3;
+        $oldattempt->digitala = 2;
 
         $fromform2 = new \stdClass();
         $fromform2->taskcompletion = 3;
@@ -1110,13 +1112,23 @@ class locallib_test extends \advanced_testcase {
         $assignment = new \stdClass();
         $assignment->instanceid = 500;
         $assignment->userid = 501;
-        $assignment->attempttype = 'readaloud';
+        $assignment->attempttype = 'freeform';
         $evaluation = new \stdClass();
-        $evaluation->transcript = '';
-        $evaluation->feedback = '';
-        $evaluation->GOP_score = 4;
+        $evaluation->transcript = 'transcript';
+        $evaluation->task_completion = 2;
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 1;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 1;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
+        $evaluation->lexicogrammatical = new \stdClass();
+        $evaluation->lexicogrammatical->score = 3;
+        $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
+        $evaluation->holistic = 4;
 
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        create_waiting_attempt($assignment, 'filename', 60);
+        save_attempt($assignment, $evaluation);
 
         $result = generate_attempts_csv($assignment->instanceid, 'moodi');
 
@@ -1129,17 +1141,18 @@ class locallib_test extends \advanced_testcase {
         global $DB;
 
         $fromform = new \stdClass();
-        $fromform->gop = 1;
-        $fromform->gopreason = "Gopreason";
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = 'Fluencyness';
+        $fromform->pronunciation = 1;
+        $fromform->pronunciationreason = 'Pronounciationess';
 
         $oldattempt = new \stdClass();
         $oldattempt->id = 1;
-        $oldattempt->gop_score = 1;
         $oldattempt->digitala = 2;
+        $oldattempt->fluency = 1;
+        $oldattempt->pronunciation = 1;
 
         save_report_feedback('readaloud', $fromform, $oldattempt);
-
-        global $DB;
 
         $fromform = new \stdClass();
         $fromform->taskcompletion = 1;
@@ -1189,7 +1202,8 @@ class locallib_test extends \advanced_testcase {
         $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
         $evaluation->holistic = 4;
 
-        save_attempt($assignment, 'filename', $evaluation, 60);
+        create_waiting_attempt($assignment, 'filename', 60);
+        save_attempt($assignment, $evaluation);
 
         $result = generate_attempts_csv($assignment->instanceid, 'moodi');
 
