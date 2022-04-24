@@ -58,6 +58,7 @@
     <TABLE NAME="digitala_report_feedback" COMMENT="Stores report feedback data.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="digitala" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Digitala activity that was attempted."/>
         <FIELD NAME="attempt" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Digitala activity that was attempted."/>
         <FIELD NAME="old_fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>
         <FIELD NAME="fluency" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Fluency score of the attempt."/>

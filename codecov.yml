@@ -16,3 +16,4 @@ ignore:
   - "reporteditor.php"
   - "reporteditor_form.php"
   - "settings.php"
+  - "export.php"

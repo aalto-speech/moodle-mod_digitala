@@ -182,6 +182,9 @@ $string['results_waiting-info'] = 'Evaluation is in progress, please hold. This 
 $string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
 $string['results_waiting-loading'] = 'Loading...';
 
+$string['export_attempts'] = 'Ladda ner alla företag i CSV-format';
+$string['export_attempts_feedback'] = 'Ladda ner all feedback för varje företag i CSV-format';
+$string['export_success'] = 'CSV-filen har skapats';
 $string['teachergrade'] = "Lärarens betygsförslag: ";
 $string['teacherreason'] = "Lärarens kommentar för betygsändring: ";
 $string['feedback_success'] = 'Kommentar till studentrapport sparad framgångsrikt.';

@@ -194,6 +194,9 @@ $string['results_waiting-loading'] = 'Loading...';
 $string['results_retry-title'] = 'Evaluation failed';
 $string['results_retry-info'] = 'Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities.';
 
+$string['export_attempts'] = 'Export all attempts as CSV';
+$string['export_attempts_feedback'] = 'Export all feedbacks for attempts as CSV';
+$string['export_success'] = 'Creation of CSV-file was successful.';
 $string['teachergrade'] = "Teacher's grade suggestion: ";
 $string['teacherreason'] = "Comments about grade suggestion: ";
 $string['feedback_success'] = 'Comment added successfully to students report.';

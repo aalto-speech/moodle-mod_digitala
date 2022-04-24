@@ -245,3 +245,29 @@ class digitala_delete implements renderable {
         $this->id = $id;
     }
 }
+
+/**
+ * Implements a export view.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ */
+class digitala_export implements renderable {
+    /**
+     * Constructor
+     * @param int $instanceid - Instance id of the activty
+     * @param int $contextid - Context id of the activty
+     * @param int $id - Id of the activity
+     * @param int $d - Id of the course
+     * @param string $mode - Mode of export, attempts or feedback
+     */
+    public function __construct($instanceid, $contextid, $id, $d, $mode) {
+        $this->instanceid = $instanceid;
+        $this->contextid = $contextid;
+        $this->id = $id;
+        $this->d = $d;
+        $this->mode = $mode;
+    }
+}

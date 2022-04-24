@@ -182,6 +182,9 @@ $string['results_waiting-info'] = 'Evaluation is in progress, please hold. This 
 $string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
 $string['results_waiting-loading'] = 'Loading...';
 
+$string['export_attempts'] = 'Lataa kaikki yritykset CSV-muodossa';
+$string['export_attempts_feedback'] = 'Lataa kaikki palautteet jokaiselle yritykselle CSV-muodossa';
+$string['export_success'] = 'CSV-tiedoston luonti onnistui.';
 $string['teachergrade'] = "Opettajan arvosanaehdotus: ";
 $string['teacherreason'] = "Kommentti arvosanan muutoksesta: ";
 $string['feedback_success'] = 'Kommentti opiskelijan raportista on tallennettu onnistuneesti.';

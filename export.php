@@ -25,6 +25,7 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once(__DIR__.'/renderable.php');
+require_once(__DIR__.'/locallib.php');
 
 global $USER;
 
@@ -34,7 +35,7 @@ $id = optional_param('id', 0, PARAM_INT);
 // Activity instance id.
 $d = optional_param('d', 0, PARAM_INT);
 
-$student = optional_param('student', 0, PARAM_INT);
+$mode = optional_param('mode', 'attempts', PARAM_TEXT);
 
 if ($id) {
     $cm = get_coursemodule_from_id('digitala', $id, 0, false, MUST_EXIST);
@@ -58,24 +59,18 @@ $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('digitala', $moduleinstance);
 $event->trigger();
 
-$PAGE->set_url('/mod/digitala/reporteditor.php', array('id' => $cm->id, 'student' => $student));
+$PAGE->set_url('/mod/digitala/export.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
-$OUTPUT = $PAGE->get_renderer('mod_digitala');
-
-
-if (has_capability('mod/digitala:editreport', $modulecontext)) {
-    $content = $OUTPUT->render(new digitala_report_editor($moduleinstance->id, $modulecontext->id, $id, $d,
-                               $moduleinstance->attempttype, $moduleinstance->attemptlang, $student));
-
+if (has_capability('mod/digitala:exportreports', $modulecontext)) {
+    if ($mode == 'attempts') {
+        generate_attempts_csv($moduleinstance->id, $mode);
+    } else if ($mode == 'feedback') {
+        generate_report_feedback_csv($moduleinstance->id, $mode);
+    }
 } else {
     $content = get_string('results_denied', 'digitala');
+    redirect($CFG->wwwroot.'/mod/digitala/export.php?id='.$moduleinstance->id.'&mode='.$mode);
 }
-
-echo $OUTPUT->header();
-
-echo $content;
-
-echo $OUTPUT->footer();

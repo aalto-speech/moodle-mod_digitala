@@ -857,6 +857,7 @@ class locallib_test extends \advanced_testcase {
         $oldattempt->id = 5;
         $oldattempt->fluency = 3;
         $oldattempt->pronunciation = 0;
+        $oldattempt->digitala = 2;
 
         save_report_feedback('readaloud', $fromform, $oldattempt);
 
@@ -900,6 +901,7 @@ class locallib_test extends \advanced_testcase {
         $oldattempt->pronunciation = 0;
         $oldattempt->lexicogrammatical = 2;
         $oldattempt->holistic = 3;
+        $oldattempt->digitala = 2;
 
         save_report_feedback('freeform', $fromform, $oldattempt);
 
@@ -951,6 +953,7 @@ class locallib_test extends \advanced_testcase {
         $oldattempt->pronunciation = 0;
         $oldattempt->lexicogrammatical = 2;
         $oldattempt->holistic = 3;
+        $oldattempt->digitala = 2;
 
         $fromform2 = new \stdClass();
         $fromform2->taskcompletion = 3;
@@ -1100,5 +1103,118 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2 id="deleteRedirectButtonadmin" class="btn btn-warning">Confirm delete</a href=https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2></div></div></div></div>');
     }
 
+    // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+
+    // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+    public function test_generate_attempts_csv() {
+        global $CFG, $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 500;
+        $assignment->userid = 501;
+        $assignment->attempttype = 'freeform';
+        $evaluation = new \stdClass();
+        $evaluation->transcript = 'transcript';
+        $evaluation->task_completion = 2;
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 1;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 1;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
+        $evaluation->lexicogrammatical = new \stdClass();
+        $evaluation->lexicogrammatical->score = 3;
+        $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
+        $evaluation->holistic = 4;
+
+        create_waiting_attempt($assignment, 'filename', 60);
+        save_attempt($assignment, $evaluation);
+
+        $result = generate_attempts_csv($assignment->instanceid, 'moodi');
+
+        $this->assertEquals(str_contains($result, 'filename'), true);
+        $this->assertEquals(str_contains($result, 500), true);
+        $this->assertEquals(str_contains($result, 501), true);
+    }
+
+    public function test_get_all_feedbacks() {
+        global $DB;
+
+        $fromform = new \stdClass();
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = 'Fluencyness';
+        $fromform->pronunciation = 1;
+        $fromform->pronunciationreason = 'Pronounciationess';
+
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 1;
+        $oldattempt->digitala = 2;
+        $oldattempt->fluency = 1;
+        $oldattempt->pronunciation = 1;
+
+        save_report_feedback('readaloud', $fromform, $oldattempt);
+
+        $fromform = new \stdClass();
+        $fromform->taskcompletion = 1;
+        $fromform->taskcompletionreason = "Taskcompletioness";
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = "Fluencyness";
+        $fromform->pronunciation = 1;
+        $fromform->pronunciationreason = "Pronounciationess";
+        $fromform->lexicogrammatical = 1;
+        $fromform->lexicogrammaticalreason = "Lexicogrammaticalness";
+        $fromform->holistic = 1;
+        $fromform->holisticreason = "Holisticness";
+
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 2;
+        $oldattempt->taskcompletion = 1;
+        $oldattempt->fluency = 1;
+        $oldattempt->pronunciation = 1;
+        $oldattempt->lexicogrammatical = 1;
+        $oldattempt->holistic = 1;
+        $oldattempt->digitala = 2;
+
+        save_report_feedback('freeform', $fromform, $oldattempt);
+
+        $result = get_all_feedbacks(2);
+        $this->assertEquals(count($result), 2);
+    }
+
+    public function test_generate_report_feedback_csv() {
+        global $DB;
+
+        $assignment = new \stdClass();
+        $assignment->instanceid = 808;
+        $assignment->userid = 809;
+        $assignment->attempttype = 'freeform';
+        $evaluation = new \stdClass();
+        $evaluation->transcript = 'transcript';
+        $evaluation->task_completion = 2;
+        $evaluation->fluency = new \stdClass();
+        $evaluation->fluency->score = 1;
+        $evaluation->fluency->flu_features = array('invalid' => 1);
+        $evaluation->pronunciation = new \stdClass();
+        $evaluation->pronunciation->score = 1;
+        $evaluation->pronunciation->pron_features = array('invalid' => 1);
+        $evaluation->lexicogrammatical = new \stdClass();
+        $evaluation->lexicogrammatical->score = 3;
+        $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
+        $evaluation->holistic = 4;
+
+        create_waiting_attempt($assignment, 'filename', 60);
+        save_attempt($assignment, $evaluation);
+
+        $result = generate_attempts_csv($assignment->instanceid, 'moodi');
+
+        $this->assertEquals(str_contains($result, 'filename'), true);
+        $this->assertEquals(str_contains($result, 808), true);
+        $this->assertEquals(str_contains($result, 809), true);
+    }
+
+    public function test_create_export_buttons() {
+        $result = create_export_buttons(2);
+        $this->assertEquals($result, '<a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=attempts" id="export_attempts" class="btn btn-primary">Export all attempts as CSV</a><a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=feedback" id="export_attempts_feedback" class="btn btn-primary">Export all feedbacks for attempts as CSV</a>');
+    }
     // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 }

@@ -236,6 +236,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
             $out .= html_writer::table($table);
 
+            $out .= create_export_buttons($result->id);
+
         } else {
             $out .= get_string('results_no-show', 'digitala');
         }
