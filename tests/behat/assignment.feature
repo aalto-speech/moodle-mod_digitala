@@ -83,3 +83,24 @@ Feature: Student can see assignment text and resources
     And I run all adhoc tasks
     Then I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
     Then I should see "Analytic grading"
+
+  Scenario: Attempt in status waiting for over one hour gets re-evaluated
+    When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I should see "Evaluation in progress"
+    And I run the scheduled task "mod_digitala\task\check_failed_evaluation"
+    Then I click on "Press here to check if evaluation is completed." "link"
+    And I should see "Evaluation in progress"
+    Then I set attempts creation time to:
+      | name     | username | time |
+      | Freeform | olli     | 0    |
+    And I run the scheduled task "mod_digitala\task\check_failed_evaluation"
+    Then I click on "Press here to check if evaluation is completed." "link"
+    And I should see "Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities."
+    And I run all adhoc tasks
+    Then I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
+    Then I should see "Analytic grading"
