@@ -327,7 +327,7 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022041401, 'digitala');
     }
 
-    if ($oldversion < 2022042301) {
+    if ($oldversion < 2022042302) {
 
         // Define field status to be added to digitala_attempts.
         $table = new xmldb_table('digitala_attempts');
@@ -339,7 +339,7 @@ function xmldb_digitala_upgrade($oldversion) {
         }
 
         // Digitala savepoint reached.
-        upgrade_mod_savepoint(true, 2022042301, 'digitala');
+        upgrade_mod_savepoint(true, 2022042302, 'digitala');
     }
 
     return true;
