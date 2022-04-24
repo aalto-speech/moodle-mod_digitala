@@ -66,9 +66,9 @@ $PAGE->set_context($modulecontext);
 
 if (has_capability('mod/digitala:exportreports', $modulecontext)) {
     if ($mode == 'attempts') {
-        generate_attempts_csv($id, $mode);
+        generate_attempts_csv($moduleinstance->id, $mode);
     } else if ($mode == 'feedback') {
-        generate_report_feedback_csv($id, $mode);
+        generate_report_feedback_csv($moduleinstance->id, $mode);
     }
 } else {
     $content = get_string('results_denied', 'digitala');
