@@ -127,6 +127,28 @@ class behat_mod_digitala extends behat_base {
     }
 
     /**
+     * Sets evaluation status in attempt
+     *
+     * @Given /^I set attempts creation time to:$/
+     *
+     * @param TableNode $data
+     */
+    public function i_set_attempts_creation_time_to(TableNode $data) {
+        global $DB;
+
+        foreach ($data->getHash() as $row) {
+            $activity = $DB->get_record('digitala', array('name' => $row['name']), '*', MUST_EXIST);
+            $user = $DB->get_record('user', ['username' => $row['username']], '*', MUST_EXIST);
+
+            $attempt = $DB->get_record('digitala_attempts', array('userid' => $user->id), '*', MUST_EXIST);
+            $attempt->timecreated = $row['time'] == 'now' ? time() : $row['time'];
+            $attempt->timemodified = $row['time'] == 'now' ? time() : $row['time'];
+
+            $DB->update_record('digitala_attempts', $attempt);
+        }
+    }
+
+    /**
      * Checks if given feedback is found from database.
      *
      * @Then /^the following feedback is found:$/

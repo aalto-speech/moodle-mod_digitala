@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @onlyone
+@mod @mod_digitala @javascript
 Feature: Teacher can give feedback on ASR evaluation
   Student can see given evaluation on the report page
 
