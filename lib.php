@@ -69,7 +69,7 @@ function digitala_add_instance($moduleinstance, $mform = null) {
             $context = context_module::instance($moduleinstance->coursemodule);
         }
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'information', digitala_get_editor_options($context),
-                                                          $context, 'mod_digitala', 'files', 0);
+                                                          $context, 'mod_digitala', 'info', 0);
     } else if (gettype($moduleinstance->information) == 'array') {
         $moduleinstance->informationformat = $moduleinstance->information['format'];
         $moduleinstance->information = $moduleinstance->information['text'];
@@ -110,7 +110,7 @@ function digitala_update_instance($moduleinstance, $mform = null) {
             $context = context_module::instance($moduleinstance->coursemodule);
         }
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'information', digitala_get_editor_options($context),
-                                                          $context, 'mod_digitala', 'files', 0);
+                                                          $context, 'mod_digitala', 'info', 0);
     } else if (gettype($moduleinstance->information) == 'array') {
         $moduleinstance->informationformat = $moduleinstance->information['format'];
         $moduleinstance->information = $moduleinstance->information['text'];
@@ -299,7 +299,7 @@ function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedow
         return false;
     }
 
-    if ($filearea !== 'recordings' && $filearea !== 'files') {
+    if ($filearea !== 'recordings' && $filearea !== 'files' && $filearea !== 'info') {
         return false;
     }
 

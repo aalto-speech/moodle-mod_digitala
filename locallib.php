@@ -399,7 +399,7 @@ function create_report_information($report) {
     $out .= html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
 
     $text = file_rewrite_pluginfile_urls($report->informationtext, 'pluginfile.php', $report->contextid,
-                                         'mod_digitala', 'files', 0);
+                                         'mod_digitala', 'info', 0);
     $out .= html_writer::div($text, 'card-text');
 
     $out .= html_writer::end_div();
