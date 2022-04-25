@@ -73,7 +73,7 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And I should see "You are able to produce some sentences in the target language (for example, greet somebody or tell about yourself)."
     Then I click on "More information" "button"
     And I should see "More information"
-    And I should see "testinformation"
+    And I should see "new information"
 
   Scenario: Detailed report shows correctly for readaloud
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
