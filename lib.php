@@ -54,20 +54,23 @@ function digitala_add_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timecreated = time();
-    $context = context_module::instance($moduleinstance->coursemodule);
 
     if (!empty($moduleinstance->resources_editor)) {
+        $context = context_module::instance($moduleinstance->coursemodule);
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
-    } else {
+    } else if (gettype($moduleinstance->resources) == 'array') {
         $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
         $moduleinstance->resources = $moduleinstance->resources['text'];
     }
 
     if (!empty($moduleinstance->information_editor)) {
+        if (!isset($context)) {
+            $context = context_module::instance($moduleinstance->coursemodule);
+        }
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'information', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
-    } else {
+    } else if (gettype($moduleinstance->information) == 'array') {
         $moduleinstance->informationformat = $moduleinstance->information['format'];
         $moduleinstance->information = $moduleinstance->information['text'];
     }
@@ -92,20 +95,23 @@ function digitala_update_instance($moduleinstance, $mform = null) {
 
     $moduleinstance->id = $moduleinstance->instance;
     $moduleinstance->timemodified = time();
-    $context = context_module::instance($moduleinstance->coursemodule);
 
     if (!empty($moduleinstance->resources_editor)) {
+        $context = context_module::instance($moduleinstance->coursemodule);
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
-    } else {
+    } else if (gettype($moduleinstance->resources) == 'array') {
         $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
         $moduleinstance->resources = $moduleinstance->resources['text'];
     }
 
     if (!empty($moduleinstance->information_editor)) {
+        if (!isset($context)) {
+            $context = context_module::instance($moduleinstance->coursemodule);
+        }
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'information', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
-    } else {
+    } else if (gettype($moduleinstance->information) == 'array') {
         $moduleinstance->informationformat = $moduleinstance->information['format'];
         $moduleinstance->information = $moduleinstance->information['text'];
     }
