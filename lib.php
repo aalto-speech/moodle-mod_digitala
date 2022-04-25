@@ -54,15 +54,22 @@ function digitala_add_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timecreated = time();
+    $context = context_module::instance($moduleinstance->coursemodule);
 
     if (!empty($moduleinstance->resources_editor)) {
-        $context = context_module::instance($moduleinstance->coursemodule);
-
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
     } else {
         $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
         $moduleinstance->resources = $moduleinstance->resources['text'];
+    }
+
+    if (!empty($moduleinstance->information_editor)) {
+        $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'information', digitala_get_editor_options($context),
+                                                          $context, 'mod_digitala', 'files', 0);
+    } else {
+        $moduleinstance->informationformat = $moduleinstance->information['format'];
+        $moduleinstance->information = $moduleinstance->information['text'];
     }
 
     $id = $DB->insert_record('digitala', $moduleinstance);
@@ -85,16 +92,24 @@ function digitala_update_instance($moduleinstance, $mform = null) {
 
     $moduleinstance->id = $moduleinstance->instance;
     $moduleinstance->timemodified = time();
+    $context = context_module::instance($moduleinstance->coursemodule);
 
     if (!empty($moduleinstance->resources_editor)) {
-        $context = context_module::instance($moduleinstance->coursemodule);
-
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
     } else {
         $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
         $moduleinstance->resources = $moduleinstance->resources['text'];
     }
+
+    if (!empty($moduleinstance->information_editor)) {
+        $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'information', digitala_get_editor_options($context),
+                                                          $context, 'mod_digitala', 'files', 0);
+    } else {
+        $moduleinstance->informationformat = $moduleinstance->information['format'];
+        $moduleinstance->information = $moduleinstance->information['text'];
+    }
+
 
     return $DB->update_record('digitala', $moduleinstance);
 }

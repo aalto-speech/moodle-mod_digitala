@@ -149,6 +149,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                           '<br><br>'.create_attempt_number($report, $report->student).
                                           '<br><br><audio title="attempt_recording" controls><source src='.$audiourl.'></audio>');
 
+            $information = create_report_information($report);
+
             if (isset($feedback)) {
                 $gradings = create_report_grading('fluency', $attempt->fluency, 4,
                                                   $feedback->fluency, $feedback->fluency_reason);
@@ -171,13 +173,12 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
                 $holistic = create_report_holistic(floor($attempt->holistic), $feedback);
 
-                $information = create_report_information($attempt->transcript);
-
                 $out .= create_report_transcription($attempt->transcript);
                 $out .= create_report_tabs($gradings, $holistic, $information);
             } else {
                 $out .= create_transcript_toggle($attempt->transcript, $attempt->feedback);
                 $out .= $gradings;
+                $out .= $information;
             }
             if ($report->student != $USER->id && $attempt->status == 'evaluated') {
                 $out .= '<a class="btn btn-primary" href="'.$CFG->wwwroot.

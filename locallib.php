@@ -390,14 +390,16 @@ function create_report_retry() {
 /**
  * Creates more information container from report
  *
- * @param string $text information to show on report page given by the server
+ * @param digitala_report $report report object containing information
  */
-function create_report_information($text) {
+function create_report_information($report) {
     $out = html_writer::start_div('card row digitala-card');
     $out .= html_writer::start_div('card-body');
 
     $out .= html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
 
+    $text = file_rewrite_pluginfile_urls($report->informationtext, 'pluginfile.php', $report->contextid,
+                                         'mod_digitala', 'files', 0);
     $out .= html_writer::div($text, 'card-text');
 
     $out .= html_writer::end_div();

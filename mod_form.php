@@ -117,6 +117,13 @@ class mod_digitala_mod_form extends moodleform_mod {
         $mform->setType('resources_editor', PARAM_RAW);
         $mform->addHelpButton('resources_editor', 'assignmentresource', 'mod_digitala');
 
+        // Adding the "information_editor" field.
+        $mform->addElement('editor', 'information_editor', get_string('moreinformation', 'mod_digitala'),
+                           array('rows' => 10), digitala_get_editor_options($this->context));
+
+        $mform->setType('information_editor', PARAM_RAW);
+        $mform->addHelpButton('information_editor', 'moreinformation', 'mod_digitala');
+
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
             $this->standard_intro_elements();
@@ -142,6 +149,10 @@ class mod_digitala_mod_form extends moodleform_mod {
         if (isset($defaultvalues['resources']) && !empty($defaultvalues['resources'])) {
             $defaultvalues['resources'] = file_rewrite_pluginfile_urls($defaultvalues['resources'], 'pluginfile.php',
                                                                        $this->context->id, 'mod_digitala', 'files', 0);
+        }
+        if (isset($defaultvalues['information']) && !empty($defaultvalues['information'])) {
+            $defaultvalues['information'] = file_rewrite_pluginfile_urls($defaultvalues['information'], 'pluginfile.php',
+                                                                         $this->context->id, 'mod_digitala', 'files', 0);
         }
     }
 

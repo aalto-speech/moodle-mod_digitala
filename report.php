@@ -82,7 +82,7 @@ if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
                                 $moduleinstance->resources, $moduleinstance->attempttype, $moduleinstance->attemptlang));
         $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
-                                $student));
+                                $moduleinstance->information, $student));
     } else if ($mode == 'delete') {
         $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $student));
 

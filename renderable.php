@@ -133,7 +133,7 @@ class digitala_report implements renderable {
      * @param int $student - User id of student
      */
     public function __construct($instanceid, $contextid, $id = 0, $d = 0, $attempttype = '', $attemptlang = '',
-                                $attemptlimit = 1, $student = null) {
+                                $attemptlimit = 1, $informationtext = '', $student = null) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
@@ -141,6 +141,7 @@ class digitala_report implements renderable {
         $this->attempttype = $attempttype;
         $this->attemptlang = $attemptlang;
         $this->attemptlimit = $attemptlimit;
+        $this->informationtext = $informationtext;
         $this->student = $student;
     }
 }

@@ -88,7 +88,7 @@ if ($pagenum == 0) {
 } else if ($pagenum == 2) {
     $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $d,
                                 $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
-                                $USER->id));
+                                $moduleinstance->information, $USER->id));
 } else {
     $content = get_string('results_denied', 'digitala');
 }

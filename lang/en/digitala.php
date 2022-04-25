@@ -136,6 +136,7 @@ $string['lexicogrammatical_score-2'] = 'You use basic words and are able to form
 $string['lexicogrammatical_score-3'] = 'You have comprehensive vocabulary and use a variety of sentence structures.';
 
 $string['moreinformation'] = 'More information';
+$string['moreinformation_help'] = 'Information to provide to the student after they have made an attempt.';
 
 $string['api'] = 'Address for API-server';
 $string['api_help'] = 'Give address to the API-server.';
