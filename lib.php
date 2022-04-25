@@ -116,7 +116,6 @@ function digitala_update_instance($moduleinstance, $mform = null) {
         $moduleinstance->information = $moduleinstance->information['text'];
     }
 
-
     return $DB->update_record('digitala', $moduleinstance);
 }
 
