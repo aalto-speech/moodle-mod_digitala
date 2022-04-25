@@ -78,11 +78,12 @@ if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
         $student = $DB->get_record('user', array('id' => $studentid));
 
         $content = html_writer::tag('h5', $student->firstname.' '.$student->lastname);
-        $content .= $OUTPUT->render(new digitala_short_assignment($moduleinstance->assignment, $moduleinstance->resources,
-                                   $moduleinstance->attempttype, $moduleinstance->attemptlang));
+        $content .= $OUTPUT->render(new digitala_short_assignment($modulecontext->id, $moduleinstance->assignment,
+                                                                  $moduleinstance->resources, $moduleinstance->attempttype,
+                                                                  $moduleinstance->attemptlang));
         $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id,
-                                   $moduleinstance->attempttype, $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
-                                   $studentid));
+                                                        $moduleinstance->attempttype, $moduleinstance->attemptlang,
+                                                        $moduleinstance->attemptlimit, $studentid));
     } else if ($mode == 'delete') {
         $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $studentid));
     } else {
