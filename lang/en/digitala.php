@@ -50,6 +50,7 @@ $string['assignment'] = 'Assignment';
 $string['assignment_help'] = 'The assignment that the user will need to complete.';
 $string['assignmentresource'] = 'Material';
 $string['assignmentresource_help'] = 'The material can be added here. In "Read aloud" type, place the text to be read here. In "Freeform" type, you can add text, images, charts, and videos, which the user should utilize in their response.';
+$string['maxlength_error'] = 'The recording can be at most 5 minutes long';
 
 $string['navnext'] = 'Next >';
 $string['navprevious'] = '< Previous';
@@ -77,24 +78,16 @@ $string['submitbody'] = 'You still have {$a} attempts remaining on this assignme
 $string['alreadysubmitted'] = 'Your answer has already been submitted. Move to next page to see the report.';
 $string['report'] = 'Evaluation';
 $string['report-title'] = 'Evaluation report';
+$string['report-title-feedback'] = 'Evaluation report - includes some teacher feedback';
 $string['reportnotavailable'] = 'A report for this assignment is not available yet.';
 $string['reportinformation'] = 'This feedback concerns only the speech sample you produced and it does not cover all aspects of your oral language skills. A machine produces your grades automatically. We have taught the machine with speech from other language learners together with other language-specific data.';
 $string['transcription'] = 'A transcript of your speech sample';
+$string['server-feedback'] = 'Transcript feedback';
+$string['teacher-feedback'] = 'Suggest changes to grading';
+$string['transcription_tab-plain'] = 'Plain text';
+$string['transcription_tab-corrected'] = 'Show corrections';
 
 $string['task_grades'] = 'Analytic grading';
-
-$string['gop'] = 'Goodness of pronunciation';
-$string['gop_score-0'] = 'Pronunciation score is 0, red score.';
-$string['gop_score-1'] = 'Pronunciation score is 1, light red score.';
-$string['gop_score-2'] = 'Pronunciation score is 2, pink score.';
-$string['gop_score-3'] = 'Pronunciation score is 3, brown score.';
-$string['gop_score-4'] = 'Pronunciation score is 4, light yellow score.';
-$string['gop_score-5'] = 'Pronunciation score is 5, yellow score.';
-$string['gop_score-6'] = 'Pronunciation score is 6, teal score.';
-$string['gop_score-7'] = 'Pronunciation score is 7, big pink score.';
-$string['gop_score-8'] = 'Pronunciation score is 8, cyan score.';
-$string['gop_score-9'] = 'Pronunciation score is 9, light green score.';
-$string['gop_score-10'] = 'Pronunciation score is 10, green score.';
 
 $string['holistic'] = 'Proficiency level';
 $string['holistic_description'] = 'Based on the automatic grading, it seems that your proficiency level is ';
@@ -176,10 +169,16 @@ $string['results_text'] = 'Type';
 $string['results_score'] = 'Proficiency/Analytic grades';
 $string['results_time'] = 'Time';
 $string['results_tries'] = 'Tries';
+$string['results_status'] = 'Status';
 $string['results_report'] = 'Evaluation report';
 $string['results_denied'] = 'Access denied';
 $string['results_return'] = 'Return to Digitala front page';
 $string['results_view'] = 'View student results';
+
+$string['results_status-evaluated'] = "Evaluated";
+$string['results_status-waiting'] = "Waiting";
+$string['results_status-retry'] = "Retrying";
+$string['results_status-failed'] = "Failed";
 
 $string['results_delete'] = 'Delete attempt';
 $string['results_delete-confirm'] = 'Confirm delete';
@@ -189,6 +188,20 @@ $string['results_delete-all-text'] = 'Are you sure you want to delete and reset 
 $string['results_no-show'] = 'No results to show yet.';
 $string['results_title'] = 'User results';
 $string['results_delete-title'] = 'Warning';
+$string['results_waiting-title'] = 'Evaluation in progress';
+$string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
+$string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
+$string['results_waiting-loading'] = 'Loading...';
+$string['results_retry-title'] = 'Evaluation failed';
+$string['results_retry-info'] = 'Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities.';
 
+$string['export_attempts'] = 'Export all attempts as CSV';
+$string['export_attempts_feedback'] = 'Export all feedbacks for attempts as CSV';
+$string['export_success'] = 'Creation of CSV-file was successful.';
+$string['teachergrade'] = "Teacher's grade suggestion: ";
+$string['teacherreason'] = "Comments about grade suggestion: ";
 $string['feedback_success'] = 'Comment added successfully to students report.';
 $string['feedback_not-found'] = 'Report for given student is not found';
+
+$string['task-send_to_evaluations'] = 'Send to evaluation';
+$string['task-check_failed_evaluation'] = 'Check for failed evaluations';

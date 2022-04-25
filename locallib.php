@@ -22,6 +22,9 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+require_once($CFG->libdir . '/csvlib.class.php');
+
 /**
  * Used to generate page urls for digitala module teacher results views.
  *
@@ -41,6 +44,16 @@ function results_url($id, $mode, $studentid=null) {
  */
 function delete_url($id, $studentid=null) {
     return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => 'delete', 'student' => $studentid));
+}
+
+/**
+ * Used to generate page urls for exporting attempts.
+ *
+ * @param number $id id of the activity instance
+ * @param number $mode mode of export
+ */
+function export_url($id, $mode) {
+    return new moodle_url('/mod/digitala/export.php', array('id' => $id, 'mode' => $mode));
 }
 
 /**
@@ -159,8 +172,8 @@ function create_progress_bar_spacer($mode) {
  * @param string $classname steps classname for css styling
  */
 function start_container($classname) {
-    $out = html_writer::start_div($classname);
-    $out .= html_writer::start_div('container-fluid');
+    $out = html_writer::start_div($classname . ' digitala-container');
+    $out .= html_writer::start_div('container');
     $out .= html_writer::start_div('row');
     return $out;
 }
@@ -177,9 +190,10 @@ function end_container() {
 
 /**
  * Used to create column inside content container
+ * @param string $size - width of the container, defaults to auto
  */
-function start_column() {
-    return html_writer::start_div('col digitala-column');
+function start_column($size='') {
+    return html_writer::start_div('col'.$size.' digitala-column');
 }
 
 /**
@@ -231,10 +245,13 @@ function create_assignment($content) {
 /**
  * Used to create text inside resource card - helper function for box sizing
  *
- * @param string $content text inside resource text card
+ * @param digitala_assignment $assignment - assignment includes resource text
  */
-function create_resource($content) {
-    return html_writer::div($content, 'card-text scrollbox400');
+function create_resource($assignment) {
+    $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
+                                              'mod_digitala', 'files', 0);
+
+    return html_writer::div($resources, 'card-text scrollbox400');;
 }
 
 /**
@@ -243,15 +260,26 @@ function create_resource($content) {
  * @param string $name name of the grading
  * @param int $grade grading number given by the server
  * @param int $maxgrade maximum number of this grade
+ * @param int $feedbackgrade grade given manually by the teacher
+ * @param string $feedbackreason reason for the grade change
  */
-function create_report_grading($name, $grade, $maxgrade) {
+function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, $feedbackreason = null) {
     $out = html_writer::tag('h5', get_string($name, 'digitala'), array('class' => 'card-title'));
 
     $out .= create_chart($name, $grade, $maxgrade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array('class' => 'grade-number'));
 
-    $out .= html_writer::div(get_string($name.'_description', 'digitala').
-                             lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')), 'card-text');
+    $out .= html_writer::start_div('card-text');
+    $out .= html_writer::tag('p', get_string($name.'_description', 'digitala').
+                                  lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')));
+
+    if (isset($feedbackgrade) && $grade != $feedbackgrade) {
+        $out .= html_writer::tag('p', get_string('teachergrade', 'digitala').$feedbackgrade);
+    }
+    if (isset($feedbackreason) && !empty($feedbackreason)) {
+        $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedbackreason);
+    }
+    $out .= html_writer::end_div();
 
     return create_card_template($out);
 }
@@ -260,8 +288,9 @@ function create_report_grading($name, $grade, $maxgrade) {
  * Creates holistic information container from report
  *
  * @param int $grade grading number given by the server
+ * @param mixed $feedback information given by the teacher
  */
-function create_report_holistic($grade) {
+function create_report_holistic($grade, $feedback = null) {
     $out = html_writer::tag('h5', get_string('holistic', 'digitala'), array('class' => 'card-title'));
 
     $out .= create_chart('holistic', $grade, 6);
@@ -271,6 +300,53 @@ function create_report_holistic($grade) {
     $out .= html_writer::tag('p', get_string('holistic_description', 'digitala').
                                   get_string('holistic_level-'.$grade, 'digitala').'.');
     $out .= html_writer::tag('p', get_string('holistic_score-'.$grade, 'digitala'));
+
+    if (isset($feedback)) {
+        if ($grade != $feedback->holistic) {
+            $out .= html_writer::tag('p', get_string('teachergrade', 'digitala').$feedback->holistic);
+        }
+        if (!empty($feedback->holistic_reason)) {
+            $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedback->holistic_reason);
+        }
+    }
+    $out .= html_writer::end_div();
+
+    return create_card_template($out);
+}
+
+/**
+ * Creates report waiting container
+ */
+function create_report_waiting() {
+    $out = html_writer::tag('h5', get_string('results_waiting-title', 'digitala'), array('class' => 'card-title'));
+
+    $out .= html_writer::start_div('card-text');
+
+    $out .= html_writer::start_div('spinner-border text-primary', array('role' => 'status'));
+    $out .= html_writer::tag('span', get_string('results_waiting-loading', 'digitala'), array('class' => 'sr-only'));
+    $out .= html_writer::end_div();
+
+    $out .= html_writer::tag('p', get_string('results_waiting-info', 'digitala'));
+    $out .= html_writer::tag('a', get_string('results_waiting-refresh', 'digitala'),
+                             array('id' => 'nextButton', 'class' => 'btn btn-primary', 'href' => $_SERVER['REQUEST_URI']));
+    $out .= html_writer::end_div();
+
+    return create_card_template($out);
+}
+
+/**
+ * Creates report retry container
+ */
+function create_report_retry() {
+    $out = html_writer::tag('h5', get_string('results_retry-title', 'digitala'), array('class' => 'card-title'));
+
+    $out .= html_writer::start_div('card-text');
+
+    $out .= html_writer::start_div('spinner-border text-primary', array('role' => 'status'));
+    $out .= html_writer::tag('span', get_string('results_waiting-loading', 'digitala'), array('class' => 'sr-only'));
+    $out .= html_writer::end_div();
+
+    $out .= html_writer::tag('p', get_string('results_retry-info', 'digitala'));
     $out .= html_writer::end_div();
 
     return create_card_template($out);
@@ -287,27 +363,6 @@ function create_report_information($text) {
     $out .= html_writer::div($text, 'card-text');
 
     return create_card_template($out);
-}
-
-/**
- * Creates grading information container from report
- *
- * @param int $grade grading number given by the server
- */
-function create_report_gop($grade) {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
-
-    $out .= html_writer::tag('h5', get_string('gop', 'digitala'), array('class' => 'card-title'));
-
-    $out .= html_writer::tag('h6', $grade * 100 . '%', array('class' => 'grade-number'));
-
-    $out .= html_writer::div(get_string('gop_score-'.floor($grade * 10), 'digitala'), 'card-text');
-
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-
-    return $out;
 }
 
 /**
@@ -329,7 +384,7 @@ function create_report_transcription($transcription) {
  * @param mixed $feedback object containing the feedback part of report
  */
 function create_report_feedback($feedback) {
-    $out = html_writer::tag('h5', get_string('feedback', 'digitala'), array('class' => 'card-title'));
+    $out = html_writer::tag('h5', get_string('server-feedback', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::div($feedback, 'card-text scrollbox200');
 
@@ -362,7 +417,7 @@ function create_tabs($tabs) {
         }
     }
     $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= html_writer::start_div('nav nav-tabs digitala-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
     $out .= $buttons;
     $out .= html_writer::end_div();
     $out .= html_writer::end_tag('nav');
@@ -401,6 +456,40 @@ function create_short_assignment_tabs($assignment, $resources) {
                                                   'content' => $resources));
 
     return create_tabs($tabs);
+}
+
+/**
+ * Creates pills navigation between plain and corrected transcription
+ *
+ * @param string $transcript content of transcript shown
+ * @param string $feedback content of corrected transcription shown
+ */
+function create_transcript_toggle($transcript, $feedback) {
+    $transcript = create_report_transcription($transcript);
+    $feedback = create_report_feedback($feedback);
+    $out = html_writer::start_tag('nav');
+    $out .= html_writer::start_div('nav nav-pills digitala-tabs', array('id' => 'nav-pills', 'role' => 'tablist'));
+    $out .= html_writer::tag('a', get_string('transcription_tab-corrected', 'digitala'),
+                             array('class' => 'nav-link active ml-1', 'id' => 'readaloud-feedback-tab', 'data-toggle' => 'tab',
+                                   'href' => '#readaloud-feedback', 'role' => 'tab', 'aria-controls' => 'readaloud-feedback',
+                                   'aria-selected' => 'true'));
+    $out .= html_writer::tag('a', get_string('transcription_tab-plain', 'digitala'),
+                             array('class' => 'nav-link ml-1', 'id' => 'readaloud-transcript-tab', 'data-toggle' => 'tab',
+                                   'href' => '#readaloud-transcript', 'role' => 'tab', 'aria-controls' => 'readaloud-transcript',
+                                   'aria-selected' => 'false'));
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_tag('nav');
+
+    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
+    $out .= html_writer::div($feedback, 'tab-pane fade show active',
+                            array('id' => 'readaloud-feedback', 'role' => 'tabpanel',
+                                  'aria-labelledby' => 'readaloud-feedback-tab'));
+    $out .= html_writer::div($transcript, 'tab-pane fade',
+                            array('id' => 'readaloud-transcript', 'role' => 'tabpanel',
+                                  'aria-labelledby' => 'readaloud-transcript-tab'));
+    $out .= html_writer::end_div();
+
+    return $out;
 }
 
 /**
@@ -542,64 +631,52 @@ function create_microphone_icon() {
 }
 
 /**
- * Send user audio file to Aalto ASR for evaluation.
- *
- * @param stored_file $file - audio file to be sent for evaluation
- * @param string $assignment - assignment which we get information from
- * @param string $length - length of the recording
- */
-function send_answerrecording_for_evaluation($file, $assignment, $length) {
-    $c = new curl(array('ignoresecurity' => true));
-    $curlurl = get_config('digitala', 'api');
-    $key = get_config('digitala', 'key');
-    $curladd = '?prompt=' . rawurlencode($assignment->servertext) . '&lang='.
-               $assignment->attemptlang . '&task=' . $assignment->attempttype . '&key=' . $key;
-    $curlparams = array('file' => $file);
-    $json = $c->post($curlurl . $curladd, $curlparams);
-    return $json;
-}
-
-/**
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
  * @param array $formdata - form data includes file information
  * @param digitala_assignment $assignment - assignment includes needed identifications
  */
 function save_answerrecording($formdata, $assignment) {
-    $fs = get_file_storage();
-
     $audiofile = json_decode($formdata->audiostring);
     $recordinglength = $formdata->recordinglength;
 
-    $fileinfo = array(
-        'contextid' => $assignment->contextid,
-        'component' => 'mod_digitala',
-        'filearea' => 'recordings',
-        'itemid' => 0,
-        'filepath' => '/',
-        'filename' => $audiofile->file
-    );
+    $fileinfo = new stdClass();
+    $fileinfo->contextid = $assignment->contextid;
+    $fileinfo->component = 'mod_digitala';
+    $fileinfo->filearea = 'recordings';
+    $fileinfo->itemid = 0;
+    $fileinfo->filepath = '/';
+    $fileinfo->filename = $audiofile->file;
 
-    file_save_draft_area_files($audiofile->id, $fileinfo['contextid'], $fileinfo['component'],
-                                $fileinfo['filearea'], $fileinfo['itemid']);
+    file_save_draft_area_files($audiofile->id, $fileinfo->contextid, $fileinfo->component,
+                                $fileinfo->filearea, $fileinfo->itemid);
 
-    $file = $fs->get_file($fileinfo['contextid'], $fileinfo['component'], $fileinfo['filearea'],
-                          $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
-
-    $evaluation = send_answerrecording_for_evaluation($file, $assignment, $recordinglength);
-    if (!isset(json_decode($evaluation)->prompt)) {
-        return get_string('error_no-evaluation', 'digitala');
-    }
-
-    save_attempt($assignment, $audiofile->file, json_decode($evaluation), $recordinglength);
+    create_waiting_attempt($assignment, $fileinfo->filename, $recordinglength);
+    send_answerrecording_for_evaluation($fileinfo, $assignment, $recordinglength);
 
     if (!empty($_SERVER['REQUEST_URI'])) {
         redirect(switch_page(2));
     } else {
-        $out = get_string('error_url-not-set', 'digitala');
+        return get_string('error_url-not-set', 'digitala');
     }
+}
 
-    return $out;
+/**
+ * Send user audio file to Aalto ASR for evaluation.
+ *
+ * @param any $fileinfo - audio file to be sent for evaluation
+ * @param string $assignment - assignment which we get information from
+ * @param string $length - length of the recording
+ */
+function send_answerrecording_for_evaluation($fileinfo, $assignment, $length) {
+    $task = new \mod_digitala\task\send_to_evaluation();
+    $task->set_custom_data(array(
+        'assignment' => $assignment,
+        'fileinfo' => $fileinfo,
+        'length' => $length
+    ));
+
+    \core\task\manager::queue_adhoc_task($task, true);
 }
 
 /**
@@ -619,10 +696,9 @@ function validate_grading($grading, $max = 3) {
  *
  * @param digitala_assignment $assignment - assignment includes needed identifications
  * @param string $filename - file name of the recording
- * @param mixed $evaluation - mixed object containing evaluation info
  * @param mixed $recordinglength - length of recording in seconds
  */
-function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
+function create_waiting_attempt($assignment, $filename, $recordinglength) {
     global $DB;
 
     $attempt = get_attempt($assignment->instanceid, $assignment->userid);
@@ -633,27 +709,14 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         $attempt = new stdClass();
     }
 
-    $timenow = time();
-
     $attempt->digitala = $assignment->instanceid;
     $attempt->userid = $assignment->userid;
+    $attempt->status = 'waiting';
     $attempt->file = $filename;
-    $attempt->transcript = $evaluation->transcript;
-    if ($assignment->attempttype == 'freeform') {
-        $attempt->taskcompletion = validate_grading($evaluation->task_completion);
-        $attempt->fluency = validate_grading($evaluation->fluency->score, 4);
-        $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
-        $attempt->pronunciation = validate_grading($evaluation->pronunciation->score, 4);
-        $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
-        $attempt->lexicogrammatical = validate_grading($evaluation->lexicogrammatical->score);
-        $attempt->lexicogrammatical_features = json_encode($evaluation->lexicogrammatical->lexgram_features);
-        $attempt->holistic = validate_grading($evaluation->holistic, 6);
-    } else {
-        $attempt->feedback = $evaluation->feedback;
-        $attempt->gop_score = validate_grading($evaluation->GOP_score, 1);
-    }
-    $attempt->timemodified = $timenow;
     $attempt->recordinglength = $recordinglength;
+
+    $timenow = time();
+    $attempt->timemodified = $timenow;
 
     if (isset($attempt->attemptnumber)) {
         $DB->update_record('digitala_attempts', $attempt);
@@ -661,6 +724,79 @@ function save_attempt($assignment, $filename, $evaluation, $recordinglength) {
         $attempt->timecreated = $timenow;
         $DB->insert_record('digitala_attempts', $attempt);
     }
+}
+
+/**
+ * Set attempt status in database.
+ *
+ * @param mixed $attempt - object containing attempt information
+ * @param string $status - status of the attempt
+ */
+function set_attempt_status($attempt, $status) {
+    global $DB;
+
+    $attempt->status = $status;
+    $attempt->timemodified = time();
+
+    $DB->update_record('digitala_attempts', $attempt);
+}
+
+/**
+ * Save attempt as failed in database.
+ *
+ * @param mixed $attempt - object containing attempt information
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ */
+function save_failed_attempt($attempt, $assignment) {
+    global $DB;
+
+    $attempt->status = 'failed';
+    $attempt->transcript = '';
+    $attempt->attemptnumber--;
+    $attempt->fluency = 0;
+    $attempt->pronunciation = 0;
+    if ($assignment->attempttype == 'freeform') {
+        $attempt->taskcompletion = 0;
+        $attempt->lexicogrammatical = 0;
+        $attempt->holistic = 0;
+    } else {
+        $attempt->feedback = '';
+    }
+    $attempt->timemodified = time();
+
+    $DB->update_record('digitala_attempts', $attempt);
+}
+
+/**
+ * Save the attempt to the database.
+ *
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ * @param mixed $evaluation - mixed object containing evaluation info
+ */
+function save_attempt($assignment, $evaluation) {
+    global $DB;
+
+    $attempt = get_attempt($assignment->instanceid, $assignment->userid);
+    $attempt->status = 'evaluated';
+    $attempt->transcript = $evaluation->transcript;
+    $attempt->fluency = validate_grading($evaluation->fluency->score, 4);
+    $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
+    $attempt->pronunciation = validate_grading($evaluation->pronunciation->score, 4);
+    $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
+    if ($assignment->attempttype == 'freeform') {
+        $attempt->taskcompletion = validate_grading($evaluation->task_completion);
+        $attempt->fluency = validate_grading($evaluation->fluency->score, 4);
+        $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
+        $attempt->pronunciation = validate_grading($evaluation->pronunciation->score, 4);
+        $attempt->lexicogrammatical = validate_grading($evaluation->lexicogrammatical->score);
+        $attempt->lexicogrammatical_features = json_encode($evaluation->lexicogrammatical->lexgram_features);
+        $attempt->holistic = validate_grading($evaluation->holistic, 6);
+    } else {
+        $attempt->feedback = $evaluation->annotated_response;
+    }
+    $attempt->timemodified = time();
+
+    $DB->update_record('digitala_attempts', $attempt);
 }
 
 /**
@@ -675,19 +811,20 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
 
     $feedback = new stdClass();
     $feedback->attempt = $oldattempt->id;
+    $feedback->digitala = $oldattempt->digitala;
+
+    $feedback->old_fluency = $oldattempt->fluency;
+    $feedback->fluency = $fromform->fluency;
+    $feedback->fluency_reason = $fromform->fluencyreason;
+
+    $feedback->old_pronunciation = $oldattempt->pronunciation;
+    $feedback->pronunciation = $fromform->pronunciation;
+    $feedback->pronunciation_reason = $fromform->pronunciationreason;
 
     if ($attempttype == 'freeform') {
         $feedback->old_taskcompletion = $oldattempt->taskcompletion;
         $feedback->taskcompletion = $fromform->taskcompletion;
         $feedback->taskcompletion_reason = $fromform->taskcompletionreason;
-
-        $feedback->old_fluency = $oldattempt->fluency;
-        $feedback->fluency = $fromform->fluency;
-        $feedback->fluency_reason = $fromform->fluencyreason;
-
-        $feedback->old_pronunciation = $oldattempt->pronunciation;
-        $feedback->pronunciation = $fromform->pronunciation;
-        $feedback->pronunciation_reason = $fromform->pronunciationreason;
 
         $feedback->old_lexicogrammatical = $oldattempt->lexicogrammatical;
         $feedback->lexicogrammatical = $fromform->lexicogrammatical;
@@ -696,15 +833,9 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
         $feedback->old_holistic = $oldattempt->holistic;
         $feedback->holistic = $fromform->holistic;
         $feedback->holistic_reason = $fromform->holisticreason;
-    } else if ($attempttype == 'readaloud') {
-        $feedback->old_gop_score = $oldattempt->gop_score;
-        $feedback->gop_score = $fromform->gop;
-        $feedback->gop_score_reason = $fromform->gopreason;
     }
 
-    $timenow = time();
-
-    $feedback->timecreated = $timenow;
+    $feedback->timecreated = time();
 
     $DB->insert_record('digitala_report_feedback', $feedback);
 }
@@ -737,7 +868,7 @@ function get_attempt($instanceid, $userid) {
 function get_all_attempts($instanceid) {
     global $DB;
 
-    $attempts = $DB->get_records('digitala_attempts', array('digitala'  => $instanceid));
+    $attempts = $DB->get_records('digitala_attempts', array('digitala' => $instanceid));
     return $attempts;
 }
 
@@ -817,6 +948,25 @@ function add_delete_redirect_button($id, $user) {
 }
 
 /**
+ * Load current users latest feedback from the database.
+ *
+ * @param int $attempt - attempt object
+ * @return mixed $feedback - object containing latest feedback information
+ */
+function get_feedback($attempt) {
+    global $DB;
+
+    if (!$DB->record_exists('digitala_report_feedback', array('attempt' => $attempt->id))) {
+        return null;
+    }
+
+    $sql = 'SELECT * FROM {digitala_report_feedback} WHERE attempt = ? ORDER BY id DESC LIMIT 1';
+    $feedback = $DB->get_record_sql($sql, array($attempt->id));
+
+    return $feedback;
+}
+
+/**
  * Load users name based on their id.
  *
  * @param int $id - id of the user
@@ -839,20 +989,24 @@ function get_user($id) {
  */
 function create_result_row($attempt, $id, $user) {
     $username = $user->firstname . ' ' . $user->lastname;
-    if ($attempt->holistic) {
+    if (isset($attempt->holistic)) {
         $score = $attempt->holistic;
     } else {
-        $score = $attempt->gop_score;
+        $score = $attempt->fluency;
+    }
+    if ($attempt->status == 'waiting' || $attempt->status == "retry" || $attempt->status == "failed") {
+        $score = "-";
     }
     $time = convertsecondstostring($attempt->recordinglength);
     $tries = ($attempt->attemptnumber);
+    $status = get_string('results_status-'.$attempt->status, 'digitala');
 
     $urltext = results_url($id, 'detail', $attempt->userid);
     $urllink = html_writer::link($urltext, get_string('results_link', 'digitala'));
 
     $deletebutton = add_delete_attempt_button($user);
 
-    $cells = array($username, $score, $time, $tries, $urllink, $deletebutton);
+    $cells = array($username, $score, $time, $tries, $status, $urllink, $deletebutton);
     return $cells;
 }
 
@@ -873,9 +1027,8 @@ function create_answerrecording_form($assignment) {
 function save_answerrecording_form($assignment) {
     $out = html_writer::tag('p', '', array('id' => 'submitErrors'));
     if ($formdata = $assignment->form->get_data()) {
-        $out .= '<br>' . save_answerrecording($formdata, $assignment);
+        save_answerrecording($formdata, $assignment);
     }
-
     return $out;
 }
 
@@ -887,8 +1040,11 @@ function save_answerrecording_form($assignment) {
  * @param mixed $maxgrade of the chart
  */
 function create_chart($name, $grade, $maxgrade) {
-    return html_writer::tag('canvas', '', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
-                                                'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart', 'height' => '40px'));
+    $out = html_writer::start_div('digitala-chart-container');
+    $out .= html_writer::tag('canvas', '', array('id' => $name, 'data-eval-name' => $name, 'data-eval-grade' => $grade,
+                                                'data-eval-maxgrade' => $maxgrade, 'class' => 'report-chart'));
+    $out .= html_writer::end_div();
+    return $out;
 }
 
 /**
@@ -985,7 +1141,7 @@ function create_attempt_number($assignment, $userid) {
  * @param string $url - url of the audio source
  */
 function create_audio_controls($url) {
-    $out = html_writer::start_tag('audio controls');
+    $out = html_writer::start_tag('audio controls', array('title' => 'attempt_recording'));
     $out .= html_writer::empty_tag('source', array('src' => $url));
     $out .= html_writer::end_tag('audio');
 
@@ -1077,4 +1233,134 @@ function create_delete_modal($id, $user = null) {
     }
 
     return create_modal($modalid, $title, $body, $buttons);
+}
+
+/**
+ * Generates csv of activitys attempts
+ *
+ * @param int $id - id of the activity
+ * @param string $mode - mode of the url
+ * @return string $data - data of the array
+ */
+function generate_attempts_csv($id, $mode) {
+    $attempts = get_all_attempts($id);
+
+    $writer = new \csv_export_writer();
+
+    $header = 'id;digitala;userid;attemptnumber;file;transcript;feedback;'
+           .'fluency;fluency_features;taskcompletion;pronunciation;pronunciation_features;'
+           .'lexicogrammatical;lexicogrammatical_features;holistic;gop_score;timecreated;'
+           .'timemodified;recordinglength;status';
+    $writer->add_data(explode(';', $header));
+    foreach ($attempts as $attempt) {
+        $arr = [
+            $attempt->id,
+            $attempt->digitala,
+            $attempt->userid,
+            $attempt->attemptnumber,
+            $attempt->file,
+            $attempt->transcript,
+            $attempt->feedback,
+            $attempt->fluency,
+            $attempt->fluency_features,
+            $attempt->taskcompletion,
+            $attempt->pronunciation,
+            $attempt->pronunciation_features,
+            $attempt->lexicogrammatical,
+            $attempt->lexicogrammatical_features,
+            $attempt->holistic,
+            $attempt->gop_score,
+            $attempt->timecreated,
+            $attempt->timemodified,
+            $attempt->recordinglength,
+            $attempt->status
+        ];
+        $writer->add_data($arr);
+    }
+    $writer->set_filename('digitala-attempts');
+    if ($mode == 'attempts') {
+        $writer->download_file();
+    } else {
+        $data = $writer->print_csv_data(true);
+        return $data;
+    }
+}
+
+/**
+ * Load all feedbacks from the database.
+ *
+ * @param int $id - id of the activity
+ * @return $feedbacks - object containing all feedback information
+ */
+function get_all_feedbacks($id) {
+    global $DB;
+
+    $feedbacks = $DB->get_records('digitala_report_feedback', array('digitala' => $id));
+    return $feedbacks;
+}
+
+/**
+ * Generates csv of activitys attempts
+ *
+ * @param int $id - id of the activity
+ * @param string $mode - mode of the url
+ * @return string $data - data of the array
+ */
+function generate_report_feedback_csv($id, $mode) {
+    $feedbacks = get_all_feedbacks($id);
+    $header = 'id;attempt;digitala;old_fluency;fluency;fluency_reason;old_taskcompletion;'
+           .'taskcompletion;taskcompletion_reason;old_lexicogrammatical;lexicogrammatical;'
+           .'lexicogrammatical_reason;old_pronunciation;pronunciation;pronunciation_reason;'
+           .'old_holistic;holistic;holistic_reason;old_gop_score;gop_score;'
+           .'gop_score_reason;timecreated';
+    $writer = new \csv_export_writer();
+    $writer->add_data(explode(';', $header));
+
+    foreach ($feedbacks as $feedback) {
+        $arr = [
+            $feedback->id,
+            $feedback->attempt,
+            $feedback->digitala,
+            $feedback->old_fluency,
+            $feedback->fluency,
+            $feedback->fluency_reason,
+            $feedback->old_taskcompletion,
+            $feedback->taskcompletion,
+            $feedback->taskcompletion_reason,
+            $feedback->old_lexicogrammatical,
+            $feedback->lexicogrammatical,
+            $feedback->lexicogrammatical_reason,
+            $feedback->old_pronunciation,
+            $feedback->pronunciation,
+            $feedback->pronunciation_reason,
+            $feedback->old_holistic,
+            $feedback->holistic,
+            $feedback->holistic_reason,
+            $feedback->old_gop_score,
+            $feedback->gop_score,
+            $feedback->gop_score_reason,
+            $feedback->timecreated
+        ];
+        $writer->add_data($arr);
+    }
+    $writer->set_filename('digitala-attempts-feedback');
+    if ($mode == 'feedback') {
+        $writer->download_file();
+    } else {
+        $data = $writer->print_csv_data(true);
+        return $data;
+    }
+}
+
+/**
+ * Create export buttons
+ *
+ * @param int $id - id of the activity
+ */
+function create_export_buttons($id) {
+    $out = html_writer::tag('a', get_string('export_attempts', 'digitala'),
+                array('href' => export_url($id, 'attempts'), 'id' => 'export_attempts', 'class' => 'btn btn-primary'));
+    $out .= html_writer::tag('a', get_string('export_attempts_feedback', 'digitala'),
+                array('href' => export_url($id, 'feedback'), 'id' => 'export_attempts_feedback', 'class' => 'btn btn-primary'));
+    return $out;
 }

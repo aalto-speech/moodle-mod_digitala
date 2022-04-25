@@ -141,12 +141,14 @@ class digitala_report implements renderable {
 class digitala_short_assignment implements renderable {
     /**
      * Constructor
+     * @param int $contextid - Context id of the activty
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
      */
-    public function __construct($assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+    public function __construct($contextid = 0, $assignmenttext = '', $resourcetext = '', $attempttype = '', $attemptlang = '') {
+        $this->contextid = $contextid;
         $this->assignmenttext = $assignmenttext;
         $this->resourcetext = $resourcetext;
         $this->attempttype = $attempttype;
@@ -216,5 +218,31 @@ class digitala_delete implements renderable {
         $this->instanceid = $instanceid;
         $this->id = $id;
         $this->studentid = $studentid;
+    }
+}
+
+/**
+ * Implements a export view.
+ *
+ * @package mod_digitala
+ * @copyright 2022 Name
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ */
+class digitala_export implements renderable {
+    /**
+     * Constructor
+     * @param int $instanceid - Instance id of the activty
+     * @param int $contextid - Context id of the activty
+     * @param int $id - Id of the activity
+     * @param int $d - Id of the course
+     * @param string $mode - Mode of export, attempts or feedback
+     */
+    public function __construct($instanceid, $contextid, $id, $d, $mode) {
+        $this->instanceid = $instanceid;
+        $this->contextid = $contextid;
+        $this->id = $id;
+        $this->d = $d;
+        $this->mode = $mode;
     }
 }

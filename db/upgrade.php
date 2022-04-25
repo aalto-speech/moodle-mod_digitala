@@ -327,5 +327,32 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022041401, 'digitala');
     }
 
+    // Conditionally launch add field status.
+    if ($oldversion < 2022042302) {
+
+        // Define field status to be added to digitala_attempts.
+        $table = new xmldb_table('digitala_attempts');
+        $field = new xmldb_field('status', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, 'waiting', 'attemptnumber');
+
+        // Conditionally launch add field status.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        upgrade_mod_savepoint(true, 2022042302, 'digitala');
+    }
+
+    // Conditionally launch add field digitala.
+    if ($oldversion < 2022042402) {
+
+        // Define field digitala to be added to digitala_report_feedback.
+        $table = new xmldb_table('digitala_report_feedback');
+        $field = new xmldb_field('digitala', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'id');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        upgrade_mod_savepoint(true, 2022042402, 'digitala');
+    }
+
     return true;
 }

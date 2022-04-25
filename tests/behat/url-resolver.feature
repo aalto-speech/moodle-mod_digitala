@@ -18,11 +18,11 @@ Feature: URL resolver works in behats
       | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            |
       | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
     And I add freeform attempt to database:
-      | name     | username | attemptnumber | file  | transcript  | fluency | taskcompletion | pronunciation | lexicogrammatical | holistic | recordinglength |
-      | Freeform | olli     | 1             | file1 | transcript1 | 1       | 1              | 2             | 3                 | 1        | 1               |
+      | name     | username | attemptnumber | file  | transcript  | fluency | taskcompletion | pronunciation | lexicogrammatical | holistic | recordinglength | status    |
+      | Freeform | olli     | 1             | file1 | transcript1 | 1       | 1              | 2             | 3                 | 1        | 1               | evaluated |
     And I add readaloud attempt to database:
-      | name      | username | attemptnumber | file  | transcript  | feedback | gop_score | recordinglength |
-      | Readaloud | olli     | 1             | file2 | transcript2 | feedback | 0.7       | 2               |
+      | name      | username | attemptnumber | file  | transcript  | feedback | fluency | pronunciation | recordinglength | status    |
+      | Readaloud | olli     | 1             | file2 | transcript2 | feedback | 0.7     | 1.5           | 2               | evaluated |
 
   Scenario Outline: Page URL resolver works
     When I am on the "<activity>" "mod_digitala > Invalid" page logged in as "<student>"
@@ -35,13 +35,13 @@ Feature: URL resolver works in behats
     And I should see "<reportpage>"
     Then I am on the "<activity>" "mod_digitala > Teacher Reports Overview" page logged in as "<teacher>"
     And I should see "See report"
-    When I am on the "<activity> > <student>" "mod_digitala > Teacher Report Details" page logged in as "<teacher>"
+    Then I am on the "<activity> > <student>" "mod_digitala > Teacher Report Details" page logged in as "<teacher>"
     And I should see "Assignment"
     And I should see "<reportpage>"
-    When I am on the "<activity> > <student>" "mod_digitala > Teacher Report Feedback" page logged in as "<teacher>"
+    Then I am on the "<activity> > <student>" "mod_digitala > Teacher Report Feedback" page logged in as "<teacher>"
     And I should see "Edit the evaluation report"
 
     Examples:
-      | activity  | student | teacher | reportpage                |
-      | Freeform  | olli    | ossi    | Proficiency level         |
-      | Readaloud | olli    | ossi    | Goodness of pronunciation |
+      | activity  | student | teacher | reportpage |
+      | Freeform  | olli    | ossi    | Range      |
+      | Readaloud | olli    | ossi    | Fluency    |

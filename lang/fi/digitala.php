@@ -50,6 +50,7 @@ $string['assignment'] = 'Tehtävä';
 $string['assignment_help'] = 'Tehtävänanto, jonka mukaan tulee tehdä puhesuoritus.';
 $string['assignmentresource'] = 'Aineisto';
 $string['assignmentresource_help'] = 'Tehtävän aineisto voidaan liittää tähän. Lue ääneen -tehtävän luettava teksti tulee tähän. Vapaa tuotto -tehtävässä tähän voidaan lisätä tekstiä, kuvia, kaavioita ja videoita, joita suorituksessa tulee hyödyntää.';
+$string['maxlength_error'] = 'Nauhoite saa olla maksimissaan 5 minuuttia pitkä';
 
 $string['navnext'] = 'Seuraava >';
 $string['navprevious'] = '< Edellinen';
@@ -77,24 +78,16 @@ $string['submitbody'] = 'Sinulla on vielä {$a} vastausyritystä tässä tehtäv
 $string['alreadysubmitted'] = 'Olet jo palauttanut vastauksen. Siirry seuraavalle sivulle nähdäksesi raportin.';
 $string['report'] = 'Arviointi';
 $string['report-title'] = 'Arviointiraportti';
+$string['report-title-feedback'] = 'Arviointiraportti - sisältää opettajan arvosanaehdotuksia';
 $string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
 $string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi puhenäytettä, eikä se kuvaa kaikkea suullista kielitaitoasi. Automaattinen arvio on koneen tekemä. Konetta on opetettu muiden kielen oppijoiden puheella ja muulla kieliaineistolla.';
 $string['transcription'] = 'Puhenäytteesi tekstinä';
+$string['server-feedback'] = 'Puhenäytteesi palaute';
+$string['teacher-feedback'] = 'Ehdota arvioinnin muutoksia';
+$string['transcription_tab-plain'] = 'Pelkkä teksti';
+$string['transcription_tab-corrected'] = 'Näytä korjaukset';
 
 $string['task_grades'] = 'Analyyttinen arvio';
-
-$string['gop'] = 'Ääntämisen taso (GOP)';
-$string['gop_score-0'] = 'Ääntämisen taso on 0.';
-$string['gop_score-1'] = 'Ääntämisen taso on 1.';
-$string['gop_score-2'] = 'Ääntämisen taso on 2.';
-$string['gop_score-3'] = 'Ääntämisen taso on 3.';
-$string['gop_score-4'] = 'Ääntämisen taso on 4.';
-$string['gop_score-5'] = 'Ääntämisen taso on 5.';
-$string['gop_score-6'] = 'Ääntämisen taso on 6.';
-$string['gop_score-7'] = 'Ääntämisen taso on 7.';
-$string['gop_score-8'] = 'Ääntämisen taso on 8.';
-$string['gop_score-9'] = 'Ääntämisen taso on 9.';
-$string['gop_score-10'] = 'Ääntämisen taso on 10.';
 
 $string['holistic'] = 'Taitotasoarvio';
 $string['holistic_description'] = 'Automaattisen arvion mukaan vaikuttaa siltä, että taitotasosi on ';
@@ -185,6 +178,18 @@ $string['results_delete-all-text'] = 'Haluatko varmasti poistaa ja nollata suori
 $string['results_no-show'] = 'Ei vielä suorituksia.';
 $string['results_title'] = 'Käyttäjien suoritukset';
 $string['results_delete-title'] = 'Varoitus';
+$string['results_waiting-title'] = 'Evaluation in progress';
+$string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
+$string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
+$string['results_waiting-loading'] = 'Loading...';
 
+$string['export_attempts'] = 'Lataa kaikki yritykset CSV-muodossa';
+$string['export_attempts_feedback'] = 'Lataa kaikki palautteet jokaiselle yritykselle CSV-muodossa';
+$string['export_success'] = 'CSV-tiedoston luonti onnistui.';
+$string['teachergrade'] = "Opettajan arvosanaehdotus: ";
+$string['teacherreason'] = "Kommentti arvosanan muutoksesta: ";
 $string['feedback_success'] = 'Kommentti opiskelijan raportista on tallennettu onnistuneesti.';
 $string['feedback_not-found'] = 'Opiskelijalle ei löydy tuloksia.';
+
+$string['task-send_to_evaluations'] = 'Send to evaluation';
+$string['task-check_failed_evaluation'] = 'Check for failed evaluations';

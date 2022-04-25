@@ -58,27 +58,47 @@
     width: auto;
 }
 
+.digitala-container {
+    max-width: 80vw;
+    position: relative;
+    margin: auto;
+}
+
 .digitala-column {
     margin: 0 1vh 1vh 0;
 }
 
 .digitala-card {
     margin-top: 1vh;
+    max-width: 75vw;
+}
+
+.digitala-chart-container {
+    position: relative;
+    margin: auto;
+    height: 15vh;
+    max-width: 70vw;
+}
+
+.digitala-tabs {
+    margin-top: 1vh;
 }
 
 .navbuttons {
     position: relative;
     left: 45%;
+    margin-top: 1vh;
 }
 
 .scrollbox200 {
-    height: 200px;
+    max-height: 200px;
     line-height: 2em;
     overflow: auto;
 }
 
 .scrollbox400 {
-    height: 408px;
+    min-height: 100px;
+    max-height: 408px;
     line-height: 2em;
     overflow: auto;
 }
@@ -142,7 +162,7 @@
     bottom: 10px;
     right: 60px;
     height: 40px;
-    width: 160px;
+    width: 170px;
     z-index: 4;
     background-color: #d3d3d3;
 }
@@ -182,4 +202,16 @@
 .modal-footer .col-form-label {
     flex: 0;
     padding: 0;
+}
+
+.digitala-transcript-error {
+    text-decoration: underline solid orange 4px;
+}
+
+.digitala-transcript-warning {
+    text-decoration: underline dashed skyblue 4px;
+}
+
+.digitala-transcript-success {
+    text-decoration: none;
 }
