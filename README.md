@@ -9,7 +9,7 @@ The basic usage of Digitala is shown in a [short introduction video](/).
 
 ## Installation
 
-Download the latest release from the GitHub [releases](./releases). As an admin in Moodle, navigate to *Site administration -> Plugins -> Install plugins* page and place the downloaded zip-file in the given field.
+Download the latest release from the GitHub [releases](https://github.com/aalto-speech/moodle-puheentunnistus/releases). As an admin in Moodle, navigate to *Site administration -> Plugins -> Install plugins* page and place the downloaded zip-file in the given field.
 
 If you're running Moodle locally or have otherwise access to the Moodle file system, you can navigate to *moodle/mod/* and clone this project via command line with ```git clone https://github.com/aalto-speech/moodle-puheentunnistus.git```. Change the project name to "digitala".
 
@@ -17,7 +17,7 @@ After installation you'll be prompted to give the address and key to the evaluat
 
 ## Upgrade
 
-Download and install the latest [release](./releases). Locally you can update the cloned "digitala"-project in the project folder by pulling the latest version in main branch with ```git pull```.
+Download and install the latest [release](https://github.com/aalto-speech/moodle-puheentunnistus/releases). Locally you can update the cloned "digitala"-project in the project folder by pulling the latest version in main branch with ```git pull```.
 
 ## Manuals for different user roles
 
