@@ -1063,6 +1063,7 @@ function create_fixed_box() {
                                                         '1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z'));
     $out .= html_writer::end_tag('svg');
     $out .= html_writer::end_tag('button');
+    $out .= html_writer::div('', 'collapse', array('id' => 'feedbacksite'));
     $out .= html_writer::tag('iframe', '', array('id' => 'feedbacksite', 'class' => 'collapse',
     'src' => 'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048'));
     return $out;
