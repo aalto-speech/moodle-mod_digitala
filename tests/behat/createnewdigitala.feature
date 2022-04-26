@@ -82,12 +82,12 @@ Feature: Create new digitala
       | Material   | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
     And I click on "Audio" "link"
-    And I click on "Browse repositories..." "button" in the "#id_resources_audio .atto_media_source.atto_media_media_source" "css_element"
+    And I click on "Browse repositories..." "button" in the "#id_resources_editor_audio .atto_media_source.atto_media_media_source" "css_element"
     And I wait "1" seconds
     And I select "Private files" repository in file picker
     And I click on "tottoroo.wav" "file" in repository content area
     And I press "Select this file"
-    And I click on "Display options" "link" in the "#id_resources_audio" "css_element"
+    And I click on "Display options" "link" in the "#id_resources_editor_audio" "css_element"
     And I set the field "audio_media-title-entry" to "töttöröö :D"
     And I press "Insert media"
     And I wait "1" seconds
@@ -112,12 +112,12 @@ Feature: Create new digitala
       | Material   | Här är filmen om tiger. |
     And I press "Insert or edit an audio/video file"
     And I click on "Video" "link"
-    And I click on "Browse repositories..." "button" in the "#id_resources_video .atto_media_source.atto_media_media_source" "css_element"
+    And I click on "Browse repositories..." "button" in the "#id_resources_editor_video .atto_media_source.atto_media_media_source" "css_element"
     And I wait "1" seconds
     And I select "Private files" repository in file picker
     And I click on "video-1.mp4" "file" in repository content area
     And I press "Select this file"
-    And I click on "Display options" "link" in the "#id_resources_video" "css_element"
+    And I click on "Display options" "link" in the "#id_resources_editor_video" "css_element"
     And I set the field "video_media-title-entry" to "behats are all over the places :D"
     And I press "Insert media"
     And I wait "1" seconds
@@ -168,7 +168,7 @@ Feature: Create new digitala
     And I press "Insert or edit an audio/video file"
     And I click on "Audio" "link"
     And I set the field with xpath "//div[@data-medium-type='audio']/div/div/div/input" to "http://digitala-api:3000/resources/tottoroo.wav"
-    And I click on "Display options" "link" in the "#id_resources_audio" "css_element"
+    And I click on "Display options" "link" in the "#id_resources_editor_audio" "css_element"
     And I set the field "audio_media-title-entry" to "töttöröö :D"
     And I press "Insert media"
     And I wait "1" seconds
@@ -194,7 +194,7 @@ Feature: Create new digitala
     And I press "Insert or edit an audio/video file"
     And I click on "Video" "link"
     And I set the field with xpath "//div[@data-medium-type='video']/div/div/div/input" to "http://digitala-api:3000/resources/video-1.mp4"
-    And I click on "Display options" "link" in the "#id_resources_video" "css_element"
+    And I click on "Display options" "link" in the "#id_resources_editor_video" "css_element"
     And I set the field "video_media-title-entry" to "behats are all over the places :D"
     And I press "Insert media"
     And I wait "1" seconds

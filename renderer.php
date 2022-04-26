@@ -81,12 +81,16 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_assignment(digitala_assignment $assignment) {
         $out = start_container('digitala-assignment');
 
-        $out .= start_column();
+        $out .= start_column('-4');
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
 
         $attempt = get_attempt($assignment->instanceid, $assignment->userid);
-
-        if ($assignment->attemptlimit != 0 && isset($attempt) && $attempt->attemptnumber >= $assignment->attemptlimit) {
+        if (isset($attempt) && ($attempt->status == 'waiting' || $attempt->status == 'retry')) {
+            $url = str_replace('page=1', 'page=2', $_SERVER['REQUEST_URI']);
+            $out .= create_card('assignmentrecord', get_string('results_waiting-info', 'digitala'));
+            $out .= html_writer::tag('a', get_string('results_waiting-refresh', 'digitala'),
+                array('id' => 'nextButton', 'class' => 'btn btn-primary', 'href' => $url));
+        } else if ($assignment->attemptlimit != 0 && isset($attempt) && $attempt->attemptnumber >= $assignment->attemptlimit) {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext');
         } else {
@@ -99,7 +103,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= end_column();
 
         $out .= start_column();
-        $out .= create_card('assignmentresource', create_resource($assignment->resourcetext));
+        $out .= create_card('assignmentresource', create_resource($assignment));
         $out .= end_column();
 
         $out .= end_container();
@@ -120,43 +124,72 @@ class mod_digitala_renderer extends plugin_renderer_base {
         $out .= start_column();
 
         $attempt = get_attempt($report->instanceid, $report->student);
+        $remaining = $report->attemptlimit;
 
         if (is_null($attempt)) {
-            $remaining = $report->attemptlimit;
             $out .= create_card('report-title', get_string('reportnotavailable', 'digitala'));
-        } else {
-            $remaining = $report->attemptlimit - $attempt->attemptnumber;
+        } else if ($attempt->status == 'waiting') {
+            $remaining -= $attempt->attemptnumber;
+            $out .= create_report_waiting();
+        } else if ($attempt->status == 'retry') {
+            $remaining -= $attempt->attemptnumber;
+            $out .= create_report_retry();
+        } else if ($attempt->status == 'evaluated' || $attempt->status == 'failed') {
+            $remaining -= $attempt->attemptnumber;
+            $feedback = get_feedback($attempt);
             $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
-                    $attempt->file, false);
-            $remaining = $report->attemptlimit;
-            $out .= create_card('report-title', html_writer::tag('p', get_string('reportinformation', 'digitala')).
-                                                html_writer::tag('p', create_attempt_number($report, $report->student)).
-                                                html_writer::tag('p', create_audio_controls($audiourl)));
+                                                        $attempt->file, false);
+            if (isset($feedback)) {
+                $reporttitle = 'report-title-feedback';
+            } else {
+                $reporttitle = 'report-title';
+            }
+            $out .= create_card($reporttitle, html_writer::tag('p', get_string('reportinformation', 'digitala')).
+                                              html_writer::tag('p', create_attempt_number($report, $report->student)).
+                                              html_writer::tag('p', create_audio_controls($audiourl)));
 
-            $out .= create_report_transcription($attempt->transcript);
-            if ($report->attempttype == 'freeform') {
-                $gradings = create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
-                $gradings .= create_report_grading('fluency', $attempt->fluency, 4);
+            if (isset($feedback)) {
+                $gradings = create_report_grading('fluency', $attempt->fluency, 4,
+                                                  $feedback->fluency, $feedback->fluency_reason);
+                $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4,
+                                                   $feedback->pronunciation, $feedback->pronunciation_reason);
+            } else {
+                $gradings = create_report_grading('fluency', $attempt->fluency, 4);
                 $gradings .= create_report_grading('pronunciation', $attempt->pronunciation, 4);
-                $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
+            }
+            if ($report->attempttype == 'freeform') {
+                if (isset($feedback)) {
+                    $gradings .= create_report_grading('taskcompletion', $attempt->taskcompletion, 3,
+                                                       $feedback->taskcompletion, $feedback->taskcompletion_reason);
+                    $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3,
+                                                       $feedback->lexicogrammatical, $feedback->lexicogrammatical_reason);
+                } else {
+                    $gradings .= create_report_grading('taskcompletion', $attempt->taskcompletion, 3);
+                    $gradings .= create_report_grading('lexicogrammatical', $attempt->lexicogrammatical, 3);
+                }
 
-                $holistic = create_report_holistic(floor($attempt->holistic));
+                $holistic = create_report_holistic(floor($attempt->holistic), $feedback);
 
                 $information = create_report_information($attempt->transcript);
 
+                $out .= create_report_transcription($attempt->transcript);
                 $out .= create_report_tabs($gradings, $holistic, $information);
             } else {
-                $out .= create_report_feedback($attempt->feedback);
-                $out .= create_report_gop($attempt->gop_score);
+                $out .= create_transcript_toggle($attempt->transcript, $attempt->feedback);
+                $out .= $gradings;
             }
-            if ($report->student != $USER->id) {
+            if ($report->student != $USER->id && $attempt->status == 'evaluated') {
                 $out .= html_writer::link(str_replace('report.php', 'reporteditor.php', $_SERVER['REQUEST_URI']),
-                                          get_string('reportfeedback', 'digitala'), array('class' => 'btn btn-primary'));
+                                          get_string('teacher-feedback', 'digitala'), array('class' => 'btn btn-primary'));
             }
+        } else {
+            $out .= create_card('report-title', get_string('reportnotavailable', 'digitala'));
         }
+
         if (preg_match('/view\.php/', $_SERVER['REQUEST_URI'])) {
             $out .= create_nav_buttons('report', $remaining);
         }
+
         $out .= create_fixed_box();
         $out .= end_column();
 
@@ -182,6 +215,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 new html_table_cell(get_string('results_score', 'digitala')),
                 new html_table_cell(get_string('results_time', 'digitala')),
                 new html_table_cell(get_string('results_tries', 'digitala')),
+                new html_table_cell(get_string('results_status', 'digitala')),
                 new html_table_cell(get_string('results_report', 'digitala')),
                 new html_table_cell(add_delete_all_attempts_button()));
             foreach ($headers as $value) {
@@ -203,6 +237,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
             $out .= html_writer::table($table);
 
+            $out .= create_export_buttons($result->id);
+
         } else {
             $out .= get_string('results_no-show', 'digitala');
         }
@@ -223,7 +259,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
                                                 get_string($assignment->attempttype, 'digitala'));
         $assignmentinfo .= html_writer::tag('p', $assignment->assignmenttext);
         $assignmentcard = create_card('assignment', $assignmentinfo);
-        $resourcescard = create_card('assignmentresource', $assignment->resourcetext);
+        $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
+                                                  'mod_digitala', 'files', 0);
+        $resourcescard = create_card('assignmentresource', $resources);
 
         $out = start_container('digitala-short_assignment');
         $out .= start_column();

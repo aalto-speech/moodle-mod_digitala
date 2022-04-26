@@ -25,14 +25,17 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 require_once(__DIR__.'/renderable.php');
+require_once(__DIR__.'/locallib.php');
 
-global $USER, $DB;
+global $USER;
 
 // Course module id.
 $id = optional_param('id', 0, PARAM_INT);
 
 // Activity instance id.
 $d = optional_param('d', 0, PARAM_INT);
+
+$mode = optional_param('mode', 'attempts', PARAM_TEXT);
 
 if ($id) {
     $cm = get_coursemodule_from_id('digitala', $id, 0, false, MUST_EXIST);
@@ -56,45 +59,18 @@ $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('digitala', $moduleinstance);
 $event->trigger();
 
-$PAGE->set_url('/mod/digitala/report.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/digitala/export.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
-$OUTPUT = $PAGE->get_renderer('mod_digitala');
-
-$mode = optional_param('mode', 'overview', PARAM_TEXT);
-$studentid = optional_param('student', 0, PARAM_INT);
-
-if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
-    if ($mode == 'overview') {
-        $content = $OUTPUT->render(new digitala_results($moduleinstance->id, $id));
-    } else if ($mode == 'detail') {
-        $config = ['paths' => ['chart' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart'],
-                   'waitSeconds' => 40, 'enforceDefine' => false];
-        $requirejs = 'require.config(' . json_encode($config) . ')';
-        $PAGE->requires->js_amd_inline($requirejs);
-        $PAGE->requires->js_call_amd('mod_digitala/chart', 'init');
-        $student = $DB->get_record('user', array('id' => $studentid));
-
-        $content = html_writer::tag('h5', $student->firstname.' '.$student->lastname);
-        $content .= $OUTPUT->render(new digitala_short_assignment($modulecontext->id, $moduleinstance->assignment,
-                                                                  $moduleinstance->resources, $moduleinstance->attempttype,
-                                                                  $moduleinstance->attemptlang));
-        $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id,
-                                                        $moduleinstance->attempttype, $moduleinstance->attemptlang,
-                                                        $moduleinstance->attemptlimit, $studentid));
-    } else if ($mode == 'delete') {
-        $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $studentid));
-    } else {
-        $content = get_string('results_denied', 'digitala');
+if (has_capability('mod/digitala:exportreports', $modulecontext)) {
+    if ($mode == 'attempts') {
+        generate_attempts_csv($moduleinstance->id, $mode);
+    } else if ($mode == 'feedback') {
+        generate_report_feedback_csv($moduleinstance->id, $mode);
     }
 } else {
     $content = get_string('results_denied', 'digitala');
+    redirect($CFG->wwwroot.'/mod/digitala/export.php?id='.$moduleinstance->id.'&mode='.$mode);
 }
-
-echo $OUTPUT->header();
-
-echo $content;
-
-echo $OUTPUT->footer();

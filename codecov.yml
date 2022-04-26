@@ -2,6 +2,7 @@ fixes:
   - "moodle/mod/digitala/::"
 
 ignore:
+  - "classes/task"
   - "classes/event"
   - "tests"
   - "answerrecording_form.php"
@@ -15,3 +16,4 @@ ignore:
   - "reporteditor.php"
   - "reporteditor_form.php"
   - "settings.php"
+  - "export.php"

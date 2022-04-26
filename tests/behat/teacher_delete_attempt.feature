@@ -1,4 +1,4 @@
-@mod @mod_digitala @javascript @onlyone
+@mod @mod_digitala @javascript
 Feature: Teacher can delete attempts from overview page
 
   Background:
@@ -19,18 +19,23 @@ Feature: Teacher can delete attempts from overview page
       | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            |
       | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
     And I add freeform attempt to database:
-      | name     | username | attemptnumber | file  | transcript  | fluency | taskcompletion | pronunciation | lexicogrammatical | holistic | recordinglength |
-      | Freeform | olli     | 1             | file1 | transcript1 | 1       | 1              | 2             | 3                 | 1        | 1               |
-      | Freeform | essi     | 1             | file2 | transcript2 | 1       | 1              | 2             | 3                 | 1        | 1               |
+      | name     | username | attemptnumber | file  | transcript  | fluency | taskcompletion | pronunciation | lexicogrammatical | holistic | recordinglength | status    |
+      | Freeform | olli     | 1             | file1 | transcript1 | 1       | 1              | 2             | 3                 | 1        | 1               | evaluated |
+      | Freeform | essi     | 1             | file2 | transcript2 | 1       | 1              | 2             | 3                 | 1        | 1               | evaluated |
     And I add readaloud attempt to database:
-      | name      | username | attemptnumber | file  | transcript  | feedback | gop_score | recordinglength |
-      | Readaloud | olli     | 1             | file3 | transcript3 | feedback | 0.7       | 2               |
-      | Readaloud | essi     | 1             | file4 | transcript4 | feedback | 0.7       | 3               |
+      | name      | username | attemptnumber | file  | transcript  | feedback | fluency | pronunciation | recordinglength | status    |
+      | Readaloud | olli     | 1             | file3 | transcript3 | feedback | 0.7     | 1.5           | 2               | evaluated |
+      | Readaloud | essi     | 1             | file4 | transcript4 | feedback | 3.4     | 2.4           | 3               | evaluated |
 
   Scenario: Delete buttons show for teacher
     When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
     Then I should see "Delete all"
     And I should see "Delete attempt"
+
+  Scenario: Student should not see delete buttons
+    When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "olli"
+    Then I should not see "Delete all"
+    And I should not see "Delete attempt"
 
   Scenario: Teacher can delete all attempts
     When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
