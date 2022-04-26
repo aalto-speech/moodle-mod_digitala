@@ -467,29 +467,13 @@ function create_short_assignment_tabs($assignment, $resources) {
 function create_transcript_toggle($transcript, $feedback) {
     $transcript = create_report_transcription($transcript);
     $feedback = create_report_feedback($feedback);
-    $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-pills digitala-tabs', array('id' => 'nav-pills', 'role' => 'tablist'));
-    $out .= html_writer::tag('a', get_string('transcription_tab-corrected', 'digitala'),
-                             array('class' => 'nav-link active ml-1', 'id' => 'readaloud-feedback-tab', 'data-toggle' => 'tab',
-                                   'href' => '#readaloud-feedback', 'role' => 'tab', 'aria-controls' => 'readaloud-feedback',
-                                   'aria-selected' => 'true'));
-    $out .= html_writer::tag('a', get_string('transcription_tab-plain', 'digitala'),
-                             array('class' => 'nav-link ml-1', 'id' => 'readaloud-transcript-tab', 'data-toggle' => 'tab',
-                                   'href' => '#readaloud-transcript', 'role' => 'tab', 'aria-controls' => 'readaloud-transcript',
-                                   'aria-selected' => 'false'));
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_tag('nav');
 
-    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
-    $out .= html_writer::div($feedback, 'tab-pane fade show active',
-                            array('id' => 'readaloud-feedback', 'role' => 'tabpanel',
-                                  'aria-labelledby' => 'readaloud-feedback-tab'));
-    $out .= html_writer::div($transcript, 'tab-pane fade',
-                            array('id' => 'readaloud-transcript', 'role' => 'tabpanel',
-                                  'aria-labelledby' => 'readaloud-transcript-tab'));
-    $out .= html_writer::end_div();
+    $tabs = array('readaloud-transcript' => array('name' => get_string('transcription_tab-plain', 'digitala'),
+                                                  'content' => $transcript),
+                  'readaloud-feedback' => array('name' => get_string('transcription_tab-corrected', 'digitala'),
+                                                  'content' => $feedback));
 
-    return $out;
+    return create_tabs($tabs);
 }
 
 /**
@@ -785,9 +769,6 @@ function save_attempt($assignment, $evaluation) {
     $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
     if ($assignment->attempttype == 'freeform') {
         $attempt->taskcompletion = validate_grading($evaluation->task_completion);
-        $attempt->fluency = validate_grading($evaluation->fluency->score, 4);
-        $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
-        $attempt->pronunciation = validate_grading($evaluation->pronunciation->score, 4);
         $attempt->lexicogrammatical = validate_grading($evaluation->lexicogrammatical->score);
         $attempt->lexicogrammatical_features = json_encode($evaluation->lexicogrammatical->lexgram_features);
         $attempt->holistic = validate_grading($evaluation->holistic, 6);
