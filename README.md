@@ -1,18 +1,6 @@
-# moodle-puheentunnistus [![Moodle Plugin CI for Moodle 3.9 and 3.11](https://github.com/aalto-speech/moodle-puheentunnistus/actions/workflows/ci_moodle.yml/badge.svg)](https://github.com/aalto-speech/moodle-puheentunnistus/actions/workflows/ci_moodle.yml)[![codecov](https://codecov.io/gh/aalto-speech/moodle-puheentunnistus/branch/main/graph/badge.svg?token=TC3ZZJNEQO)](https://codecov.io/gh/aalto-speech/moodle-puheentunnistus)
-Moodlen plugin, jolla voi tehdä automaattisesti arvioitavia suullisia kokeita.
+# Digitala ![Digitala plugin logo](/pix/icon.svg)
 
-Backlogit:
-* [Product backlog](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=1&single=true)
-* [Sprint 0](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=7&single=true)
-* [Sprint 1](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=1860041918&single=true)
-* [Sprint 2](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=1432829582&single=true)
-* [Sprint 3](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=38720847&single=true)
-* [Sprint 4](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=1809034655&single=true)
-* [Sprint 5](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=978372491&single=true)
-* [Sprint 6](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=1830063881&single=true)
+[![Moodle Plugin CI for Moodle 3.9 and 3.11](https://github.com/aalto-speech/moodle-puheentunnistus/actions/workflows/ci_moodle.yml/badge.svg)](https://github.com/aalto-speech/moodle-puheentunnistus/actions/workflows/ci_moodle.yml)[![codecov](https://codecov.io/gh/aalto-speech/moodle-puheentunnistus/branch/main/graph/badge.svg?token=TC3ZZJNEQO)](https://codecov.io/gh/aalto-speech/moodle-puheentunnistus)
 
 
-Työryhmälle muistutukseksi Definition of Done:
-* kaikki muutokset tehdään omaan branchiin, josta tehdään pull request ja toisen kehittäjän tulee hyväksyä se
-* yksikkö- ja integraatiotestit ominaisuudelle on tehty
-* tyyli noudattaa yhdessä sovittuja muotoilusääntöjä
+Digitala is a Moodle plugin for making automatically assessed speech assignments. Students' speech performances are sent from the plugin to an evaluation API designed and built by Aalto University. Digitala-plugin is a part of the [DigiTala research project](https://www2.helsinki.fi/fi/unitube/video/3275014c-49bf-4583-befc-840128521998) and is constructed by Bachelor level Computer Science students during spring 2022 in the University of Helsinki.
