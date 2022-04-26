@@ -78,7 +78,7 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     And "//audio[@title='attempt_recording']" "xpath_element" should exist
     And I should see "A transcript of your speech sample"
     And I should see "transcript5"
-    And I click on "readaloud-feedback-tab" "link"
+    And I click on "readaloud-feedback-tab" "button"
     And I should see "feedback"
     And I should see "Fluency"
     And I should see "2/4"

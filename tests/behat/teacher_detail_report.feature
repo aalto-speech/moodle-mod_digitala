@@ -91,7 +91,7 @@ Feature: Teacher can see students detailed report
     And I should see "Show corrections"
     And I should see "A transcript of your speech sample"
     And I should see "transcript5"
-    And I click on "readaloud-feedback-tab" "link"
+    And I click on "readaloud-feedback-tab" "button"
     And I should see "feedback"
     And I should see "Fluency"
     And I should see "2/4"
