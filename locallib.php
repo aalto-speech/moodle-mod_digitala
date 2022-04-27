@@ -265,12 +265,13 @@ function create_resource($assignment) {
  */
 function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, $feedbackreason = null) {
     $out = html_writer::tag('h5', get_string($name, 'digitala'), array('class' => 'card-title'));
+    $out .= html_writer::tag('p', get_string($name.'_description', 'digitala'));
 
     $out .= create_chart($name, $grade, $maxgrade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array('class' => 'grade-number'));
 
     $out .= html_writer::start_div('card-text');
-    $out .= html_writer::tag('p', get_string($name.'_description', 'digitala').
+    $out .= html_writer::tag('p', get_string('task_grades_preamble', 'digitala').
                                   lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')));
 
     if (isset($feedbackgrade) && $grade != $feedbackgrade) {
