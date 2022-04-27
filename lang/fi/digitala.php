@@ -142,6 +142,8 @@ $string['api'] = 'API-palvelimen osoite';
 $string['api_help'] = 'Anna API-palvelimen osoite.';
 $string['key'] = 'API-palvelimen avain';
 $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
+$string['feedbacklink'] = 'Anna palautesivun osoite';
+$string['feedbacklink_help'] = 'Anna verkkosivun osoite, johon käyttäjät voivat antaa palautetta arviointiraportissa.';
 
 $string['edit_report'] = 'Muokkaa arviointiraporttia';
 $string['holistic-reason'] = 'Palaute Taitotasosta';
