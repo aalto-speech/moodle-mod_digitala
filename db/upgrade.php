@@ -354,7 +354,7 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022042402, 'digitala');
     }
 
-    if ($oldversion < 2022042500) {
+    if ($oldversion < 2022042702) {
 
         // Define field information to be added to digitala.
         $table = new xmldb_table('digitala');
@@ -370,7 +370,7 @@ function xmldb_digitala_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        upgrade_mod_savepoint(true, 2022042500, 'digitala');
+        upgrade_mod_savepoint(true, 2022042702, 'digitala');
     }
 
     return true;
