@@ -106,12 +106,15 @@ function digitala_update_instance($moduleinstance, $mform = null) {
  * @return bool True if successful, false on failure.
  */
 function digitala_delete_instance($id) {
+    require_once(__DIR__ . '/locallib.php');
     global $DB;
 
     $exists = $DB->get_record('digitala', array('id' => $id));
     if (!$exists) {
         return false;
     }
+
+    delete_all_attempts($id);
 
     $DB->delete_records('digitala', array('id' => $id));
 

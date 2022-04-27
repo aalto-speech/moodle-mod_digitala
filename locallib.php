@@ -901,6 +901,18 @@ function get_all_attempts($instanceid) {
 }
 
 /**
+ * Delete teachers feedback related to specific student's submission from the database.
+ *
+ * @param int $instanceid - instance id of this digitala activity
+ * @param int $userid - id of the student
+ */
+function delete_attempt_feedbacks($attemptid) {
+    global $DB;
+
+    $DB->delete_records('digitala_report_feedback', array('attempt' => $attemptid));
+}
+
+/**
  * Delete students attempt from the database.
  *
  * @param int $instanceid - instance id of this digitala activity
@@ -914,6 +926,7 @@ function delete_attempt($instanceid, $userid) {
         $fileinfo = get_recording_fileinfo($attempt->id, $attempt->attemptnumber,
                                            \context_module::instance($instanceid)->id, $attempt->file);
         delete_recording($fileinfo);
+        delete_attempt_feedbacks($attempt->id);
         $DB->delete_records('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid));
     }
 }
