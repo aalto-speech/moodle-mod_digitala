@@ -729,6 +729,7 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
         $fileinfo = get_recording_fileinfo($attempt->id, $attempt->attemptnumber,
                                            $assignment->contextid, $attempt->file);
         delete_recording($fileinfo);
+        delete_attempt_feedbacks($attempt->id);
 
         if ($attempt->status == 'evaluated') {
             $attempt->attemptnumber++;
