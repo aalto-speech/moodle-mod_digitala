@@ -236,7 +236,7 @@ function digitala_update_grades($moduleinstance, $userid = 0) {
  * @return string[].
  */
 function digitala_get_file_areas($course, $cm, $context) {
-    return array();
+    return array('recordings', 'files');
 }
 
 /**
@@ -275,11 +275,12 @@ function digitala_get_file_info($browser, $areas, $course, $cm, $context, $filea
  * @param array $options Additional options affecting the file serving.
  */
 function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = array()) {
+    global $USER;
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
 
-    if ($filearea !== 'recordings' && $filearea !== 'files') {
+    if (!in_array($filearea, digitala_get_file_areas($course, $cm, $context))) {
         return false;
     }
 
@@ -299,7 +300,20 @@ function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedow
     if (!$file) {
         return false;
     }
-    send_stored_file($file, 86400, 0, $forcedownload, $options);
+
+    if ($filearea == "recordings") {
+        if (has_capability('mod/digitala:viewdetailreport', $context)) {
+            send_stored_file($file, 86400, 0, $forcedownload, $options);
+        } else if ($USER->id != $file->get_userid()) {
+            send_stored_file($file, 86400, 0, $forcedownload, $options);
+        } else {
+            return false;
+        }
+    } else {
+        send_stored_file($file, 86400, 0, $forcedownload, $options);
+    }
+
+
 }
 
 /**

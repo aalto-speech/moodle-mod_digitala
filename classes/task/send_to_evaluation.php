@@ -50,8 +50,12 @@ class send_to_evaluation extends \core\task\adhoc_task {
         mtrace('Evaluation in progress');
         $fs = get_file_storage();
         $fileinfo = $data->fileinfo;
+        mtrace($fileinfo->itemid);
         $file = $fs->get_file($fileinfo->contextid, $fileinfo->component, $fileinfo->filearea,
                           $fileinfo->itemid, $fileinfo->filepath, $fileinfo->filename);
+
+        mtrace('File in evaluation: '.$file->get_filename());
+
         $url = get_config('digitala', 'api');
         $key = get_config('digitala', 'key');
         $add = '?prompt=' . rawurlencode($data->assignment->servertext) . '&lang=' .
@@ -61,17 +65,20 @@ class send_to_evaluation extends \core\task\adhoc_task {
         $c = new \curl(array('ignoresecurity' => true));
         $c->setopt(array('CURLOPT_CONNECTTIMEOUT' => 0, 'CURLOPT_TIMEOUT' => 1800));
 
-        $evaluation = json_decode($c->post($url . $add, $params));
+        $evaluation = json_encode($c->post($url . $add, $params));
+        mtrace('Evaluation answer from Aalto:');
         if (isset($evaluation->transcript)) {
-            save_attempt($data->assignment, $evaluation);
+            mtrace(json_decode($evaluation));
+            save_attempt($data->assignment, $evaluation, $fileinfo->itemid);
             mtrace('Evaluation done');
         } else {
+            mtrace($evaluation);
             $attempt = get_attempt($data->assignment->instanceid, $data->assignment->userid);
             if ($attempt->status == 'waiting') {
-                set_attempt_status($attempt, 'retry');
+                set_attempt_status($attempt, 'retry', $fileinfo->itemid);
                 mtrace('Evaluation in will be tried again');
             } else if ($attempt->status == 'retry') {
-                save_failed_attempt($attempt, $data->assignment);
+                save_failed_attempt($attempt, $data->assignment, $fileinfo->itemid);
                 mtrace('Evaluation failed totally');
             }
         }

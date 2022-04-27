@@ -660,6 +660,17 @@ function create_microphone_icon() {
 }
 
 /**
+ * Placeholder.
+ *
+ * @param mixed $attemptid -
+ * @param mixed $attemptnumber
+ */
+function get_file_item_id($attemptid, $attemptnumber) {
+    $number = $attemptnumber < 10 ? "0".$attemptnumber : $attemptnumber;
+    return intval($attemptid.$number);
+}
+
+/**
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
  * @param array $formdata - form data includes file information
@@ -673,14 +684,16 @@ function save_answerrecording($formdata, $assignment) {
     $fileinfo->contextid = $assignment->contextid;
     $fileinfo->component = 'mod_digitala';
     $fileinfo->filearea = 'recordings';
-    $fileinfo->itemid = 0;
     $fileinfo->filepath = '/';
     $fileinfo->filename = $audiofile->file;
+
+    $waiting = create_waiting_attempt($assignment, $fileinfo->filename, $recordinglength);
+    $fileinfo->itemid = get_file_item_id($waiting['id'], $waiting['attemptnumber']);
 
     file_save_draft_area_files($audiofile->id, $fileinfo->contextid, $fileinfo->component,
                                 $fileinfo->filearea, $fileinfo->itemid);
 
-    create_waiting_attempt($assignment, $fileinfo->filename, $recordinglength);
+
     send_answerrecording_for_evaluation($fileinfo, $assignment, $recordinglength);
 
     if (isset($_SERVER['REQUEST_URI'])) {
@@ -725,6 +738,7 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
         $attempt->attemptnumber++;
     } else {
         $attempt = new stdClass();
+        $attempt->attemptnumber = 0;
     }
 
     $attempt->digitala = $assignment->instanceid;
@@ -738,10 +752,13 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
 
     if (isset($attempt->attemptnumber)) {
         $DB->update_record('digitala_attempts', $attempt);
+        $id = $attempt->id;
     } else {
         $attempt->timecreated = $timenow;
-        $DB->insert_record('digitala_attempts', $attempt);
+        $id = $DB->insert_record('digitala_attempts', $attempt);
     }
+
+    return array('id' => $id, 'attemptnubmer' => $attempt->attemptnumber);
 }
 
 /**
@@ -791,7 +808,7 @@ function save_failed_attempt($attempt, $assignment) {
  * @param digitala_assignment $assignment - assignment includes needed identifications
  * @param mixed $evaluation - mixed object containing evaluation info
  */
-function save_attempt($assignment, $evaluation) {
+function save_attempt($assignment, $evaluation, $itemid) {
     global $DB;
 
     $attempt = get_attempt($assignment->instanceid, $assignment->userid);
@@ -805,6 +822,7 @@ function save_attempt($assignment, $evaluation) {
     $attempt->pronunciation = $attempt->pronunciation < 0 ? 0 : $attempt->pronunciation;
     $attempt->pronunciation = round($attempt->pronunciation, 2);
     $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
+    $attempt
     if ($assignment->attempttype == 'freeform') {
         $attempt->taskcompletion = $evaluation->task_completion > 3 ? 0 : $evaluation->task_completion;
         $attempt->taskcompletion = $attempt->taskcompletion < 0 ? 0 : $attempt->taskcompletion;

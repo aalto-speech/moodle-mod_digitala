@@ -138,7 +138,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
         } else if ($attempt->status == 'evaluated' || $attempt->status == 'failed') {
             $remaining -= $attempt->attemptnumber;
             $feedback = get_feedback($attempt);
-            $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
+            $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings',
+                                                        get_file_item_id($attempt->id, $attempt->attemptnumber), '/',
                                                         $attempt->file, false);
             if (isset($feedback)) {
                 $reporttitle = 'report-title-feedback';
