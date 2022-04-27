@@ -22,11 +22,12 @@ Feature: Create new digitala
     When I am on the "C1" "Course" page
     And I turn editing mode on
     Then I add a "digitala" to section "2" and I fill the form with:
-      | Name       | <name>           |
-      | Language   | <attemptlang>    |
-      | Type       | <attempttype>    |
-      | Assignment | <assignmenttext> |
-      | Material   | <resourcestext>  |
+      | Name             | <name>            |
+      | Language         | <attemptlang>     |
+      | Type             | <attempttype>     |
+      | Assignment       | <assignmenttext>  |
+      | Material         | <resourcestext>   |
+      | More information | <informationtext> |
     Then I am on the "<name>" "digitala activity" page
     And I click on "Next" "link"
     Then I should see "Assignment"
@@ -35,11 +36,11 @@ Feature: Create new digitala
     And I should see "<resourcestext>"
 
     Examples:
-      | name          | attemptlang | attempttype | assignmenttext                   | resourcestext                                                          |
-      | SWE Readaloud | Swedish     | Read aloud  | Läs följande avsnitt högt.       | Hejsan, jag heter Jonne-Peter.                                         |
-      | FIN Readaloud | Finnish     | Read aloud  | Lue seuraava lause ääneen.       | Tämä on liikennevalojen perusteet -kurssi.                             |
-      | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                |
-      | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
+      | name          | attemptlang | attempttype | assignmenttext                   | resourcestext                                                          | informationtext  |
+      | SWE Readaloud | Swedish     | Read aloud  | Läs följande avsnitt högt.       | Hejsan, jag heter Jonne-Peter.                                         | some information |
+      | FIN Readaloud | Finnish     | Read aloud  | Lue seuraava lause ääneen.       | Tämä on liikennevalojen perusteet -kurssi.                             | some information |
+      | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                | some information |
+      | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. | some information |
 
   Scenario: On course page add freeform task in Swedish and add local image to resources
     When I am on the "C1" "Course" page

@@ -136,6 +136,7 @@ $string['lexicogrammatical_score-2'] = 'Du använder vanliga ord och du kan skap
 $string['lexicogrammatical_score-3'] = 'Du använder mångsidigt olika typer av ord och meningskonstruktioner.';
 
 $string['moreinformation'] = 'Mer information';
+$string['moreinformation_help'] = 'Information to provide to the student after they have made an attempt.';
 
 $string['api'] = 'API-server adress';
 $string['api_help'] = 'Ge API-server adress.';

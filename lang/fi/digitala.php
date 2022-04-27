@@ -136,6 +136,7 @@ $string['lexicogrammatical_score-2'] = 'Käytät tavallisia sanoja ja osaat tehd
 $string['lexicogrammatical_score-3'] = 'Käytät monipuolisesti eri sanoja ja lauserakenteita.';
 
 $string['moreinformation'] = 'Lisätietoja';
+$string['moreinformation_help'] = 'Information to provide to the student after they have made an attempt.';
 
 $string['api'] = 'API-palvelimen osoite';
 $string['api_help'] = 'Anna API-palvelimen osoite.';
