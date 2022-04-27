@@ -206,13 +206,18 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_results(digitala_results $result) {
         $out = html_writer::tag('h5', get_string('results_title', 'digitala'));
         $attempts = get_all_attempts($result->instanceid);
+        if(isset(current($attempts)->lexicogrammatical)) {
+            $scoretitle = get_string('results_score_proficiency', 'digitala');
+        } else {
+            $scoretitle = get_string('pronunciation', 'digitala');
+        }
 
         if (count($attempts) > 0) {
             $table = new html_table();
 
             $headers = array(
                 new html_table_cell(get_string('results_student', 'digitala')),
-                new html_table_cell(get_string('results_score', 'digitala')),
+                new html_table_cell($scoretitle),
                 new html_table_cell(get_string('results_time', 'digitala')),
                 new html_table_cell(get_string('results_tries', 'digitala')),
                 new html_table_cell(get_string('results_status', 'digitala')),
