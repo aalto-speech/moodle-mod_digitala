@@ -36,14 +36,9 @@ class answerrecording_form extends moodleform {
 
     /**
      * Custom constructor for audioform that also renders the file's post url address.
-     *
-     * @param int $id - activity id
-     * @param int $d - course id
-     * @param int $pagenum - page number of the activity
      */
-    public function __construct($id, $d, $pagenum) {
-        $url = '?id=' . $id . '&d=' . $d . '&page=' . $pagenum;
-        parent::__construct($url, null, 'post', '', 'id="answerrecording"');
+    public function __construct() {
+        parent::__construct($_SERVER['REQUEST_URI'], null, 'post', '', 'id="answerrecording"');
     }
 
     /**
