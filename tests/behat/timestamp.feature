@@ -1,7 +1,5 @@
 @mod @mod_digitala @javascript
-Feature: Student can see assignment text and resources
-  Student can send answer for evaluation to Aalto ASR
-  Student can receive assessment from Aalto ASR
+Feature: Timestamp of attempt's creation time is shown on report pages
 
   Background:
     Given the following "users" exist:
