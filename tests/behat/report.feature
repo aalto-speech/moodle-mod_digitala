@@ -79,10 +79,10 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     And I should see "Number of attempts remaining: 1"
     And "//audio[@title='attempt_recording']" "xpath_element" should exist
-    And I should see "feedback"
-    And I click on "readaloud-transcript-tab" "link"
     And I should see "A transcript of your speech sample"
     And I should see "transcript5"
+    And I click on "readaloud-feedback-tab" "button"
+    And I should see "feedback"
     And I should see "Fluency"
     And I should see "2/4"
     And I should see "This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that"
@@ -154,7 +154,6 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario: Detailed report shows correctly for readaloud if failed to evaluate
     When I am on the "Readaloud" "mod_digitala > Report" page logged in as "milla"
     And I should see "Number of attempts remaining: 1"
-    And I click on "readaloud-transcript-tab" "link"
     And I should see "A transcript of your speech sample"
     And I should see "transcript8"
     And I should see "Fluency"
