@@ -67,6 +67,7 @@ class lib_test extends \advanced_testcase {
                 'attempttype' => 'freeform',
                 'assignment' => 'Assignment text',
                 'resources' => array('text' => 'Resource text', 'format' => 1),
+                'information' => array('text' => 'Information text', 'format' => 1),
             ]);
     }
 

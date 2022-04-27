@@ -14,8 +14,8 @@ Feature: Student can see assignment text and resources
       | user | course | role    |
       | olli | C1     | student |
     And the following "activities" exist:
-      | activity | name     | intro               | course | idnumber | attemptlang | attempttype | assignment            | resources               | resourcesformat | attemptlimit | maxlength |
-      | digitala | Freeform | This is a freeform. | C1     | freeform | sv          | freeform    | Berätta om Tigerjakt. | Här är filmen om tiger. | 1               | 2            | 5         |
+      | activity | name     | intro               | course | idnumber | attemptlang | attempttype | assignment            | resources               | resourcesformat | attemptlimit | maxlength | information     | informationformat |
+      | digitala | Freeform | This is a freeform. | C1     | freeform | sv          | freeform    | Berätta om Tigerjakt. | Här är filmen om tiger. | 1               | 2            | 5         | testinformation | 1                 |
 
   Scenario: On assignment page the assignment text, resources text, timer and number of attempts are shown
     When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
