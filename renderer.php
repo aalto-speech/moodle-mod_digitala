@@ -207,7 +207,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_results(digitala_results $result) {
         $out = html_writer::tag('h5', get_string('results_title', 'digitala'));
         $attempts = get_all_attempts($result->instanceid);
-        if(isset(current($attempts)->lexicogrammatical)) {
+        if (isset(current($attempts)->lexicogrammatical)) {
             $scoretitle = get_string('results_score_proficiency', 'digitala');
         } else {
             $scoretitle = get_string('pronunciation', 'digitala');

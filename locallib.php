@@ -987,7 +987,7 @@ function create_result_row($attempt, $id, $user) {
 
     $deletebutton = add_delete_attempt_button($user);
 
-    $timestamp = timestampformatter($attempt->timemodified);
+    $timestamp = timestampformatter($attempt->timecreated);
 
     $cells = array($username, $score, $time, $tries, $status, $urllink, $timestamp, $deletebutton);
     return $cells;
@@ -1089,10 +1089,9 @@ function convertsecondstostring($secs) {
  * @param int $time timestamp in Unix epoch time
  * @return string $timestamp timestamp in Europe/Helsinki timezone format dd.mm.yyyy hh.mm:ss
  */
-
 function timestampformatter($time) {
     date_default_timezone_set('Europe/Helsinki');
-    $timestamp = date("d.m.Y H.i:s", $time);
+    $timestamp = date("H.i:s d.m.Y", $time);
     return $timestamp;
 }
 
