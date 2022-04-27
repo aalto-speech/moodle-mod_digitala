@@ -168,6 +168,7 @@ $string['results_report'] = 'Rapporten';
 $string['results_denied'] = 'Tillträde förbjudet';
 $string['results_return'] = 'Gå tillbaka till DigiTalas huvudsida';
 $string['results_view'] = 'Se inlärarnas resultat';
+$string['results_timestamp'] = 'Tidsstämpel';
 
 $string['results_delete'] = 'Ta bort försöket';
 $string['results_delete-confirm'] = 'Bekräfta borttagning';

@@ -144,7 +144,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
             } else {
                 $reporttitle = 'report-title';
             }
-            $out .= create_card($reporttitle, html_writer::tag('p', get_string('reportinformation', 'digitala')).
+            $out .= create_card($reporttitle, html_writer::tag('p', timestampformatter($attempt->timemodified)).
+                                              html_writer::tag('p', get_string('reportinformation', 'digitala')).
                                               html_writer::tag('p', create_attempt_number($report, $report->student)).
                                               html_writer::tag('p', create_audio_controls($audiourl)));
 
@@ -222,6 +223,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 new html_table_cell(get_string('results_tries', 'digitala')),
                 new html_table_cell(get_string('results_status', 'digitala')),
                 new html_table_cell(get_string('results_report', 'digitala')),
+                new html_table_cell(get_string('results_timestamp', 'digitala')),
                 new html_table_cell(add_delete_all_attempts_button()));
             foreach ($headers as $value) {
                 $value->header = true;

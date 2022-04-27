@@ -173,6 +173,7 @@ $string['results_report'] = 'Evaluation report';
 $string['results_denied'] = 'Access denied';
 $string['results_return'] = 'Return to Digitala front page';
 $string['results_view'] = 'View student results';
+$string['results_timestamp'] = 'Timestamp';
 
 $string['results_status-evaluated'] = "Evaluated";
 $string['results_status-waiting'] = "Waiting";
