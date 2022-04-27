@@ -23,9 +23,9 @@ Feature: Edit digitala activity
     Then I choose "Edit settings" in the open action menu
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | <name>            |
+      | Assignment name  | <name>            |
       | Language         | <attemptlang>     |
-      | Type             | <attempttype>     |
+      | Assignment type  | <attempttype>     |
       | Assignment       | <assignmenttext>  |
       | Material         | <resourcestext>   |
       | More information | <informationtext> |
