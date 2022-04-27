@@ -147,14 +147,12 @@ $string['holistic-reason'] = 'Feedback on Proficiency';
 $string['taskcompletion-reason'] = 'Feedback on Task completion';
 $string['fluency-reason'] = 'Feedback on Fluency';
 $string['lexicogrammatical-reason'] = 'Feedback on Range';
-$string['gop-reason'] = 'Feedback on goodness of pronunciation';
 $string['pronunciation-reason'] = 'Feedback on Pronunciation';
 $string['holistic-scale_error'] = 'Proficiency needs to be between 0 and 7';
 $string['taskcompletion-scale_error'] = 'Task achievement needs to be between 0 and 3';
 $string['fluency-scale_error'] = 'Fluency needs to be between 0 and 4';
 $string['pronunciation-scale_error'] = 'Nativeity needs to be between 0 and 3';
 $string['lexicogrammatical-scale_error'] = 'Range needs to be between 0 and 3';
-$string['gop-scale_error'] = 'CHANGE THIS TO pronunciation-scale_error';
 $string['pronunciation-scale_error'] = 'Pronunciation needs to be between 0 and 4';
 
 

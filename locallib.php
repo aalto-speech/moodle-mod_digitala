@@ -745,13 +745,13 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
     $attempt->recordinglength = $recordinglength;
 
     $timenow = time();
+    $attempt->timecreated = $timenow;
     $attempt->timemodified = $timenow;
 
     if (isset($attempt->attemptnumber)) {
         $DB->update_record('digitala_attempts', $attempt);
         $id = $attempt->id;
     } else {
-        $attempt->timecreated = $timenow;
         $id = $DB->insert_record('digitala_attempts', $attempt);
     }
 
@@ -1295,7 +1295,7 @@ function generate_attempts_csv($id, $mode) {
 
     $header = 'id;digitala;userid;attemptnumber;file;transcript;feedback;'
            .'fluency;fluency_features;taskcompletion;pronunciation;pronunciation_features;'
-           .'lexicogrammatical;lexicogrammatical_features;holistic;gop_score;timecreated;'
+           .'lexicogrammatical;lexicogrammatical_features;holistic;timecreated;'
            .'timemodified;recordinglength;status';
     $writer->add_data(explode(';', $header));
     foreach ($attempts as $attempt) {
@@ -1315,7 +1315,6 @@ function generate_attempts_csv($id, $mode) {
             $attempt->lexicogrammatical,
             $attempt->lexicogrammatical_features,
             $attempt->holistic,
-            $attempt->gop_score,
             $attempt->timecreated,
             $attempt->timemodified,
             $attempt->recordinglength,
@@ -1357,8 +1356,7 @@ function generate_report_feedback_csv($id, $mode) {
     $header = 'id;attempt;digitala;old_fluency;fluency;fluency_reason;old_taskcompletion;'
            .'taskcompletion;taskcompletion_reason;old_lexicogrammatical;lexicogrammatical;'
            .'lexicogrammatical_reason;old_pronunciation;pronunciation;pronunciation_reason;'
-           .'old_holistic;holistic;holistic_reason;old_gop_score;gop_score;'
-           .'gop_score_reason;timecreated';
+           .'old_holistic;holistic;holistic_reason;timecreated';
     $writer = new \csv_export_writer();
     $writer->add_data(explode(';', $header));
 
@@ -1382,9 +1380,6 @@ function generate_report_feedback_csv($id, $mode) {
             $feedback->old_holistic,
             $feedback->holistic,
             $feedback->holistic_reason,
-            $feedback->old_gop_score,
-            $feedback->gop_score,
-            $feedback->gop_score_reason,
             $feedback->timecreated
         ];
         $writer->add_data($arr);
