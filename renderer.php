@@ -79,12 +79,15 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_assignment(digitala_assignment $assignment) {
+        global $PAGE, $USER;
+
         $out = start_container('digitala-assignment');
 
         $out .= start_column('-4');
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
 
         $attempt = get_attempt($assignment->instanceid, $assignment->userid);
+
         if (isset($attempt) && ($attempt->status == 'waiting' || $attempt->status == 'retry')) {
             $url = str_replace('page=1', 'page=2', $_SERVER['REQUEST_URI']);
             $out .= create_card('assignmentrecord', get_string('results_waiting-info', 'digitala'));
@@ -94,6 +97,11 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext');
         } else {
+            $attemptnumber = isset($attempt->attemptnumber) ? $attempt->attemptnumber : 1;
+            $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
+                                     array(1, $assignment->id, $USER->id, $USER->username,
+                                           $assignment->maxlength, file_get_unused_draft_itemid(),
+                                           $attemptnumber));
             $out .= create_card('assignmentrecord', create_attempt_number($assignment, $assignment->userid).
                                                     save_answerrecording_form($assignment).
                                                     create_microphone($assignment->maxlength).

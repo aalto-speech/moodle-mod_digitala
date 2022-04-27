@@ -353,21 +353,5 @@ function xmldb_digitala_upgrade($oldversion) {
         }
         upgrade_mod_savepoint(true, 2022042402, 'digitala');
     }
-
-    // Conditionally launch add field status.
-    if ($oldversion < 2022042502) {
-
-        // Define field status to be added to digitala_attempts.
-        $table = new xmldb_table('digitala_attempts');
-        $field = new xmldb_field('file_itemid',  XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'status');
-
-        $dbman->drop_field($table, $field);
-        // Conditionally launch add field status.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-        upgrade_mod_savepoint(true, 2022042502, 'digitala');
-    }
-
     return true;
 }

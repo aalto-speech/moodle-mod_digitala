@@ -615,14 +615,46 @@ function create_microphone_icon() {
 }
 
 /**
- * Placeholder.
+ * Create file item id from attemptid and attemptnumber.
  *
- * @param mixed $attemptid -
- * @param mixed $attemptnumber
+ * @param int $attemptid - id of the attempt
+ * @param int $attemptnumber - attempt number of this attempt
  */
 function get_file_item_id($attemptid, $attemptnumber) {
-    $number = $attemptnumber < 10 ? "0".$attemptnumber : $attemptnumber;
+    $number = $attemptnumber < 10 ? '00'.$attemptnumber : '0'.$attemptnumber;
     return intval($attemptid.$number);
+}
+
+/**
+ * Get recording files file information.
+ *
+ * @param int $attemptid - id of the attempt
+ * @param int $attemptnumber - attempt number of this attempt
+ * @param int $contextid - contextid of this activity
+ * @param string $filename - recording file name
+ */
+function get_recording_fileinfo($attemptid, $attemptnumber, $contextid, $filename) {
+    $fileinfo = new stdClass();
+    $fileinfo->contextid = $contextid;
+    $fileinfo->component = 'mod_digitala';
+    $fileinfo->filearea = 'recordings';
+    $fileinfo->filepath = '/';
+    $fileinfo->filename = $file;
+    $fileinfo->itemid = get_file_item_id($waiting['id'], $waiting['attemptnumber']);
+
+    return $fileinfo;
+}
+
+/**
+ * Delete recording file.
+ *
+ * @param array $fileinfo - file info to identify the file
+ */
+function delete_recording($fileinfo) {
+    $fs = get_file_storage();
+    $file = $fs->get_file($fileinfo->contextid, $fileinfo->component, $fileinfo->filearea,
+                            $fileinfo->itemid, $fileinfo->filepath, $fileinfo->filename);
+    $file->delete();
 }
 
 /**
@@ -635,15 +667,8 @@ function save_answerrecording($formdata, $assignment) {
     $audiofile = json_decode($formdata->audiostring);
     $recordinglength = $formdata->recordinglength;
 
-    $fileinfo = new stdClass();
-    $fileinfo->contextid = $assignment->contextid;
-    $fileinfo->component = 'mod_digitala';
-    $fileinfo->filearea = 'recordings';
-    $fileinfo->filepath = '/';
-    $fileinfo->filename = $audiofile->file;
-
     $waiting = create_waiting_attempt($assignment, $fileinfo->filename, $recordinglength);
-    $fileinfo->itemid = get_file_item_id($waiting['id'], $waiting['attemptnumber']);
+    $fileinfo = get_recording_fileinfo($waiting['id'], $waiting['attemptnumber'], $assignment->contextid, $audiofile->file);
 
     file_save_draft_area_files($audiofile->id, $fileinfo->contextid, $fileinfo->component,
                                 $fileinfo->filearea, $fileinfo->itemid);
@@ -701,10 +726,16 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
     $attempt = get_attempt($assignment->instanceid, $assignment->userid);
 
     if (isset($attempt)) {
-        $attempt->attemptnumber++;
+        $fileinfo = get_recording_fileinfo($attempt->id, $attempt->attemptnumber,
+                                           $assignment->contextid, $attempt->file);
+        delete_recording($fileinfo);
+
+        if ($attempt->status == 'evaluated') {
+            $attempt->attemptnumber++;
+        }
     } else {
         $attempt = new stdClass();
-        $attempt->attemptnumber = 0;
+        $attempt->attemptnumber = 1;
     }
 
     $attempt->digitala = $assignment->instanceid;
@@ -724,7 +755,7 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
         $id = $DB->insert_record('digitala_attempts', $attempt);
     }
 
-    return array('id' => $id, 'attemptnubmer' => $attempt->attemptnumber);
+    return array('id' => $id, 'attemptnumber' => $attempt->attemptnumber);
 }
 
 /**
@@ -753,7 +784,6 @@ function save_failed_attempt($attempt, $assignment) {
 
     $attempt->status = 'failed';
     $attempt->transcript = '';
-    $attempt->attemptnumber--;
     $attempt->fluency = 0;
     $attempt->pronunciation = 0;
     if ($assignment->attempttype == 'freeform') {
@@ -784,7 +814,6 @@ function save_attempt($assignment, $evaluation, $itemid) {
     $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
     $attempt->pronunciation = validate_grading($evaluation->pronunciation->score, 4);
     $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
-    $attempt
     if ($assignment->attempttype == 'freeform') {
         $attempt->taskcompletion = validate_grading($evaluation->task_completion);
         $attempt->lexicogrammatical = validate_grading($evaluation->lexicogrammatical->score);
@@ -881,6 +910,10 @@ function delete_attempt($instanceid, $userid) {
     global $DB;
 
     if ($DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid))) {
+        $attempt = get_attempt($instanceid, $userid);
+        $fileinfo = get_recording_fileinfo($attempt->id, $attempt->attemptnumber,
+                                           \context_module::instance($instanceid)->id, $attempt->file);
+        delete_recording($fileinfo);
         $DB->delete_records('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid));
     }
 }
@@ -891,11 +924,11 @@ function delete_attempt($instanceid, $userid) {
  * @param int $instanceid - instance id of this digitala activity
  */
 function delete_all_attempts($instanceid) {
-    global $DB;
-
-    if ($DB->record_exists('digitala_attempts', array('digitala' => $instanceid))) {
-        $DB->delete_records('digitala_attempts', array('digitala' => $instanceid));
+    $attempts = get_all_attempts($instanceid);
+    foreach ($attempts as $attempt) {
+        delete_attempt($nstanceid, $attempt->user);
     }
+
 }
 
 /**
