@@ -251,7 +251,7 @@ function create_resource($assignment) {
     $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
                                               'mod_digitala', 'files', 0);
 
-    return html_writer::div($resources, 'card-text scrollbox400');;
+    return html_writer::div($resources, 'card-text scrollbox400');
 }
 
 /**
@@ -358,6 +358,10 @@ function create_report_retry() {
  * @param digitala_report $report report object containing information
  */
 function create_report_information($report) {
+    if (empty($report->informationtext)) {
+        return '';
+    }
+
     $out = html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
 
     $text = file_rewrite_pluginfile_urls($report->informationtext, 'pluginfile.php', $report->contextid,
@@ -440,8 +444,10 @@ function create_tabs($tabs) {
  */
 function create_report_tabs($gradings, $holistic, $information) {
     $tabs = array('report-grades' => array('name' => get_string('task_grades', 'digitala'), 'content' => $gradings),
-                  'report-holistic' => array('name' => get_string('holistic', 'digitala'), 'content' => $holistic),
-                  'report-information' => array('name' => get_string('moreinformation', 'digitala'), 'content' => $information));
+                  'report-holistic' => array('name' => get_string('holistic', 'digitala'), 'content' => $holistic));
+    if (!empty($information)) {
+        $tabs['report-information'] = array('name' => get_string('moreinformation', 'digitala'), 'content' => $information);
+    }
 
     return create_tabs($tabs);
 }
