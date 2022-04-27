@@ -14,8 +14,8 @@ Feature: Timestamp of attempt's creation time is shown on report pages
       | olli | C1     | student |
       | ossi | C1     | teacher |
     And the following "activities" exist:
-      | activity | name     | intro               | course | idnumber | attemptlang | attempttype | assignment            | resources               | resourcesformat | attemptlimit | maxlength |
-      | digitala | Freeform | This is a freeform. | C1     | freeform | sv          | freeform    | Berätta om Tigerjakt. | Här är filmen om tiger. | 1               | 2            | 5         |
+      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit | information     | informationformat |
+      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            | testinformation | 1                 |
     And I add freeform attempt to database:
       | name     | username | attemptnumber | file  | transcript  | fluency | taskcompletion | pronunciation | lexicogrammatical | holistic | recordinglength | status    |
       | Freeform | olli     | 666           | file1 | transcript1 | 1       | 2              | 4             | 3                 | 0.45     | 69              | evaluated |
