@@ -104,7 +104,7 @@ class lib_test extends \advanced_testcase {
      * Test digitala file areas dummy function.
      */
     public function test_digitala_get_file_areas() {
-        $this->assertEquals(array(), digitala_get_file_areas(null, null, null));
+        $this->assertEquals(array('recordings', 'files'), digitala_get_file_areas(null, null, null));
     }
 
     /**

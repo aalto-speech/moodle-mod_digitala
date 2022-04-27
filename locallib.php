@@ -615,13 +615,19 @@ function create_microphone_icon() {
 }
 
 /**
- * Create file item id from attemptid and attemptnumber.
+ * Create file item id from attemptid and attemptnumber. Supports up to 999 attempts.
  *
  * @param int $attemptid - id of the attempt
  * @param int $attemptnumber - attempt number of this attempt
  */
 function get_file_item_id($attemptid, $attemptnumber) {
-    $number = $attemptnumber < 10 ? '00'.$attemptnumber : '0'.$attemptnumber;
+    if ($attemptnumber < 100 && $attemptnumber > 9) {
+        $number = "0".$attemptnumber;
+    } else if ($attemptnumber < 10) {
+        $number = "00".$attemptnumber;
+    } else {
+        $number = $attemptnumber;
+    }
     return intval($attemptid.$number);
 }
 
@@ -653,8 +659,10 @@ function get_recording_fileinfo($attemptid, $attemptnumber, $contextid, $filenam
 function delete_recording($fileinfo) {
     $fs = get_file_storage();
     $file = $fs->get_file($fileinfo->contextid, $fileinfo->component, $fileinfo->filearea,
-                            $fileinfo->itemid, $fileinfo->filepath, $fileinfo->filename);
-    $file->delete();
+                          $fileinfo->itemid, $fileinfo->filepath, $fileinfo->filename);
+    if ($file) {
+        $file->delete();
+    }
 }
 
 /**
