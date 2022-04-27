@@ -68,8 +68,8 @@ class digitala_info implements renderable {
 class digitala_assignment implements renderable {
     /**
      * Constructor
-     * @param int $instanceid - Instance id of the activty
-     * @param int $contextid - Context id of the activty
+     * @param int $instanceid - Instance id of the activity
+     * @param int $contextid - Context id of the activity
      * @param int $userid - Id of the current active user
      * @param int $id - Id of the activity
      * @param string $assignmenttext - Assignment text for the assignment
@@ -111,8 +111,8 @@ class digitala_assignment implements renderable {
 class digitala_report implements renderable {
     /**
      * Constructor
-     * @param int $instanceid - Instance id of the activty
-     * @param int $contextid - Context id of the activty
+     * @param int $instanceid - Instance id of the activity
+     * @param int $contextid - Context id of the activity
      * @param int $id - Id of the activity
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
@@ -141,7 +141,7 @@ class digitala_report implements renderable {
 class digitala_short_assignment implements renderable {
     /**
      * Constructor
-     * @param int $contextid - Context id of the activty
+     * @param int $contextid - Context id of the activity
      * @param string $assignmenttext - Assignment text for the assignment
      * @param string $resourcetext - Resource text for the assignment
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
@@ -166,7 +166,7 @@ class digitala_short_assignment implements renderable {
 class digitala_report_editor implements renderable {
     /**
      * Constructor
-     * @param int $instanceid - Instance id of the activty
+     * @param int $instanceid - Instance id of the activity
      * @param int $id - Id of the activity
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param int $student - User id of student
@@ -190,7 +190,7 @@ class digitala_report_editor implements renderable {
 class digitala_results implements renderable {
     /**
      * Constructor
-     * @param int $instanceid - Instance id of the activty
+     * @param int $instanceid - Instance id of the activity
      * @param int $id - Id of the activity
      */
     public function __construct($instanceid, $id) {
@@ -210,39 +210,15 @@ class digitala_results implements renderable {
 class digitala_delete implements renderable {
     /**
      * Constructor
-     * @param int $instanceid - Instance id of the activty
+     * @param int $instanceid - Instance id of the activity
+     * @param int $contextid - Context id of the activity
      * @param int $id - Id of the activity
      * @param int $studentid - id of student
      */
-    public function __construct($instanceid, $id, $studentid) {
-        $this->instanceid = $instanceid;
-        $this->id = $id;
-        $this->studentid = $studentid;
-    }
-}
-
-/**
- * Implements a export view.
- *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- */
-class digitala_export implements renderable {
-    /**
-     * Constructor
-     * @param int $instanceid - Instance id of the activty
-     * @param int $contextid - Context id of the activty
-     * @param int $id - Id of the activity
-     * @param int $d - Id of the course
-     * @param string $mode - Mode of export, attempts or feedback
-     */
-    public function __construct($instanceid, $contextid, $id, $d, $mode) {
+    public function __construct($instanceid, $contextid, $id, $studentid) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
-        $this->d = $d;
-        $this->mode = $mode;
+        $this->studentid = $studentid;
     }
 }

@@ -194,6 +194,7 @@ $string['results_retry-info'] = 'Automated evaluation failed. Evaluation will be
 
 $string['export_attempts'] = 'Export all attempts as CSV';
 $string['export_attempts_feedback'] = 'Export all feedbacks for attempts as CSV';
+$string['export_recordings'] = 'Export all recordings';
 $string['export_success'] = 'Creation of CSV-file was successful.';
 $string['teachergrade'] = "Teacher's grade suggestion: ";
 $string['teacherreason'] = "Comments about grade suggestion: ";

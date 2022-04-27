@@ -326,9 +326,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_delete(digitala_delete $delete) {
         global $CFG;
         if ($delete->studentid) {
-            delete_attempt($delete->instanceid, $delete->studentid);
+            delete_attempt($delete->instanceid, $delete->studentid, $delete->contextid);
         } else {
-            delete_all_attempts($delete->instanceid);
+            delete_all_attempts($delete->instanceid, $delete->contextid);
         }
 
         redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$delete->id.'&mode=overview');
