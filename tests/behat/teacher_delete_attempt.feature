@@ -11,9 +11,9 @@ Feature: Teacher can delete attempts from overview page
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user | course | role    |
-      | ossi | C1     | manager |
-      | olli | C1     | student |
+      | user | course | role           |
+      | ossi | C1     | editingteacher |
+      | olli | C1     | student        |
     And the following "activities" exist:
       | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit | information     | informationformat |
       | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            | testinformation | 1                 |
