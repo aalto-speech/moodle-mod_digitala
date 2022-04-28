@@ -317,8 +317,6 @@ function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedow
     } else {
         send_stored_file($file, 86400, 0, $forcedownload, $options);
     }
-
-
 }
 
 /**

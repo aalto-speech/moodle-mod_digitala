@@ -77,7 +77,7 @@ class check_failed_evaluation extends \core\task\scheduled_task {
                 $fileinfo->contextid = $modulecontext->id;
                 $fileinfo->component = 'mod_digitala';
                 $fileinfo->filearea = 'recordings';
-                $fileinfo->itemid = get_file_item_id($attempt->id, $attempt->attemptnumber+1);
+                $fileinfo->itemid = get_file_item_id($attempt->id, $attempt->attemptnumber + 2);
                 $fileinfo->filepath = '/';
                 $fileinfo->filename = $attempt->file;
 

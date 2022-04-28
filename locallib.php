@@ -681,7 +681,6 @@ function save_answerrecording($formdata, $assignment) {
     file_save_draft_area_files($audiofile->id, $fileinfo->contextid, $fileinfo->component,
                                 $fileinfo->filearea, $fileinfo->itemid);
 
-
     send_answerrecording_for_evaluation($fileinfo, $assignment, $recordinglength);
 
     if (!empty($_SERVER['REQUEST_URI'])) {

@@ -79,7 +79,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return $out - HTML string to output.
      */
     protected function render_digitala_assignment(digitala_assignment $assignment) {
-        global $PAGE, $USER;
+        global $USER;
 
         $out = start_container('digitala-assignment');
 
@@ -98,7 +98,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_nav_buttons('assignmentnext');
         } else {
             $attemptnumber = isset($attempt->attemptnumber) ? $attempt->attemptnumber : 1;
-            $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
+            $this->page->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
                                      array(1, $assignment->id, $USER->id, $USER->username,
                                            $assignment->maxlength, file_get_unused_draft_itemid(),
                                            $attemptnumber));

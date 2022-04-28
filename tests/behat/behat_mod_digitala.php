@@ -175,7 +175,8 @@ class behat_mod_digitala extends behat_base {
             $user = $DB->get_record('user', ['username' => $row['username']], '*', MUST_EXIST);
             $cm = get_coursemodule_from_instance('digitala', $activity->id, $activity->course, false, MUST_EXIST);
             $modulecontext = context_module::instance($cm->id);
-            $attempt = $DB->get_record('digitala_attempts', array('digitala' => $activity->id, 'userid' => $user->id), '*', MUST_EXIST);
+            $attempt = $DB->get_record('digitala_attempts',
+                                       array('digitala' => $activity->id, 'userid' => $user->id), '*', MUST_EXIST);
 
             $attemptid = $attempt->id;
             $attemptnumber = $attempt->attemptnumber;
@@ -220,7 +221,8 @@ class behat_mod_digitala extends behat_base {
 
             $activity = $DB->get_record('digitala', array('name' => $row['name']), '*', MUST_EXIST);
             $user = $DB->get_record('user', ['username' => $row['username']], '*', MUST_EXIST);
-            $attempt = $DB->get_record('digitala_attempts', array('digitala' => $activity->id, 'userid' => $user->id), '*', MUST_EXIST);
+            $attempt = $DB->get_record('digitala_attempts',
+                                       array('digitala' => $activity->id, 'userid' => $user->id), '*', MUST_EXIST);
 
             $time = time();
 
@@ -257,7 +259,8 @@ class behat_mod_digitala extends behat_base {
 
             $activity = $DB->get_record('digitala', array('name' => $row['name']), '*', MUST_EXIST);
             $user = $DB->get_record('user', ['username' => $row['username']], '*', MUST_EXIST);
-            $attempt = $DB->get_record('digitala_attempts', array('digitala' => $activity->id, 'userid' => $user->id), '*', MUST_EXIST);
+            $attempt = $DB->get_record('digitala_attempts',
+                                       array('digitala' => $activity->id, 'userid' => $user->id), '*', MUST_EXIST);
 
             $time = time();
 
