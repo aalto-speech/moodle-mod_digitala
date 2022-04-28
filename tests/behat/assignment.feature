@@ -6,6 +6,7 @@ Feature: Student can see assignment text and resources
   Background:
     Given the following "users" exist:
       | username | firstname | lastname   | email                     |
+      | ossi     | Ossi      | Opettaja   | ossi.opettaja@koulu.fi    |
       | olli     | Olli      | Opiskelija | olli.opiskelija@koulu.fi  |
       | essi     | Essi      | Opiskelija | essi.opiskelija@koulu.fi  |
       | seppo    | Seppo     | Opiskelija | seppo.opiskelija@koulu.fi |
@@ -15,6 +16,7 @@ Feature: Student can see assignment text and resources
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
       | user  | course | role    |
+      | ossi  | C1     | manager |
       | olli  | C1     | student |
       | essi  | C1     | student |
       | seppo | C1     | student |
@@ -81,12 +83,23 @@ Feature: Student can see assignment text and resources
     And I click on "id_submitbutton" "button"
     Then I should see "Evaluation in progress"
     And I run all adhoc tasks
-    And I add freeform feedback to database:
-      | name     | username | old_fluency | fluency | fluency_reason | old_pronunciation | pronunciation | pronunciation_reason | old_taskcompletion | taskcompletion | taskcompletion_reason | old_lexicogrammatical | lexicogrammatical | lexicogrammatical_reason | old_holistic | holistic | holistic_reason |
-      | Freeform | olli     | 1           | 2       | fluency_reason | 1                 | 2             | pronunciation_reason | 1                  | 2              | taskcompletion_reason | 1                     | 2                 | lexicogrammatical_reason | 1            | 2        | holistic_reason  |
     Then I click on "Press here to check if evaluation is completed." "link"
     Then I should see "Fluency"
-    And I should see "Teacher's grade suggestion:"
+    Then I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
+    Then I set the following fields to these values:
+      | Fluency                     | 2.00                              |
+      | Feedback on Fluency         | Evaluation was too high.          |
+      | Task completion             | 3.00                              |
+      | Feedback on Task completion | Evaluation was too low.           |
+      | Range                       | 2.34                              |
+      | Feedback on Range           | Evaluation was out of boundaries. |
+      | Pronunciation               | 2.37                              |
+      | Feedback on Pronunciation   | Sounds like pro finn.             |
+      | Proficiency                 | 6.50                              |
+      | Feedback on Proficiency     | This meets all values for this.   |
+    And I press "Save changes"
+    Then I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
+    Then I should see "Teacher's grade suggestion:"
     Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
     And I click on "record" "button"
     And I wait "6" seconds

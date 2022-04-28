@@ -913,7 +913,7 @@ function get_all_attempts($instanceid) {
 /**
  * Delete teachers feedback related to specific student's submission from the database.
  *
- * @param int $attempteid - id of the attempt to delete feedback from
+ * @param int $attemptid - id of the attempt to delete feedback from
  */
 function delete_attempt_feedbacks($attemptid) {
     global $DB;
