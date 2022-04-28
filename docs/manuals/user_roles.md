@@ -83,7 +83,9 @@ On the overview of the student results the teacher can see a detailed version of
 
 ![Detailed report](./../UI_views/teacher_detail_report.png)
 
-On the botton left of this view the teacher can also give feedback to the address set by the admin and also suggest changes to the automatic assessment.
+On the bottom right of this view the teacher can also give feedback to the address set by the admin and on the bottom left also suggest changes to the automatic assessment.
+
+![Suggest changes to grades or give feedback](./../UI_views/teacher_give_suggestions_or_feedback.png)
 
 ![Suggest changes to grades](./../UI_views/teacher_edit_report2.png)
 
