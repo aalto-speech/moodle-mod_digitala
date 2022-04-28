@@ -224,8 +224,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
                 new html_table_cell(get_string('results_time', 'digitala')),
                 new html_table_cell(get_string('results_tries', 'digitala')),
                 new html_table_cell(get_string('results_status', 'digitala')),
-                new html_table_cell(get_string('results_report', 'digitala')),
                 new html_table_cell(get_string('results_timestamp', 'digitala')),
+                new html_table_cell(get_string('results_report', 'digitala')),
                 new html_table_cell(add_delete_all_attempts_button()));
             foreach ($headers as $value) {
                 $value->header = true;
