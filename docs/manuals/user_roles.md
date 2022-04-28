@@ -49,7 +49,6 @@ A teacher with editing permissions can add a Digitala activity on a course page 
 
   ![Add Digitala](./../UI_views/teacher_add_digitala.png)
 </details>
-<br/>
 
 On the adding page the teacher has the option to give the activity a **name** which will be shown on the course page. Other options include:
 
@@ -66,7 +65,6 @@ On the adding page the teacher has the option to give the activity a **name** wh
 
   ![Add Digitala settings](./../UI_views/teacher_add_digitala_settings.png)
 </details>
-<br/>
 
 ### Editing and deleting a Digitala
 
@@ -77,7 +75,7 @@ The Digitala setup can be edited from the activity wheel inside the Digitala ins
 
   ![Edit in digitala](./../UI_views/teacher_edit_delete_digitala2.png)
 </details>
-<br/>
+
 
 Also the editing mode on the course front page allows both editing and deleting the Digitala instance.
 
@@ -86,7 +84,7 @@ Also the editing mode on the course front page allows both editing and deleting 
 
   ![Edit or delete Digitala frontpage](./../UI_views/teacher_edit_delete_digitala.png)
 </details>
-<br/>
+
 
 ### See student results
 
@@ -97,7 +95,7 @@ A teacher can access the overview of the student results by choosing "View stude
 
   ![Navigate to overview](./../UI_views/teacher_overview_navigate.png)
 </details>
-<br/>
+
 
 
 
@@ -108,7 +106,6 @@ Here the teacher can see the main grade of the students' speech performance, the
 
   ![Overview of student results](./../UI_views/teacher_overview.png)
 </details>
-<br/>
 
 ### Give suggestions to correct automated assessment
 
@@ -119,8 +116,6 @@ On the overview of the student results the teacher can see a detailed version of
 
   ![Detailed report](./../UI_views/teacher_detail_report.png)
 </details>
-<br/>
-
 
 On the bottom right of this view the teacher can also give feedback to the address set by the admin and on the bottom left also suggest changes to the automatic assessment.
 
@@ -129,14 +124,12 @@ On the bottom right of this view the teacher can also give feedback to the addre
 
   ![Suggest changes to grades or give feedback](./../UI_views/teacher_give_suggestions_or_feedback.png)
 </details>
-<br/>
 
 <details>
   <summary>Figure: Suggesting changes to automatic grades</summary>
 
   ![Suggest changes to grades](./../UI_views/teacher_edit_report2.png)
 </details>
-<br/>
 
 The most recent teacher suggestions will be shown on the student report page both for the teacher and the student.
 
@@ -145,7 +138,6 @@ The most recent teacher suggestions will be shown on the student report page bot
 
   ![See grade suggestions on report](./../UI_views/teacher_edit_report3.png)
 </details>
-<br/>
 
 ### Download database reports
 
@@ -156,7 +148,6 @@ On the overview of the student results the teacher can download the database inf
 
   ![Download more info in CSV-form](./../UI_views/teacher_csv.png)
 </details>
-<br/>
 
 The database information includes more detailed information received from the evaluation API such as fluency features or pronunciation features which constitute the score for fluency and pronunciation.
 
@@ -174,11 +165,33 @@ A student can
 
 On the first view the student can test if their microphone works. The browser may ask to give permissions to use the microphone. The student can record a speech snippet and try to playback the sound. If everything sounds right and the microphone icon shows a green circle behind it, the settings are fine for the assignment. If there's something to correct with the microphone permissions, the play button will prompt to check settings.
 
-Testing of the mic is optional. The student can move to the next phase from navigation bar on the top or button on the bottom.
+<details>
+  <summary>Figure: Microphone testing view</summary>
+
+  ![Microphone testing view](./../UI_views/student_test_microphone.png)
+</details>
+
+Testing the mic is optional. The student can move to the next phase from navigation bar on the top or button on the bottom.
 
 ### The assignment and materials
 
-On the assignment page the student can see the assignment prompt on the left and additional materials on the right. If the assignment is a Readaloud type, then the text to be read is on the material box. Bottom left there's a box for the recording. This box also shows if there's a time limit for the recording or submission limit to the assignment.
+On the assignment page the student can see the assignment prompt on the left and additional materials on the right.
+
+<details>
+  <summary>Figure: Freeform assignment view</summary>
+
+  ![Freeform assignment view](./../UI_views/student_assignment_view.png)
+</details>
+
+If the assignment is a Readaloud type, then the text to be read is on the material box.
+
+<details>
+  <summary>Figure: Readaloud assignment view</summary>
+
+  ![Readaloud assignment view](./../UI_views/student_assignment_view2.png)
+</details>
+
+Bottom left there's a box for the recording. This box also shows if there's a time limit for the recording or submission limit to the assignment.
 
 ### Recording and submitting speech
 
