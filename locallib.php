@@ -156,7 +156,7 @@ function calculate_progress_bar_spacers($page) {
 }
 
 /**
- * Used to create spacer between steps in the progress bar. 
+ * Used to create spacer between steps in the progress bar.
  * Knows values 'right-empty' and 'left-empty'. Other strings gives no extra filling.
  *
  * @param string $mode defines if extra filling needed in the spacer.

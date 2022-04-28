@@ -1,6 +1,6 @@
 // Standard license block omitted.
 /*
- * @package     mod_digitala
+ * @package     mod_digitala/mic
  * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
  * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
