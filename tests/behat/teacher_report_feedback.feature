@@ -5,6 +5,7 @@ Feature: Teacher can give feedback on ASR evaluation
   Background:
     Given the following "users" exist:
       | username | firstname | lastname   | email                     |
+      | mauno    | Mauno     | Manager    | mauno.manager@koulu.fi    |
       | ossi     | Ossi      | Opettaja   | ossi.opettaja@koulu.fi    |
       | olli     | Olli      | Opiskelija | olli.opiskelija@koulu.fi  |
       | essi     | Essi      | Opiskelija | essi.opiskelija@koulu.fi  |
@@ -15,6 +16,7 @@ Feature: Teacher can give feedback on ASR evaluation
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
       | user  | course | role           |
+      | mauno | C1     | manager        |
       | ossi  | C1     | editingteacher |
       | olli  | C1     | student        |
       | essi  | C1     | student        |
@@ -47,8 +49,8 @@ Feature: Teacher can give feedback on ASR evaluation
     And I click on "Suggest changes to grading" "link"
     And I should see "Feedback on Fluency"
 
-  Scenario: Feedback can be given on Freeform and student can see it on their report
-    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
+  Scenario Outline: Feedback can be given on Freeform and student can see it on their report
+    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "<user>"
     Then I set the following fields to these values:
       | Fluency                     | 2.00                              |
       | Feedback on Fluency         | Evaluation was too high.          |
@@ -70,6 +72,11 @@ Feature: Teacher can give feedback on ASR evaluation
     And I should see "Evaluation was too high."
     And I should see "Teacher's grade suggestion: 3.0"
     And I should see "Evaluation was too low."
+
+    Examples:
+      | user  |
+      | mauno |
+      | ossi  |
 
   Scenario: Feedback can be given on Readaloud and student can see it on their report
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
