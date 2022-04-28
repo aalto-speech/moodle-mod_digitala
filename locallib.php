@@ -951,7 +951,7 @@ function delete_attempt($instanceid, $userid, $contextid) {
 function delete_all_attempts($instanceid, $contextid) {
     $attempts = get_all_attempts($instanceid);
     foreach ($attempts as $attempt) {
-        delete_attempt($instanceid, $attempt->user, $contextid);
+        delete_attempt($instanceid, $attempt->userid, $contextid);
     }
 
 }
