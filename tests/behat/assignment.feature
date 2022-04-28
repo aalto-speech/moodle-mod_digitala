@@ -73,6 +73,31 @@ Feature: Student can see assignment text and resources
     Then I should see "Your answer has already been submitted."
     And I should not see "Listen recording"
 
+  Scenario: Feedback is deleted when student creates a new attempt
+    When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    And I click on "id_submitbutton" "button"
+    Then I should see "Evaluation in progress"
+    And I run all adhoc tasks
+    And I add freeform feedback to database:
+      | name     | username | old_fluency | fluency | fluency_reason | old_pronunciation | pronunciation | pronunciation_reason | old_taskcompletion | taskcompletion | taskcompletion_reason | old_lexicogrammatical | lexicogrammatical | lexicogrammatical_reason | old_holistic | holistic | holistic_reason |
+      | Freeform | olli     | 1           | 2       | fluency_reason | 1                 | 2             | pronunciation_reason | 1                  | 2              | taskcompletion_reason | 1                     | 2                 | lexicogrammatical_reason | 1            | 2        | holistic_reason  |
+    Then I click on "Press here to check if evaluation is completed." "link"
+    Then I should see "Fluency"
+    And I should see "Teacher's grade suggestion:"
+    Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    And I click on "id_submitbutton" "button"
+    Then I should see "Evaluation in progress"
+    And I run all adhoc tasks
+    Then I click on "Press here to check if evaluation is completed." "link"
+    Then I should see "Fluency"
+    And I should not see "Teacher's grade suggestion:"
+
   Scenario: Attempt in status retry gets re-evaluated
     When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
     And I click on "record" "button"
