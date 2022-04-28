@@ -117,16 +117,18 @@ class digitala_report implements renderable {
      * @param string $attempttype - Choice if the assignment is a readaloud or freeform type
      * @param string $attemptlang - Choice if the assignment is for fi (Finnish) or sv (Swedish) performance
      * @param int $attemptlimit - Number of attempts that a person can submit
+     * @param string $informationtext - More information text for the assignment
      * @param int $student - User id of student
      */
     public function __construct($instanceid, $contextid, $id, $attempttype = '', $attemptlang = '',
-                                $attemptlimit = 1, $student = null) {
+                                $attemptlimit = 1, $informationtext = '', $student = null) {
         $this->instanceid = $instanceid;
         $this->contextid = $contextid;
         $this->id = $id;
         $this->attempttype = $attempttype;
         $this->attemptlang = $attemptlang;
         $this->attemptlimit = $attemptlimit;
+        $this->informationtext = $informationtext;
         $this->student = $student;
     }
 }

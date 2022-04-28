@@ -52,6 +52,7 @@ class locallib_test extends \advanced_testcase {
             'assignment' => 'Assignment text',
             'resources' => array('text' => 'Resource text', 'format' => 1),
             'maxlength' => 120,
+            'information' => array('text' => 'Information text', 'format' => 1),
         ]);
     }
 
@@ -263,8 +264,13 @@ class locallib_test extends \advanced_testcase {
      * Test creating report view information helper object.
      */
     public function test_information_html_output() {
-        $result = create_report_information('text');
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">text</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        global $USER;
+
+        $context = \context_module::instance($this->digitala->cmid);
+        $report = new \digitala_report($this->digitala->id, $context->id, 5, $this->digitala->attempttype, $this->digitala->attemptlang, $this->digitala->attemptlimit, 'testinformation', $USER->id); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+
+        $result = create_report_information($report);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">testinformation</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**

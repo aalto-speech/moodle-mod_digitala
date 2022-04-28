@@ -19,7 +19,7 @@
  *
  * @package     mod_digitala
  * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
- * @copyright   2022 University of Helsinki
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -57,7 +57,7 @@ function delete_url($id, $studentid=null) {
  * @param int $id - id of the activity instance
  * @param mixed $mode - value to decide mode of export
  *
- * @return string - page url of the export attempt 
+ * @return string - page url of the export attempt
  */
 function export_url($id, $mode) {
     return new moodle_url('/mod/digitala/export.php', array('id' => $id, 'mode' => $mode));
@@ -156,7 +156,8 @@ function calculate_progress_bar_spacers($page) {
 }
 
 /**
- * Used to create spacer between steps in the progress bar. Knows values 'right-empty' and 'left-empty'. Other strings gives no extra filling.
+ * Used to create spacer between steps in the progress bar. 
+ * Knows values 'right-empty' and 'left-empty'. Other strings gives no extra filling.
  *
  * @param string $mode defines if extra filling needed in the spacer.
  *
@@ -204,7 +205,7 @@ function start_container($classname) {
 
 /**
  * Used to close step content container.
- * 
+ *
  *
  * @return string $out - closes container for step content
  */
@@ -284,7 +285,7 @@ function create_assignment($content) {
 /**
  * Used to create text inside resource card - helper function for box sizing
  *
- * @param mixed $assignment - assignment includes resource text
+ * @param digitala_assignment $assignment - assignment includes resource text
  *
  * @return mixed - resource inside assignment card
  */
@@ -331,7 +332,7 @@ function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, 
  * Creates holistic information container from report.
  *
  * @param int $grade - grading number given by the server
- * @param mixed $feedback - optional information given by the teacher
+ * @param digitala_feedback $feedback - optional information given by the teacher
  *
  * @return mixed - holistic information container
  */
@@ -384,7 +385,7 @@ function create_report_waiting() {
 
 /**
  * Creates report retry container.
- * 
+ *
  *
  * @return mixed - report retry container
  */
@@ -406,13 +407,15 @@ function create_report_retry() {
 /**
  * Creates more information container from report.
  *
- * @param string $text - information to show on report page given by the server
+ * @param digitala_report $report report object containing information
  *
  * @return mixed - more information container
  */
-function create_report_information($text) {
+function create_report_information($report) {
     $out = html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
 
+    $text = file_rewrite_pluginfile_urls($report->informationtext, 'pluginfile.php', $report->contextid,
+                                         'mod_digitala', 'info', 0);
     $out .= html_writer::div($text, 'card-text');
 
     return create_card_template($out);
@@ -421,7 +424,7 @@ function create_report_information($text) {
 /**
  * Creates transcription container from report.
  *
- * @param mixed $transcription - object containing the transcription part of report
+ * @param digitala_transcription $transcription - object containing the transcription part of report
  *
  * @return mixed - transcription container
  */
@@ -436,7 +439,7 @@ function create_report_transcription($transcription) {
 /**
  * Creates feedback container from report.
  *
- * @param mixed $feedback - object containing the feedback part of report
+ * @param digitala_feedback $feedback - object containing the feedback part of report
  *
  * @return mixed - feedback container
  */
@@ -604,7 +607,7 @@ function create_nav_buttons($buttonlocation, $remaining = 0) {
  *
  * @param int $maxlength - maximum length of recording in seconds
  *
- * @return string - microphone, start and listen button. 
+ * @return string - microphone, start and listen button.
  */
 function create_microphone($maxlength = 0) {
     $starticon = html_writer::start_tag('svg', array('width' => 16, 'height' => 16, 'fill' => 'currentColor',
@@ -690,7 +693,7 @@ function create_microphone_icon() {
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
  * @param array $formdata - form data includes file information
- * @param mixed $assignment - assignment includes needed identifications
+ * @param digitala_assignment $assignment - assignment includes needed identifications
  *
  * @return mixed - redirect link or error
  */
@@ -723,7 +726,7 @@ function save_answerrecording($formdata, $assignment) {
  * Send user audio file to Aalto ASR for evaluation.
  *
  * @param mixed $fileinfo - audio file to be sent for evaluation
- * @param string $assignment - assignment which we get information from
+ * @param digitala_assignment $assignment - assignment which we get information from
  * @param string $length - length of the recording
  */
 function send_answerrecording_for_evaluation($fileinfo, $assignment, $length) {
@@ -754,7 +757,7 @@ function validate_grading($grading, $max = 3) {
 /**
  * Save the attempt to the database.
  *
- * @param mixed $assignment - assignment includes needed identifications
+ * @param digitala_assignment $assignment - assignment includes needed identifications
  * @param string $filename - file name of the recording
  * @param mixed $recordinglength - length of recording in seconds
  */
@@ -789,7 +792,7 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
 /**
  * Set attempt status in database.
  *
- * @param mixed $attempt - object containing attempt information
+ * @param digitala_attempt $attempt - object containing attempt information
  * @param string $status - status of the attempt
  */
 function set_attempt_status($attempt, $status) {
@@ -804,7 +807,7 @@ function set_attempt_status($attempt, $status) {
 /**
  * Save attempt as failed in database.
  *
- * @param mixed $attempt - object containing attempt information
+ * @param digitala_attempt $attempt - object containing attempt information
  * @param mixed $assignment - assignment includes needed identifications
  */
 function save_failed_attempt($attempt, $assignment) {
@@ -830,8 +833,8 @@ function save_failed_attempt($attempt, $assignment) {
 /**
  * Save the attempt to the database.
  *
- * @param mixed $assignment - assignment includes needed identifications
- * @param mixed $evaluation - mixed object containing evaluation info
+ * @param digitala_assignment $assignment - assignment includes needed identifications
+ * @param digitala_evaluation $evaluation - mixed object containing evaluation info
  */
 function save_attempt($assignment, $evaluation) {
     global $DB;
@@ -903,7 +906,7 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
  * @param int $instanceid - instance id of this digitala activity
  * @param int $userid - user id of this user or student
  *
- * @return mixed $attempt - object containing attempt information
+ * @return digitala_attempt $attempt - object containing attempt information
  */
 function get_attempt($instanceid, $userid) {
     global $DB;
@@ -922,7 +925,7 @@ function get_attempt($instanceid, $userid) {
  *
  * @param int $instanceid - instance id of this digitala activity
  *
- * @return mixed - object containing all attempt information
+ * @return digitala_attempt - object containing all attempt information
  */
 function get_all_attempts($instanceid) {
     global $DB;
@@ -986,7 +989,7 @@ function add_delete_all_redirect_button($id) {
 /**
  * Add button to open deletion modal for deleting single attempt.
  *
- * @param mixed $user - object containing user information
+ * @param digitala_user $user - object containing user information
  *
  * @return string $button - button to open deletion modal
  */
@@ -1000,7 +1003,7 @@ function add_delete_attempt_button($user) {
  * Add delete button to redirect and delete given attempt from the database.
  *
  * @param int $id - id of digitala instance
- * @param mixed $user - object containing user information
+ * @param digitala_user $user - object containing user information
  *
  * @return string $button - button containing delete url for redirect
  */
@@ -1013,7 +1016,7 @@ function add_delete_redirect_button($id, $user) {
 /**
  * Load current users latest feedback from the database.
  *
- * @param int $attempt - object containing attempt information
+ * @param digitala_attempt $attempt - object containing attempt information
  *
  * @return mixed $feedback - object containing latest feedback information
  */
@@ -1047,9 +1050,9 @@ function get_user($id) {
 /**
  * Load all attempts from the database.
  *
- * @param mixed $attempt - object containing attempt information
+ * @param digitala_attempt $attempt - object containing attempt information
  * @param int $id - activity id
- * @param mixed $user - object containing user information
+ * @param digitala_user $user - object containing user information
  *
  * @return array $cells - cells containing table data
  */
@@ -1079,7 +1082,7 @@ function create_result_row($attempt, $id, $user) {
 /**
  * Handles answerrecording forms creation.
  *
- * @param mixed $assignment - assignment includes needed identifications
+ * @param digitala_assignment $assignment - assignment includes needed identifications
  *
  * @return mixed - render form.
  */
@@ -1090,7 +1093,7 @@ function create_answerrecording_form($assignment) {
 /**
  * Handles saving answerrecording form.
  *
- * @param mixed $assignment - assignment includes needed identifications
+ * @param digitala_assignment $assignment - assignment includes needed identifications
  *
  * @return string - saves answerrecording form
  */
@@ -1271,7 +1274,7 @@ function create_modal($id, $title, $body, $buttons) {
 /**
  * Creates attempt modal.
  *
- * @param mixed $assignment - assignment that this object is created for
+ * @param digitala_assignment $assignment - assignment that this object is created for
  *
  * @return string - attempt modal
  */
@@ -1301,7 +1304,7 @@ function create_attempt_modal($assignment) {
  * @param int $id - id of the activity
  * @param mixed $user - the user whose attempt ought to be deleted or null if deleting all attempts
  *
- * @return string - delete modal 
+ * @return string - delete modal
  */
 function create_delete_modal($id, $user = null) {
     if (isset($user)) {
