@@ -1,8 +1,9 @@
 // Standard license block omitted.
 /*
- * @module     mod_digitala/mic
- * @copyright  2022 Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /* eslint-disable no-nested-ternary */

@@ -15,16 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains a renderer for the digitala class
+ * Upgrades for the digitala module database.
  *
- * @package   mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
  * Digitala module upgrade function.
  * @param string $oldversion the version we are upgrading from.
+ *
+ * @return bool - true
  */
 function xmldb_digitala_upgrade($oldversion) {
     global $DB;
