@@ -50,7 +50,9 @@ $string['assignment'] = 'Tehtävä';
 $string['assignment_help'] = 'Tehtävänanto, jonka mukaan tulee tehdä puhesuoritus.';
 $string['assignmentresource'] = 'Aineisto';
 $string['assignmentresource_help'] = 'Tehtävän aineisto voidaan liittää tähän. Lue ääneen -tehtävän luettava teksti tulee tähän. Vapaa tuotto -tehtävässä tähän voidaan lisätä tekstiä, kuvia, kaavioita ja videoita, joita suorituksessa tulee hyödyntää.';
+$string['maxlength'] = 'Maksimipituus';
 $string['maxlength_error'] = 'Nauhoite saa olla maksimissaan 5 minuuttia pitkä';
+$string['maxlength_help'] = 'Nauhoitteen täytyy olla alle 5 minuuttia tai 300 sekuntia pituudessa.';
 
 $string['navnext'] = 'Seuraava >';
 $string['navprevious'] = '< Edellinen';
