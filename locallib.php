@@ -914,7 +914,6 @@ function get_all_attempts($instanceid) {
  * Delete teachers feedback related to specific student's submission from the database.
  *
  * @param int $instanceid - instance id of this digitala activity
- * @param int $userid - id of the student
  */
 function delete_attempt_feedbacks($attemptid) {
     global $DB;
@@ -1410,6 +1409,7 @@ function generate_report_feedback_csv($id, $mode) {
  * Create export buttons
  *
  * @param int $id - id of the activity
+ * @param int $contextid - context id of the activity
  */
 function export_all_recordings($id, $contextid) {
     $fs = get_file_storage();
