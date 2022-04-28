@@ -49,14 +49,6 @@ class lib_test extends \advanced_testcase {
     }
 
     /**
-     * Test adding digitala plugin.
-     */
-    public function test_add_digitala() {
-        $digitala = $this->create_digitala();
-        $this->assertEquals('new_digitala', $digitala->name);
-    }
-
-    /**
      * Create new digitala activity.
      */
     private function create_digitala() {
@@ -69,6 +61,52 @@ class lib_test extends \advanced_testcase {
                 'resources' => array('text' => 'Resource text', 'format' => 1),
                 'information' => array('text' => 'Information text', 'format' => 1),
             ]);
+    }
+
+    /**
+     * Test creating a digitala instance.
+     */
+    public function test_digitala_add_instance() {
+        $digitala = $this->create_digitala();
+        $this->assertEquals('new_digitala', $digitala->name);
+
+        $digitala = $this->getDataGenerator()->create_module('digitala', [
+                'course' => $this->course->id,
+                'name' => 'new_digitala',
+                'attemptlang' => 'fi',
+                'attempttype' => 'freeform',
+                'assignment' => 'Assignment text',
+                'resources' => array('text' => 'Resource text', 'format' => 1),
+                'information' => array('text' => 'Information text', 'format' => 1),
+                'resources_editor' => array('text' => 'New resource text', 'format' => 1),
+            ]);
+        $this->assertEquals($digitala->resources, 'New resource text');
+        $this->assertEquals($digitala->information, 'Information text');
+        $digitala = $this->getDataGenerator()->create_module('digitala', [
+                'course' => $this->course->id,
+                'name' => 'new_digitala',
+                'attemptlang' => 'fi',
+                'attempttype' => 'freeform',
+                'assignment' => 'Assignment text',
+                'resources' => array('text' => 'Resource text', 'format' => 1),
+                'information' => array('text' => 'Information text', 'format' => 1),
+                'information_editor' => array('text' => 'New information text', 'format' => 1),
+            ]);
+        $this->assertEquals($digitala->resources, 'Resource text');
+        $this->assertEquals($digitala->information, 'New information text');
+        $digitala = $this->getDataGenerator()->create_module('digitala', [
+                'course' => $this->course->id,
+                'name' => 'new_digitala',
+                'attemptlang' => 'fi',
+                'attempttype' => 'freeform',
+                'assignment' => 'Assignment text',
+                'resources' => array('text' => 'Resource text', 'format' => 1),
+                'information' => array('text' => 'Information text', 'format' => 1),
+                'resources_editor' => array('text' => 'New resource text', 'format' => 1),
+                'information_editor' => array('text' => 'New information text', 'format' => 1),
+            ]);
+        $this->assertEquals($digitala->resources, 'New resource text');
+        $this->assertEquals($digitala->information, 'New information text');
     }
 
     /**
@@ -100,6 +138,39 @@ class lib_test extends \advanced_testcase {
 
         // Check that the digitala instance update returned true.
         $this->assertEquals(true, $passed);
+        $this->assertEquals('Resource text', $digitala->resources);
+        $this->assertEquals('Information text', $digitala->information);
+
+        $digitala = $this->create_digitala();
+        $digitala->instance = 2;
+        $digitala->coursemodule = $digitala->cmid;
+        $digitala->resources_editor = array('text' => 'New resource text', 'format' => 1);
+
+        digitala_update_instance($digitala);
+
+        $this->assertEquals('New resource text', $digitala->resources);
+        $this->assertEquals('Information text', $digitala->information);
+
+        $digitala = $this->create_digitala();
+        $digitala->instance = 2;
+        $digitala->coursemodule = $digitala->cmid;
+        $digitala->information_editor = array('text' => 'New information text', 'format' => 1);
+
+        digitala_update_instance($digitala);
+
+        $this->assertEquals('Resource text', $digitala->resources);
+        $this->assertEquals('New information text', $digitala->information);
+
+        $digitala = $this->create_digitala();
+        $digitala->instance = 2;
+        $digitala->coursemodule = $digitala->cmid;
+        $digitala->resources_editor = array('text' => 'New resource text', 'format' => 1);
+        $digitala->information_editor = array('text' => 'New information text', 'format' => 1);
+
+        digitala_update_instance($digitala);
+
+        $this->assertEquals('New resource text', $digitala->resources);
+        $this->assertEquals('New information text', $digitala->information);
     }
 
     /**
