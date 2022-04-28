@@ -4,14 +4,12 @@ Feature: Create new digitala
   Background:
     Given the following "users" exist:
       | username | firstname | lastname | email                  |
-      | mauno    | Mauno     | Manager  | mauno.manager@koulu.fi |
       | ossi     | Ossi      | Opettaja | ossi.opettaja@koulu.fi |
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
       | user  | course | role           |
-      | mauno | C1     | manager        |
       | ossi  | C1     | editingteacher |
     And I log in as "ossi"
     And I visit "/user/files.php"
@@ -21,7 +19,7 @@ Feature: Create new digitala
     And I click on "Save changes" "button"
 
   Scenario Outline: On course page add new task
-    When I am on the "C1" "Course" page logged in as "<user>"
+    When I am on the "C1" "Course" page
     And I turn editing mode on
     Then I add a "digitala" to section "2" and I fill the form with:
       | Name             | <name>            |
@@ -38,12 +36,12 @@ Feature: Create new digitala
     And I should see "<resourcestext>"
 
     Examples:
-      | name          | attemptlang | attempttype | assignmenttext                   | resourcestext                                                          | informationtext  | user  |
-      | SWE Readaloud | Swedish     | Read aloud  | Läs följande avsnitt högt.       | Hejsan, jag heter Jonne-Peter.                                         | some information | ossi  |
-      | FIN Readaloud | Finnish     | Read aloud  | Lue seuraava lause ääneen.       | Tämä on liikennevalojen perusteet -kurssi.                             | some information | ossi  |
-      | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                | some information | ossi  |
-      | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. | some information | ossi  |
-      | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. | some information | mauno |
+      | name          | attemptlang | attempttype | assignmenttext                   | resourcestext                                                          | informationtext  |
+      | SWE Readaloud | Swedish     | Read aloud  | Läs följande avsnitt högt.       | Hejsan, jag heter Jonne-Peter.                                         | some information |
+      | FIN Readaloud | Finnish     | Read aloud  | Lue seuraava lause ääneen.       | Tämä on liikennevalojen perusteet -kurssi.                             | some information |
+      | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                | some information |
+      | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. | some information |
+      | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. | some information |
 
   Scenario: On course page add freeform task in Swedish and add local image to resources
     When I am on the "C1" "Course" page
