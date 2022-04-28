@@ -991,7 +991,7 @@ function create_result_row($attempt, $id, $user) {
 
     $timestamp = timestampformatter($attempt->timecreated);
 
-    $cells = array($username, $score, $time, $tries, $status, $urllink, $timestamp, $deletebutton);
+    $cells = array($username, $score, $time, $tries, $status, $timestamp, $urllink, $deletebutton);
     return $cells;
 }
 
@@ -1089,11 +1089,10 @@ function convertsecondstostring($secs) {
  * Gets number of attempts remaining for the user.
  *
  * @param int $time timestamp in Unix epoch time
- * @return string $timestamp timestamp in Europe/Helsinki timezone format dd.mm.yyyy hh.mm:ss
+ * @return string $timestamp timestamp in format dd.mm.yyyy hh.mm:ss
  */
 function timestampformatter($time) {
-    date_default_timezone_set('Europe/Helsinki');
-    $timestamp = date("H.i:s d.m.Y", $time);
+    $timestamp = date("d.m.Y H.i:s", $time);
     return $timestamp;
 }
 

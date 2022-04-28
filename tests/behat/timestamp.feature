@@ -27,7 +27,7 @@ Feature: Timestamp of attempt's creation time is shown on report pages
       | name     | username | time          |
       | Freeform | olli     | 1651038371    |
     Then I press the "reload" button in the browser
-    Then I should see "08.46:11 27.04.2022"
+    Then I should see "27.04.2022 13.46:11"
 
   Scenario: Timestamp is shown on detail report
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
@@ -35,7 +35,7 @@ Feature: Timestamp of attempt's creation time is shown on report pages
       | name     | username | time          |
       | Freeform | olli     | 1651038371    |
     Then I press the "reload" button in the browser
-    Then I should see "08.46:11 27.04.2022"
+    Then I should see "27.04.2022 13.46:11"
 
   Scenario: Timestamp is shown on student report
     When I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
@@ -43,4 +43,4 @@ Feature: Timestamp of attempt's creation time is shown on report pages
       | name     | username | time          |
       | Freeform | olli     | 1651038371    |
     Then I press the "reload" button in the browser
-    Then I should see "08.46:11 27.04.2022"
+    Then I should see "27.04.2022 13.46:11"

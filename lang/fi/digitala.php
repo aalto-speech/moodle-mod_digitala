@@ -78,6 +78,7 @@ $string['alreadysubmitted'] = 'Olet jo palauttanut vastauksen. Siirry seuraavall
 $string['report'] = 'Arviointi';
 $string['report-title'] = 'Arviointiraportti';
 $string['report-title-feedback'] = 'Arviointiraportti - sisältää opettajan arvosanaehdotuksia';
+$string['report-timestamp'] = 'Lähetetty: ';
 $string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
 $string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi puhenäytettä, eikä se kuvaa kaikkea suullista kielitaitoasi. Automaattinen arvio on koneen tekemä. Konetta on opetettu muiden kielen oppijoiden puheella ja muulla kieliaineistolla.';
 $string['transcription'] = 'Puhenäytteesi tekstinä';

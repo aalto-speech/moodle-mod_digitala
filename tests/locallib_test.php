@@ -883,7 +883,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('00:05', $result[2]);
         $this->assertEquals(1, $result[3]);
         $this->assertEquals('Evaluated', $result[4]);
-        $this->assertStringContainsString('>See report</a>', $result[5]);
+        $this->assertStringContainsString('>See report</a>', $result[6]);
     }
 
     /**
@@ -929,7 +929,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_timestampformatter() {
         $result = timestampformatter(1651038371);
-        $this->assertEquals('08.46:11 27.04.2022', $result);
+        $this->assertEquals('27.04.2022 13.46:11', $result);
     }
 
     /**

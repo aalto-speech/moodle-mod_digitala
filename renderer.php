@@ -144,7 +144,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
             } else {
                 $reporttitle = 'report-title';
             }
-            $out .= create_card($reporttitle, html_writer::tag('p', timestampformatter($attempt->timemodified)).
+            $out .= create_card($reporttitle, html_writer::tag('p', get_string('report-timestamp', 'digitala').
+                                              timestampformatter($attempt->timemodified)).
                                               html_writer::tag('p', get_string('reportinformation', 'digitala')).
                                               html_writer::tag('p', create_attempt_number($report, $report->student)).
                                               html_writer::tag('p', create_audio_controls($audiourl)));
