@@ -75,15 +75,16 @@ class lib_test extends \advanced_testcase {
      * Test deleting a digitala instance.
      */
     public function test_digitala_delete_instance() {
-        global $DB;
+        $result = digitala_delete_instance(0);
+        $this->assertEquals($result, false);
+
         // Get the created digitala course.
         $digitala = $this->create_digitala();
 
-        digitala_delete_instance($digitala->course);
+        $result = digitala_delete_instance($digitala->id);
 
         // Check that the digitala course instance was removed.
-        $count = $DB->count_records('digitala', array('id' => $digitala->course));
-        $this->assertEquals(0, $count);
+        $this->assertEquals($result, true);
     }
 
     /**
@@ -99,6 +100,22 @@ class lib_test extends \advanced_testcase {
 
         // Check that the digitala instance update returned true.
         $this->assertEquals(true, $passed);
+    }
+
+    /**
+     * Test digitala grade item delete dummy function.
+     */
+    public function test_digitala_grade_item_delete() {
+        $digitala = $this->create_digitala();
+        $this->assertEquals(null, digitala_grade_item_delete($digitala));
+    }
+
+    /**
+     * Test digitala update grades dummy function.
+     */
+    public function test_digitala_update_grades() {
+        $digitala = $this->create_digitala();
+        $this->assertEquals(null, digitala_update_grades($digitala));
     }
 
     /**

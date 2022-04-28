@@ -647,6 +647,9 @@ class locallib_test extends \advanced_testcase {
     public function test_create_microphone() {
         $result = create_microphone();
         $this->assertEquals('<p id="recordTimer"><span id="recordingLength">00:00</span></p><span id="startIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></span><span id="stopIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-stop-fill"><path d="M5 4h6a2 2 0 0 1 2 1v6a2 2 0 0 1-2 2H5a2 2 0 0 1-1-2V5a2 2 0 0 1 1-1z" /></svg></span><button id="record" class="btn btn-primary record-btn">Record <svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></button><button id="listen" class="btn btn-primary listen-btn" disabled="true">Listen to your recording <svg width="16" height="16" fill="currentColor" class="bi bi-volume-down-fill"><path d="M9 4a.5.5 0 0 0-.8-.4L5.8 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.3l2.4 1.9A.5.5 0 0 0 9 12V4zm3 4a4.5 4.5 0 0 1-1.3 3.2l-.7-.7A3.5 3.5 0 0 0 11 8a3.5 3.5 0 0 0-1-2.5l.7-.7A4.5 4.5 0 0 1 12 8z" /></svg></button>', $result);
+
+        $result = create_microphone(1);
+        $this->assertEquals('<p id="recordTimer"><span id="recordingLength">00:00</span><span> / 00:01</span></p><span id="startIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></span><span id="stopIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-stop-fill"><path d="M5 4h6a2 2 0 0 1 2 1v6a2 2 0 0 1-2 2H5a2 2 0 0 1-1-2V5a2 2 0 0 1 1-1z" /></svg></span><button id="record" class="btn btn-primary record-btn">Record <svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></button><button id="listen" class="btn btn-primary listen-btn" disabled="true">Listen to your recording <svg width="16" height="16" fill="currentColor" class="bi bi-volume-down-fill"><path d="M9 4a.5.5 0 0 0-.8-.4L5.8 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.3l2.4 1.9A.5.5 0 0 0 9 12V4zm3 4a4.5 4.5 0 0 1-1.3 3.2l-.7-.7A3.5 3.5 0 0 0 11 8a3.5 3.5 0 0 0-1-2.5l.7-.7A4.5 4.5 0 0 1 12 8z" /></svg></button>', $result);
     }
 
     /**
@@ -741,6 +744,14 @@ class locallib_test extends \advanced_testcase {
         $assignment->attemptlimit = 3;
         $result = create_attempt_number($assignment, $assignment->userid);
         $this->assertEquals('Number of attempts remaining: 2', $result);
+    }
+
+    /**
+     * Tests creating audio controls.
+     */
+    public function test_create_audio_controls() {
+        $result = create_audio_controls('urlhere');
+        $this->assertEquals('<audio controls title="attempt_recording"><source src="urlhere" /></audio>', $result);
     }
 
     /**
@@ -886,6 +897,49 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(1, $result[3]);
         $this->assertEquals('Evaluated', $result[4]);
         $this->assertStringContainsString('>See report</a>', $result[5]);
+
+        $assignment->attempttype = 'freeform';
+        $evaluation->task_completion = 2;
+        $evaluation->lexicogrammatical = new \stdClass();
+        $evaluation->lexicogrammatical->score = 3;
+        $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
+        $evaluation->holistic = 4;
+
+        create_waiting_attempt($assignment, 'filename', $recordinglength);
+        save_attempt($assignment, $evaluation);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+
+        $result = create_result_row($record, $this->digitala->id, $USER);
+        $this->assertEquals('Admin User', $result[0]);
+        $this->assertEquals(4, $result[1]);
+        $this->assertEquals('00:05', $result[2]);
+        $this->assertEquals(2, $result[3]);
+        $this->assertEquals('Evaluated', $result[4]);
+        $this->assertStringContainsString('>See report</a>', $result[5]);
+
+        $attempt = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        set_attempt_status($attempt, 'waiting');
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $result = create_result_row($record, $this->digitala->id, $USER);
+
+        $this->assertEquals('-', $result[1]);
+
+        set_attempt_status($attempt, 'retry');
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $result = create_result_row($record, $this->digitala->id, $USER);
+
+        $this->assertEquals('-', $result[1]);
+
+        set_attempt_status($attempt, 'failed');
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $result = create_result_row($record, $this->digitala->id, $USER);
+
+        $this->assertEquals('-', $result[1]);
     }
 
     /**
@@ -1014,8 +1068,6 @@ class locallib_test extends \advanced_testcase {
      * Tests fetching latest teacher feedback from batabase.
      */
     public function test_get_feedback() {
-        global $DB;
-
         $fromform = new \stdClass();
         $fromform->taskcompletion = 2;
         $fromform->taskcompletionreason = "I'm a taskcompletion reason, did you know!?";
@@ -1183,14 +1235,15 @@ class locallib_test extends \advanced_testcase {
 
         $result = create_delete_modal(1, $USER);
         $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
+
+        $result = create_delete_modal(1);
+        $this->assertEquals($result, '<div class="modal" id="deleteAllModal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from all users?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteAllRedirectButton" class="btn btn-danger" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student">Confirm delete</a></div></div></div></div>');
     }
 
     // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 
     // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
     public function test_generate_attempts_csv() {
-        global $CFG, $DB;
-
         $assignment = new \stdClass();
         $assignment->instanceid = 500;
         $assignment->userid = 501;
@@ -1220,8 +1273,6 @@ class locallib_test extends \advanced_testcase {
     }
 
     public function test_get_all_feedbacks() {
-        global $DB;
-
         $fromform = new \stdClass();
         $fromform->fluency = 1;
         $fromform->fluencyreason = 'Fluencyness';
@@ -1264,34 +1315,25 @@ class locallib_test extends \advanced_testcase {
     }
 
     public function test_generate_report_feedback_csv() {
-        global $DB;
+        $fromform = new \stdClass();
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = "I'm a fluency reason, did you know!?";
+        $fromform->pronunciation = 2;
+        $fromform->pronunciationreason = "I'm a pronunciation reason, did you know!?";
 
-        $assignment = new \stdClass();
-        $assignment->instanceid = 808;
-        $assignment->userid = 809;
-        $assignment->attempttype = 'freeform';
-        $evaluation = new \stdClass();
-        $evaluation->transcript = 'transcript';
-        $evaluation->task_completion = 2;
-        $evaluation->fluency = new \stdClass();
-        $evaluation->fluency->score = 1;
-        $evaluation->fluency->flu_features = array('invalid' => 1);
-        $evaluation->pronunciation = new \stdClass();
-        $evaluation->pronunciation->score = 1;
-        $evaluation->pronunciation->pron_features = array('invalid' => 1);
-        $evaluation->lexicogrammatical = new \stdClass();
-        $evaluation->lexicogrammatical->score = 3;
-        $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
-        $evaluation->holistic = 4;
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 5;
+        $oldattempt->fluency = 3;
+        $oldattempt->pronunciation = 0;
+        $oldattempt->digitala = 2;
 
-        create_waiting_attempt($assignment, 'filename', 60);
-        save_attempt($assignment, $evaluation);
+        save_report_feedback('readaloud', $fromform, $oldattempt);
 
-        $result = generate_attempts_csv($assignment->instanceid, 'moodi');
+        $result = generate_report_feedback_csv(2, 'moodi');
 
-        $this->assertEquals(str_contains($result, 'filename'), true);
-        $this->assertEquals(str_contains($result, 808), true);
-        $this->assertEquals(str_contains($result, 809), true);
+        $this->assertEquals(str_contains($result, 'old_fluency'), true);
+        $this->assertEquals(str_contains($result, 5), true);
+        $this->assertEquals(str_contains($result, 'did you know'), true);
     }
 
     public function test_create_export_buttons() {
