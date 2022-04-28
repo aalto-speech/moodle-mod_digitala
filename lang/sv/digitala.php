@@ -117,7 +117,7 @@ $string['taskcompletion_score-3'] = 'Du svarar utmärkt på uppgiften.';
 
 $string['fluency'] = 'Flyt';
 $string['fluency_description'] = 'Den här mätaren berättar om taltempo, antalet pauser och tvekanden.';
-$string['fluency_score-0'] = $string['taskcompletion_score-0']
+$string['fluency_score-0'] = $string['taskcompletion_score-0'];
 $string['fluency_score-1'] = 'Du har många pauser, avbrott och tvekanden.';
 $string['fluency_score-2'] = 'Du talar ganska flytande med en del pauser, avbrott och tvekanden.';
 $string['fluency_score-3'] = 'Du talar flytande och ledigt; pauser, avbrott och tvekanden är inte störande.';
@@ -125,7 +125,7 @@ $string['fluency_score-4'] = 'Du talar mycket flytande och ledigt; pauser, avbro
 
 $string['pronunciation'] = 'Uttal';
 $string['pronunciation_description'] = 'Du ser ovan att datorn förändrade ditt tal till en text. Du kan se i texten, huruvida du uttalade alla ord rätt. Den här mätaren berättar om hur väl och säkert datorn identifierade det du sade. Detta påverkas av det talmaterial som datorn har lärts att bedöma tal med.';
-$string['pronunciation_score-0'] = $string['taskcompletion_score-0']
+$string['pronunciation_score-0'] = $string['taskcompletion_score-0'];
 $string['pronunciation_score-1'] = 'Datorn har ganska svårt att förstå ditt tal.';
 $string['pronunciation_score-2'] = 'Datorn har ganska lätt att förstå ditt tal, men du tycks ha en del problem med uttalet.';
 $string['pronunciation_score-3'] = 'Datorn förstår ditt tal och du tycks inte ha några större problem med uttalet.';
@@ -133,7 +133,7 @@ $string['pronunciation_score-4'] = 'Ditt uttal är begripligt och naturligt.';
 
 $string['lexicogrammatical'] = 'Uttryckets omfång';
 $string['lexicogrammatical_description'] = 'Den här mätaren berättar om hur mycket du talade samt hur varierat ordförråd och varierade meningar du använde.';
-$string['lexicogrammatical_score-0'] = $string['taskcompletion_score-0']
+$string['lexicogrammatical_score-0'] = $string['taskcompletion_score-0'];
 $string['lexicogrammatical_score-1'] = 'Ditt talprov är mycket kort eller består mestadels av enstaka ord.';
 $string['lexicogrammatical_score-2'] = 'Du använder vanliga ord och du kan skapa meningar av dem.';
 $string['lexicogrammatical_score-3'] = 'Du använder mångsidigt olika typer av ord och meningskonstruktioner.';
