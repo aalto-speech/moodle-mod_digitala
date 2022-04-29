@@ -901,8 +901,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('00:05', $result[2]);
         $this->assertEquals(1, $result[3]);
         $this->assertEquals('Evaluated', $result[4]);
-<<<<<<< HEAD
-        $this->assertStringContainsString('>See report</a>', $result[5]);
+        $this->assertStringContainsString('>See report</a>', $result[6]);
 
         $assignment->attempttype = 'freeform';
         $evaluation->task_completion = 2;
@@ -922,7 +921,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('00:05', $result[2]);
         $this->assertEquals(2, $result[3]);
         $this->assertEquals('Evaluated', $result[4]);
-        $this->assertStringContainsString('>See report</a>', $result[5]);
+        $this->assertStringContainsString('>See report</a>', $result[6]);
 
         $attempt = $DB->get_record('digitala_attempts',
                                   array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
@@ -946,9 +945,6 @@ class locallib_test extends \advanced_testcase {
         $result = create_result_row($record, $this->digitala->id, $USER);
 
         $this->assertEquals('-', $result[1]);
-=======
-        $this->assertStringContainsString('>See report</a>', $result[6]);
->>>>>>> main
     }
 
     /**
@@ -1262,14 +1258,10 @@ class locallib_test extends \advanced_testcase {
         global $USER;
 
         $result = create_delete_modal(1, $USER);
-<<<<<<< HEAD
-        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
+        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
 
         $result = create_delete_modal(1);
-        $this->assertEquals($result, '<div class="modal" id="deleteAllModal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from all users?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteAllRedirectButton" class="btn btn-danger" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student">Confirm delete</a></div></div></div></div>');
-=======
-        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
->>>>>>> main
+        $this->assertEquals($result, '<div class="modal" id="deleteAllModal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from all users?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteAllRedirectButton" class="btn btn-danger" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student">Confirm delete</a></div></div></div></div>');
     }
 
     public function test_generate_attempts_csv() {
