@@ -25,10 +25,10 @@ Feature: Edit digitala activity
     Then I choose "Edit settings" in the open action menu
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name             | <name>            |
+      | Assignment name  | <name>            |
       | Language         | <attemptlang>     |
-      | Type             | <attempttype>     |
-      | Assignment       | <assignmenttext>  |
+      | Assignment type  | <attempttype>     |
+      | Assignment text  | <assignmenttext>  |
       | Material         | <resourcestext>   |
       | More information | <informationtext> |
     And I press "Save and display"
@@ -41,8 +41,8 @@ Feature: Edit digitala activity
 
     Examples:
       | name          | attemptlang | attempttype | assignmenttext                   | resourcestext                                                          | informationtext  | user  |
-      | SWE Readaloud | Swedish     | Read aloud  | Läs följande avsnitt högt.       | Hejsan, jag heter Jonne-Peter.                                         | some information | ossi  |
-      | FIN Readaloud | Finnish     | Read aloud  | Lue seuraava lause ääneen.       | Tämä on liikennevalojen perusteet -kurssi.                             | some information | ossi  |
+      | SWE Readaloud | Swedish     | Read-aloud  | Läs följande avsnitt högt.       | Hejsan, jag heter Jonne-Peter.                                         | some information | ossi  |
+      | FIN Readaloud | Finnish     | Read-aloud  | Lue seuraava lause ääneen.       | Tämä on liikennevalojen perusteet -kurssi.                             | some information | ossi  |
       | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                | some information | ossi  |
       | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. | some information | ossi  |
       | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. | some information | mauno |

@@ -31,20 +31,20 @@ Feature: Teacher can delete attempts from overview page
 
   Scenario: Delete buttons show for teacher
     When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
-    Then I should see "Delete all"
+    Then I should see "Delete all attempts"
     And I should see "Delete attempt"
 
   Scenario: Student should not see delete buttons
     When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "olli"
-    Then I should not see "Delete all"
+    Then I should not see "Delete all attempts"
     And I should not see "Delete attempt"
 
   Scenario Outline: Teacher can delete all attempts
     When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "<user>"
     Then I should see "Olli Opiskelija"
     And I should see "Essi Opiskelija"
-    And I click on "Delete all" "button"
-    Then I should see "Warning"
+    And I click on "Delete all attempts" "button"
+    Then I should see "Note!"
     And I click on "Confirm delete" "link"
     Then I should not see "Olli Opiskelija"
     And I should not see "Essi Opiskelija"
@@ -60,7 +60,7 @@ Feature: Teacher can delete attempts from overview page
     Then I should see "Olli Opiskelija"
     And I should see "Essi Opiskelija"
     And I click on "deleteButtonessi" "button"
-    Then I should see "Warning"
+    Then I should see "Note!"
     And I click on "deleteRedirectButtonessi" "link"
     Then I should see "Olli Opiskelija"
     And I should not see "Essi Opiskelija"
