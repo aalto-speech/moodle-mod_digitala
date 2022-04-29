@@ -78,7 +78,7 @@ Feature: Student can see assignment text and resources
       | name     | username | status |
       | Freeform | olli     | retry  |
     Then I click on "Press here to check if evaluation is completed." "link"
-    And I should see "Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities."
+    And I should see "Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time."
     And I run the scheduled task "mod_digitala\task\check_failed_evaluation"
     And I run all adhoc tasks
     Then I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
@@ -100,7 +100,7 @@ Feature: Student can see assignment text and resources
       | Freeform | olli     | 0    |
     And I run the scheduled task "mod_digitala\task\check_failed_evaluation"
     Then I click on "Press here to check if evaluation is completed." "link"
-    And I should see "Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities."
+    And I should see "Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time."
     And I run all adhoc tasks
     Then I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
     Then I should see "Analytic grading"
