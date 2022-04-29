@@ -18,7 +18,8 @@
  * Library of interface functions and constants.
  *
  * @package     mod_digitala
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,7 +27,7 @@
  * Return if the plugin supports $feature.
  *
  * @param string $feature Constant representing the feature.
- * @return true | null True if the feature is supported, null otherwise.
+ * @return mixed - True if the feature is supported, null otherwise.
  */
 function digitala_supports($feature) {
     switch ($feature) {
@@ -253,7 +254,7 @@ function digitala_update_grades($moduleinstance, $userid = 0) {
  * @param stdClass $course
  * @param stdClass $cm
  * @param stdClass $context
- * @return string[].
+ * @return array
  */
 function digitala_get_file_areas($course, $cm, $context) {
     return array();

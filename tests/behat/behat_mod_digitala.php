@@ -17,9 +17,10 @@
 /**
  * Steps definitions related with the digitala activity.
  *
- * @package    mod_digitala
- * @copyright  2020 Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
@@ -28,9 +29,10 @@ use Behat\Gherkin\Node\TableNode as TableNode;
 /**
  * Digitala-related steps definitions.
  *
- * @package    mod_digitala
- * @copyright  2020 Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_mod_digitala extends behat_base {
 

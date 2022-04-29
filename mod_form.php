@@ -18,7 +18,8 @@
  * The main mod_digitala configuration form.
  *
  * @package     mod_digitala
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,7 +32,8 @@ require_once('lib.php');
  * Module instance settings form.
  *
  * @package     mod_digitala
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_digitala_mod_form extends moodleform_mod {
@@ -144,7 +146,8 @@ class mod_digitala_mod_form extends moodleform_mod {
     }
 
     /**
-     * Any data processing needed before the form is displayed
+     * Any data processing needed before the form is displayed.
+     *
      * @param array $defaultvalues
      */
     public function data_preprocessing(&$defaultvalues) {
@@ -163,7 +166,7 @@ class mod_digitala_mod_form extends moodleform_mod {
      *
      * @param mixed $data
      * @param array $files
-     * @return array
+     * @return array $errors - errors given by the validation.
      */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
