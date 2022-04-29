@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_digitala';
-$plugin->release = '0.1.31';
-$plugin->version = 2022042905;
+$plugin->release = '0.1.32';
+$plugin->version = 2022042906;
 $plugin->requires = 2020061500;
 $plugin->maturity = MATURITY_ALPHA;
