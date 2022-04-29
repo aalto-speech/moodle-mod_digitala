@@ -81,11 +81,9 @@ class locallib_test extends \advanced_testcase {
         $info = create_progress_bar_step_link('info', 0, false);
         $assignment = create_progress_bar_step_link('assignment', 1, false);
         $report = create_progress_bar_step_link('report', 2, false);
-        
         $this->assertEquals($info, '<a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a>');
         $this->assertEquals($assignment, '<a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a>');
         $this->assertEquals($report, '<a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a>');
-    
     }
 
     /**
@@ -115,14 +113,12 @@ class locallib_test extends \advanced_testcase {
         $infoactive = create_progress_bar_step('info', 0, 0);
         $assignmentactive = create_progress_bar_step('assignment', 1, 1);
         $reportactive = create_progress_bar_step('report', 2, 2);
-        
         $this->assertEquals($info, '<div class="pb-step first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
         $this->assertEquals($assignment, '<div class="pb-step"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
         $this->assertEquals($report, '<div class="pb-step last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
         $this->assertEquals($infoactive, '<div class="pb-step active first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
         $this->assertEquals($assignmentactive, '<div class="pb-step active"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
         $this->assertEquals($reportactive, '<div class="pb-step active last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
-    
     }
 
     /**
@@ -144,11 +140,11 @@ class locallib_test extends \advanced_testcase {
         $rightempty = create_progress_bar_spacer('right-empty');
         $leftempty = create_progress_bar_spacer('left-empty');
         $nothing = create_progress_bar_spacer('nothing');
-        
+
         $this->assertEquals($rightempty, '<div class="pb-spacer pb-spacer-right"><svg class="pb-svg-front" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5"><path d="M255 250 20 0H0v500h20l235-250Z" fill="#d3d3d3" /><path d="m20 20 235 230L20 480" style="fill:none;stroke:#d3d3d3;stroke-width:40px" /></svg></div>');
         $this->assertEquals($leftempty, '<div class="pb-spacer pb-spacer-left"><svg class="pb-svg-back" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5"><path d="M275 0H20l235 250L20 500h255V0Z" fill="#d3d3d3" /><path d="m20 20 235 230L20 480" style="fill:none;stroke:#d3d3d3;stroke-width:40px" /></svg></div>');
         $this->assertEquals($nothing, '<div class="pb-spacer"><svg class="pb-svg-front" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5"><path d="m20 20 235 230L20 480" style="fill:none;stroke:#d3d3d3;stroke-width:40px" /></svg></div>');
-    
+
     }
 
     /**
@@ -157,7 +153,6 @@ class locallib_test extends \advanced_testcase {
     public function test_navbuttons_html_output() {
         $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&d=2&page=0';
         $result = create_nav_buttons('info');
-        
         $this->assertEquals('<div class="navbuttons"><a id="nextButton" class="btn btn-primary" href="/mod/digitala/view.php?id=1&amp;d=2&amp;page=1">Next ></a></div>',
             $result);
         $result = create_nav_buttons('assignmentprev');
@@ -172,7 +167,6 @@ class locallib_test extends \advanced_testcase {
         $result = create_nav_buttons('report', 1);
         $this->assertEquals('<div class="navbuttons"><a id="tryAgainButton" class="btn btn-primary" href="/mod/digitala/view.php?id=1&amp;d=2&amp;page=1">Try again</a></div>',
             $result);
-    
     }
 
     /**
@@ -215,13 +209,13 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_grading_html_output() {
         $result = create_report_grading('fluency', 0, 0);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</p></div></div></div>', $result);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><p>This measure reflects the speed, pauses, and hesitations in your speech.</p><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $result = create_report_grading('fluency', 0, 0, 1, 'bad');
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</p><p>Teacher\'s grade suggestion: 1</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><p>This measure reflects the speed, pauses, and hesitations in your speech.</p><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech.</p><p>Teacher\'s grade suggestion: 1</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $result = create_report_grading('fluency', 0, 0, 1, '');
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</p><p>Teacher\'s grade suggestion: 1</p></div></div></div>', $result);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><p>This measure reflects the speed, pauses, and hesitations in your speech.</p><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech.</p><p>Teacher\'s grade suggestion: 1</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $result = create_report_grading('fluency', 0, 0, 0, 'bad');
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><p>This measure reflects the speed, pauses, and hesitations in your speech.</p><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech.</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -250,7 +244,7 @@ class locallib_test extends \advanced_testcase {
     public function test_create_report_waiting() {
         $_SERVER['REQUEST_URI'] = 'toot';
         $result = create_report_waiting();
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation in progress</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div><p>Evaluation is in progress, please hold. This could take up to few eternities.</p><a id="nextButton" class="btn btn-primary" href="toot">Press here to check if evaluation is completed.</a></div></div></div>', $result);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation in progress</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Evaluation is in progress, please do not leave the page. This may take some time.</p><a id="nextButton" class="btn btn-primary" href="toot">Press here to check if evaluation is completed.</a></div></div></div>', $result);
     }
 
     /**
@@ -258,7 +252,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_report_retry() {
         $result = create_report_retry();
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation failed</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div><p>Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities.</p></div></div></div>', $result);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation failed</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time.</p></div></div></div>', $result);
     }
 
     /**
@@ -272,6 +266,11 @@ class locallib_test extends \advanced_testcase {
 
         $result = create_report_information($report);
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">testinformation</div></div></div>', $result);
+
+        $report = new \digitala_report($this->digitala->id, $context->id, 5, $this->digitala->attempttype, $this->digitala->attemptlang, $this->digitala->attemptlimit, '', $USER->id);
+
+        $result = create_report_information($report);
+        $this->assertEquals('', $result);
     }
 
     /**
@@ -286,8 +285,10 @@ class locallib_test extends \advanced_testcase {
      * Test creating report view tab creation helper.
      */
     public function test_tabs_html_output() {
+        $result = create_report_tabs('', '', 'test');
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" aria-controls="report-grades" aria-selected="true">Analytic grading</button><button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" aria-controls="report-holistic" aria-selected="false">Proficiency level</button><button class="nav-link ml-2" id="report-information-tab" data-toggle="tab" href="#report-information" role="tab" aria-controls="report-information" aria-selected="false">More information</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div><div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab"></div><div class="tab-pane fade" id="report-information" role="tabpanel" aria-labelledby="report-information-tab">test</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $result = create_report_tabs('', '', '');
-        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" aria-controls="report-grades" aria-selected="true">Analytic grading</button><button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" aria-controls="report-holistic" aria-selected="false">Proficiency level</button><button class="nav-link ml-2" id="report-information-tab" data-toggle="tab" href="#report-information" role="tab" aria-controls="report-information" aria-selected="false">More information</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div><div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab"></div><div class="tab-pane fade" id="report-information" role="tabpanel" aria-labelledby="report-information-tab"></div></div>', $result);
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" aria-controls="report-grades" aria-selected="true">Analytic grading</button><button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" aria-controls="report-holistic" aria-selected="false">Proficiency level</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div><div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -337,7 +338,7 @@ class locallib_test extends \advanced_testcase {
 
         $_SERVER['REQUEST_URI'] = '';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); 
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $fileinfo = array(
             'contextid' => \context_user::instance($USER->id)->id,
@@ -650,6 +651,9 @@ class locallib_test extends \advanced_testcase {
     public function test_create_microphone() {
         $result = create_microphone();
         $this->assertEquals('<p id="recordTimer"><span id="recordingLength">00:00</span></p><span id="startIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></span><span id="stopIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-stop-fill"><path d="M5 4h6a2 2 0 0 1 2 1v6a2 2 0 0 1-2 2H5a2 2 0 0 1-1-2V5a2 2 0 0 1 1-1z" /></svg></span><button id="record" class="btn btn-primary record-btn">Record <svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></button><button id="listen" class="btn btn-primary listen-btn" disabled="true">Listen to your recording <svg width="16" height="16" fill="currentColor" class="bi bi-volume-down-fill"><path d="M9 4a.5.5 0 0 0-.8-.4L5.8 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.3l2.4 1.9A.5.5 0 0 0 9 12V4zm3 4a4.5 4.5 0 0 1-1.3 3.2l-.7-.7A3.5 3.5 0 0 0 11 8a3.5 3.5 0 0 0-1-2.5l.7-.7A4.5 4.5 0 0 1 12 8z" /></svg></button>', $result);
+
+        $result = create_microphone(1);
+        $this->assertEquals('<p id="recordTimer"><span id="recordingLength">00:00</span><span> / 00:01</span></p><span id="startIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></span><span id="stopIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-stop-fill"><path d="M5 4h6a2 2 0 0 1 2 1v6a2 2 0 0 1-2 2H5a2 2 0 0 1-1-2V5a2 2 0 0 1 1-1z" /></svg></span><button id="record" class="btn btn-primary record-btn">Record <svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></button><button id="listen" class="btn btn-primary listen-btn" disabled="true">Listen to your recording <svg width="16" height="16" fill="currentColor" class="bi bi-volume-down-fill"><path d="M9 4a.5.5 0 0 0-.8-.4L5.8 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.3l2.4 1.9A.5.5 0 0 0 9 12V4zm3 4a4.5 4.5 0 0 1-1.3 3.2l-.7-.7A3.5 3.5 0 0 0 11 8a3.5 3.5 0 0 0-1-2.5l.7-.7A4.5 4.5 0 0 1 12 8z" /></svg></button>', $result);
     }
 
     /**
@@ -744,6 +748,14 @@ class locallib_test extends \advanced_testcase {
         $assignment->attemptlimit = 3;
         $result = create_attempt_number($assignment, $assignment->userid);
         $this->assertEquals('Number of attempts remaining: 2', $result);
+    }
+
+    /**
+     * Tests creating audio controls.
+     */
+    public function test_create_audio_controls() {
+        $result = create_audio_controls('urlhere');
+        $this->assertEquals('<audio controls title="attempt_recording"><source src="urlhere" /></audio>', $result);
     }
 
     /**
@@ -887,7 +899,50 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('00:05', $result[2]);
         $this->assertEquals(1, $result[3]);
         $this->assertEquals('Evaluated', $result[4]);
-        $this->assertStringContainsString('>See report</a>', $result[5]);
+        $this->assertStringContainsString('>See report</a>', $result[6]);
+
+        $assignment->attempttype = 'freeform';
+        $evaluation->task_completion = 2;
+        $evaluation->lexicogrammatical = new \stdClass();
+        $evaluation->lexicogrammatical->score = 3;
+        $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
+        $evaluation->holistic = 4;
+
+        create_waiting_attempt($assignment, 'filename', $recordinglength);
+        save_attempt($assignment, $evaluation);
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+
+        $result = create_result_row($record, $this->digitala->id, $USER);
+        $this->assertEquals('Admin User', $result[0]);
+        $this->assertEquals(4, $result[1]);
+        $this->assertEquals('00:05', $result[2]);
+        $this->assertEquals(2, $result[3]);
+        $this->assertEquals('Evaluated', $result[4]);
+        $this->assertStringContainsString('>See report</a>', $result[6]);
+
+        $attempt = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        set_attempt_status($attempt, 'waiting');
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $result = create_result_row($record, $this->digitala->id, $USER);
+
+        $this->assertEquals('-', $result[1]);
+
+        set_attempt_status($attempt, 'retry');
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $result = create_result_row($record, $this->digitala->id, $USER);
+
+        $this->assertEquals('-', $result[1]);
+
+        set_attempt_status($attempt, 'failed');
+        $record = $DB->get_record('digitala_attempts',
+                                  array('digitala' => $assignment->instanceid, 'userid' => $assignment->userid));
+        $result = create_result_row($record, $this->digitala->id, $USER);
+
+        $this->assertEquals('-', $result[1]);
     }
 
     /**
@@ -929,7 +984,15 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
-     * Test saving report feedback readaloud.
+     * Tests timestamp formatting into Europe/Helsinki time.
+     */
+    public function test_timestampformatter() {
+        $result = timestampformatter(1651038371);
+        $this->assertEquals('27.04.2022 13.46:11', $result);
+    }
+
+    /**
+     * Tests saving report feedback readaloud.
      */
     public function test_save_report_feedback_readaloud() {
         global $DB;
@@ -967,7 +1030,7 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
-     * Test saving report feedback freeform.
+     * Tests saving report feedback freeform.
      */
     public function test_save_report_feedback_freeform() {
         global $DB;
@@ -1022,8 +1085,6 @@ class locallib_test extends \advanced_testcase {
      * Tests fetching latest teacher feedback from batabase.
      */
     public function test_get_feedback() {
-        global $DB;
-
         $fromform = new \stdClass();
         $fromform->taskcompletion = 2;
         $fromform->taskcompletionreason = "I'm a taskcompletion reason, did you know!?";
@@ -1079,7 +1140,7 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
-     * Test creating short assignment tabs.
+     * Tests creating short assignment tabs.
      */
     public function test_create_short_assignment_tabs() {
         $result = create_short_assignment_tabs('', '');
@@ -1087,11 +1148,11 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
-     * Test creating transcript toggle.
+     * Tests creating transcript toggles.
      */
     public function test_create_transcript_toggle() {
         $result = create_transcript_toggle('transcript', 'feedback');
-        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="readaloud-transcript-tab" data-toggle="tab" href="#readaloud-transcript" role="tab" aria-controls="readaloud-transcript" aria-selected="true">Plain text</button><button class="nav-link ml-2" id="readaloud-feedback-tab" data-toggle="tab" href="#readaloud-feedback" role="tab" aria-controls="readaloud-feedback" aria-selected="false">Show corrections</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="readaloud-transcript" role="tabpanel" aria-labelledby="readaloud-transcript-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">transcript</div></div></div></div><div class="tab-pane fade" id="readaloud-feedback" role="tabpanel" aria-labelledby="readaloud-feedback-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcript feedback</h5><div class="card-text scrollbox200">feedback</div></div></div></div></div>', $result);
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="readaloud-transcript-tab" data-toggle="tab" href="#readaloud-transcript" role="tab" aria-controls="readaloud-transcript" aria-selected="true">Original text</button><button class="nav-link ml-2" id="readaloud-feedback-tab" data-toggle="tab" href="#readaloud-feedback" role="tab" aria-controls="readaloud-feedback" aria-selected="false">Show corrections</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="readaloud-transcript" role="tabpanel" aria-labelledby="readaloud-transcript-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">transcript</div></div></div></div><div class="tab-pane fade" id="readaloud-feedback" role="tabpanel" aria-labelledby="readaloud-feedback-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Read-aloud feedback</h5><div class="card-text scrollbox200">feedback</div></div></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -1185,9 +1246,8 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_add_delete_all_attempts_button() {
         $result = add_delete_all_attempts_button();
-        $this->assertEquals($result, '<button id="deleteAllButton" class="btn btn-danger" data-toggle="modal" data-target="#deleteAllModal">Delete all</button>');
+        $this->assertEquals($result, '<button id="deleteAllButton" class="btn btn-danger" data-toggle="modal" data-target="#deleteAllModal">Delete all attempts</button>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
-    
 
     /**
      * Tests creating delete modal.
@@ -1196,15 +1256,12 @@ class locallib_test extends \advanced_testcase {
         global $USER;
 
         $result = create_delete_modal(1, $USER);
-        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
-    }
+        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
 
     /**
      * Test generating attempts csv.
      */
     public function test_generate_attempts_csv() {
-        global $CFG, $DB;
-
         $assignment = new \stdClass();
         $assignment->instanceid = 500;
         $assignment->userid = 501;
@@ -1237,8 +1294,6 @@ class locallib_test extends \advanced_testcase {
      * Test getting all feedbacks.
      */
     public function test_get_all_feedbacks() {
-        global $DB;
-
         $fromform = new \stdClass();
         $fromform->fluency = 1;
         $fromform->fluencyreason = 'Fluencyness';
@@ -1284,34 +1339,25 @@ class locallib_test extends \advanced_testcase {
      * Test generating report feedback csv.
      */
     public function test_generate_report_feedback_csv() {
-        global $DB;
+        $fromform = new \stdClass();
+        $fromform->fluency = 1;
+        $fromform->fluencyreason = "I'm a fluency reason, did you know!?";
+        $fromform->pronunciation = 2;
+        $fromform->pronunciationreason = "I'm a pronunciation reason, did you know!?";
 
-        $assignment = new \stdClass();
-        $assignment->instanceid = 808;
-        $assignment->userid = 809;
-        $assignment->attempttype = 'freeform';
-        $evaluation = new \stdClass();
-        $evaluation->transcript = 'transcript';
-        $evaluation->task_completion = 2;
-        $evaluation->fluency = new \stdClass();
-        $evaluation->fluency->score = 1;
-        $evaluation->fluency->flu_features = array('invalid' => 1);
-        $evaluation->pronunciation = new \stdClass();
-        $evaluation->pronunciation->score = 1;
-        $evaluation->pronunciation->pron_features = array('invalid' => 1);
-        $evaluation->lexicogrammatical = new \stdClass();
-        $evaluation->lexicogrammatical->score = 3;
-        $evaluation->lexicogrammatical->lexgram_features = array('invalid' => 1);
-        $evaluation->holistic = 4;
+        $oldattempt = new \stdClass();
+        $oldattempt->id = 5;
+        $oldattempt->fluency = 3;
+        $oldattempt->pronunciation = 0;
+        $oldattempt->digitala = 2;
 
-        create_waiting_attempt($assignment, 'filename', 60);
-        save_attempt($assignment, $evaluation);
+        save_report_feedback('readaloud', $fromform, $oldattempt);
 
-        $result = generate_attempts_csv($assignment->instanceid, 'moodi');
+        $result = generate_report_feedback_csv(2, 'moodi');
 
-        $this->assertEquals(str_contains($result, 'filename'), true);
-        $this->assertEquals(str_contains($result, 808), true);
-        $this->assertEquals(str_contains($result, 809), true);
+        $this->assertEquals(str_contains($result, 'old_fluency'), true);
+        $this->assertEquals(str_contains($result, 5), true);
+        $this->assertEquals(str_contains($result, 'did you know'), true);
     }
 
     /**
@@ -1319,7 +1365,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_export_buttons() {
         $result = create_export_buttons(2);
-        $this->assertEquals($result, '<a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=attempts" id="export_attempts" class="btn btn-primary">Export all attempts as CSV</a><a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=feedback" id="export_attempts_feedback" class="btn btn-primary">Export all feedbacks for attempts as CSV</a>');
+        $this->assertEquals($result, '<a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=attempts" id="export_attempts" class="btn btn-primary">Export all attempts as CSV</a><a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=feedback" id="export_attempts_feedback" class="btn btn-primary">Export all teacher feedback for attempts as CSV</a>');
     }
 // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 }

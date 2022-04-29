@@ -145,7 +145,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
             } else {
                 $reporttitle = 'report-title';
             }
-            $out .= create_card($reporttitle, html_writer::tag('p', get_string('reportinformation', 'digitala')).
+            $out .= create_card($reporttitle, html_writer::tag('p', get_string('report-timestamp', 'digitala').
+                                              timestampformatter($attempt->timecreated)).
+                                              html_writer::tag('p', get_string('reportinformation', 'digitala')).
                                               html_writer::tag('p', create_attempt_number($report, $report->student)).
                                               html_writer::tag('p', create_audio_controls($audiourl)));
 
@@ -208,16 +210,22 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_results(digitala_results $result) {
         $out = html_writer::tag('h5', get_string('results_title', 'digitala'));
         $attempts = get_all_attempts($result->instanceid);
+        if (isset(current($attempts)->lexicogrammatical)) {
+            $scoretitle = get_string('results_score_proficiency', 'digitala');
+        } else {
+            $scoretitle = get_string('pronunciation', 'digitala');
+        }
 
         if (count($attempts) > 0) {
             $table = new html_table();
 
             $headers = array(
                 new html_table_cell(get_string('results_student', 'digitala')),
-                new html_table_cell(get_string('results_score', 'digitala')),
+                new html_table_cell($scoretitle),
                 new html_table_cell(get_string('results_time', 'digitala')),
                 new html_table_cell(get_string('results_tries', 'digitala')),
                 new html_table_cell(get_string('results_status', 'digitala')),
+                new html_table_cell(get_string('results_timestamp', 'digitala')),
                 new html_table_cell(get_string('results_report', 'digitala')),
                 new html_table_cell(add_delete_all_attempts_button()));
             foreach ($headers as $value) {
