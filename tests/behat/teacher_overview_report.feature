@@ -22,10 +22,10 @@ Feature: Teacher can see students overview report
       | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
     And I add freeform attempt to database:
       | name     | username | attemptnumber | file  | transcript  | fluency | taskcompletion | pronunciation | lexicogrammatical | holistic | recordinglength | status    |
-      | Freeform | olli     | 666           | file1 | transcript1 | 1001    | 1005           | 1003          | 1007              | 1007     | 69              | evaluated |
-      | Freeform | essi     | 420           | file2 | transcript2 | 2001    | 2005           | 2003          | 2007              | 2007     | 260             | waiting   |
-      | Freeform | seppo    | 69            | file3 | transcript3 | 3001    | 3005           | 3003          | 3007              | 3007     | 120             | retry     |
-      | Freeform | milla    | 1337          | file4 | transcript4 | 4001    | 4005           | 4003          | 4007              | 4007     | 60              | failed    |
+      | Freeform | olli     | 666           | file1 | transcript1 | 1001    | 1005           | 1003          | 1007              | 1009     | 69              | evaluated |
+      | Freeform | essi     | 420           | file2 | transcript2 | 2001    | 2005           | 2003          | 2007              | 2009     | 260             | waiting   |
+      | Freeform | seppo    | 69            | file3 | transcript3 | 3001    | 3005           | 3003          | 3007              | 3009     | 120             | retry     |
+      | Freeform | milla    | 1337          | file4 | transcript4 | 4001    | 4005           | 4003          | 4007              | 4009     | 60              | failed    |
     And I add readaloud attempt to database:
       | name      | username | attemptnumber | file  | transcript  | feedback  | fluency | pronunciation | recordinglength | status    |
       | Readaloud | olli     | 666           | file5 | transcript5 | feedback5 | 5001    | 5003          | 69              | evaluated |
@@ -61,7 +61,7 @@ Feature: Teacher can see students overview report
   Scenario: Overview report link shows for teacher in freeform
     Then I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
     Then I should see "Olli Opiskelija"
-    And I should see "0.45"
+    And I should see "1010"
     And I should see "01:09"
     And I should see "666"
     And I should see "See report"
@@ -84,7 +84,7 @@ Feature: Teacher can see students overview report
   Scenario: Overview report link shows for teacher in readaloud
     Then I am on the "Readaloud" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
     Then I should see "Olli Opiskelija"
-    And I should see "2.70"
+    And I should see "5003"
     And I should see "01:09"
     And I should see "666"
     And I should see "See report"
