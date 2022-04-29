@@ -4,6 +4,7 @@ Feature: Teacher can delete attempts from overview page
   Background:
     Given the following "users" exist:
       | username | firstname | lastname   | email                    |
+      | mauno    | Mauno     | Manager    | mauno.manager@koulu.fi   |
       | ossi     | Ossi      | Opettaja   | ossi.opettaja@koulu.fi   |
       | olli     | Olli      | Opiskelija | olli.opiskelija@koulu.fi |
       | essi     | Essi      | Opiskelija | essi.opiskelija@koulu.fi |
@@ -11,9 +12,10 @@ Feature: Teacher can delete attempts from overview page
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user | course | role    |
-      | ossi | C1     | manager |
-      | olli | C1     | student |
+      | user  | course | role           |
+      | mauno | C1     | manager        |
+      | ossi  | C1     | editingteacher |
+      | olli  | C1     | student        |
     And the following "activities" exist:
       | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit | information     | informationformat |
       | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            | testinformation | 1                 |
@@ -37,8 +39,8 @@ Feature: Teacher can delete attempts from overview page
     Then I should not see "Delete all attempts"
     And I should not see "Delete attempt"
 
-  Scenario: Teacher can delete all attempts
-    When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
+  Scenario Outline: Teacher can delete all attempts
+    When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "<user>"
     Then I should see "Olli Opiskelija"
     And I should see "Essi Opiskelija"
     And I click on "Delete all attempts" "button"
@@ -48,8 +50,13 @@ Feature: Teacher can delete attempts from overview page
     And I should not see "Essi Opiskelija"
     And I should see "No results to show yet."
 
-  Scenario: Teacher can delete one attempt
-    When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
+    Examples:
+      | user  |
+      | mauno |
+      | ossi  |
+
+  Scenario Outline: Teacher can delete one attempt
+    When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "<user>"
     Then I should see "Olli Opiskelija"
     And I should see "Essi Opiskelija"
     And I click on "deleteButtonessi" "button"
@@ -57,3 +64,8 @@ Feature: Teacher can delete attempts from overview page
     And I click on "deleteRedirectButtonessi" "link"
     Then I should see "Olli Opiskelija"
     And I should not see "Essi Opiskelija"
+
+    Examples:
+      | user  |
+      | mauno |
+      | ossi  |

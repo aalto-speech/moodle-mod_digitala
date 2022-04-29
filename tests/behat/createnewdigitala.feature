@@ -9,8 +9,8 @@ Feature: Create new digitala
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user | course | role    |
-      | ossi | C1     | manager |
+      | user  | course | role           |
+      | ossi  | C1     | editingteacher |
     And I log in as "ossi"
     And I visit "/user/files.php"
     And I upload "mod/digitala/tests/fixtures/tottoroo.wav" file to "Files" filemanager
