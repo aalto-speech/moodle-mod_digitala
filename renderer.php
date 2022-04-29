@@ -202,7 +202,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
     /**
      * Renders the results panel for teacher.
      *
-     * @param digitala_result $result - An instance of digitala_results to render.
+     * @param digitala_results $result - An instance of digitala_results to render.
      * @return string $out - HTML string to output.
      */
     protected function render_digitala_results(digitala_results $result) {

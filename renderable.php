@@ -34,7 +34,6 @@ require_once(__DIR__.'/answerrecording_form.php');
  * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class digitala_progress_bar implements renderable {
 
     /**
