@@ -29,6 +29,12 @@ Admin can also
 
 These settings can be changed in Moodle in *Site administration -> Plugins -> Digitala*.
 
+<details>
+  <summary>Figure: Admin settings</summary>
+
+  ![Admin settings view](./../UI_views/admin_settings.png)
+</details>
+
 ## Teacher usage
 
 A teacher is allowed to do all the same things as a [student](#student-usage).
@@ -95,9 +101,6 @@ A teacher can access the overview of the student results by choosing "View stude
 
   ![Navigate to overview](./../UI_views/teacher_overview_navigate.png)
 </details>
-
-
-
 
 Here the teacher can see the main grade of the students' speech performance, the length of the recording, the number of tries the student has made and the status of the evaluation. Here the teacher can also delete the attempts from one or all students, which will result in resetting the student's attempts to zero. From the link "See report" the teacher can see a detailed version of the student's evaluation report.
 
@@ -195,16 +198,76 @@ Bottom left there's a box for the recording. This box also shows if there's a ti
 
 ### Recording and submitting speech
 
-The student can record their answer to the assignment multiple times by clicking the start and stop buttons on the recording box. After stopping a submission button is shown. If the student chooses to submit, the Digitala will redirect to the report page and show a loading symbol and text during the automated assessment. The evaluation can take from seconds to minutes depending on the recording length and other variables. In this point the student is free to move in the Moodle and come later to check if the evaluation is ready. When the evaluation is in a waiting status, the recording ability on the assignment page is also disabled.
+The student can record their answer to the assignment multiple times by clicking the start and stop buttons on the recording box. After stopping a submission button is shown.
+
+<details>
+  <summary>Figure: Submit answer</summary>
+
+  ![Submit answer](./../UI_views/student_submit.png)
+</details>
+
+If the student chooses to submit, the Digitala will redirect to the report page and show a loading symbol and text during the automated assessment. The evaluation can take from seconds to minutes depending on the recording length and other variables. On the page student can check if the evaluation is done, but if moving to other pages and returning when the evaluation is done, it will show automatically.
+
+<details>
+  <summary>Figure: Evaluation in progress</summary>
+
+  ![Evaluation in progress](./../UI_views/student_evaluation_in_progress.png)
+</details>
+
+At this point the student is free to move in the Moodle and come later to check if the evaluation is ready. When the evaluation is in a waiting status, the recording ability on the assignment page is also disabled.
 
 ### Evaluation report of speech
 
-After the evaluation a report of the speech performance can be shown on the third phase. This includes the recording and a transcript of the speech. In the Readaloud type includes also a transcript showing missing parts in orange underline and incorrect parts in skyblue. Charts show where the studen score is in a linear line and the black dots on charts hold the descriptions of different grades.
+After the automated evaluation a report of the speech performance can be shown on the third phase. This includes the recording and a transcript of the speech.
+
+<details>
+  <summary>Figure: Evaluation report</summary>
+
+  ![Evaluation report view](./../UI_views/student_evaluation_report.png)
+</details>
+
+In the Readaloud type includes also a transcript showing missing parts in orange underline and incorrect parts in skyblue.
+
+<details>
+  <summary>Figure: Readaloud corrections</summary>
+
+  ![Readaloud corrections](./../UI_views/student_readaloud_corrections.png)
+</details>
+
+Charts show where the studen score is in a linear line and the black dots on charts hold the descriptions of different grades.
+
+<details>
+  <summary>Figure: Charts</summary>
+
+  ![Charts](./../UI_views/student_chart.png)
+</details>
 
 ### Teacher's grading suggestions
 
-If a teacher has suggested changes to the automated evaluation, the title of the evaluation report will show as "Evaluation report - includes some teacher feedback". The latest teacher grading suggestions and comments can be found on the bottom part of every grading box.
+If a teacher has suggested changes to the automated evaluation, the title of the evaluation report will show as "Evaluation report - includes some teacher feedback".
+
+<details>
+  <summary>Figure: Report with feedback 1</summary>
+
+  ![Teacher feedback title](./../UI_views/student_includes_feedback.png)
+</details>
+
+<details>
+  <summary>Figure: Report with feedback 2</summary>
+
+  ![Teacher feedback texts](./../UI_views/student_includes_feedback2.png)
+</details>
+
+The latest teacher grading suggestions and comments can be found on the bottom part of every grading box.
 
 ### Give feedback on Digitala
 
-On the bottom of the third page is a hovering link "Give feedback" which will pop up to a feedback box. The origin of this feedback site can be set by the [administrator on the plugin settings](#admin-usage). The pop up closes by clicking on it again.
+On the bottom of the third page is a hovering link "Give feedback" which will pop up to a feedback box.
+
+<details>
+  <summary>Figure: Feedback box</summary>
+
+  ![Student feedback box](./../UI_views/student_feedbackbox.png)
+</details>
+
+The origin of this feedback site can be set by the [administrator on the plugin settings](#admin-usage). The pop up closes by clicking on it again.
