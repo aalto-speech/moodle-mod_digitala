@@ -214,13 +214,13 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_grading_html_output() {
         $result = create_report_grading('fluency', 0, 0);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><p>This measure reflects the speed, pauses, and hesitations in your speech.</p><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $result = create_report_grading('fluency', 0, 0, 1, 'bad');
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</p><p>Teacher\'s grade suggestion: 1</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><p>This measure reflects the speed, pauses, and hesitations in your speech.</p><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech.</p><p>Teacher\'s grade suggestion: 1</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $result = create_report_grading('fluency', 0, 0, 1, '');
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</p><p>Teacher\'s grade suggestion: 1</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><p>This measure reflects the speed, pauses, and hesitations in your speech.</p><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech.</p><p>Teacher\'s grade suggestion: 1</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $result = create_report_grading('fluency', 0, 0, 0, 'bad');
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>This measure reflects the speed, pauses, and hesitations in your speech. Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech. However, do not be discouraged: try again!</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Fluency</h5><p>This measure reflects the speed, pauses, and hesitations in your speech.</p><div class="digitala-chart-container"><canvas id="fluency" data-eval-name="fluency" data-eval-grade="0" data-eval-maxgrade="0" class="report-chart"></canvas></div><h6 class="grade-number">0/0</h6><div class="card-text"><p>Based on the automatic grading, it seems that unfortunately, the machine has not heard this type of performance before and therefore failed to grade your speech.</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -249,7 +249,7 @@ class locallib_test extends \advanced_testcase {
     public function test_create_report_waiting() {
         $_SERVER['REQUEST_URI'] = 'toot';
         $result = create_report_waiting();
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation in progress</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div><p>Evaluation is in progress, please hold. This could take up to few eternities.</p><a id="nextButton" class="btn btn-primary" href="toot">Press here to check if evaluation is completed.</a></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation in progress</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Evaluation is in progress, please do not leave the page. This may take some time.</p><a id="nextButton" class="btn btn-primary" href="toot">Press here to check if evaluation is completed.</a></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -257,7 +257,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_report_retry() {
         $result = create_report_retry();
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation failed</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div><p>Automated evaluation failed. Evaluation will be runned again in a hour. This could take up to few eternities.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation failed</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -271,6 +271,11 @@ class locallib_test extends \advanced_testcase {
 
         $result = create_report_information($report);
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">testinformation</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+
+        $report = new \digitala_report($this->digitala->id, $context->id, 5, $this->digitala->attempttype, $this->digitala->attemptlang, $this->digitala->attemptlimit, '', $USER->id); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+
+        $result = create_report_information($report);
+        $this->assertEquals('', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -285,8 +290,10 @@ class locallib_test extends \advanced_testcase {
      * Test creating report view tab creation helper.
      */
     public function test_tabs_html_output() {
+        $result = create_report_tabs('', '', 'test');
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" aria-controls="report-grades" aria-selected="true">Analytic grading</button><button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" aria-controls="report-holistic" aria-selected="false">Proficiency level</button><button class="nav-link ml-2" id="report-information-tab" data-toggle="tab" href="#report-information" role="tab" aria-controls="report-information" aria-selected="false">More information</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div><div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab"></div><div class="tab-pane fade" id="report-information" role="tabpanel" aria-labelledby="report-information-tab">test</div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
         $result = create_report_tabs('', '', '');
-        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" aria-controls="report-grades" aria-selected="true">Analytic grading</button><button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" aria-controls="report-holistic" aria-selected="false">Proficiency level</button><button class="nav-link ml-2" id="report-information-tab" data-toggle="tab" href="#report-information" role="tab" aria-controls="report-information" aria-selected="false">More information</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div><div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab"></div><div class="tab-pane fade" id="report-information" role="tabpanel" aria-labelledby="report-information-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="report-grades-tab" data-toggle="tab" href="#report-grades" role="tab" aria-controls="report-grades" aria-selected="true">Analytic grading</button><button class="nav-link ml-2" id="report-holistic-tab" data-toggle="tab" href="#report-holistic" role="tab" aria-controls="report-holistic" aria-selected="false">Proficiency level</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="report-grades" role="tabpanel" aria-labelledby="report-grades-tab"></div><div class="tab-pane fade" id="report-holistic" role="tabpanel" aria-labelledby="report-holistic-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -1077,7 +1084,7 @@ class locallib_test extends \advanced_testcase {
 
     public function test_create_transcript_toggle() {
         $result = create_transcript_toggle('transcript', 'feedback');
-        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="readaloud-transcript-tab" data-toggle="tab" href="#readaloud-transcript" role="tab" aria-controls="readaloud-transcript" aria-selected="true">Plain text</button><button class="nav-link ml-2" id="readaloud-feedback-tab" data-toggle="tab" href="#readaloud-feedback" role="tab" aria-controls="readaloud-feedback" aria-selected="false">Show corrections</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="readaloud-transcript" role="tabpanel" aria-labelledby="readaloud-transcript-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">transcript</div></div></div></div><div class="tab-pane fade" id="readaloud-feedback" role="tabpanel" aria-labelledby="readaloud-feedback-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Transcript feedback</h5><div class="card-text scrollbox200">feedback</div></div></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="readaloud-transcript-tab" data-toggle="tab" href="#readaloud-transcript" role="tab" aria-controls="readaloud-transcript" aria-selected="true">Original text</button><button class="nav-link ml-2" id="readaloud-feedback-tab" data-toggle="tab" href="#readaloud-feedback" role="tab" aria-controls="readaloud-feedback" aria-selected="false">Show corrections</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="readaloud-transcript" role="tabpanel" aria-labelledby="readaloud-transcript-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">transcript</div></div></div></div><div class="tab-pane fade" id="readaloud-feedback" role="tabpanel" aria-labelledby="readaloud-feedback-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Read-aloud feedback</h5><div class="card-text scrollbox200">feedback</div></div></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -1171,7 +1178,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_add_delete_all_attempts_button() {
         $result = add_delete_all_attempts_button();
-        $this->assertEquals($result, '<button id="deleteAllButton" class="btn btn-danger" data-toggle="modal" data-target="#deleteAllModal">Delete all</button>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($result, '<button id="deleteAllButton" class="btn btn-danger" data-toggle="modal" data-target="#deleteAllModal">Delete all attempts</button>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
     // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
 
@@ -1182,7 +1189,7 @@ class locallib_test extends \advanced_testcase {
         global $USER;
 
         $result = create_delete_modal(1, $USER);
-        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Warning</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
+        $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
     }
 
     // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
@@ -1296,7 +1303,7 @@ class locallib_test extends \advanced_testcase {
 
     public function test_create_export_buttons() {
         $result = create_export_buttons(2);
-        $this->assertEquals($result, '<a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=attempts" id="export_attempts" class="btn btn-primary">Export all attempts as CSV</a><a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=feedback" id="export_attempts_feedback" class="btn btn-primary">Export all feedbacks for attempts as CSV</a>');
+        $this->assertEquals($result, '<a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=attempts" id="export_attempts" class="btn btn-primary">Export all attempts as CSV</a><a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=feedback" id="export_attempts_feedback" class="btn btn-primary">Export all teacher feedback for attempts as CSV</a>');
     }
     // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 }
