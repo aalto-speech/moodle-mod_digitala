@@ -39,12 +39,12 @@ Feature: Teacher can give feedback on ASR evaluation
 
   Scenario: Feedback button works correctly in teachers report detail page in freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I click on "Suggest changes to grading" "link"
+    And I click on "Suggest changes to automatic evaluation report" "link"
     And I should see "Feedback on Fluency"
 
   Scenario: Feedback button works correctly in teachers report detail page in readaloud
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I click on "Suggest changes to grading" "link"
+    And I click on "Suggest changes to automatic evaluation report" "link"
     And I should see "Feedback on Fluency"
 
   Scenario: Feedback can be given on Freeform and student can see it on their report
@@ -64,7 +64,7 @@ Feature: Teacher can give feedback on ASR evaluation
     And the following feedback is found:
       | name     | username |
       | Freeform | olli     |
-    And I should see "Comment added successfully to students report."
+    And I should see "Comment added successfully to student's report."
     And I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
     Then I should see "Teacher's grade suggestion: 2.0"
     And I should see "Evaluation was too high."
@@ -82,20 +82,20 @@ Feature: Teacher can give feedback on ASR evaluation
     And the following feedback is found:
       | name      | username |
       | Readaloud | olli     |
-    And I should see "Comment added successfully to students report."
+    And I should see "Comment added successfully to student's report."
     And I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     Then I should see "Teacher's grade suggestion: 2.37"
     And I should see "Evaluation was too high."
 
   Scenario Outline: Give feedback button is shown only for evaluated attempts
     When I am on the "<activity> > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should see "Suggest changes to grading"
+    And I should see "Suggest changes to automatic evaluation report"
     When I am on the "<activity> > essi" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should not see "Suggest changes to grading"
+    And I should not see "Suggest changes to automatic evaluation report"
     When I am on the "<activity> > seppo" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should not see "Suggest changes to grading"
+    And I should not see "Suggest changes to automatic evaluation report"
     When I am on the "<activity> > milla" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should not see "Suggest changes to grading"
+    And I should not see "Suggest changes to automatic evaluation report"
 
     Examples:
       | activity  |
