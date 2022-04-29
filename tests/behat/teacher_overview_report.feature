@@ -61,7 +61,7 @@ Feature: Teacher can see students overview report
   Scenario: Overview report link shows for teacher in freeform
     Then I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
     Then I should see "Olli Opiskelija"
-    And I should see "1010"
+    And I should see "1009"
     And I should see "01:09"
     And I should see "666"
     And I should see "See report"
@@ -84,7 +84,7 @@ Feature: Teacher can see students overview report
   Scenario: Overview report link shows for teacher in readaloud
     Then I am on the "Readaloud" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
     Then I should see "Olli Opiskelija"
-    And I should see "5003"
+    And I should see "5001"
     And I should see "01:09"
     And I should see "666"
     And I should see "See report"
@@ -177,8 +177,8 @@ Feature: Teacher can see students overview report
     And I should see "4009"
     And I should see "1"
     And I should see "2"
+    And I should see "3"
     And I should see "4"
-    And I should see "0.45"
     And I should see "69"
     And I should see "260"
     And I should see "120"
