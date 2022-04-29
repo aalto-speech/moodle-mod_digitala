@@ -51,7 +51,9 @@ $string['assignmenttext'] = 'Uppgift';
 $string['assignmenttext_help'] = 'En instruktionstext om vad och hur man ska tala i uppgiften';
 $string['assignmentresource'] = 'Material';
 $string['assignmentresource_help'] = 'Material placeras här. I uppgiften "Högläsning" placeras texten här. I uppgiften "Fri produktion" kan man placera här t.ex. text, bilder och figurer som utnyttjas i uppgiften.';
+$string['maxlength'] = 'Maxlängd';
 $string['maxlength_error'] = 'Inspelningen får inte överstiga 5 minuter';
+$string['maxlength_help'] = 'Inspelningen måste vara mindre än 5 minuter eller 300 sekunder lång.';
 
 $string['navnext'] = 'Nästa >';
 $string['navprevious'] = '< Föregående';
