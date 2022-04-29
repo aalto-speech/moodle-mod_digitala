@@ -56,7 +56,7 @@ Feature: Teacher can see students overview report
     And I should see "Evaluation report"
     And I should see "Timestamp"
     And I should see "Export all attempts as CSV"
-    And I should see "Export all feedbacks for attempts as CSV"
+    And I should see "Export all teacher feedback for attempts as CSV"
     And I should see "Export all recordings"
 
   Scenario: Overview report link shows for teacher in freeform
@@ -103,7 +103,6 @@ Feature: Teacher can see students overview report
     And I should see "-"
     And I should see "01:00"
     And I should see "1337"
-    And I should see "Failed"
     And I should see "Evaluation failed"
 
   Scenario: Export attempts as CSV works in readaloud:
