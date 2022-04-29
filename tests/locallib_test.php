@@ -1257,6 +1257,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating short assignment tabs.
+     * @covers ::create_short_assignment_tabs
      */
     public function test_create_short_assignment_tabs() {
         $result = create_short_assignment_tabs('', '');
@@ -1265,6 +1266,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating transcript toggles.
+     * @covers ::create_transcript_toggle
      */
     public function test_create_transcript_toggle() {
         $result = create_transcript_toggle('transcript', 'feedback');
