@@ -536,6 +536,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Test saving attempt status to database.
+     * @covers ::set_attempt_status
      */
     public function test_set_attempt_status() {
         global $DB;
@@ -556,6 +557,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Test saving failed attempt to database.
+     * @covers ::save_failed_attempt
      */
     public function test_save_failed_attempt() {
         global $DB;
@@ -597,6 +599,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Test saving a readaloud attempt to database.
+     * @covers ::save_attempt
      */
     public function test_save_attempt_freeform() {
         global $DB;
@@ -662,6 +665,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Test saving a freeform attempt to database.
+     * @covers ::save_attempt
      */
     public function test_save_attempt_readaloud() {
         global $DB;
@@ -703,6 +707,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Test reading an attempt from database.
+     * @covers ::get_attempt
      */
     public function test_get_attempt() {
         global $DB, $USER;
@@ -726,6 +731,10 @@ class locallib_test extends \advanced_testcase {
     }
 
 // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+    /**
+     * Test creating microphone element.
+     * @covers ::create_microphone
+     */
     public function test_create_microphone() {
         $result = create_microphone();
         $this->assertEquals('<p id="recordTimer"><span id="recordingLength">00:00</span></p><span id="startIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></span><span id="stopIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-stop-fill"><path d="M5 4h6a2 2 0 0 1 2 1v6a2 2 0 0 1-2 2H5a2 2 0 0 1-1-2V5a2 2 0 0 1 1-1z" /></svg></span><button id="record" class="btn btn-primary record-btn">Record <svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></button><button id="listen" class="btn btn-primary listen-btn" disabled="true">Listen to your recording <svg width="16" height="16" fill="currentColor" class="bi bi-volume-down-fill"><path d="M9 4a.5.5 0 0 0-.8-.4L5.8 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.3l2.4 1.9A.5.5 0 0 0 9 12V4zm3 4a4.5 4.5 0 0 1-1.3 3.2l-.7-.7A3.5 3.5 0 0 0 11 8a3.5 3.5 0 0 0-1-2.5l.7-.7A4.5 4.5 0 0 1 12 8z" /></svg></button>', $result);
@@ -733,6 +742,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Test creating microphone icon.
+     * @covers ::create_microphone_icon
      */
     public function test_create_microphone_icon() {
         $result = create_microphone_icon();
@@ -742,6 +752,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Test creating a fixed box for feedback.
+     * @covers ::create_fixed_box
      */
     public function test_create_fixed_box() {
         $result = create_fixed_box();
@@ -751,6 +762,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating chart canvas.
+     * @covers ::create_chart
      */
     public function test_create_chart() {
         $result = create_chart('nimi', '2.00', '4');
@@ -759,6 +771,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests getting remaining number of attempts.
+     * @covers ::get_remaining_number
      */
     public function test_get_remaining_number() {
         $assignment = new \stdClass();
@@ -793,6 +806,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating attempt number.
+     * @covers ::create_attempt_number
      */
     public function test_create_attempt_number() {
         $assignment = new \stdClass();
@@ -827,6 +841,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating modal template.
+     * @covers ::create_modal
      */
     public function test_create_modal() {
         $result = create_modal('newModal', 'Title', 'Body',
@@ -836,6 +851,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating attempt modal.
+     * @covers ::create_attempt_modal
      */
     public function test_create_attempt_modal() {
         global $USER;
@@ -878,6 +894,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating the results url.
+     * @covers ::results_url
      */
     public function test_results_url() {
         $generatedurl = results_url(1, 1, 1);
@@ -886,6 +903,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests getting all attempts.
+     * @covers ::get_all_attempts
      */
     public function test_get_all_attempts() {
         global $DB;
@@ -921,13 +939,13 @@ class locallib_test extends \advanced_testcase {
         create_waiting_attempt($assignment, 'filename2', $recordinglength);
         save_attempt($assignment, $evaluation);
 
-        $records = $DB->get_records('digitala_attempts',
-                                  array('digitala' => $assignment->instanceid));
+        $records = get_all_attempts($assignment->instanceid);
         $this->assertEquals(2, count($records));
     }
 
     /**
      * Tests getting user and compares their ids.
+     * @covers ::get_user
      */
     public function test_get_user() {
         global $USER;
@@ -937,6 +955,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating result row.
+     * @covers ::create_result_row
      */
     public function test_create_result_row() {
         global $DB, $USER;
@@ -972,6 +991,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests convertsecondstostring for making time strings from seconds
+     * @covers ::convertsecondstostring
      */
     public function test_convertsecondstostring() {
         $result = convertsecondstostring(5);
@@ -1011,6 +1031,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests save report feedback readaloud type
+     * @covers ::save_report_feedback
      */
     public function test_save_report_feedback_readaloud() {
         global $DB;
@@ -1050,6 +1071,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests save report feedback freeform type
+     * @covers ::save_report_feedback
      */
     public function test_save_report_feedback_freeform() {
         global $DB;
@@ -1102,6 +1124,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests fetching latest teacher feedback from batabase.
+     * @covers ::get_feedback
      */
     public function test_get_feedback() {
         global $DB;
@@ -1172,6 +1195,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating delete attempt feedbacks.
+     * @covers ::delete_attempt_feedbacks
      */
     public function delete_attempt_feedbacks() {
         global $DB;
@@ -1215,6 +1239,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating delete attempt.
+     * @covers ::delete_attempt
      */
     public function delete_attempt() {
         global $DB;
@@ -1238,6 +1263,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating delete all attempts.
+     * @covers ::delete_all_attempts
      */
     public function delete_all_attempts() {
         global $DB;
@@ -1275,6 +1301,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests adding delete attempt button.
+     * @covers ::add_delete_attempt_button
      */
     public function test_add_delete_attempt_button() {
         global $USER;
@@ -1284,6 +1311,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests adding delete redirect button.
+     * @covers ::add_delete_redirect_button
      */
     public function test_add_delete_redirect_button() {
         global $USER;
@@ -1293,6 +1321,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests adding delete all redirect button.
+     * @covers ::add_delete_all_redirect_button
      */
     public function test_add_delete_all_redirect_button() {
         $result = add_delete_all_redirect_button(2);
@@ -1301,6 +1330,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests adding delete all attempts button.
+     * @covers ::add_delete_all_attempts_button
      */
     public function test_add_delete_all_attempts_button() {
         $result = add_delete_all_attempts_button();
@@ -1310,6 +1340,7 @@ class locallib_test extends \advanced_testcase {
 
     /**
      * Tests creating delete modal.
+     * @covers ::create_delete_modal
      */
     public function test_create_delete_modal() {
         global $USER;
@@ -1321,6 +1352,10 @@ class locallib_test extends \advanced_testcase {
     // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 
     // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+    /**
+     * Tests generating attempts csv.
+     * @covers ::generate_attempts_csv
+     */
     public function test_generate_attempts_csv() {
         global $CFG, $DB;
 
@@ -1352,6 +1387,10 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(str_contains($result, 501), true);
     }
 
+    /**
+     * Tests getting all feedback.
+     * @covers ::save_report_feedback
+     */
     public function test_get_all_feedbacks() {
         global $DB;
 
@@ -1396,6 +1435,10 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(count($result), 2);
     }
 
+    /**
+     * Tests generating csv from all feedback.
+     * @covers ::generate_report_feedback_csv
+     */
     public function test_generate_report_feedback_csv() {
         global $DB;
 
@@ -1427,6 +1470,11 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(str_contains($result, 809), true);
     }
 
+
+    /**
+     * Tests creating export buttons.
+     * @covers ::create_export_buttons
+     */
     public function test_create_export_buttons() {
         $result = create_export_buttons(2);
         $this->assertEquals($result, '<a id="export_attempts" class="btn btn-primary" href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=attempts">Export all attempts as CSV</a><a id="export_attempts_feedback" class="btn btn-primary" href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=feedback">Export all feedbacks for attempts as CSV</a><a id="export_recordings" class="btn btn-primary" href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=recordings">Export all recordings</a>');

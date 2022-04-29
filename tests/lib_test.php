@@ -24,7 +24,6 @@ global $CFG;
  * Unit tests for adding a digitala plugin
  *
  * @group       mod_digitala
- * @covers      \mod_digitala
  * @package     mod_digitala
  * @category    test
  * @copyright   2022 Name
@@ -50,6 +49,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test adding digitala plugin.
+     * @covers ::digitala_add_instance
      */
     public function test_add_digitala() {
         $digitala = $this->create_digitala();
@@ -72,6 +72,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test deleting a digitala instance.
+     * @covers ::digitala_delete_instance
      */
     public function test_digitala_delete_instance() {
         global $DB;
@@ -87,6 +88,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test updating a digitala instance.
+     * @covers ::digitala_update_instance
      */
     public function test_digitala_update_instance() {
         // Get the created digitala course.
@@ -102,6 +104,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test digitala file areas dummy function.
+     * @covers ::digitala_get_file_areas
      */
     public function test_digitala_get_file_areas() {
         $this->assertEquals(array('recordings', 'files'), digitala_get_file_areas(null, null, null));
@@ -109,6 +112,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test digitala get file info dummy function.
+     * @covers ::digitala_get_file_info
      */
     public function test_digitala_get_file_info() {
         $this->assertEquals(null, digitala_get_file_info(null, null, null, null, null, null, null, null, null));
@@ -116,6 +120,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test digitala get editor options function.
+     * @covers ::digitala_get_editor_options
      */
     public function test_digitala_get_editor_options() {
         $result = digitala_get_editor_options(null);
