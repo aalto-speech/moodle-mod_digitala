@@ -3,8 +3,61 @@ name: Moodle Plugin CI for Moodle 3.9 and 3.11
 on: [push]
 
 jobs:
+  version:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Check out repository code
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: actions/checkout@v2
+        with:
+          path: plugin
+
+      - name: Find PR
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: jwalton/gh-find-current-pr@v1
+        id: pr
+        with:
+          state: all
+
+      - name: Run bump-version.sh
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          chmod +x ./plugin/scripts/bump-version.sh
+          ./plugin/scripts/bump-version.sh plugin
+
+      - name: Commit version and release bump
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: EndBug/add-and-commit@v9
+        id: version_commit
+        with:
+          add: version.php
+          message: 'Bump version & release'
+          cwd: './plugin'
+          default_author: user_info
+          tag: ${{env.new_release}}-${{env.new_version}}
+
+      - name: Echo info to files
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          mkdir info
+          echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
+          echo "commit=${{ steps.version_commit.outputs.commit_sha }}" > info/version_commit
+          echo $(cat info/pr-title)
+          echo $(cat info/version_commit)
+
+      - name: Upload info for zip-n-release
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: info
+          path: |
+            info/pr-title
+            info/version_commit
+
   test:
     runs-on: ubuntu-20.04
+    needs: version
 
     services:
       postgres:
@@ -190,58 +243,10 @@ jobs:
           php admin/tool/behat/cli/init.php
           php admin/tool/behat/cli/run.php --tags=@mod_digitala --profile=audiochrome --verbose -vvv --auto-rerun=2
 
-  version:
-    runs-on: ubuntu-20.04
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: test
-
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-        with:
-          path: plugin
-
-      - name: Find PR
-        uses: jwalton/gh-find-current-pr@v1
-        id: pr
-        with:
-          state: all
-
-      - name: Run bump-version.sh
-        run: |
-          chmod +x ./plugin/scripts/bump-version.sh
-          ./plugin/scripts/bump-version.sh plugin
-
-      - name: Commit version and release bump
-        uses: EndBug/add-and-commit@v9
-        id: version_commit
-        with:
-          add: version.php
-          message: 'Bump version & release'
-          cwd: './plugin'
-          default_author: user_info
-          tag: ${{env.new_release}}-${{env.new_version}}
-
-      - name: Echo info to files
-        run: |
-          mkdir info
-          echo "title=${{ steps.pr.outputs.title }}" > info/pr-title
-          echo "commit=${{ steps.version_commit.outputs.commit_sha }}" > info/version_commit
-          echo $(cat info/pr-title)
-          echo $(cat info/version_commit)
-
-      - name: Upload info for zip-n-release
-        uses: actions/upload-artifact@v3
-        with:
-          name: info
-          path: |
-            info/pr-title
-            info/version_commit
-
   zip-n-release:
     runs-on: ubuntu-20.04
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: version
+    needs: test
 
     steps:
       - name: Download info from version

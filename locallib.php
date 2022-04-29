@@ -251,7 +251,7 @@ function create_resource($assignment) {
     $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
                                               'mod_digitala', 'files', 0);
 
-    return html_writer::div($resources, 'card-text scrollbox400');;
+    return html_writer::div($resources, 'card-text scrollbox400');
 }
 
 /**
@@ -265,12 +265,13 @@ function create_resource($assignment) {
  */
 function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, $feedbackreason = null) {
     $out = html_writer::tag('h5', get_string($name, 'digitala'), array('class' => 'card-title'));
+    $out .= html_writer::tag('p', get_string($name.'_description', 'digitala'));
 
     $out .= create_chart($name, $grade, $maxgrade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array('class' => 'grade-number'));
 
     $out .= html_writer::start_div('card-text');
-    $out .= html_writer::tag('p', get_string($name.'_description', 'digitala').
+    $out .= html_writer::tag('p', get_string('task_grades_preamble', 'digitala').
                                   lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')));
 
     if (isset($feedbackgrade) && $grade != $feedbackgrade) {
@@ -355,11 +356,17 @@ function create_report_retry() {
 /**
  * Creates more information container from report
  *
- * @param string $text information to show on report page given by the server
+ * @param digitala_report $report report object containing information
  */
-function create_report_information($text) {
+function create_report_information($report) {
+    if (empty($report->informationtext)) {
+        return '';
+    }
+
     $out = html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
 
+    $text = file_rewrite_pluginfile_urls($report->informationtext, 'pluginfile.php', $report->contextid,
+                                         'mod_digitala', 'info', 0);
     $out .= html_writer::div($text, 'card-text');
 
     return create_card_template($out);
@@ -438,8 +445,10 @@ function create_tabs($tabs) {
  */
 function create_report_tabs($gradings, $holistic, $information) {
     $tabs = array('report-grades' => array('name' => get_string('task_grades', 'digitala'), 'content' => $gradings),
-                  'report-holistic' => array('name' => get_string('holistic', 'digitala'), 'content' => $holistic),
-                  'report-information' => array('name' => get_string('moreinformation', 'digitala'), 'content' => $information));
+                  'report-holistic' => array('name' => get_string('holistic', 'digitala'), 'content' => $holistic));
+    if (!empty($information)) {
+        $tabs['report-information'] = array('name' => get_string('moreinformation', 'digitala'), 'content' => $information);
+    }
 
     return create_tabs($tabs);
 }
@@ -1062,7 +1071,9 @@ function create_result_row($attempt, $id, $user) {
 
     $deletebutton = add_delete_attempt_button($user);
 
-    $cells = array($username, $score, $time, $tries, $status, $urllink, $deletebutton);
+    $timestamp = timestampformatter($attempt->timecreated);
+
+    $cells = array($username, $score, $time, $tries, $status, $timestamp, $urllink, $deletebutton);
     return $cells;
 }
 
@@ -1155,6 +1166,18 @@ function convertsecondstostring($secs) {
 
     return $hours.$minutes.':'.$seconds;
 }
+
+/**
+ * Gets number of attempts remaining for the user.
+ *
+ * @param int $time timestamp in Unix epoch time
+ * @return string $timestamp timestamp in format dd.mm.yyyy hh.mm:ss
+ */
+function timestampformatter($time) {
+    $timestamp = date("d.m.Y H.i:s", $time);
+    return $timestamp;
+}
+
 
 /**
  * Gets number of attempts remaining for the user.

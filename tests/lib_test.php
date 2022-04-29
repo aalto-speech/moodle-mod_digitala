@@ -48,15 +48,6 @@ class lib_test extends \advanced_testcase {
     }
 
     /**
-     * Test adding digitala plugin.
-     * @covers ::digitala_add_instance
-     */
-    public function test_add_digitala() {
-        $digitala = $this->create_digitala();
-        $this->assertEquals('new_digitala', $digitala->name);
-    }
-
-    /**
      * Create new digitala activity.
      */
     private function create_digitala() {
@@ -67,7 +58,55 @@ class lib_test extends \advanced_testcase {
                 'attempttype' => 'freeform',
                 'assignment' => 'Assignment text',
                 'resources' => array('text' => 'Resource text', 'format' => 1),
+                'information' => array('text' => 'Information text', 'format' => 1),
             ]);
+    }
+
+    /**
+     * Test creating a digitala instance.
+     * @covers ::digitala_add_instance
+     */
+    public function test_digitala_add_instance() {
+        $digitala = $this->create_digitala();
+        $this->assertEquals('new_digitala', $digitala->name);
+
+        $digitala = $this->getDataGenerator()->create_module('digitala', [
+                'course' => $this->course->id,
+                'name' => 'new_digitala',
+                'attemptlang' => 'fi',
+                'attempttype' => 'freeform',
+                'assignment' => 'Assignment text',
+                'resources' => array('text' => 'Resource text', 'format' => 1),
+                'information' => array('text' => 'Information text', 'format' => 1),
+                'resources_editor' => array('text' => 'New resource text', 'format' => 1),
+            ]);
+        $this->assertEquals($digitala->resources, 'New resource text');
+        $this->assertEquals($digitala->information, 'Information text');
+        $digitala = $this->getDataGenerator()->create_module('digitala', [
+                'course' => $this->course->id,
+                'name' => 'new_digitala',
+                'attemptlang' => 'fi',
+                'attempttype' => 'freeform',
+                'assignment' => 'Assignment text',
+                'resources' => array('text' => 'Resource text', 'format' => 1),
+                'information' => array('text' => 'Information text', 'format' => 1),
+                'information_editor' => array('text' => 'New information text', 'format' => 1),
+            ]);
+        $this->assertEquals($digitala->resources, 'Resource text');
+        $this->assertEquals($digitala->information, 'New information text');
+        $digitala = $this->getDataGenerator()->create_module('digitala', [
+                'course' => $this->course->id,
+                'name' => 'new_digitala',
+                'attemptlang' => 'fi',
+                'attempttype' => 'freeform',
+                'assignment' => 'Assignment text',
+                'resources' => array('text' => 'Resource text', 'format' => 1),
+                'information' => array('text' => 'Information text', 'format' => 1),
+                'resources_editor' => array('text' => 'New resource text', 'format' => 1),
+                'information_editor' => array('text' => 'New information text', 'format' => 1),
+            ]);
+        $this->assertEquals($digitala->resources, 'New resource text');
+        $this->assertEquals($digitala->information, 'New information text');
     }
 
     /**
@@ -75,15 +114,16 @@ class lib_test extends \advanced_testcase {
      * @covers ::digitala_delete_instance
      */
     public function test_digitala_delete_instance() {
-        global $DB;
+        $result = digitala_delete_instance(0);
+        $this->assertEquals($result, false);
+
         // Get the created digitala course.
         $digitala = $this->create_digitala();
 
-        digitala_delete_instance($digitala->course);
+        $result = digitala_delete_instance($digitala->id);
 
         // Check that the digitala course instance was removed.
-        $count = $DB->count_records('digitala', array('id' => $digitala->course));
-        $this->assertEquals(0, $count);
+        $this->assertEquals($result, true);
     }
 
     /**
@@ -100,14 +140,65 @@ class lib_test extends \advanced_testcase {
 
         // Check that the digitala instance update returned true.
         $this->assertEquals(true, $passed);
+        $this->assertEquals('Resource text', $digitala->resources);
+        $this->assertEquals('Information text', $digitala->information);
+
+        $digitala = $this->create_digitala();
+        $digitala->instance = 2;
+        $digitala->coursemodule = $digitala->cmid;
+        $digitala->resources_editor = array('text' => 'New resource text', 'format' => 1);
+
+        digitala_update_instance($digitala);
+
+        $this->assertEquals('New resource text', $digitala->resources);
+        $this->assertEquals('Information text', $digitala->information);
+
+        $digitala = $this->create_digitala();
+        $digitala->instance = 2;
+        $digitala->coursemodule = $digitala->cmid;
+        $digitala->information_editor = array('text' => 'New information text', 'format' => 1);
+
+        digitala_update_instance($digitala);
+
+        $this->assertEquals('Resource text', $digitala->resources);
+        $this->assertEquals('New information text', $digitala->information);
+
+        $digitala = $this->create_digitala();
+        $digitala->instance = 2;
+        $digitala->coursemodule = $digitala->cmid;
+        $digitala->resources_editor = array('text' => 'New resource text', 'format' => 1);
+        $digitala->information_editor = array('text' => 'New information text', 'format' => 1);
+
+        digitala_update_instance($digitala);
+
+        $this->assertEquals('New resource text', $digitala->resources);
+        $this->assertEquals('New information text', $digitala->information);
     }
 
     /**
-     * Test digitala file areas dummy function.
+     * Test digitala grade item delete dummy function.
+     * @covers ::digitala_grade_item_delete
+     */
+    public function test_digitala_grade_item_delete() {
+        $digitala = $this->create_digitala();
+        $this->assertEquals(null, digitala_grade_item_delete($digitala));
+    }
+
+    /**
+     * Test digitala update grades dummy function.
+     * @covers ::digitala_update_grades
+     */
+    public function test_digitala_update_grades() {
+        $digitala = $this->create_digitala();
+        $this->assertEquals(null, digitala_update_grades($digitala));
+    }
+
+    /**
+     * Test digitala file areas.
      * @covers ::digitala_get_file_areas
      */
     public function test_digitala_get_file_areas() {
-        $this->assertEquals(array('recordings', 'files'), digitala_get_file_areas(null, null, null));
+        $this->assertEquals(array('recordings', 'files', 'info'), digitala_get_file_areas(null, null, null));
     }
 
     /**

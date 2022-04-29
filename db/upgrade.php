@@ -354,7 +354,26 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022042402, 'digitala');
     }
 
-    if ($oldversion < 2022042709) {
+    if ($oldversion < 2022042702) {
+
+        // Define field information to be added to digitala.
+        $table = new xmldb_table('digitala');
+        $field = new xmldb_field('information', XMLDB_TYPE_TEXT, null, null, null, null, null, 'attemptlimit');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('informationformat', XMLDB_TYPE_INTEGER, '4', null, null, null, '0', 'information');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2022042702, 'digitala');
+    }
+
+    if ($oldversion < 2022042906) {
 
         $table = new xmldb_table('digitala_attempts');
         $field = new xmldb_field('gop_score');
@@ -377,7 +396,7 @@ function xmldb_digitala_upgrade($oldversion) {
         if ($dbman->field_exists($table, $field)) {
             $dbman->drop_field($table, $field);
         }
-        upgrade_mod_savepoint(true, 2022042709, 'digitala');
+        upgrade_mod_savepoint(true, 2022042906, 'digitala');
     }
 
     return true;

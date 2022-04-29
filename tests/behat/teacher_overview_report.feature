@@ -17,9 +17,9 @@ Feature: Teacher can see students overview report
       | ossi | C1     | manager |
       | olli | C1     | student |
     And the following "activities" exist:
-      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit |
-      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            |
-      | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
+      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit | information     | informationformat |
+      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            | testinformation | 1                 |
+      | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            | testinformation | 1                 |
     And I add freeform attempt to database:
       | name     | username | attemptnumber | file  | transcript  | fluency | taskcompletion | pronunciation | lexicogrammatical | holistic | recordinglength | status    |
       | Freeform | olli     | 666           | file1 | transcript1 | 1001    | 1005           | 1003          | 1007              | 1009     | 69              | evaluated |
@@ -49,11 +49,12 @@ Feature: Teacher can see students overview report
     When I am on the "Freeform" "mod_digitala > Info" page logged in as "ossi"
     Then I navigate to "View student results" in current page administration
     Then I should see "Student"
-    And I should see "Proficiency/Analytic grades"
+    And I should see "Proficiency"
     And I should see "Time"
     And I should see "Tries"
     And I should see "Status"
     And I should see "Evaluation report"
+    And I should see "Timestamp"
     And I should see "Export all attempts as CSV"
     And I should see "Export all feedbacks for attempts as CSV"
     And I should see "Export all recordings"
@@ -69,17 +70,17 @@ Feature: Teacher can see students overview report
     And I should see "-"
     And I should see "04:20"
     And I should see "420"
-    And I should see "Waiting"
+    And I should see "Waiting for evaluation"
     Then I should see "Seppo Opiskelija"
     And I should see "-"
     And I should see "02:00"
     And I should see "69"
-    And I should see "Retrying"
+    And I should see "Retrying automatic evaluation"
     Then I should see "Milla Opiskelija"
     And I should see "-"
     And I should see "01:00"
     And I should see "1337"
-    And I should see "Failed"
+    And I should see "Evaluation failed"
 
   Scenario: Overview report link shows for teacher in readaloud
     Then I am on the "Readaloud" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
@@ -92,17 +93,18 @@ Feature: Teacher can see students overview report
     And I should see "-"
     And I should see "04:20"
     And I should see "420"
-    And I should see "Waiting"
+    And I should see "Waiting for evaluation"
     Then I should see "Seppo Opiskelija"
     And I should see "-"
     And I should see "02:00"
     And I should see "69"
-    And I should see "Retrying"
+    And I should see "Retrying automatic evaluation"
     Then I should see "Milla Opiskelija"
     And I should see "-"
     And I should see "01:00"
     And I should see "1337"
     And I should see "Failed"
+    And I should see "Evaluation failed"
 
   Scenario: Export attempts as CSV works in readaloud:
     When I am on the "Readaloud > attempts" "mod_digitala > Export" page logged in as "ossi"

@@ -90,7 +90,8 @@ if ($pagenum == 0) {
 } else if ($pagenum == 2) {
     $PAGE->requires->js_call_amd('mod_digitala/chart', 'init');
     $content .= $OUTPUT->render(new digitala_report($moduleinstance->id, $modulecontext->id, $id, $moduleinstance->attempttype,
-                                $moduleinstance->attemptlang, $moduleinstance->attemptlimit, $USER->id));
+                                $moduleinstance->attemptlang, $moduleinstance->attemptlimit,
+                                $moduleinstance->information, $USER->id));
 } else {
     $content = get_string('results_denied', 'digitala');
 }

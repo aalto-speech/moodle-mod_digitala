@@ -39,18 +39,21 @@ $string['attemptlang_help'] = 'Valitse, minkä kielen tehtävä luodaan.';
 $string['fi'] = 'Suomi';
 $string['sv'] = 'Ruotsi';
 $string['attempttype'] = 'Tehtävätyyppi';
-$string['attempttype_help'] = 'Lue ääneen -tehtävässä pitää lukea annettu teksti ääneen. Vapaa tuotto -tehtävässä voidaan puhua vapaammin tehtävänannon aiheesta.';
-$string['readaloud'] = 'Lue ääneen';
+$string['attempttype_help'] = 'Ääneenluenta -tehtävässä pitää lukea annettu teksti ääneen. Vapaa tuotto -tehtävässä voidaan puhua vapaammin tehtävänannon aiheesta.';
+$string['readaloud'] = 'Ääneenluenta';
 $string['freeform'] = 'Vapaa tuotto';
 $string['timelimit'] = 'Maksimiaika';
+$string['unlimited'] = 'Ei rajaa';
 $string['attemptlimit'] = 'Vastausyritysten määrä';
 $string['attemptlimit_help'] = 'Käyttäjän vastausyritysten määrä.';
-$string['unlimited'] = 'Ei rajaa';
 $string['assignment'] = 'Tehtävä';
-$string['assignment_help'] = 'Tehtävänanto, jonka mukaan tulee tehdä puhesuoritus.';
+$string['assignmenttext'] = 'Tehtävä';
+$string['assignmenttext_help'] = 'Tehtävänanto, jonka mukaan tulee tehdä puhesuoritus.';
 $string['assignmentresource'] = 'Aineisto';
 $string['assignmentresource_help'] = 'Tehtävän aineisto voidaan liittää tähän. Lue ääneen -tehtävän luettava teksti tulee tähän. Vapaa tuotto -tehtävässä tähän voidaan lisätä tekstiä, kuvia, kaavioita ja videoita, joita suorituksessa tulee hyödyntää.';
+$string['maxlength'] = 'Maksimipituus';
 $string['maxlength_error'] = 'Nauhoite saa olla maksimissaan 5 minuuttia pitkä';
+$string['maxlength_help'] = 'Nauhoitteen täytyy olla alle 5 minuuttia tai 300 sekuntia pituudessa.';
 
 $string['navnext'] = 'Seuraava >';
 $string['navprevious'] = '< Edellinen';
@@ -63,7 +66,7 @@ $string['startbutton'] = 'Nauhoita';
 $string['startbutton-again'] = 'Nauhoita uudelleen';
 $string['startbutton-loading'] = 'Odotetaan mikrofonia.';
 $string['startbutton-error'] = 'Virhe mikrofonin kanssa. Tarkasta mikrofoniasetukset ja lataa sivu uudelleen.';
-$string['startbutton-no_permissions'] = "Paina uudelleen nauhoittaaksesi.";
+$string['startbutton-no_permissions'] = 'Paina uudelleen nauhoittaaksesi.';
 $string['stopbutton'] = 'Pysäytä';
 $string['microphone'] = 'Testaa mikrofoniasi tässä';
 $string['attemptsunlimited'] = 'Tässä tehtävässä ei ole yrityskertojen rajaa.';
@@ -75,18 +78,21 @@ $string['submitclose'] = 'Sulje';
 $string['submittitle'] = 'Oletko varma, että haluat palauttaa tämän vastauksen?';
 $string['submitbody'] = 'Sinulla on vielä {$a} vastausyritystä tässä tehtävässä.';
 $string['alreadysubmitted'] = 'Olet jo palauttanut vastauksen. Siirry seuraavalle sivulle nähdäksesi raportin.';
-$string['report'] = 'Arviointi';
+
+$string['report'] = 'Arviointiraportti';
 $string['report-title'] = 'Arviointiraportti';
-$string['report-title-feedback'] = 'Arviointiraportti - sisältää opettajan arvosanaehdotuksia';
+$string['report-title-feedback'] = 'Arviointiraportti - sisältää opettajan palautteen';
+$string['report-timestamp'] = 'Lähetetty: ';
 $string['reportnotavailable'] = 'Arviointiraportti ei ole vielä saatavilla.';
 $string['reportinformation'] = 'Tämä palaute koskee ainoastaan nauhoittamaasi puhenäytettä, eikä se kuvaa kaikkea suullista kielitaitoasi. Automaattinen arvio on koneen tekemä. Konetta on opetettu muiden kielen oppijoiden puheella ja muulla kieliaineistolla.';
 $string['transcription'] = 'Puhenäytteesi tekstinä';
-$string['server-feedback'] = 'Puhenäytteesi palaute';
-$string['teacher-feedback'] = 'Ehdota arvioinnin muutoksia';
-$string['transcription_tab-plain'] = 'Pelkkä teksti';
+$string['server-feedback'] = 'Ääneenluvun palaute';
+$string['teacher-feedback'] = 'Ehdota muutoksia automaattiseen arviointiraporttiin';
+$string['transcription_tab-plain'] = 'Alkuperäinen teksti';
 $string['transcription_tab-corrected'] = 'Näytä korjaukset';
 
 $string['task_grades'] = 'Analyyttinen arvio';
+$string['task_grades_preamble'] = 'Automaattisen arvion mukaan vaikuttaa siltä, että ';
 
 $string['holistic'] = 'Taitotasoarvio';
 $string['holistic_description'] = 'Automaattisen arvion mukaan vaikuttaa siltä, että taitotasosi on ';
@@ -106,36 +112,37 @@ $string['holistic_score-5'] = 'Puheesi on sujuvaa, spontaania ja lähes vaivaton
 $string['holistic_score-6'] = 'Puhut sujuvasti, luontevasti ja epäröimättä myös pitkäkestoisessa puhetilanteessa. Puheesi on täsmällistä ja asianmukaista, sopii tilanteeseen. Vaihtelet intonaatiota ja hallitset lausepainot.';
 
 $string['taskcompletion'] = 'Tehtävänantoon vastaaminen';
-$string['taskcompletion_description'] = 'Tämä mittari perustuu vastauksiin, joilla kone on opetettu arvioimaan tätä tehtävää. Automaattisen arvion mukaan vaikuttaa siltä, että ';
-$string['taskcompletion_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
+$string['taskcompletion_description'] = 'Tämä mittari perustuu vastauksiin, joilla kone on opetettu arvioimaan tätä tehtävää.';
+$string['taskcompletion_score-0'] = 'valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi.';
 $string['taskcompletion_score-1'] = 'Vastasit tehtävänantoon vain osittain.';
 $string['taskcompletion_score-2'] = 'Vastaat tehtävänantoon hyvin.';
 $string['taskcompletion_score-3'] = 'Vastaat tehtävänantoon erinomaisesti.';
 
 $string['fluency'] = 'Sujuvuus';
-$string['fluency_description'] = 'Tämä mittari kertoo puhenäytteesi nopeudesta, taukojen määrästä ja empimisestä. Automaattisen arvion mukaan vaikuttaa siltä, että ';
-$string['fluency_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
+$string['fluency_description'] = 'Tämä mittari kertoo puhenäytteesi nopeudesta, taukojen määrästä ja empimisestä.';
+$string['fluency_score-0'] = $string['taskcompletion_score-0'];
 $string['fluency_score-1'] = 'Puheessasi on paljon taukoja, katkoksia tai empimistä.';
 $string['fluency_score-2'] = 'Puheesi on kohtalaisen sujuvaa, joitakin taukoja, katkoksia tai empimistä.';
 $string['fluency_score-3'] = 'Puheesi on sujuvaa ja vaivatonta, ei häiritseviä taukoja, katkoksia tai empimistä.';
 $string['fluency_score-4'] = 'Puheesi on todella sujuvaa ja vaivatonta, ei häiritseviä taukoja, katkoksia tai empimistä.';
 
 $string['pronunciation'] = 'Ääntäminen';
-$string['pronunciation_description'] = 'Näet yllä, että kone muunsi puheesi tekstiksi. Voit tarkistaa tekstistä, lausuitko kaikki sanat oikein. Tämä mittari kertoo, kuinka hyvin ja varmasti kone tunnistaa puheesi. Tunnistamistarkkuuteen vaikuttavat puhenäytteet, joita kone on aiemmin opetusvaiheessa saanut. Automaattisen arvion mukaan vaikuttaa siltä, että ';
-$string['pronunciation_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
+$string['pronunciation_description'] = 'Näet yllä, että kone muunsi puheesi tekstiksi. Voit tarkistaa tekstistä, lausuitko kaikki sanat oikein. Tämä mittari kertoo, kuinka hyvin ja varmasti kone tunnistaa puheesi. Tunnistamistarkkuuteen vaikuttavat puhenäytteet, joita kone on aiemmin opetusvaiheessa saanut.';
+$string['pronunciation_score-0'] = $string['taskcompletion_score-0'];
 $string['pronunciation_score-1'] = 'Koneen on vaikea ymmärtää puhettasi.';
 $string['pronunciation_score-2'] = 'Koneen on melko helppo ymmärtää puhettasi, mutta näytteessä voi olla joitakin ääntämisongelmia.';
 $string['pronunciation_score-3'] = 'Kone ymmärtää puhettasi, ääntämisessäsi ei vaikuta olevan suurempia ongelmia.';
 $string['pronunciation_score-4'] = 'Ääntämisesi on selkeää ja luontevaa. ';
 
 $string['lexicogrammatical'] = 'Laajuus';
-$string['lexicogrammatical_description'] = 'Tämä mittari kertoo, kuinka paljon olet puhunut sekä käyttämiesi sanojen ja lauseiden monipuolisuudesta. Automaattisen arvion mukaan vaikuttaa siltä, että ';
-$string['lexicogrammatical_score-0'] = 'Valitettavasti kone ei ole kuullut tämänkaltaista suoritusta aiemmin, eikä siksi osaa arvioida puhettasi. Älä lannistu, yritä uudelleen!';
+$string['lexicogrammatical_description'] = 'Tämä mittari kertoo, kuinka paljon olet puhunut sekä käyttämiesi sanojen ja lauseiden monipuolisuudesta.';
+$string['lexicogrammatical_score-0'] = $string['taskcompletion_score-0'];
 $string['lexicogrammatical_score-1'] = 'Puhenäytteesi on hyvin lyhyt tai sisältää lähinnä yksittäisiä sanoja.';
 $string['lexicogrammatical_score-2'] = 'Käytät tavallisia sanoja ja osaat tehdä niistä lauseita.';
 $string['lexicogrammatical_score-3'] = 'Käytät monipuolisesti eri sanoja ja lauserakenteita.';
 
 $string['moreinformation'] = 'Lisätietoja';
+$string['moreinformation_help'] = 'Information to provide to the student after they have made an attempt.';
 
 $string['api'] = 'API-palvelimen osoite';
 $string['api_help'] = 'Anna API-palvelimen osoite.';
@@ -156,39 +163,50 @@ $string['pronunciation-scale_error'] = 'Ääntäminen tulee olla välillä 0 ja 
 
 $string['error_url-not-set'] = 'url-osoitetta ei ole asetettu';
 $string['error_no-evaluation'] = 'Arviointia ei löytynyt. Tarkista yhteys arviointipalvelimeen.';
-$string['error-save-recording'] = 'Äänitteen tallennus ei onnistunut. Voit yrittää uudelleen.';
+$string['error-save-recording'] = 'Äänitteen tallennus ei onnistunut. Ole hyvä, yritä uudelleen.';
 
 $string['results_link'] = 'Näytä raportti';
-$string['results_student'] = 'Oppilas';
+$string['results_student'] = 'Opiskelija';
 $string['results_text'] = 'Tyyppi';
-$string['results_score'] = 'Taitotaso/Analyyttiset arviot';
+$string['results_score_proficiency'] = 'Taitotaso';
 $string['results_time'] = 'Aika';
 $string['results_tries'] = 'Yritys';
 $string['results_report'] = 'Arviointiraportti';
 $string['results_denied'] = 'Pääsy kielletty';
 $string['results_return'] = 'Palaa Digitalan etusivulle';
 $string['results_view'] = 'Tarkastele oppilaiden tuloksia';
+$string['results_timestamp'] = 'Suoritusaika';
+
+$string['results_status'] = 'Tila';
+$string['results_status-evaluated'] = 'Arviointi valmis';
+$string['results_status-waiting'] = 'Odottaa arviointiraporttia';
+$string['results_status-retry'] = 'Arvioinnin uudelleenyritys';
+$string['results_status-failed'] = 'Arviointi epäonnistui';
 
 $string['results_delete'] = 'Poista suoritus';
 $string['results_delete-confirm'] = 'Vahvista suorituksen poistaminen';
-$string['results_delete-all'] = 'Poista kaikki';
+$string['results_delete-all'] = 'Poista kaikki suoritukset';
 $string['results_delete-one-text'] = 'Haluatko varmasti poistaa ja nollata suoritukset käyttäjältä {$a}?';
 $string['results_delete-all-text'] = 'Haluatko varmasti poistaa ja nollata suoritukset kaikilta käyttäjiltä?';
 $string['results_no-show'] = 'Ei vielä suorituksia.';
 $string['results_title'] = 'Käyttäjien suoritukset';
-$string['results_delete-title'] = 'Varoitus';
-$string['results_waiting-title'] = 'Evaluation in progress';
-$string['results_waiting-info'] = 'Evaluation is in progress, please hold. This could take up to few eternities.';
-$string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
-$string['results_waiting-loading'] = 'Loading...';
+$string['results_delete-title'] = 'Huom!';
+$string['results_waiting-title'] = 'Arviointi käynnissä';
+$string['results_waiting-info'] = 'Arviointi käynnissä, ethän poistu sivulta. Ole hyvä odota, arviointi voi viedä hetken.';
+$string['results_waiting-refresh'] = 'Tarkista tästä, onko arviointi valmis.';
+$string['results_waiting-loading'] = 'Ladataan arviointiraporttia...';
+$string['results_retry-title'] = 'Arviointi epäonnistui';
+$string['results_retry-info'] = 'Automaattinen arviointi epäonnistui ja sitä yritetään uudestaan tunnin kuluttua. Uusi arviointi voi kestää hetken.';
 
-$string['export_attempts'] = 'Lataa kaikki yritykset CSV-muodossa';
-$string['export_attempts_feedback'] = 'Lataa kaikki palautteet jokaiselle yritykselle CSV-muodossa';
+$string['export_attempts'] = 'Lataa kaikki suoritukset CSV-muodossa';
+$string['export_attempts_feedback'] = 'Lataa kaikki opettajan palautteet suorituksille CSV-muodossa';
+$string['export_recordings'] = 'Lataa kaikki tallennukset';
 $string['export_success'] = 'CSV-tiedoston luonti onnistui.';
-$string['teachergrade'] = "Opettajan arvosanaehdotus: ";
-$string['teacherreason'] = "Kommentti arvosanan muutoksesta: ";
-$string['feedback_success'] = 'Kommentti opiskelijan raportista on tallennettu onnistuneesti.';
-$string['feedback_not-found'] = 'Opiskelijalle ei löydy tuloksia.';
 
-$string['task-send_to_evaluations'] = 'Send to evaluation';
-$string['task-check_failed_evaluation'] = 'Check for failed evaluations';
+$string['teachergrade'] = 'Opettajan arvosanaehdotus: ';
+$string['teacherreason'] = 'Kommentti arvosanan muutoksesta: ';
+$string['feedback_success'] = 'Kommentti tallennettu onnistuneesti opiskelijan arviointiraporttiin.';
+$string['feedback_not-found'] = 'Opiskelijalle ei löydy raporttia.';
+
+$string['task-send_to_evaluations'] = 'Lähetä arvioitavaksi';
+$string['task-check_failed_evaluation'] = 'Tarkista, onko arviointi epäonnistunut';

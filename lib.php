@@ -57,12 +57,22 @@ function digitala_add_instance($moduleinstance, $mform = null) {
 
     if (!empty($moduleinstance->resources_editor)) {
         $context = context_module::instance($moduleinstance->coursemodule);
-
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
-    } else {
+    } else if (gettype($moduleinstance->resources) == 'array') {
         $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
         $moduleinstance->resources = $moduleinstance->resources['text'];
+    }
+
+    if (!empty($moduleinstance->information_editor)) {
+        if (!isset($context)) {
+            $context = context_module::instance($moduleinstance->coursemodule);
+        }
+        $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'information', digitala_get_editor_options($context),
+                                                          $context, 'mod_digitala', 'info', 0);
+    } else if (gettype($moduleinstance->information) == 'array') {
+        $moduleinstance->informationformat = $moduleinstance->information['format'];
+        $moduleinstance->information = $moduleinstance->information['text'];
     }
 
     $id = $DB->insert_record('digitala', $moduleinstance);
@@ -88,12 +98,22 @@ function digitala_update_instance($moduleinstance, $mform = null) {
 
     if (!empty($moduleinstance->resources_editor)) {
         $context = context_module::instance($moduleinstance->coursemodule);
-
         $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'resources', digitala_get_editor_options($context),
                                                           $context, 'mod_digitala', 'files', 0);
-    } else {
+    } else if (gettype($moduleinstance->resources) == 'array') {
         $moduleinstance->resourcesformat = $moduleinstance->resources['format'];
         $moduleinstance->resources = $moduleinstance->resources['text'];
+    }
+
+    if (!empty($moduleinstance->information_editor)) {
+        if (!isset($context)) {
+            $context = context_module::instance($moduleinstance->coursemodule);
+        }
+        $moduleinstance = file_postupdate_standard_editor($moduleinstance, 'information', digitala_get_editor_options($context),
+                                                          $context, 'mod_digitala', 'info', 0);
+    } else if (gettype($moduleinstance->information) == 'array') {
+        $moduleinstance->informationformat = $moduleinstance->information['format'];
+        $moduleinstance->information = $moduleinstance->information['text'];
     }
 
     return $DB->update_record('digitala', $moduleinstance);
@@ -109,12 +129,15 @@ function digitala_delete_instance($id) {
     require_once(__DIR__ . '/locallib.php');
     global $DB;
 
-    $exists = $DB->get_record('digitala', array('id' => $id));
-    if (!$exists) {
+    $moduleinstance = $DB->get_record('digitala', array('id' => $id));
+    if (!$moduleinstance) {
         return false;
     }
 
-    delete_all_attempts($id);
+    $course = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
+    $cm = get_coursemodule_from_instance('digitala', $moduleinstance->id, $course->id, false, MUST_EXIST);
+    $context = context_module::instance($cm->id);
+    delete_all_attempts($id, $context->id);
 
     $DB->delete_records('digitala', array('id' => $id));
 
@@ -239,7 +262,7 @@ function digitala_update_grades($moduleinstance, $userid = 0) {
  * @return string[].
  */
 function digitala_get_file_areas($course, $cm, $context) {
-    return array('recordings', 'files');
+    return array('recordings', 'files', 'info');
 }
 
 /**

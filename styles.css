@@ -209,7 +209,7 @@
 }
 
 .digitala-transcript-warning {
-    text-decoration: underline dashed skyblue 4px;
+    text-decoration: underline solid skyblue 4px;
 }
 
 .digitala-transcript-success {
