@@ -83,7 +83,11 @@ const startRecording = async() => {
                 document.getElementById('recordingLength').textContent = convertSecondsToString(sec);
             }, 1000);
 
-            if (pagenum == 1 && maxLength != 0) {
+            if (pagenum == 1) {
+                if (maxLength <= 0 || maxLength > 300) {
+                    maxLength = 300;
+                }
+
                 timeout = setTimeout(() => {
                     stopRecording();
                 }, maxLength * 1000);
