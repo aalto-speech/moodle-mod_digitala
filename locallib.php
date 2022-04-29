@@ -996,7 +996,9 @@ function create_result_row($attempt, $id, $user) {
 
     $deletebutton = add_delete_attempt_button($user);
 
-    $cells = array($username, $score, $time, $tries, $status, $urllink, $deletebutton);
+    $timestamp = timestampformatter($attempt->timecreated);
+
+    $cells = array($username, $score, $time, $tries, $status, $timestamp, $urllink, $deletebutton);
     return $cells;
 }
 
@@ -1089,6 +1091,18 @@ function convertsecondstostring($secs) {
 
     return $hours.$minutes.':'.$seconds;
 }
+
+/**
+ * Gets number of attempts remaining for the user.
+ *
+ * @param int $time timestamp in Unix epoch time
+ * @return string $timestamp timestamp in format dd.mm.yyyy hh.mm:ss
+ */
+function timestampformatter($time) {
+    $timestamp = date("d.m.Y H.i:s", $time);
+    return $timestamp;
+}
+
 
 /**
  * Gets number of attempts remaining for the user.

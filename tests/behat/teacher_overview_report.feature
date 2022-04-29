@@ -37,11 +37,12 @@ Feature: Teacher can see students overview report
     When I am on the "Freeform" "mod_digitala > Info" page logged in as "ossi"
     Then I navigate to "View student results" in current page administration
     Then I should see "Student"
-    And I should see "Proficiency/Analytic grades"
+    And I should see "Proficiency"
     And I should see "Time"
     And I should see "Tries"
     And I should see "Status"
     And I should see "Evaluation report"
+    And I should see "Timestamp"
 
   Scenario: Overview report link shows for teacher in freeform
     Then I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"

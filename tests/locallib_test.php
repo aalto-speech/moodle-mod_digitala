@@ -36,7 +36,7 @@ require_once($CFG->dirroot . '/mod/digitala/answerrecording_form.php');
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class locallib_test extends \advanced_testcase {
-
+// @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
     /**
      * Setup for unit test.
      */
@@ -80,11 +80,9 @@ class locallib_test extends \advanced_testcase {
         $info = create_progress_bar_step_link('info', 0, false);
         $assignment = create_progress_bar_step_link('assignment', 1, false);
         $report = create_progress_bar_step_link('report', 2, false);
-        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
         $this->assertEquals($info, '<a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a>');
         $this->assertEquals($assignment, '<a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a>');
         $this->assertEquals($report, '<a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a>');
-        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
     }
 
     /**
@@ -114,14 +112,14 @@ class locallib_test extends \advanced_testcase {
         $infoactive = create_progress_bar_step('info', 0, 0);
         $assignmentactive = create_progress_bar_step('assignment', 1, 1);
         $reportactive = create_progress_bar_step('report', 2, 2);
-        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+
         $this->assertEquals($info, '<div class="pb-step first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
         $this->assertEquals($assignment, '<div class="pb-step"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
         $this->assertEquals($report, '<div class="pb-step last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
         $this->assertEquals($infoactive, '<div class="pb-step active first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
         $this->assertEquals($assignmentactive, '<div class="pb-step active"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
         $this->assertEquals($reportactive, '<div class="pb-step active last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
-        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+
     }
 
     /**
@@ -143,11 +141,11 @@ class locallib_test extends \advanced_testcase {
         $rightempty = create_progress_bar_spacer('right-empty');
         $leftempty = create_progress_bar_spacer('left-empty');
         $nothing = create_progress_bar_spacer('nothing');
-        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+
         $this->assertEquals($rightempty, '<div class="pb-spacer pb-spacer-right"><svg class="pb-svg-front" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5"><path d="M255 250 20 0H0v500h20l235-250Z" fill="#d3d3d3" /><path d="m20 20 235 230L20 480" style="fill:none;stroke:#d3d3d3;stroke-width:40px" /></svg></div>');
         $this->assertEquals($leftempty, '<div class="pb-spacer pb-spacer-left"><svg class="pb-svg-back" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5"><path d="M275 0H20l235 250L20 500h255V0Z" fill="#d3d3d3" /><path d="m20 20 235 230L20 480" style="fill:none;stroke:#d3d3d3;stroke-width:40px" /></svg></div>');
         $this->assertEquals($nothing, '<div class="pb-spacer"><svg class="pb-svg-front" viewBox="0 0 275 500" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5"><path d="m20 20 235 230L20 480" style="fill:none;stroke:#d3d3d3;stroke-width:40px" /></svg></div>');
-        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+
     }
 
     /**
@@ -156,7 +154,7 @@ class locallib_test extends \advanced_testcase {
     public function test_navbuttons_html_output() {
         $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&d=2&page=0';
         $result = create_nav_buttons('info');
-        // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+
         $this->assertEquals('<div class="navbuttons"><a id="nextButton" class="btn btn-primary" href="/mod/digitala/view.php?id=1&amp;d=2&amp;page=1">Next ></a></div>',
             $result);
         $result = create_nav_buttons('assignmentprev');
@@ -171,7 +169,7 @@ class locallib_test extends \advanced_testcase {
         $result = create_nav_buttons('report', 1);
         $this->assertEquals('<div class="navbuttons"><a id="tryAgainButton" class="btn btn-primary" href="/mod/digitala/view.php?id=1&amp;d=2&amp;page=1">Try again</a></div>',
             $result);
-        // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+
     }
 
     /**
@@ -180,7 +178,7 @@ class locallib_test extends \advanced_testcase {
     public function test_container_html_output_right() {
         $result = start_container('some_step_of_digitala');
         $result .= end_container();
-        $this->assertEquals('<div class="some_step_of_digitala digitala-container"><div class="container"><div class="row"></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="some_step_of_digitala digitala-container"><div class="container"><div class="row"></div></div></div>', $result);
     }
 
     /**
@@ -228,19 +226,19 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_holistic_html_output() {
         $result = create_report_holistic(3);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><div class="digitala-chart-container"><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart"></canvas></div><h6 class="grade-number">B1</h6><div class="card-text"><p>Based on the automatic grading, it seems that your proficiency level is B1.</p><p>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><div class="digitala-chart-container"><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart"></canvas></div><h6 class="grade-number">B1</h6><div class="card-text"><p>Based on the automatic grading, it seems that your proficiency level is B1.</p><p>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</p></div></div></div>', $result);
         $feedback = new \stdClass();
         $feedback->holistic = 1;
         $feedback->holistic_reason = 'bad';
         $result = create_report_holistic(3, $feedback);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><div class="digitala-chart-container"><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart"></canvas></div><h6 class="grade-number">B1</h6><div class="card-text"><p>Based on the automatic grading, it seems that your proficiency level is B1.</p><p>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</p><p>Teacher\'s grade suggestion: 1</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><div class="digitala-chart-container"><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart"></canvas></div><h6 class="grade-number">B1</h6><div class="card-text"><p>Based on the automatic grading, it seems that your proficiency level is B1.</p><p>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</p><p>Teacher\'s grade suggestion: 1</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result);
         $feedback->holistic_reason = '';
         $result = create_report_holistic(3, $feedback);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><div class="digitala-chart-container"><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart"></canvas></div><h6 class="grade-number">B1</h6><div class="card-text"><p>Based on the automatic grading, it seems that your proficiency level is B1.</p><p>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</p><p>Teacher\'s grade suggestion: 1</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><div class="digitala-chart-container"><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart"></canvas></div><h6 class="grade-number">B1</h6><div class="card-text"><p>Based on the automatic grading, it seems that your proficiency level is B1.</p><p>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</p><p>Teacher\'s grade suggestion: 1</p></div></div></div>', $result);
         $feedback->holistic = 3;
         $feedback->holistic_reason = 'bad';
         $result = create_report_holistic(3, $feedback);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><div class="digitala-chart-container"><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart"></canvas></div><h6 class="grade-number">B1</h6><div class="card-text"><p>Based on the automatic grading, it seems that your proficiency level is B1.</p><p>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Proficiency level</h5><div class="digitala-chart-container"><canvas id="holistic" data-eval-name="holistic" data-eval-grade="3" data-eval-maxgrade="6" class="report-chart"></canvas></div><h6 class="grade-number">B1</h6><div class="card-text"><p>Based on the automatic grading, it seems that your proficiency level is B1.</p><p>You manage everyday situations in the target language. Your pronunciation is intelligible, your vocabulary is fairly large, and you use different kinds of sentences.</p><p>Comments about grade suggestion: bad</p></div></div></div>', $result);
     }
 
     /**
@@ -267,7 +265,7 @@ class locallib_test extends \advanced_testcase {
         global $USER;
 
         $context = \context_module::instance($this->digitala->cmid);
-        $report = new \digitala_report($this->digitala->id, $context->id, 5, $this->digitala->attempttype, $this->digitala->attemptlang, $this->digitala->attemptlimit, 'testinformation', $USER->id); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $report = new \digitala_report($this->digitala->id, $context->id, 5, $this->digitala->attempttype, $this->digitala->attemptlang, $this->digitala->attemptlimit, 'testinformation', $USER->id);
 
         $result = create_report_information($report);
         $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">testinformation</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
@@ -283,7 +281,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_tabs() {
         $result = create_tabs(array());
-        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"></div></nav><div class="tab-content" id="nav-tabContent"></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"></div></nav><div class="tab-content" id="nav-tabContent"></div>', $result);
     }
 
     /**
@@ -302,7 +300,7 @@ class locallib_test extends \advanced_testcase {
     public function test_transcription_html_output() {
         $testtranscription = 'Lorem ipsum test text';
         $result = create_report_transcription($testtranscription);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">Lorem ipsum test text</div></div></div>', $result);
     }
 
     /**
@@ -329,7 +327,7 @@ class locallib_test extends \advanced_testcase {
 
         $_SERVER['REQUEST_URI'] = '';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, 'testresource', $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, 'testresource', $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $result = create_resource($assignment);
         $this->assertEquals('<div class="card-text scrollbox400">testresource</div>', $result);
@@ -343,7 +341,7 @@ class locallib_test extends \advanced_testcase {
 
         $_SERVER['REQUEST_URI'] = '';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);  // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $fileinfo = array(
             'contextid' => \context_user::instance($USER->id)->id,
@@ -360,7 +358,7 @@ class locallib_test extends \advanced_testcase {
                           $fileinfo['itemid'], $fileinfo['filepath'], $fileinfo['filename']);
 
         $formdata = new \stdClass();
-        $formdata->audiostring = '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}'; // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $formdata->audiostring = '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}';
         $formdata->recordinglength = 60;
         $result = save_answerrecording($formdata, $assignment);
         $this->assertEquals('url address not set', $result);
@@ -374,7 +372,7 @@ class locallib_test extends \advanced_testcase {
 
         $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=4&d=5&page=1';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 4, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 4, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $result = create_answerrecording_form($assignment);
         if (PHPUnitVersion::series() < 9) {
@@ -398,10 +396,10 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_save_answerrecording_form_with_data() {
         global $USER;
-        \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}', 'recordinglength' => 10), null, 'post', 'answerrecording_form'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        \answerrecording_form::mock_submit(array('audiostring' => '{"url":"http:\/\/localhost:8000\/draftfile.php\/5\/user\/draft\/0\/testing.wav","id": 0,"file":"testing.wav"}', 'recordinglength' => 10), null, 'post', 'answerrecording_form');
         $_SERVER['REQUEST_URI'] = '';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $result = save_answerrecording_form($assignment);
         $this->assertEquals('<p id="submitErrors"></p>', $result);
@@ -414,7 +412,7 @@ class locallib_test extends \advanced_testcase {
         global $USER;
         $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&page=1';
         $context = \context_module::instance($this->digitala->cmid);
-        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $assignment = new \digitala_assignment($this->digitala->id, $context->id, $USER->id, 1, $this->digitala->assignment, $this->digitala->resources, $this->digitala->attempttype, $this->digitala->attemptlang);
 
         $result = save_answerrecording_form($assignment);
         $this->assertEquals('<p id="submitErrors"></p>', $result);
@@ -650,7 +648,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals($attempt->fluency, $result->fluency);
     }
 
-// @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
+
     public function test_create_microphone() {
         $result = create_microphone();
         $this->assertEquals('<p id="recordTimer"><span id="recordingLength">00:00</span></p><span id="startIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></span><span id="stopIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-stop-fill"><path d="M5 4h6a2 2 0 0 1 2 1v6a2 2 0 0 1-2 2H5a2 2 0 0 1-1-2V5a2 2 0 0 1 1-1z" /></svg></span><button id="record" class="btn btn-primary record-btn">Record <svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></button><button id="listen" class="btn btn-primary listen-btn" disabled="true">Listen to your recording <svg width="16" height="16" fill="currentColor" class="bi bi-volume-down-fill"><path d="M9 4a.5.5 0 0 0-.8-.4L5.8 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.3l2.4 1.9A.5.5 0 0 0 9 12V4zm3 4a4.5 4.5 0 0 1-1.3 3.2l-.7-.7A3.5 3.5 0 0 0 11 8a3.5 3.5 0 0 0-1-2.5l.7-.7A4.5 4.5 0 0 1 12 8z" /></svg></button>', $result);
@@ -799,7 +797,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertStringStartsWith('<button id="submitModalButton" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#attemptModal" style="display: none">Submit answer</button><div class="modal" id="attemptModal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Are you sure you want to submit this attempt?</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>There is no limit set for the number of attempts on this assignment.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>', $result);
         $this->assertStringEndsWith('</form></div></div></div></div>', $result);
     }
-// @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+
 
     /**
      * Tests creating the results url.
@@ -892,7 +890,7 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('00:05', $result[2]);
         $this->assertEquals(1, $result[3]);
         $this->assertEquals('Evaluated', $result[4]);
-        $this->assertStringContainsString('>See report</a>', $result[5]);
+        $this->assertStringContainsString('>See report</a>', $result[6]);
     }
 
     /**
@@ -933,6 +931,17 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals('10:00:00', $result);
     }
 
+    /**
+     * Tests timestamp formatting into Europe/Helsinki time.
+     */
+    public function test_timestampformatter() {
+        $result = timestampformatter(1651038371);
+        $this->assertEquals('27.04.2022 13.46:11', $result);
+    }
+
+    /**
+     * Tests saving report feedback readaloud.
+     */
     public function test_save_report_feedback_readaloud() {
         global $DB;
 
@@ -968,6 +977,9 @@ class locallib_test extends \advanced_testcase {
 
     }
 
+    /**
+     * Tests saving report feedback freeform.
+     */
     public function test_save_report_feedback_freeform() {
         global $DB;
 
@@ -1077,11 +1089,17 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals("I should be found in test", $result->taskcompletion_reason);
     }
 
+    /**
+     * Tests creating short assignment tabs.
+     */
     public function test_create_short_assignment_tabs() {
         $result = create_short_assignment_tabs('', '');
-        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Material</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="assignment-assignment-tab" data-toggle="tab" href="#assignment-assignment" role="tab" aria-controls="assignment-assignment" aria-selected="true">Assignment</button><button class="nav-link ml-2" id="assignment-resources-tab" data-toggle="tab" href="#assignment-resources" role="tab" aria-controls="assignment-resources" aria-selected="false">Material</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="assignment-assignment" role="tabpanel" aria-labelledby="assignment-assignment-tab"></div><div class="tab-pane fade" id="assignment-resources" role="tabpanel" aria-labelledby="assignment-resources-tab"></div></div>', $result);
     }
 
+    /**
+     * Tests creating transcript toggles.
+     */
     public function test_create_transcript_toggle() {
         $result = create_transcript_toggle('transcript', 'feedback');
         $this->assertEquals('<nav><div class="nav nav-tabs digitala-tabs" id="nav-tab" role="tablist"><button class="nav-link ml-2 active" id="readaloud-transcript-tab" data-toggle="tab" href="#readaloud-transcript" role="tab" aria-controls="readaloud-transcript" aria-selected="true">Original text</button><button class="nav-link ml-2" id="readaloud-feedback-tab" data-toggle="tab" href="#readaloud-feedback" role="tab" aria-controls="readaloud-feedback" aria-selected="false">Show corrections</button></div></nav><div class="tab-content" id="nav-tabContent"><div class="tab-pane fade show active" id="readaloud-transcript" role="tabpanel" aria-labelledby="readaloud-transcript-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">A transcript of your speech sample</h5><div class="card-text scrollbox200">transcript</div></div></div></div><div class="tab-pane fade" id="readaloud-feedback" role="tabpanel" aria-labelledby="readaloud-feedback-tab"><div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Read-aloud feedback</h5><div class="card-text scrollbox200">feedback</div></div></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
@@ -1153,7 +1171,7 @@ class locallib_test extends \advanced_testcase {
     public function test_add_delete_attempt_button() {
         global $USER;
         $result = add_delete_attempt_button($USER);
-        $this->assertEquals($result, '<button id="deleteButtonadmin" class="btn btn-warning" data-toggle="modal" data-target="#deleteModal2">Delete attempt</button>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($result, '<button id="deleteButtonadmin" class="btn btn-warning" data-toggle="modal" data-target="#deleteModal2">Delete attempt</button>');
     }
 
     /**
@@ -1162,7 +1180,7 @@ class locallib_test extends \advanced_testcase {
     public function test_add_delete_redirect_button() {
         global $USER;
         $result = add_delete_redirect_button(1, $USER);
-        $this->assertEquals($result, '<a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($result, '<a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a>');
     }
 
     /**
@@ -1170,7 +1188,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_add_delete_all_redirect_button() {
         $result = add_delete_all_redirect_button(2);
-        $this->assertEquals($result, '<a id="deleteAllRedirectButton" class="btn btn-danger" href="https://www.example.com/moodle/mod/digitala/report.php?id=2&amp;mode=delete&amp;student">Confirm delete</a>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals($result, '<a id="deleteAllRedirectButton" class="btn btn-danger" href="https://www.example.com/moodle/mod/digitala/report.php?id=2&amp;mode=delete&amp;student">Confirm delete</a>');
     }
 
     /**
@@ -1180,7 +1198,6 @@ class locallib_test extends \advanced_testcase {
         $result = add_delete_all_attempts_button();
         $this->assertEquals($result, '<button id="deleteAllButton" class="btn btn-danger" data-toggle="modal" data-target="#deleteAllModal">Delete all attempts</button>'); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
     }
-    // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
 
     /**
      * Tests creating delete modal.
@@ -1192,9 +1209,6 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
     }
 
-    // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
-
-    // @codingStandardsIgnoreStart moodle.Files.LineLength.MaxExceeded
     public function test_generate_attempts_csv() {
         global $CFG, $DB;
 
@@ -1305,5 +1319,5 @@ class locallib_test extends \advanced_testcase {
         $result = create_export_buttons(2);
         $this->assertEquals($result, '<a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=attempts" id="export_attempts" class="btn btn-primary">Export all attempts as CSV</a><a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=feedback" id="export_attempts_feedback" class="btn btn-primary">Export all teacher feedback for attempts as CSV</a>');
     }
-    // @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
+// @codingStandardsIgnoreEnd moodle.Files.LineLength.MaxExceeded
 }
