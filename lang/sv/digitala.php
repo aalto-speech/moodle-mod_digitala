@@ -148,6 +148,8 @@ $string['api'] = 'Adressen till API-servern.';
 $string['api_help'] = 'Ge adressen till API-servern';
 $string['key'] = 'Nyckeln till API-servern.';
 $string['key_help'] = 'Ge nyckeln till API-servern för identifiering.';
+$string['feedbacklink'] = 'Ge adress till feedbackwebbplatsen';
+$string['feedbacklink_help'] = 'Ange adressen till webbplatsen där användare kan skicka feedback till på utvärderingssidan.';
 
 $string['edit_report'] = 'Bearbeta bedömningsrapporten';
 $string['holistic-reason'] = 'Feedback på Färdighetsnivå';
