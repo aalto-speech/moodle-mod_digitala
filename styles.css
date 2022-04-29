@@ -2,9 +2,6 @@
     font-size: 1.5rem;
     margin: 2rem;
 }
-.pb-num.active {
-    font-weight: 1000;
-}
 .digitala-progress-bar {
     font-size: 1.5rem;
     display: flex;
@@ -33,6 +30,9 @@
 }
 .pb-step.active {
     background-color: lightgray;
+}
+.pb-step.active .pb-num {
+    font-weight: 1000;
 }
 
 .pb-step.active.first {
@@ -209,7 +209,7 @@
 }
 
 .digitala-transcript-warning {
-    text-decoration: underline dashed skyblue 4px;
+    text-decoration: underline solid skyblue 4px;
 }
 
 .digitala-transcript-success {

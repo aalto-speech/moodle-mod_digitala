@@ -21,9 +21,9 @@ Feature: Teacher can give feedback on ASR evaluation
       | seppo | C1     | student |
       | milla | C1     | student |
     And the following "activities" exist:
-      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit |
-      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            |
-      | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
+      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit | information     | informationformat |
+      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            | testinformation | 1                 |
+      | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            | testinformation | 1                 |
     And I add freeform attempt to database:
       | name     | username | attemptnumber | file  | transcript  | fluency | taskcompletion | pronunciation | lexicogrammatical | holistic | recordinglength | status    |
       | Freeform | olli     | 1             | file1 | transcript1 | 1       | 1              | 2             | 3                 | 1        | 1               | evaluated |
@@ -39,12 +39,12 @@ Feature: Teacher can give feedback on ASR evaluation
 
   Scenario: Feedback button works correctly in teachers report detail page in freeform
     When I am on the "Freeform > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I click on "Suggest changes to grading" "link"
+    And I click on "Suggest changes to automatic evaluation report" "link"
     And I should see "Feedback on Fluency"
 
   Scenario: Feedback button works correctly in teachers report detail page in readaloud
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I click on "Suggest changes to grading" "link"
+    And I click on "Suggest changes to automatic evaluation report" "link"
     And I should see "Feedback on Fluency"
 
   Scenario: Feedback can be given on Freeform and student can see it on their report
@@ -64,7 +64,7 @@ Feature: Teacher can give feedback on ASR evaluation
     And the following feedback is found:
       | name     | username |
       | Freeform | olli     |
-    And I should see "Comment added successfully to students report."
+    And I should see "Comment added successfully to student's report."
     And I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
     Then I should see "Teacher's grade suggestion: 2.0"
     And I should see "Evaluation was too high."
@@ -82,20 +82,20 @@ Feature: Teacher can give feedback on ASR evaluation
     And the following feedback is found:
       | name      | username |
       | Readaloud | olli     |
-    And I should see "Comment added successfully to students report."
+    And I should see "Comment added successfully to student's report."
     And I am on the "Readaloud" "mod_digitala > Report" page logged in as "olli"
     Then I should see "Teacher's grade suggestion: 2.37"
     And I should see "Evaluation was too high."
 
   Scenario Outline: Give feedback button is shown only for evaluated attempts
     When I am on the "<activity> > olli" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should see "Suggest changes to grading"
+    And I should see "Suggest changes to automatic evaluation report"
     When I am on the "<activity> > essi" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should not see "Suggest changes to grading"
+    And I should not see "Suggest changes to automatic evaluation report"
     When I am on the "<activity> > seppo" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should not see "Suggest changes to grading"
+    And I should not see "Suggest changes to automatic evaluation report"
     When I am on the "<activity> > milla" "mod_digitala > Teacher Report Details" page logged in as "ossi"
-    And I should not see "Suggest changes to grading"
+    And I should not see "Suggest changes to automatic evaluation report"
 
     Examples:
       | activity  |

@@ -46,6 +46,8 @@ class mod_digitala_mod_form extends moodleform_mod {
         $id = empty($this->current->id) ? null : 0;
         $this->current = file_prepare_standard_editor($this->current, 'resources', digitala_get_editor_options($this->context),
                                                       $this->context, 'mod_digitala', 'files', $id);
+        $this->current = file_prepare_standard_editor($this->current, 'information', digitala_get_editor_options($this->context),
+                                                      $this->context, 'mod_digitala', 'info', $id);
 
         // Adding the "general" fieldset, where all the common settings are shown.
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -82,6 +84,8 @@ class mod_digitala_mod_form extends moodleform_mod {
         // Adding the "maxlength" field for assignment timelimit.
         $mform->addElement('duration', 'maxlength', get_string('timelimit', 'mod_digitala'),
                 array('optional' => false, 'units' => array(1, MINSECS)));
+        $mform->addHelpButton('maxlength', 'maxlength', 'mod_digitala');
+        $mform->setDefault('maxlength', 300);
 
         // Adding the "attemptnumber" field.
         $limitoptions = array(
@@ -99,16 +103,15 @@ class mod_digitala_mod_form extends moodleform_mod {
         );
         $mform->addElement('select', 'attemptlimit', get_string('attemptlimit', 'mod_digitala'), $limitoptions);
 
-        $mform->addRule('attemptlimit', null, 'required', null, 'client');
         $mform->addHelpButton('attemptlimit', 'attemptlimit', 'mod_digitala');
 
         // Adding the "assignment" field.
-        $mform->addElement('textarea', 'assignment', get_string('assignment', 'mod_digitala'),
+        $mform->addElement('textarea', 'assignment', get_string('assignmenttext', 'mod_digitala'),
                 array('rows' => 10, 'cols' => '64'));
 
         $mform->setType('assignment', PARAM_TEXT);
         $mform->addRule('assignment', null, 'required', null, 'client');
-        $mform->addHelpButton('assignment', 'assignment', 'mod_digitala');
+        $mform->addHelpButton('assignment', 'assignmenttext', 'mod_digitala');
 
         // Adding the "resources_editor" field.
         $mform->addElement('editor', 'resources_editor', get_string('assignmentresource', 'mod_digitala'),
@@ -116,6 +119,13 @@ class mod_digitala_mod_form extends moodleform_mod {
 
         $mform->setType('resources_editor', PARAM_RAW);
         $mform->addHelpButton('resources_editor', 'assignmentresource', 'mod_digitala');
+
+        // Adding the "information_editor" field.
+        $mform->addElement('editor', 'information_editor', get_string('moreinformation', 'mod_digitala'),
+                           array('rows' => 10), digitala_get_editor_options($this->context));
+
+        $mform->setType('information_editor', PARAM_RAW);
+        $mform->addHelpButton('information_editor', 'moreinformation', 'mod_digitala');
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
@@ -142,6 +152,10 @@ class mod_digitala_mod_form extends moodleform_mod {
         if (isset($defaultvalues['resources']) && !empty($defaultvalues['resources'])) {
             $defaultvalues['resources'] = file_rewrite_pluginfile_urls($defaultvalues['resources'], 'pluginfile.php',
                                                                        $this->context->id, 'mod_digitala', 'files', 0);
+        }
+        if (isset($defaultvalues['information']) && !empty($defaultvalues['information'])) {
+            $defaultvalues['information'] = file_rewrite_pluginfile_urls($defaultvalues['information'], 'pluginfile.php',
+                                                                         $this->context->id, 'mod_digitala', 'info', 0);
         }
     }
 

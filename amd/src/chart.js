@@ -161,15 +161,12 @@ const createChart = async(id, grade, maxgrade) => {
     });
 };
 
-export const init = (pagenum) => {
-
-    if (pagenum === 2 || pagenum === 'detail') {
-        const allCanvases = document.getElementsByClassName('report-chart');
-        for (let i = 0; i < allCanvases.length; i++) {
-            const canvas = allCanvases[i];
-            createChart(canvas.attributes['data-eval-name'].value,
-                        canvas.attributes['data-eval-grade'].value,
-                        canvas.attributes['data-eval-maxgrade'].value);
-        }
+export const init = () => {
+    const allCanvases = document.getElementsByClassName('report-chart');
+    for (let i = 0; i < allCanvases.length; i++) {
+        const canvas = allCanvases[i];
+        createChart(canvas.attributes['data-eval-name'].value,
+                    canvas.attributes['data-eval-grade'].value,
+                    canvas.attributes['data-eval-maxgrade'].value);
     }
 };

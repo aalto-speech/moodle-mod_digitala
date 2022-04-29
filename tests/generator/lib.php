@@ -56,6 +56,10 @@ class mod_digitala_generator extends testing_module_generator {
             $record->resources = array('text' => $record->resources, 'format' => $record->resourcesformat);
         }
 
+        if (!isset($record->information['format'])) {
+            $record->information = array('text' => $record->information, 'format' => $record->informationformat);
+        }
+
         return parent::create_instance($record, (array)$options);
     }
 }

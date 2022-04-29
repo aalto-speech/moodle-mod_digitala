@@ -83,7 +83,11 @@ const startRecording = async() => {
                 document.getElementById('recordingLength').textContent = convertSecondsToString(sec);
             }, 1000);
 
-            if (pagenum == 1 && maxLength != 0) {
+            if (pagenum == 1) {
+                if (maxLength <= 0 || maxLength > 300) {
+                    maxLength = 300;
+                }
+
                 timeout = setTimeout(() => {
                     stopRecording();
                 }, maxLength * 1000);
@@ -158,44 +162,42 @@ const listenRecording = () => {
 };
 
 export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, usernameIn, maxLengthIn) => {
-    if (pagenumIn !== 2) {
-        pagenum = pagenumIn;
-        assignmentId = assignmentIdIn;
-        userId = userIdIn;
-        username = usernameIn;
-        maxLength = maxLengthIn;
-        langStrings = await getStrings(
-            [
-                {
-                    key: 'startbutton-again',
-                    component: 'digitala'
-                },
-                {
-                    key: 'stopbutton',
-                    component: 'digitala'
+    pagenum = pagenumIn;
+    assignmentId = assignmentIdIn;
+    userId = userIdIn;
+    username = usernameIn;
+    maxLength = maxLengthIn;
+    langStrings = await getStrings(
+        [
+            {
+                key: 'startbutton-again',
+                component: 'digitala'
+            },
+            {
+                key: 'stopbutton',
+                component: 'digitala'
 
-                },
-                {
-                    key: 'startbutton-loading',
-                    component: 'digitala'
+            },
+            {
+                key: 'startbutton-loading',
+                component: 'digitala'
 
-                },
-                {
-                    key: 'startbutton-error',
-                    component: 'digitala'
-                },
-                {
-                    key: 'error-save-recording',
-                    component: 'digitala'
-                }
-            ]
-        );
+            },
+            {
+                key: 'startbutton-error',
+                component: 'digitala'
+            },
+            {
+                key: 'error-save-recording',
+                component: 'digitala'
+            }
+        ]
+    );
 
-        try {
-            recButton.onclick = startRecording;
-            listenButton.onclick = listenRecording;
-        } catch (e) {
-            return;
-        }
+    try {
+        recButton.onclick = startRecording;
+        listenButton.onclick = listenRecording;
+    } catch (e) {
+        return;
     }
 };

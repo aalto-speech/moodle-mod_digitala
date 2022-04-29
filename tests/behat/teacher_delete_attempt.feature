@@ -15,9 +15,9 @@ Feature: Teacher can delete attempts from overview page
       | ossi | C1     | manager |
       | olli | C1     | student |
     And the following "activities" exist:
-      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit |
-      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            |
-      | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            |
+      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit | information     | informationformat |
+      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            | testinformation | 1                 |
+      | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            | testinformation | 1                 |
     And I add freeform attempt to database:
       | name     | username | attemptnumber | file  | transcript  | fluency | taskcompletion | pronunciation | lexicogrammatical | holistic | recordinglength | status    |
       | Freeform | olli     | 1             | file1 | transcript1 | 1       | 1              | 2             | 3                 | 1        | 1               | evaluated |
@@ -29,20 +29,20 @@ Feature: Teacher can delete attempts from overview page
 
   Scenario: Delete buttons show for teacher
     When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
-    Then I should see "Delete all"
+    Then I should see "Delete all attempts"
     And I should see "Delete attempt"
 
   Scenario: Student should not see delete buttons
     When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "olli"
-    Then I should not see "Delete all"
+    Then I should not see "Delete all attempts"
     And I should not see "Delete attempt"
 
   Scenario: Teacher can delete all attempts
     When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "ossi"
     Then I should see "Olli Opiskelija"
     And I should see "Essi Opiskelija"
-    And I click on "Delete all" "button"
-    Then I should see "Warning"
+    And I click on "Delete all attempts" "button"
+    Then I should see "Note!"
     And I click on "Confirm delete" "link"
     Then I should not see "Olli Opiskelija"
     And I should not see "Essi Opiskelija"
@@ -53,7 +53,7 @@ Feature: Teacher can delete attempts from overview page
     Then I should see "Olli Opiskelija"
     And I should see "Essi Opiskelija"
     And I click on "deleteButtonessi" "button"
-    Then I should see "Warning"
+    Then I should see "Note!"
     And I click on "deleteRedirectButtonessi" "link"
     Then I should see "Olli Opiskelija"
     And I should not see "Essi Opiskelija"

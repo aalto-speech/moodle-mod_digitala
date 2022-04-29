@@ -12,8 +12,8 @@ Feature: Edit digitala activity
       | user | course | role    |
       | ossi | C1     | manager |
     And the following "activities" exist:
-      | activity | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | attemptlimit |
-      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fi          | freeform    | Assignment text | Resource text | 1                | 1               | 0            |
+      | activity | name               | intro               | course | idnumber  | attemptlang | attempttype | assignment      | resources     | assignmentformat | resourcesformat | attemptlimit | information     | informationformat |
+      | digitala | Test digitala name | Test digitala intro | C1     | digitala1 | fi          | freeform    | Assignment text | Resource text | 1                | 1               | 0            | testinformation | 1                 |
     And I log in as "ossi"
 
   Scenario Outline: Edit a task on course page
@@ -23,11 +23,12 @@ Feature: Edit digitala activity
     Then I choose "Edit settings" in the open action menu
     And I wait until the page is ready
     Then I set the following fields to these values:
-      | Name       | <name>           |
-      | Language   | <attemptlang>    |
-      | Type       | <attempttype>    |
-      | Assignment | <assignmenttext> |
-      | Material   | <resourcestext>  |
+      | Assignment name  | <name>            |
+      | Language         | <attemptlang>     |
+      | Assignment type  | <attempttype>     |
+      | Assignment text  | <assignmenttext>  |
+      | Material         | <resourcestext>   |
+      | More information | <informationtext> |
     And I press "Save and display"
     Then I am on the "<name>" "digitala activity" page
     And I click on "Next" "link"
@@ -37,8 +38,8 @@ Feature: Edit digitala activity
     And I should see "<resourcestext>"
 
     Examples:
-      | name          | attemptlang | attempttype | assignmenttext                   | resourcestext                                                          |
-      | SWE Readaloud | Swedish     | Read aloud  | Läs följande avsnitt högt.       | Hejsan, jag heter Jonne-Peter.                                         |
-      | FIN Readaloud | Finnish     | Read aloud  | Lue seuraava lause ääneen.       | Tämä on liikennevalojen perusteet -kurssi.                             |
-      | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                |
-      | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. |
+      | name          | attemptlang | attempttype | assignmenttext                   | resourcestext                                                          | informationtext  |
+      | SWE Readaloud | Swedish     | Read-aloud  | Läs följande avsnitt högt.       | Hejsan, jag heter Jonne-Peter.                                         | some information |
+      | FIN Readaloud | Finnish     | Read-aloud  | Lue seuraava lause ääneen.       | Tämä on liikennevalojen perusteet -kurssi.                             | some information |
+      | SWE Freeform  | Swedish     | Freeform    | Berätta om Tigerjakt.            | Här är filmen om tiger.                                                | some information |
+      | FIN Freeform  | Finnish     | Freeform    | Pidä oppitunti liikennevaloista. | Liikennevaloissa kolme valoa ja ne ovat punainen, keltainen ja vihreä. | some information |

@@ -26,17 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/csvlib.class.php');
 
 /**
- * Used to generate page urls for digitala module student views.
- *
- * @param number $page number of the step
- * @param number $id id of the course module
- * @param number $d id of the activity instance
- */
-function page_url($page, $id, $d) {
-    return new moodle_url('/mod/digitala/view.php', array('id' => $id, 'd' => $d, 'page' => $page));
-}
-
-/**
  * Used to generate page urls for digitala module teacher results views.
  *
  * @param number $id id of the activity instance
@@ -68,43 +57,42 @@ function export_url($id, $mode) {
 }
 
 /**
+ * Used to generate page urls for digitala module student views.
+ *
+ * @param number $page number of the step
+ */
+function switch_page($page) {
+    $count = 0;
+    $url = preg_replace('/&page=\d/i', '&page='.$page, $_SERVER['REQUEST_URI'], -1, $count);
+    if ($count) {
+        return $url;
+    }
+    return $url . '&page='.$page;
+}
+
+/**
  * Used to generate links in the steps of the progress bar.
  *
  * @param string $name name of the step
  * @param number $page number of the step
- * @param number $id id of the course module
- * @param number $d id of the activity instance
- * @param bool $iscurrent true if page is currently active
  */
-function create_progress_bar_step_link($name, $page, $id, $d, $iscurrent) {
-    $url = page_url($page, $id, $d);
-    $pageout = $page + 1;
-    $name = get_string($name, 'digitala');
-    if ($iscurrent) {
-        $title = '<span class="pb-num active">'.$pageout.'</span>'.
-                 '<span class="pb-phase-name">'.$name.'</span>';
-    } else {
-        $title = '<span class="pb-num">'.$pageout.'</span>'.
-                 '<span class="pb-phase-name">'.$name.'</span>';
-    }
-    $out = html_writer::link($url, $title, array('class' => 'display-6'));
-    return $out;
+function create_progress_bar_step_link($name, $page) {
+    $title = html_writer::span($page + 1, 'pb-num').html_writer::span(get_string($name, 'digitala'), 'pb-phase-name');
+    return html_writer::link(switch_page($page), $title, array('class' => 'display-6'));
 }
 
 /**
  * Used to begin creation of the progress bar.
  */
 function start_progress_bar() {
-    $out = html_writer::start_div('digitala-progress-bar');
-    return $out;
+    return html_writer::start_div('digitala-progress-bar');
 }
 
 /**
  * Used to end creation of the progress bar.
  */
 function end_progress_bar() {
-    $out = html_writer::end_div();
-    return $out;
+    return html_writer::end_div();
 }
 
 /**
@@ -112,25 +100,21 @@ function end_progress_bar() {
  *
  * @param string $name name of the step as lang API compatible id
  * @param number $page number of the step
- * @param number $id id of the course module
- * @param number $d id of the activity instance
  * @param number $currentpage number of the active page
  */
-function create_progress_bar_step($name, $page, $id, $d, $currentpage) {
+function create_progress_bar_step($name, $page, $currentpage) {
     $classes = 'pb-step';
-    $iscurrent = $page == $currentpage;
-    if ($iscurrent) {
+    if ($page == $currentpage) {
         $classes .= ' active';
     }
     if ($page == 0) {
         $classes .= ' first';
-    }
-    if ($page == 2) {
+    } else if ($page == 2) {
         $classes .= ' last';
     }
 
     $out = html_writer::start_div($classes);
-    $out .= create_progress_bar_step_link($name, $page, $id, $d, $iscurrent);
+    $out .= create_progress_bar_step_link($name, $page);
     $out .= html_writer::end_div();
     return $out;
 }
@@ -167,18 +151,17 @@ function create_progress_bar_spacer($mode) {
         $out = html_writer::start_div('pb-spacer');
         $class = "pb-svg-front";
     }
-    $out .= '<svg class="'.$class.'" viewBox="0 0 275 500"
-    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">';
+    $out .= html_writer::start_tag('svg', array('class' => $class, 'viewBox' => '0 0 275 500', 'style' =>
+        'fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5'));
 
     if ($mode == 'left-empty') {
-        $out .= '<path d="M275,0L20,0L255,250L20,500L275,500L275,0Z" style="fill:rgb(211,211,211);"/>';
+        $out .= html_writer::empty_tag('path', array('d' => 'M275 0H20l235 250L20 500h255V0Z', 'fill' => '#d3d3d3'));
+    } else if ($mode == 'right-empty') {
+        $out .= html_writer::empty_tag('path', array('d' => 'M255 250 20 0H0v500h20l235-250Z', 'fill' => '#d3d3d3'));
     }
-
-    if ($mode == 'right-empty') {
-        $out .= '<path d="M255,250L20,0L0,0L0,500L20,500L255,250Z" style="fill:rgb(211,211,211);"/>';
-    }
-    $out .= '<path d="M20,20L255,250L20,480" style="fill:none;stroke:rgb(211,211,211);stroke-width:40px;"/>';
-    $out .= '</svg>';
+    $out .= html_writer::empty_tag('path', array('d' => 'm20 20 235 230L20 480',
+                                                 'style' => 'fill:none;stroke:#d3d3d3;stroke-width:40px'));
+    $out .= html_writer::end_tag('svg');
     $out .= html_writer::end_div();
     return $out;
 }
@@ -210,15 +193,30 @@ function end_container() {
  * @param string $size - width of the container, defaults to auto
  */
 function start_column($size='') {
-    $out = html_writer::start_div('col'.$size.' digitala-column');
-    return $out;
+    return html_writer::start_div('col'.$size.' digitala-column');
 }
 
 /**
  * Used to close column
  */
 function end_column() {
-    $out = html_writer::end_div();
+    return html_writer::end_div();
+}
+
+/**
+ * Card template used for all card functions
+ *
+ * @param string $content html code to be added inside the card
+ */
+function create_card_template($content) {
+    $out = html_writer::start_div('card row digitala-card');
+    $out .= html_writer::start_div('card-body');
+
+    $out .= $content;
+
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+
     return $out;
 }
 
@@ -229,16 +227,10 @@ function end_column() {
  * @param string $text content for the card as html
  */
 function create_card($header, $text) {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
-
-    $out .= html_writer::tag('h5', get_string($header, 'digitala'), array('class' => 'card-title'));
+    $out = html_writer::tag('h5', get_string($header, 'digitala'), array('class' => 'card-title'));
     $out .= html_writer::div($text, 'card-text');
 
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-
-    return $out;
+    return create_card_template($out);
 }
 
 /**
@@ -247,9 +239,7 @@ function create_card($header, $text) {
  * @param string $content text inside assignment text card
  */
 function create_assignment($content) {
-    $out = html_writer::div($content, 'card-text scrollbox200');
-
-    return $out;
+    return html_writer::div($content, 'card-text scrollbox200');
 }
 
 /**
@@ -260,9 +250,8 @@ function create_assignment($content) {
 function create_resource($assignment) {
     $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
                                               'mod_digitala', 'files', 0);
-    $out = html_writer::div($resources, 'card-text scrollbox400');
 
-    return $out;
+    return html_writer::div($resources, 'card-text scrollbox400');
 }
 
 /**
@@ -275,16 +264,14 @@ function create_resource($assignment) {
  * @param string $feedbackreason reason for the grade change
  */
 function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, $feedbackreason = null) {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
-
-    $out .= html_writer::tag('h5', get_string($name, 'digitala'), array('class' => 'card-title'));
+    $out = html_writer::tag('h5', get_string($name, 'digitala'), array('class' => 'card-title'));
+    $out .= html_writer::tag('p', get_string($name.'_description', 'digitala'));
 
     $out .= create_chart($name, $grade, $maxgrade);
     $out .= html_writer::tag('h6', floor($grade) . '/' . $maxgrade, array('class' => 'grade-number'));
 
     $out .= html_writer::start_div('card-text');
-    $out .= html_writer::tag('p', get_string($name.'_description', 'digitala').
+    $out .= html_writer::tag('p', get_string('task_grades_preamble', 'digitala').
                                   lcfirst(get_string($name.'_score-' . floor($grade), 'digitala')));
 
     if (isset($feedbackgrade) && $grade != $feedbackgrade) {
@@ -293,12 +280,9 @@ function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, 
     if (isset($feedbackreason) && !empty($feedbackreason)) {
         $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedbackreason);
     }
-
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
     $out .= html_writer::end_div();
 
-    return $out;
+    return create_card_template($out);
 }
 
 /**
@@ -308,18 +292,15 @@ function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, 
  * @param mixed $feedback information given by the teacher
  */
 function create_report_holistic($grade, $feedback = null) {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
-
-    $out .= html_writer::tag('h5', get_string('holistic', 'digitala'), array('class' => 'card-title'));
+    $out = html_writer::tag('h5', get_string('holistic', 'digitala'), array('class' => 'card-title'));
 
     $out .= create_chart('holistic', $grade, 6);
     $out .= html_writer::tag('h6', get_string('holistic_level-'.$grade, 'digitala'), array('class' => 'grade-number'));
 
     $out .= html_writer::start_div('card-text');
     $out .= html_writer::tag('p', get_string('holistic_description', 'digitala').
-                                  get_string('holistic_level-'.$grade, 'digitala').
-                                  ':<br>'.get_string('holistic_score-'.$grade, 'digitala'));
+                                  get_string('holistic_level-'.$grade, 'digitala').'.');
+    $out .= html_writer::tag('p', get_string('holistic_score-'.$grade, 'digitala'));
 
     if (isset($feedback)) {
         if ($grade != $feedback->holistic) {
@@ -329,22 +310,16 @@ function create_report_holistic($grade, $feedback = null) {
             $out .= html_writer::tag('p', get_string('teacherreason', 'digitala').$feedback->holistic_reason);
         }
     }
-
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
     $out .= html_writer::end_div();
 
-    return $out;
+    return create_card_template($out);
 }
 
 /**
- * Creates more information container from report
+ * Creates report waiting container
  */
 function create_report_waiting() {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
-
-    $out .= html_writer::tag('h5', get_string('results_waiting-title', 'digitala'), array('class' => 'card-title'));
+    $out = html_writer::tag('h5', get_string('results_waiting-title', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::start_div('card-text');
 
@@ -357,20 +332,14 @@ function create_report_waiting() {
                              array('id' => 'nextButton', 'class' => 'btn btn-primary', 'href' => $_SERVER['REQUEST_URI']));
     $out .= html_writer::end_div();
 
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-
-    return $out;
+    return create_card_template($out);
 }
 
 /**
- * Creates more information container from report
+ * Creates report retry container
  */
 function create_report_retry() {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
-
-    $out .= html_writer::tag('h5', get_string('results_retry-title', 'digitala'), array('class' => 'card-title'));
+    $out = html_writer::tag('h5', get_string('results_retry-title', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::start_div('card-text');
 
@@ -381,29 +350,26 @@ function create_report_retry() {
     $out .= html_writer::tag('p', get_string('results_retry-info', 'digitala'));
     $out .= html_writer::end_div();
 
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-
-    return $out;
+    return create_card_template($out);
 }
 
 /**
  * Creates more information container from report
  *
- * @param string $text information to show on report page given by the server
+ * @param digitala_report $report report object containing information
  */
-function create_report_information($text) {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
+function create_report_information($report) {
+    if (empty($report->informationtext)) {
+        return '';
+    }
 
-    $out .= html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
+    $out = html_writer::tag('h5', get_string('moreinformation', 'digitala'), array('class' => 'card-title'));
 
+    $text = file_rewrite_pluginfile_urls($report->informationtext, 'pluginfile.php', $report->contextid,
+                                         'mod_digitala', 'info', 0);
     $out .= html_writer::div($text, 'card-text');
 
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-
-    return $out;
+    return create_card_template($out);
 }
 
 /**
@@ -412,17 +378,11 @@ function create_report_information($text) {
  * @param mixed $transcription object containing the transcription part of report
  */
 function create_report_transcription($transcription) {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
-
-    $out .= html_writer::tag('h5', get_string('transcription', 'digitala'), array('class' => 'card-title'));
+    $out = html_writer::tag('h5', get_string('transcription', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::div($transcription, 'card-text scrollbox200');
 
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-
-    return $out;
+    return create_card_template($out);
 }
 
 /**
@@ -431,14 +391,46 @@ function create_report_transcription($transcription) {
  * @param mixed $feedback object containing the feedback part of report
  */
 function create_report_feedback($feedback) {
-    $out = html_writer::start_div('card row digitala-card');
-    $out .= html_writer::start_div('card-body');
-
-    $out .= html_writer::tag('h5', get_string('server-feedback', 'digitala'), array('class' => 'card-title'));
+    $out = html_writer::tag('h5', get_string('server-feedback', 'digitala'), array('class' => 'card-title'));
 
     $out .= html_writer::div($feedback, 'card-text scrollbox200');
 
+    return create_card_template($out);
+}
+
+/**
+ * Creates tab navigation and contents for report view
+ *
+ * @param array $tabs array containing tab information. key must be id, values must include name and content
+ */
+function create_tabs($tabs) {
+    $first = true;
+    $buttons = '';
+    $divs = '';
+    foreach ($tabs as $name => $contents) {
+        $buttonclasses = 'nav-link ml-2';
+        $divclasses = 'tab-pane fade';
+        if ($first) {
+            $buttonclasses .= ' active';
+            $divclasses .= ' show active';
+        }
+        $buttons .= html_writer::tag('button', $contents['name'], array('class' => $buttonclasses, 'id' => $name.'-tab',
+                                     'data-toggle' => 'tab', 'href' => '#'.$name, 'role' => 'tab', 'aria-controls' => $name,
+                                     'aria-selected' => $first ? 'true' : 'false'));
+        $divs .= html_writer::div($contents['content'], $divclasses,
+                                  array('id' => $name, 'role' => 'tabpanel', 'aria-labelledby' => $name.'-tab'));
+        if ($first) {
+            $first = false;
+        }
+    }
+    $out = html_writer::start_tag('nav');
+    $out .= html_writer::start_div('nav nav-tabs digitala-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
+    $out .= $buttons;
     $out .= html_writer::end_div();
+    $out .= html_writer::end_tag('nav');
+
+    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
+    $out .= $divs;
     $out .= html_writer::end_div();
 
     return $out;
@@ -452,34 +444,13 @@ function create_report_feedback($feedback) {
  * @param string $information html content of more information shown
  */
 function create_report_tabs($gradings, $holistic, $information) {
-    $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-tabs digitala-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
-    $out .= html_writer::tag('button', get_string('task_grades', 'digitala'),
-                             array('class' => 'nav-link active ml-2', 'id' => 'report-grades-tab', 'data-toggle' => 'tab',
-                                   'href' => '#report-grades', 'role' => 'tab', 'aria-controls' => 'report-grades',
-                                   'aria-selected' => 'true'));
-    $out .= html_writer::tag('button', get_string('holistic', 'digitala'),
-                             array('class' => 'nav-link ml-2', 'id' => 'report-holistic-tab', 'data-toggle' => 'tab',
-                                   'href' => '#report-holistic', 'role' => 'tab', 'aria-controls' => 'report-holistic',
-                                   'aria-selected' => 'false'));
-    $out .= html_writer::tag('button', get_string('moreinformation', 'digitala'),
-                             array('class' => 'nav-link ml-2', 'id' => 'report-information-tab', 'data-toggle' => 'tab',
-                                   'href' => '#report-information', 'role' => 'tab', 'aria-controls' => 'report-information',
-                                   'aria-selected' => 'false'));
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_tag('nav');
+    $tabs = array('report-grades' => array('name' => get_string('task_grades', 'digitala'), 'content' => $gradings),
+                  'report-holistic' => array('name' => get_string('holistic', 'digitala'), 'content' => $holistic));
+    if (!empty($information)) {
+        $tabs['report-information'] = array('name' => get_string('moreinformation', 'digitala'), 'content' => $information);
+    }
 
-    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
-    $out .= html_writer::div($gradings, 'tab-pane fade show active',
-                            array('id' => 'report-grades', 'role' => 'tabpanel', 'aria-labelledby' => 'report-grades-tab'));
-    $out .= html_writer::div($holistic, 'tab-pane fade',
-                            array('id' => 'report-holistic', 'role' => 'tabpanel', 'aria-labelledby' => 'report-holistic-tab'));
-    $out .= html_writer::div($information, 'tab-pane fade',
-                             array('id' => 'report-information', 'role' => 'tabpanel',
-                             'aria-labelledby' => 'report-information-tab'));
-    $out .= html_writer::end_div();
-
-    return $out;
+    return create_tabs($tabs);
 }
 
 /**
@@ -489,29 +460,11 @@ function create_report_tabs($gradings, $holistic, $information) {
  * @param string $resources html content of resources shown
  */
 function create_short_assignment_tabs($assignment, $resources) {
-    $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-tabs digitala-tabs', array('id' => 'nav-tab', 'role' => 'tablist'));
-    $out .= html_writer::tag('button', get_string('assignment', 'digitala'),
-                             array('class' => 'nav-link active ml-2', 'id' => 'assignment-assignment-tab', 'data-toggle' => 'tab',
-                                   'href' => '#assignment-assignment', 'role' => 'tab', 'aria-controls' => 'assignment-assignment',
-                                   'aria-selected' => 'true'));
-    $out .= html_writer::tag('button', get_string('assignmentresource', 'digitala'),
-                             array('class' => 'nav-link ml-2', 'id' => 'assignment-resources-tab', 'data-toggle' => 'tab',
-                                   'href' => '#assignment-resources', 'role' => 'tab', 'aria-controls' => 'assignment-resources',
-                                   'aria-selected' => 'false'));
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_tag('nav');
+    $tabs = array('assignment-assignment' => array('name' => get_string('assignment', 'digitala'), 'content' => $assignment),
+                  'assignment-resources' => array('name' => get_string('assignmentresource', 'digitala'),
+                                                  'content' => $resources));
 
-    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
-    $out .= html_writer::div($assignment, 'tab-pane fade show active',
-                            array('id' => 'assignment-assignment', 'role' => 'tabpanel',
-                                  'aria-labelledby' => 'assignment-assignment-tab'));
-    $out .= html_writer::div($resources, 'tab-pane fade',
-                            array('id' => 'assignment-resources', 'role' => 'tabpanel',
-                                  'aria-labelledby' => 'assignment-resources-tab'));
-    $out .= html_writer::end_div();
-
-    return $out;
+    return create_tabs($tabs);
 }
 
 /**
@@ -523,35 +476,18 @@ function create_short_assignment_tabs($assignment, $resources) {
 function create_transcript_toggle($transcript, $feedback) {
     $transcript = create_report_transcription($transcript);
     $feedback = create_report_feedback($feedback);
-    $out = html_writer::start_tag('nav');
-    $out .= html_writer::start_div('nav nav-pills digitala-tabs', array('id' => 'nav-pills', 'role' => 'tablist'));
-    $out .= html_writer::tag('a', get_string('transcription_tab-corrected', 'digitala'),
-                             array('class' => 'nav-link active ml-1', 'id' => 'readaloud-feedback-tab', 'data-toggle' => 'tab',
-                                   'href' => '#readaloud-feedback', 'role' => 'tab', 'aria-controls' => 'readaloud-feedback',
-                                   'aria-selected' => 'true'));
-    $out .= html_writer::tag('a', get_string('transcription_tab-plain', 'digitala'),
-                             array('class' => 'nav-link ml-1', 'id' => 'readaloud-transcript-tab', 'data-toggle' => 'tab',
-                                   'href' => '#readaloud-transcript', 'role' => 'tab', 'aria-controls' => 'readaloud-transcript',
-                                   'aria-selected' => 'false'));
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_tag('nav');
 
-    $out .= html_writer::start_div('tab-content', array('id' => 'nav-tabContent'));
-    $out .= html_writer::div($feedback, 'tab-pane fade show active',
-                            array('id' => 'readaloud-feedback', 'role' => 'tabpanel',
-                                  'aria-labelledby' => 'readaloud-feedback-tab'));
-    $out .= html_writer::div($transcript, 'tab-pane fade',
-                            array('id' => 'readaloud-transcript', 'role' => 'tabpanel',
-                                  'aria-labelledby' => 'readaloud-transcript-tab'));
-    $out .= html_writer::end_div();
+    $tabs = array('readaloud-transcript' => array('name' => get_string('transcription_tab-plain', 'digitala'),
+                                                  'content' => $transcript),
+                  'readaloud-feedback' => array('name' => get_string('transcription_tab-corrected', 'digitala'),
+                                                  'content' => $feedback));
 
-    return $out;
+    return create_tabs($tabs);
 }
 
 /**
  * Creates a button with identical id and
  * Send user audio file to Aalto ASR for evaluation.
- * class
  *
  * @param string $id of the button
  * @param string $class of the button
@@ -560,11 +496,11 @@ function create_transcript_toggle($transcript, $feedback) {
  *
  */
 function create_button($id, $class, $text, $disabled = false) {
+    $options = array('id' => $id, 'class' => $class);
     if ($disabled) {
-        $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class, 'disabled' => 'true'));
-    } else {
-        $out = html_writer::tag('button', $text, array('id' => $id, 'class' => $class));
+        $options['disabled'] = 'true';
     }
+    $out = html_writer::tag('button', $text, $options);
 
     return $out;
 }
@@ -573,34 +509,33 @@ function create_button($id, $class, $text, $disabled = false) {
  * Creates navigation buttons with identical id and class
  *
  * @param string $buttonlocation location (info, assignmentprev, assignmentnext report) of the step
- * @param number $id id of the course module
- * @param number $d id of the activity instance
  * @param number $remaining remaining number of attempts used in report page
  */
-function create_nav_buttons($buttonlocation, $id, $d, $remaining = 0) {
-    $out = html_writer::start_div('navbuttons');
+function create_nav_buttons($buttonlocation, $remaining = 0) {
     if ($buttonlocation == 'info') {
-        $newurl = page_url(1, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('navnext', 'digitala'),
-                array('id' => 'nextButton', 'class' => 'btn btn-primary'));
+        $newurl = switch_page(1);
+        $string = 'navnext';
+        $id = 'nextButton';
     } else if ($buttonlocation == 'assignmentprev') {
-        $newurl = page_url(0, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('navprevious', 'digitala'),
-                array('id' => 'prevButton', 'class' => 'btn btn-primary'));
+        $newurl = switch_page(0);
+        $string = 'navprevious';
+        $id = 'prevButton';
     } else if ($buttonlocation == 'assignmentnext') {
-        $newurl = page_url(2, $id, $d);
-        $out .= html_writer::tag('a href=' . $newurl, get_string('navnext', 'digitala'),
-                array('id' => 'nextButton', 'class' => 'btn btn-primary'));
+        $newurl = switch_page(2);
+        $string = 'navnext';
+        $id = 'nextButton';
     } else if ($buttonlocation == 'report') {
-        $newurl = page_url(1, $id, $d);
+        $newurl = switch_page(1);
         if ($remaining == 0) {
             $string = 'navstartagain';
         } else {
             $string = 'navtryagain';
         }
-        $out .= html_writer::tag('a href=' . $newurl, get_string($string, 'digitala'),
-                array('id' => 'tryAgainButton', 'class' => 'btn btn-primary'));
+        $id = 'tryAgainButton';
     }
+    $out = html_writer::start_div('navbuttons');
+    $out .= html_writer::link($newurl, get_string($string, 'digitala'),
+                              array('id' => $id, 'class' => 'btn btn-primary'));
     $out .= html_writer::end_div();
 
     return $out;
@@ -612,23 +547,22 @@ function create_nav_buttons($buttonlocation, $id, $d, $remaining = 0) {
  * @param number $maxlength maximum length of recording in seconds
  */
 function create_microphone($maxlength = 0) {
-    $starticon = '<svg width="16" height="16" fill="currentColor"' .
-    'class="bi bi-play-fill" viewBox="0 0 16 16">' .
-    '<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.' .
-    '697V4.308c0-.63.692-1.01 1.233-.696l6.363' .
-    ' 3.692a.802.802 0 0 1 0 1.393z"/></svg>';
-    $stopicon = '<svg width="16" height="16" fill="currentColor"' .
-    'class="bi bi-stop-fill" viewBox="0 0 16 16">' .
-    '<path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5' .
-    ' 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/>' .
-    '</svg>';
-    $listenicon = '<svg width="16" height="16" fill="currentColor"' .
-    'class="bi bi-volume-down-fill" viewBox="0 0 16 16">' .
-    '<path d="M9 4a.5.5 0 0 0-.812-.39L5.825' .
-    ' 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363' .
-    ' 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10' .
-    ' 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486' .
-    ' 4.486 0 0 1 12.025 8z"/></svg>';
+    $starticon = html_writer::start_tag('svg', array('width' => 16, 'height' => 16, 'fill' => 'currentColor',
+                                                     'class' => 'bi bi-play-fill'));
+    $starticon .= html_writer::empty_tag('path', array('d' => 'm12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z'));
+    $starticon .= html_writer::end_tag('svg');
+    $stopicon = html_writer::start_tag('svg', array('width' => 16, 'height' => 16, 'fill' => 'currentColor',
+                                                     'class' => 'bi bi-stop-fill'));
+    $stopicon .= html_writer::empty_tag('path', array('d' => 'M5 4h6a2 2 0 0 1 2 1v6a2 2 0 0 1-2 2H5a2 2 0 0 1-1-2V5a2 '.
+                                                             '2 0 0 1 1-1z'));
+    $stopicon .= html_writer::end_tag('svg');
+    $listenicon = html_writer::start_tag('svg', array('width' => 16, 'height' => 16, 'fill' => 'currentColor',
+                                                     'class' => 'bi bi-volume-down-fill'));
+    $listenicon .= html_writer::empty_tag('path', array('d' => 'M9 4a.5.5 0 0 0-.8-.4L5.8 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 '.
+                                                               '.5.5h2.3l2.4 1.9A.5.5 0 0 0 9 12V4zm3 4a4.5 4.5 0 0 1-1.3 3.2l-'.
+                                                               '.7-.7A3.5 3.5 0 0 0 11 8a3.5 3.5 0 0 0-1-2.5l.7-.7A4.5 4.5 0 0 1 '.
+                                                               '12 8z'));
+    $listenicon .= html_writer::end_tag('svg');
 
     if ($maxlength == 0) {
         $limit = '';
@@ -636,12 +570,12 @@ function create_microphone($maxlength = 0) {
         $limit = ' / '.convertsecondstostring($maxlength);
     }
 
-    $out = html_writer::div($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
-    $out .= html_writer::div($stopicon, '', array('id' => 'stopIcon', 'style' => 'display: none;'));
-    $out .= html_writer::start_tag('p', array('id' => 'recordTimer'));
-    $out .= html_writer::tag('span', '00:00', array('id' => 'recordingLength'));
-    $out .= html_writer::tag('span', $limit);
+    $out = html_writer::start_tag('p', array('id' => 'recordTimer'));
+    $out .= html_writer::span('00:00', '', array('id' => 'recordingLength'));
+    $out .= html_writer::nonempty_tag('span', $limit);
     $out .= html_writer::end_tag('p');
+    $out .= html_writer::span($starticon, '', array('id' => 'startIcon', 'style' => 'display: none;'));
+    $out .= html_writer::span($stopicon, '', array('id' => 'stopIcon', 'style' => 'display: none;'));
     $out .= create_button('record', 'btn btn-primary record-btn', get_string('startbutton', 'digitala') . ' ' . $starticon);
     $out .= create_button('listen', 'btn btn-primary listen-btn', get_string('listenbutton', 'digitala') . ' ' . $listenicon, true);
 
@@ -652,10 +586,40 @@ function create_microphone($maxlength = 0) {
  * Creates the microphone icon for the microphone view
  */
 function create_microphone_icon() {
-    $microphoneicon = 'svg width="150" height="150" viewBox="0 0 150 150" version="1.1" id="svg5" inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)" inkscape:export-xdpi="96" inkscape:export-ydpi="96"> <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#000000" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="false" inkscape:document-units="px" showgrid="false" units="px" inkscape:zoom="5.9223905" inkscape:cx="62.947139" inkscape:cy="78.863467" inkscape:window-width="1848" inkscape:window-height="1016" inkscape:window-x="72" inkscape:window-y="27" inkscape:window-maximized="1" inkscape:current-layer="layer1" viewbox-width="24" scale-x="1" showguides="true" /> <defs id="defs2"> <linearGradient inkscape:collect="always" id="linearGradient8239"> <stop style="stop-color:#ffffff;stop-opacity:1" offset="0" id="stop8278" /> <stop style="stop-color:#ffffff;stop-opacity:0" offset="1" id="stop8280" /> </linearGradient> <linearGradient id="linearGradient8197" inkscape:swatch="solid"> <stop style="stop-color:#c04b0d;stop-opacity:1;" offset="0" id="stop8195" /> </linearGradient> <linearGradient id="linearGradient6947" inkscape:swatch="solid"> <stop style="stop-color:#323232;stop-opacity:1;" offset="0" id="stop6945" /> </linearGradient> <linearGradient inkscape:collect="always" xlink:href="#linearGradient7609" id="linearGradient14811" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.7019434,0,0,1.3429862,-166.17392,-206.17779)" x1="119.37104" y1="133.03964" x2="164.0202" y2="133.03964" /> <linearGradient id="linearGradient7609" inkscape:swatch="solid"> <stop style="stop-color:#000000;stop-opacity:1;" offset="0" id="stop7607" /> </linearGradient> <linearGradient inkscape:collect="always" xlink:href="#linearGradient8239" id="linearGradient8241" x1="12.490475" y1="20.807896" x2="12.282459" y2="-3.5488219" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.25,0,0,2.25,47.322403,-77.306788)" /> </defs> <g inkscape:label="Taso 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,126)"> <ellipse style="fill:url(#linearGradient8241);fill-opacity:1;stroke:#d9f991;stroke-width:0; stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none; stroke-dashoffset:0;stroke-opacity:1" id="path4797" cx="74.337151" cy="-50.244549" rx="26.929842" ry="26.977333" inkscape:export-filename="C:\Users\Joona\Desktop\icon.png" inkscape:export-xdpi="96" inkscape:export-ydpi="96" /> <rect style="fill:#000000;fill-opacity:1;stroke-width:0.47406167" id="rect1812-5-3-8" width="57.838097" height="83.551956" x="45.952644" y="-108.73703" ry="23.275175" rx="27.54195" /> <path style="fill:none;fill-opacity:1;stroke:url(#linearGradient14811);stroke-width :7.06218767;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4; stroke-dasharray:none;stroke-opacity:1" d="m 40.246073,-38.828328 c 10.851217,28.219916 60.610707,28.8520856 69.419357,-0.73962" id="path401-9-7" sodipodi:nodetypes="cc" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#000000;stroke-width:9.99843788;stroke-linecap: butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 75.90223,-19.843168 76.12741,0.59611765" id="path3077-8-4" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#000000;stroke-width:8.46515751;stroke-linecap: butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 54.13793,2.5386476 c 13.84293,-1.83226995 28.51102,-2.01710995 44.282025,0" id="path574" sodipodi:nodetypes="cc" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625px;stroke-linecap: round;stroke-linejoin:miter;stroke-opacity:1" d="m 45.849173,-83.263866 c 26.926417,-0.21371 26.926417,-0.21371 26.926417,-0.21371" id="path4391" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625px;stroke-linecap: round;stroke-linejoin:miter;stroke-opacity:1" d="M 45.635473,-69.907508 C 72.5619,-70.121218 72.5619,-70.121218 72.5619,-70.121218" id="path4391-9" inkscape:connector-curvature="0" /> <path style="fill:none;stroke:#ffffff;stroke-width:5.0625;stroke-linecap: round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:30.375, 5.0625; stroke-dashoffset:0;stroke-opacity:1" d="M 45.635473,-56.230598 C 72.5619,-56.444308 72.5619,-56.444308 72.5619,-56.444308" id="path4391-9-2" inkscape:connector-curvature="0" /> </g> </svg'; // phpcs:ignore moodle.Files.LineLength.MaxExceeded
-    $out = html_writer::start_div('', array('id' => 'microphoneIconBox'));
-    $out .= html_writer::end_div();
-    $out .= html_writer::tag($microphoneicon, '', array('id' => 'microphoneIcon'));
+    $out = html_writer::div('', '', array('id' => 'microphoneIconBox'));
+    $out .= html_writer::start_tag('svg', array('width' => '150', 'height' => '150',
+                                                'id' => 'microphoneIcon'));
+    $out .= html_writer::start_tag('defs');
+    $out .= html_writer::start_tag('linearGradient', array('id' => 'b'));
+    $out .= html_writer::empty_tag('stop', array('offset' => 0, 'stop-color' => '#fff'));
+    $out .= html_writer::empty_tag('stop', array('offset' => 1, 'stop-color' => '#fff', 'stop-opacity' => 0));
+    $out .= html_writer::end_tag('linearGradient');
+    $out .= html_writer::empty_tag('linearGradient', array('xlink:href' => '#a', 'id' => 'd', 'x1' => 119.4, 'x2' => 164,
+                                                           'y1' => 133, 'y2' => '133', 'gradientUnits' => 'userSpaceOnUse',
+                                                           'gradientTransform' => 'matrix(1.70194 0 0 1.34299 -166.2 -206.2)'));
+    $out .= html_writer::start_tag('linearGradient', array('id' => 'a'));
+    $out .= html_writer::empty_tag('stop', array('offset' => 0));
+    $out .= html_writer::end_tag('linearGradient');
+    $out .= html_writer::empty_tag('linearGradient', array('xlink:href' => '#b', 'id' => 'c', 'x1' => 12.5, 'x2' => 12.3,
+                                                           'y1' => 20.8, 'y2' => '-3.5', 'gradientUnits' => 'userSpaceOnUse',
+                                                           'gradientTransform' => 'matrix(2.25 0 0 2.25 47.3 -77.3)'));
+    $out .= html_writer::end_tag('defs');
+    $out .= html_writer::start_tag('g', array('transform' => 'translate(0 126)'));
+    $out .= html_writer::empty_tag('eclipse', array('cx' => 74.3, 'cy' => -50.2, 'fill' => 'url(#c)', 'rx' => 26.9, 'ry' => 27));
+    $out .= html_writer::empty_tag('rect', array('width' => 57.8, 'height' => 83.6, 'x' => 46, 'y' => -108.7,
+                                                 'rx' => 27.5, 'ry' => 23.3));
+    $out .= html_writer::empty_tag('path', array('fill' => "none", 'stroke' => 'url(#d)', 'stroke-width' => 7.1,
+                                                 'd' => 'M40.2-38.8c10.9 28.2 60.7 28.8 69.5-.8'));
+    $out .= html_writer::empty_tag('path', array('fill' => "none", 'stroke' => '#000', 'stroke-width' => 10,
+                                                 'd' => 'M75.9-19.8 76.1.6'));
+    $out .= html_writer::empty_tag('path', array('fill' => "none", 'stroke' => '#000', 'stroke-width' => 8.5,
+                                                 'd' => 'M54.1 2.5C68 .7 82.6.5 98.4 2.5'));
+    $out .= html_writer::empty_tag('path', array('fill' => "none", 'stroke' => '#fff', 'stroke-linecap' => 'round',
+                                                 'stroke-width' => 5.1, 'd' => 'm45.8-83.3 27-.2M45.6-70l27-.1'));
+    $out .= html_writer::empty_tag('path', array('fill' => "none", 'stroke' => '#fff', 'stroke-dasharray' => '30.4 5.1',
+                                                 'stroke-linecap' => 'round', 'stroke-width' => 5.1, 'd' => 'm45.6-56.2 27-.2'));
+    $out .= html_writer::end_tag('g');
+    $out .= html_writer::end_tag('svg');
     return $out;
 }
 
@@ -683,9 +647,8 @@ function save_answerrecording($formdata, $assignment) {
     create_waiting_attempt($assignment, $fileinfo->filename, $recordinglength);
     send_answerrecording_for_evaluation($fileinfo, $assignment, $recordinglength);
 
-    if (isset($_SERVER['REQUEST_URI'])) {
-        $newurl = str_replace('page=1', 'page=2', $_SERVER['REQUEST_URI']);
-        redirect($newurl);
+    if (!empty($_SERVER['REQUEST_URI'])) {
+        redirect(switch_page(2));
     } else {
         return get_string('error_url-not-set', 'digitala');
     }
@@ -707,6 +670,18 @@ function send_answerrecording_for_evaluation($fileinfo, $assignment, $length) {
     ));
 
     \core\task\manager::queue_adhoc_task($task, true);
+}
+
+/**
+ * Validate grading before we save it to the database.
+ *
+ * @param int $grading - grading to be validated
+ * @param int $max - maximum value for this grading
+ */
+function validate_grading($grading, $max = 3) {
+    $grading = $grading > $max ? 0 : $grading;
+    $grading = $grading < 0 ? 0 : $grading;
+    return round ($grading, 2);
 }
 
 /**
@@ -797,25 +772,15 @@ function save_attempt($assignment, $evaluation) {
     $attempt = get_attempt($assignment->instanceid, $assignment->userid);
     $attempt->status = 'evaluated';
     $attempt->transcript = $evaluation->transcript;
-    $attempt->fluency = $evaluation->fluency->score > 4 ? 0 : $evaluation->fluency->score;
-    $attempt->fluency = $attempt->fluency < 0 ? 0 : $attempt->fluency;
-    $attempt->fluency = round($attempt->fluency, 2);
+    $attempt->fluency = validate_grading($evaluation->fluency->score, 4);
     $attempt->fluency_features = json_encode($evaluation->fluency->flu_features);
-    $attempt->pronunciation = $evaluation->pronunciation->score > 4 ? 0 : $evaluation->pronunciation->score;
-    $attempt->pronunciation = $attempt->pronunciation < 0 ? 0 : $attempt->pronunciation;
-    $attempt->pronunciation = round($attempt->pronunciation, 2);
+    $attempt->pronunciation = validate_grading($evaluation->pronunciation->score, 4);
     $attempt->pronunciation_features = json_encode($evaluation->pronunciation->pron_features);
     if ($assignment->attempttype == 'freeform') {
-        $attempt->taskcompletion = $evaluation->task_completion > 3 ? 0 : $evaluation->task_completion;
-        $attempt->taskcompletion = $attempt->taskcompletion < 0 ? 0 : $attempt->taskcompletion;
-        $attempt->taskcompletion = round($attempt->taskcompletion, 0, 2);
-        $attempt->lexicogrammatical = $evaluation->lexicogrammatical->score > 3 ? 0 : $evaluation->lexicogrammatical->score;
-        $attempt->lexicogrammatical = $attempt->lexicogrammatical < 0 ? 0 : $attempt->lexicogrammatical;
-        $attempt->lexicogrammatical = round($attempt->lexicogrammatical, 2);
+        $attempt->taskcompletion = validate_grading($evaluation->task_completion);
+        $attempt->lexicogrammatical = validate_grading($evaluation->lexicogrammatical->score);
         $attempt->lexicogrammatical_features = json_encode($evaluation->lexicogrammatical->lexgram_features);
-        $attempt->holistic = $evaluation->holistic > 6 ? 0 : $evaluation->holistic;
-        $attempt->holistic = $attempt->holistic < 0 ? 0 : $attempt->holistic;
-        $attempt->holistic = round($attempt->holistic, 2);
+        $attempt->holistic = validate_grading($evaluation->holistic, 6);
     } else {
         $attempt->feedback = $evaluation->annotated_response;
     }
@@ -930,10 +895,9 @@ function delete_all_attempts($instanceid) {
  * @return $button - button containing delete url
  */
 function add_delete_all_attempts_button() {
-    $button = html_writer::tag('button', get_string('results_delete-all', 'digitala'),
+    return html_writer::tag('button', get_string('results_delete-all', 'digitala'),
         array('id' => 'deleteAllButton', 'class' => 'btn btn-danger',
-            'data-toggle' => 'modal', 'data-target' => '#deleteAllModal'));
-    return $button;
+              'data-toggle' => 'modal', 'data-target' => '#deleteAllModal'));
 }
 
 /**
@@ -944,9 +908,8 @@ function add_delete_all_attempts_button() {
  */
 function add_delete_all_redirect_button($id) {
     $deleteurl = delete_url($id);
-    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-confirm', 'digitala'),
+    return html_writer::link($deleteurl, get_string('results_delete-confirm', 'digitala'),
         array('id' => 'deleteAllRedirectButton', 'class' => 'btn btn-danger'));
-    return $button;
 }
 
 /**
@@ -956,10 +919,9 @@ function add_delete_all_redirect_button($id) {
  * @return $button - button that opens deletion modal
  */
 function add_delete_attempt_button($user) {
-    $button = html_writer::tag('button', get_string('results_delete', 'digitala'),
+    return html_writer::tag('button', get_string('results_delete', 'digitala'),
         array('id' => 'deleteButton'.$user->username, 'class' => 'btn btn-warning',
-            'data-toggle' => 'modal', 'data-target' => '#deleteModal'.$user->id));
-    return $button;
+              'data-toggle' => 'modal', 'data-target' => '#deleteModal'.$user->id));
 }
 
 /**
@@ -971,9 +933,8 @@ function add_delete_attempt_button($user) {
  */
 function add_delete_redirect_button($id, $user) {
     $deleteurl = delete_url($id, $user->id);
-    $button = html_writer::tag('a href=' . $deleteurl, get_string('results_delete-confirm', 'digitala'),
+    return html_writer::link($deleteurl, get_string('results_delete-confirm', 'digitala'),
         array('id' => 'deleteRedirectButton'.$user->username, 'class' => 'btn btn-warning'));
-    return $button;
 }
 
 /**
@@ -1035,7 +996,9 @@ function create_result_row($attempt, $id, $user) {
 
     $deletebutton = add_delete_attempt_button($user);
 
-    $cells = array($username, $score, $time, $tries, $status, $urllink, $deletebutton);
+    $timestamp = timestampformatter($attempt->timecreated);
+
+    $cells = array($username, $score, $time, $tries, $status, $timestamp, $urllink, $deletebutton);
     return $cells;
 }
 
@@ -1080,21 +1043,21 @@ function create_chart($name, $grade, $maxgrade) {
  * Creates a fixed feedback box.
  */
 function create_fixed_box() {
-    $chaticon = '<svg id="feedback" width="16" height="16" fill="currentColor"' .
-    'class="bi bi-chat-text-fill" viewBox="0 0 16 16">' .
-    '<path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.' .
-    '584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.' .
-    '836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8' .
-    ' 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5' .
-    ' 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"/></svg>';
     $out = html_writer::div(get_string('feedback', 'digitala'), 'feedbackcontainer',
-    array('data-toggle' => 'collapse', 'data-target' => '#feedbacksite'));
-    $out .= html_writer::tag('button type="button" class="btn btn-primary"' .
-    'data-toggle="collapse" data-target="#feedbacksite" id="collapser"', $chaticon);
+                            array('data-toggle' => 'collapse', 'data-target' => '#feedbacksite'));
+    $out .= html_writer::start_tag('button', array('type' => 'button', 'class' => 'btn btn-primary', 'data-toggle' => 'collapse',
+                                                   'data-target' => '#feedbacksite', 'id' => 'collapser'));
+    $out .= html_writer::start_tag('svg', array('width' => 16, 'height' => 16, 'fill' => 'currentColor', 'id' => 'feedback',
+                                                'class' => 'bi bi-chat-text-fill'));
+    $out .= html_writer::empty_tag('path', array('d' => 'M16 8c0 3.9-3.6 7-8 7a9 9 0 0 1-2.3-.3c-.6.3-2 .9-4.2 1.2-.2 0-.4-.1-.'.
+                                                        '3-.3.4-.9.7-2 .8-3A6.5 6.5 0 0 1 0 8c0-3.9 3.6-7 8-7s8 3.1 8 7zM4.5 5a.'.
+                                                        '5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-'.
+                                                        '1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z'));
+    $out .= html_writer::end_tag('svg');
+    $out .= html_writer::end_tag('button');
     $out .= html_writer::div('', 'collapse', array('id' => 'feedbacksite'));
-    $out .= html_writer::tag('iframe src=' .
-    'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
-    '', array('id' => 'feedbacksite', 'class' => 'collapse'));
+    $out .= html_writer::tag('iframe', '', array('id' => 'feedbacksite', 'class' => 'collapse',
+    'src' => 'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048'));
     return $out;
 }
 
@@ -1130,23 +1093,94 @@ function convertsecondstostring($secs) {
 }
 
 /**
+ * Gets number of attempts remaining for the user.
+ *
+ * @param int $time timestamp in Unix epoch time
+ * @return string $timestamp timestamp in format dd.mm.yyyy hh.mm:ss
+ */
+function timestampformatter($time) {
+    $timestamp = date("d.m.Y H.i:s", $time);
+    return $timestamp;
+}
+
+
+/**
+ * Gets number of attempts remaining for the user.
+ *
+ * @param digitala_assignment $assignment - assignment containing id information
+ * @param int $userid - id of the user
+ */
+function get_remaining_number($assignment, $userid) {
+    $remaining = $assignment->attemptlimit;
+    if ($remaining == 0) {
+        return null;
+    } else {
+        $attempt = get_attempt($assignment->instanceid, $userid);
+        if (isset($attempt)) {
+            $remaining -= $attempt->attemptnumber;
+        }
+        return $remaining;
+    }
+}
+
+/**
  * Creates attempt number visualization for assignment view.
  *
  * @param digitala_assignment $assignment - assignment containing id information
  * @param int $userid - id of the user
  */
 function create_attempt_number($assignment, $userid) {
-    $remaining = $assignment->attemptlimit;
-    if ($remaining == 0) {
+    $remaining = get_remaining_number($assignment, $userid);
+    if (is_null($remaining)) {
         $out = get_string('attemptsunlimited', 'mod_digitala');
     } else {
-        $attempt = get_attempt($assignment->instanceid, $userid);
-        if (isset($attempt)) {
-            $remaining -= $attempt->attemptnumber;
-        }
-
         $out = get_string('attemptsremaining', 'mod_digitala', $remaining);
     }
+
+    return $out;
+}
+
+/**
+ * Creates html audio controls.
+ *
+ * @param string $url - url of the audio source
+ */
+function create_audio_controls($url) {
+    $out = html_writer::start_tag('audio controls', array('title' => 'attempt_recording'));
+    $out .= html_writer::empty_tag('source', array('src' => $url));
+    $out .= html_writer::end_tag('audio');
+
+    return $out;
+}
+
+/**
+ * Creates modal with content
+ *
+ * @param string $id id of the modal
+ * @param string $title title to be added to the modal
+ * @param string $body text to be added to the body of the modal
+ * @param string $buttons html objects to be added to the buttons section of the modal
+ */
+function create_modal($id, $title, $body, $buttons) {
+    $out = html_writer::start_div('modal', array('id' => $id, 'tabindex' => '-1', 'role' => 'dialog'));
+    $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
+    $out .= html_writer::start_div('modal-content');
+    $out .= html_writer::start_div('modal-header');
+    $out .= html_writer::tag('h5', $title, array('class' => 'modal-title'));
+    $out .= html_writer::start_tag('button', array('class' => 'close', 'data-dismiss' => 'modal',
+                                                   'aria-label' => 'close-cross'));
+    $out .= html_writer::span('&times;', '', array('aria-hidden' => 'true'));
+    $out .= html_writer::end_tag('button');
+    $out .= html_writer::end_div();
+    $out .= html_writer::start_div('modal-body');
+    $out .= html_writer::tag('p', $body);
+    $out .= html_writer::end_div();
+    $out .= html_writer::start_div('modal-footer');
+    $out .= $buttons;
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
+    $out .= html_writer::end_div();
 
     return $out;
 }
@@ -1157,43 +1191,22 @@ function create_attempt_number($assignment, $userid) {
  * @param digitala_assignment $assignment - assignment that this object is created for
  */
 function create_attempt_modal($assignment) {
-    $remaining = $assignment->attemptlimit;
-
     $out = html_writer::tag('button', get_string('submit', 'mod_digitala'),
                             array('id' => 'submitModalButton', 'type' => 'button', 'class' => 'btn btn-primary ml-2',
                                   'data-toggle' => 'modal',  'data-target' => '#attemptModal', 'style' => 'display: none'));
-    $out .= html_writer::start_div('modal', array('id' => 'attemptModal', 'tabindex' => '-1', 'role' => 'dialog',
-                                                  'aria-labelledby' => 'submitModal', 'aria-hidden' => 'true'));
-    $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
-    $out .= html_writer::start_div('modal-content');
-    $out .= html_writer::start_div('modal-header');
-    $out .= html_writer::tag('h5', get_string('submittitle', 'digitala'), array('class' => 'modal-title'));
-    $out .= html_writer::start_tag('button', array('class' => 'close', 'data-dismiss' => 'modal',
-                                                   'aria-label' => get_string('submitclose', 'mod_digitala')));
-    $out .= html_writer::tag('span', '&times;', array('aria-hidden' => 'true'));
-    $out .= html_writer::end_tag('button');
-    $out .= html_writer::end_div();
-    $out .= html_writer::start_div('modal-body');
-    $out .= html_writer::start_tag('p');
-    if ($remaining == 0) {
-        $out .= get_string('attemptsunlimited', 'mod_digitala');
+    $id = 'attemptModal';
+    $title = get_string('submittitle', 'digitala');
+    $remaining = get_remaining_number($assignment, $assignment->userid);
+    if (is_null($remaining)) {
+        $body = get_string('attemptsunlimited', 'mod_digitala');
     } else {
-        $attempt = get_attempt($assignment->instanceid, $assignment->userid);
-        if (isset($attempt)) {
-            $remaining -= $attempt->attemptnumber;
-        }
-        $out .= get_string('submitbody', 'digitala', $remaining);
+        $body = get_string('submitbody', 'mod_digitala', $remaining);
     }
-    $out .= html_writer::end_tag('p');
-    $out .= html_writer::end_div();
-    $out .= html_writer::start_div('modal-footer');
-    $out .= html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
-                             array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
-    $out .= create_answerrecording_form($assignment);
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
+    $buttons = html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
+                                array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
+    $buttons .= create_answerrecording_form($assignment);
+    $out .= create_modal($id, $title, $body, $buttons);
+
     return $out;
 }
 
@@ -1203,46 +1216,28 @@ function create_attempt_modal($assignment) {
  * @param int $id - id of the activity
  * @param mixed $user - the user whose attempt ought to be deleted or null if deleting all attempts
  */
-function create_delete_modal($id, $user=null) {
-
+function create_delete_modal($id, $user = null) {
     if (isset($user)) {
-        $out = html_writer::start_div('modal', array('id' => 'deleteModal'.$user->id, 'tabindex' => '-1', 'role' => 'dialog'));
+        $modalid = 'deleteModal'.$user->id;
     } else {
-        $out = html_writer::start_div('modal', array('id' => 'deleteAllModal', 'tabindex' => '-1', 'role' => 'dialog'));
+        $modalid = 'deleteAllModal';
     }
-    $out .= html_writer::start_div('modal-dialog', array('role' => 'document'));
-    $out .= html_writer::start_div('modal-content');
-    $out .= html_writer::start_div('modal-header');
-    $out .= html_writer::tag('h5', get_string('results_delete-title', 'digitala'), array('class' => 'modal-title'));
-    $out .= html_writer::start_tag('button', array('class' => 'close', 'data-dismiss' => 'modal',
-                                                   'aria-label' => 'close-cross'));
-    $out .= html_writer::tag('span', '&times;', array('aria-hidden' => 'true'));
-    $out .= html_writer::end_tag('button');
-    $out .= html_writer::end_div();
-    $out .= html_writer::start_div('modal-body');
-    $out .= html_writer::start_tag('p');
+    $title = get_string('results_delete-title', 'digitala');
     if (isset($user)) {
         $username = $user->firstname . ' ' . $user->lastname;
-        $out .= get_string('results_delete-one-text', 'digitala', $username);
+        $body = get_string('results_delete-one-text', 'digitala', $username);
     } else {
-        $out .= get_string('results_delete-all-text', 'digitala');
+        $body = get_string('results_delete-all-text', 'digitala');
     }
-    $out .= html_writer::end_tag('p');
-    $out .= html_writer::end_div();
-    $out .= html_writer::start_div('modal-footer');
-    $out .= html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
-                             array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
+    $buttons = html_writer::tag('button', get_string('submitclose', 'mod_digitala'),
+                                array('type' => 'button', 'class' => 'btn btn-secondary', 'data-dismiss' => 'modal'));
     if (isset($user)) {
-        $out .= add_delete_redirect_button($id, $user);
+        $buttons .= add_delete_redirect_button($id, $user);
     } else {
-        $out .= add_delete_all_redirect_button($id);
+        $buttons .= add_delete_all_redirect_button($id);
     }
 
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-    $out .= html_writer::end_div();
-    return $out;
+    return create_modal($modalid, $title, $body, $buttons);
 }
 
 /**

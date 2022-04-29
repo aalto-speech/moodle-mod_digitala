@@ -11,6 +11,7 @@ Backlogit:
 * [Sprint 5](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=978372491&single=true)
 * [Sprint 6](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=1830063881&single=true)
 * [Sprint 7](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=521949607&single=true)
+* [Yhteenveto](https://docs.google.com/spreadsheets/d/e/2PACX-1vSyJX3XVfLA_2HlEqoWGl3um9CbgwaTjh3X5zPfteLKH2FeCdxVfsRZ9UbdAnb6JOfwZeRlMQrpNUDv/pubhtml?gid=864912675&single=true)
 
 
 Työryhmälle muistutukseksi Definition of Done:
