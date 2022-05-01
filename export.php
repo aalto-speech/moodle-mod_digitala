@@ -74,3 +74,5 @@ if (has_capability('mod/digitala:exportreports', $modulecontext)) {
 } else {
     redirect('view.php?id='.$id);
 }
+
+
