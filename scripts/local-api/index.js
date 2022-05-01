@@ -17,12 +17,41 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Placeholder response for unused GET-method. Used for health check.
+ *     responses:
+ *       420:
+ *         description: Returned if everything is okay
+ */
 app.get('/', (req, res) => {
   res.status(420).send('Enhace Your Calm')
 })
 
+/**
+ * @swagger
+ * /resources:
+ *   get:
+ *     summary: Static files served for tests
+ *     responses:
+ *       200:
+ *         description: Returns asked file.
+ */
 app.use('/resources', express.static('public'))
 
+/**
+ * @swagger
+ * /:
+ *   post:
+ *     summary: Returns dummy evaluation in same format as Aalto ASR -api would.
+ *     responses:
+ *       200:
+ *         description: Returns evaluation.
+ *       418:
+ *         description: If something goes wrong. For example if key, file or fields is missing.
+ */
 app.post('/', (req, res) => {
     try {
         if (req.query.key === "digitala") {

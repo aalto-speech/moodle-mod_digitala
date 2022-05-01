@@ -31,4 +31,9 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext('digitala/key',
         get_string('key', 'mod_digitala'), get_string('key_help', 'mod_digitala'), 'digitala', PARAM_TEXT, 64));
+
+    $settings->add(new admin_setting_configtext('digitala/feedback',
+        get_string('feedbacklink', 'mod_digitala'), get_string('feedbacklink_help', 'mod_digitala'),
+            'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
+            PARAM_TEXT, 128));
 }
