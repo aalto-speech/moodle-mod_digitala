@@ -18,7 +18,8 @@
  * Library of functions used by the digitala module.
  *
  * @package     mod_digitala
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,9 +29,11 @@ require_once($CFG->libdir . '/csvlib.class.php');
 /**
  * Used to generate page urls for digitala module teacher results views.
  *
- * @param number $id id of the activity instance
- * @param string $mode value to render all results on table or one spesific report
- * @param number $studentid id of the student whose results tescher wants to see
+ * @param int $id - id of the activity instance
+ * @param mixed $mode - value to render all results on table or one specific report
+ * @param int $studentid - id of the student whose results the teacher wants to see
+ *
+ * @return string - page url of the teacher result view
  */
 function results_url($id, $mode, $studentid=null) {
     return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => $mode, 'student' => $studentid));
@@ -39,8 +42,10 @@ function results_url($id, $mode, $studentid=null) {
 /**
  * Used to generate page urls for deleting attempts.
  *
- * @param number $id id of the activity instance
- * @param number $studentid id of the student whose results tescher wants to see
+ * @param int $id - id of the activity instance
+ * @param int $studentid - id of the student whose results teacher wants to see
+ *
+ * @return string - page url of the delete attempt
  */
 function delete_url($id, $studentid=null) {
     return new moodle_url('/mod/digitala/report.php', array('id' => $id, 'mode' => 'delete', 'student' => $studentid));
@@ -49,8 +54,10 @@ function delete_url($id, $studentid=null) {
 /**
  * Used to generate page urls for exporting attempts.
  *
- * @param number $id id of the activity instance
- * @param number $mode mode of export
+ * @param int $id - id of the activity instance
+ * @param mixed $mode - value to decide mode of export
+ *
+ * @return string - page url of the export attempt
  */
 function export_url($id, $mode) {
     return new moodle_url('/mod/digitala/export.php', array('id' => $id, 'mode' => $mode));
@@ -59,7 +66,9 @@ function export_url($id, $mode) {
 /**
  * Used to generate page urls for digitala module student views.
  *
- * @param number $page number of the step
+ * @param int $page - page number of the step
+ *
+ * @return string - url of the student view
  */
 function switch_page($page) {
     $count = 0;
@@ -73,8 +82,10 @@ function switch_page($page) {
 /**
  * Used to generate links in the steps of the progress bar.
  *
- * @param string $name name of the step
- * @param number $page number of the step
+ * @param string $name - name of the step
+ * @param int $page - number of the step
+ *
+ * @return string - link to progress bar step
  */
 function create_progress_bar_step_link($name, $page) {
     $title = html_writer::span($page + 1, 'pb-num').html_writer::span(get_string($name, 'digitala'), 'pb-phase-name');
@@ -83,6 +94,9 @@ function create_progress_bar_step_link($name, $page) {
 
 /**
  * Used to begin creation of the progress bar.
+ *
+ *
+ * @return string - start of the progress bar div
  */
 function start_progress_bar() {
     return html_writer::start_div('digitala-progress-bar');
@@ -90,6 +104,9 @@ function start_progress_bar() {
 
 /**
  * Used to end creation of the progress bar.
+ *
+ *
+ * @return string - end of the progess bar div
  */
 function end_progress_bar() {
     return html_writer::end_div();
@@ -98,9 +115,11 @@ function end_progress_bar() {
 /**
  * Used to create one step of the progress bar.
  *
- * @param string $name name of the step as lang API compatible id
- * @param number $page number of the step
- * @param number $currentpage number of the active page
+ * @param string $name - name of the step as lang API compatible id
+ * @param int $page - number of the step
+ * @param int $currentpage - number of the active page
+ *
+ * @return string $out - html containing step one step of the progress bar
  */
 function create_progress_bar_step($name, $page, $currentpage) {
     $classes = 'pb-step';
@@ -122,7 +141,9 @@ function create_progress_bar_step($name, $page, $currentpage) {
 /**
  * Helper function that is used to calculate if highlight color is needed in the spacer.
  *
- * @param number $page number of the page
+ * @param int $page - number of the page
+ *
+ * @return array - array containing highlight color
  */
 function calculate_progress_bar_spacers($page) {
     if ($page == 0) {
@@ -136,9 +157,11 @@ function calculate_progress_bar_spacers($page) {
 
 /**
  * Used to create spacer between steps in the progress bar.
+ * Knows values 'right-empty' and 'left-empty'. Other strings gives no extra filling.
  *
  * @param string $mode defines if extra filling needed in the spacer.
- * Knows values 'right-empty' and 'left-empty'. Other strings gives no extra filling.
+ *
+ * @return string $out - html containing prgoress bar spacer
  */
 function create_progress_bar_spacer($mode) {
     if ($mode == 'left-empty') {
@@ -169,7 +192,9 @@ function create_progress_bar_spacer($mode) {
 /**
  * Used to create step content container.
  *
- * @param string $classname steps classname for css styling
+ * @param string $classname - step classname for css styling
+ *
+ * @return string $out - container for step content
  */
 function start_container($classname) {
     $out = html_writer::start_div($classname . ' digitala-container');
@@ -179,7 +204,10 @@ function start_container($classname) {
 }
 
 /**
- * Used to close step content container
+ * Used to close step content container.
+ *
+ *
+ * @return string $out - closes container for step content
  */
 function end_container() {
     $out = html_writer::end_div();
@@ -189,24 +217,32 @@ function end_container() {
 }
 
 /**
- * Used to create column inside content container
+ * Used to create column inside content container.
+ *
  * @param string $size - width of the container, defaults to auto
+ *
+ * @return string - starts column inside content container
  */
 function start_column($size='') {
     return html_writer::start_div('col'.$size.' digitala-column');
 }
 
 /**
- * Used to close column
+ * Used to close column inside content container.
+ *
+ *
+ * @return string - closes column inside content container
  */
 function end_column() {
     return html_writer::end_div();
 }
 
 /**
- * Card template used for all card functions
+ * Card template used for all card functions.
  *
- * @param string $content html code to be added inside the card
+ * @param string $content - html code to be added inside the card
+ *
+ * @return string $out - card template
  */
 function create_card_template($content) {
     $out = html_writer::start_div('card row digitala-card');
@@ -221,10 +257,12 @@ function create_card_template($content) {
 }
 
 /**
- * Used to create content card inside content container column
+ * Used to create content card inside content container column.
  *
- * @param string $header text for card's header as lang file string name
- * @param string $text content for the card as html
+ * @param string $header - text for card's header as lang file string name
+ * @param string $text - content for the card as html
+ *
+ * @return string - card inside content container column.
  */
 function create_card($header, $text) {
     $out = html_writer::tag('h5', get_string($header, 'digitala'), array('class' => 'card-title'));
@@ -237,6 +275,8 @@ function create_card($header, $text) {
  * Used to create text inside assignment card - helper function for box sizing
  *
  * @param string $content text inside assignment text card
+ *
+ * @return string - text inside assignment card
  */
 function create_assignment($content) {
     return html_writer::div($content, 'card-text scrollbox200');
@@ -246,6 +286,8 @@ function create_assignment($content) {
  * Used to create text inside resource card - helper function for box sizing
  *
  * @param digitala_assignment $assignment - assignment includes resource text
+ *
+ * @return mixed - resource inside assignment card
  */
 function create_resource($assignment) {
     $resources = file_rewrite_pluginfile_urls($assignment->resourcetext, 'pluginfile.php', $assignment->contextid,
@@ -255,13 +297,15 @@ function create_resource($assignment) {
 }
 
 /**
- * Creates grading information container from report
+ * Creates grading information container from report.
  *
- * @param string $name name of the grading
- * @param int $grade grading number given by the server
- * @param int $maxgrade maximum number of this grade
- * @param int $feedbackgrade grade given manually by the teacher
- * @param string $feedbackreason reason for the grade change
+ * @param string $name - name of the grading
+ * @param int $grade - grading number given by the server
+ * @param int $maxgrade - maximum number of this grade
+ * @param int $feedbackgrade - optional grade given manually by the teacher
+ * @param string $feedbackreason - optional reason for the grade change
+ *
+ * @return mixed - grading information container
  */
 function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, $feedbackreason = null) {
     $out = html_writer::tag('h5', get_string($name, 'digitala'), array('class' => 'card-title'));
@@ -286,10 +330,12 @@ function create_report_grading($name, $grade, $maxgrade, $feedbackgrade = null, 
 }
 
 /**
- * Creates holistic information container from report
+ * Creates holistic information container from report.
  *
- * @param int $grade grading number given by the server
- * @param mixed $feedback information given by the teacher
+ * @param int $grade - grading number given by the server
+ * @param digitala_feedback $feedback - optional information given by the teacher
+ *
+ * @return mixed - holistic information container
  */
 function create_report_holistic($grade, $feedback = null) {
     $out = html_writer::tag('h5', get_string('holistic', 'digitala'), array('class' => 'card-title'));
@@ -316,7 +362,10 @@ function create_report_holistic($grade, $feedback = null) {
 }
 
 /**
- * Creates report waiting container
+ * Creates report waiting container.
+ *
+ *
+ * @return mixed - report waiting container
  */
 function create_report_waiting() {
     $out = html_writer::tag('h5', get_string('results_waiting-title', 'digitala'), array('class' => 'card-title'));
@@ -336,7 +385,10 @@ function create_report_waiting() {
 }
 
 /**
- * Creates report retry container
+ * Creates report retry container.
+ *
+ *
+ * @return mixed - report retry container
  */
 function create_report_retry() {
     $out = html_writer::tag('h5', get_string('results_retry-title', 'digitala'), array('class' => 'card-title'));
@@ -354,9 +406,11 @@ function create_report_retry() {
 }
 
 /**
- * Creates more information container from report
+ * Creates more information container from report.
  *
  * @param digitala_report $report report object containing information
+ *
+ * @return mixed - more information container
  */
 function create_report_information($report) {
     if (empty($report->informationtext)) {
@@ -373,9 +427,11 @@ function create_report_information($report) {
 }
 
 /**
- * Creates transcription container from report
+ * Creates transcription container from report.
  *
- * @param mixed $transcription object containing the transcription part of report
+ * @param digitala_transcription $transcription - object containing the transcription part of report
+ *
+ * @return mixed - transcription container
  */
 function create_report_transcription($transcription) {
     $out = html_writer::tag('h5', get_string('transcription', 'digitala'), array('class' => 'card-title'));
@@ -386,9 +442,11 @@ function create_report_transcription($transcription) {
 }
 
 /**
- * Creates feedback container from report
+ * Creates feedback container from report.
  *
- * @param mixed $feedback object containing the feedback part of report
+ * @param digitala_feedback $feedback - object containing the feedback part of report
+ *
+ * @return mixed - feedback container
  */
 function create_report_feedback($feedback) {
     $out = html_writer::tag('h5', get_string('server-feedback', 'digitala'), array('class' => 'card-title'));
@@ -399,9 +457,11 @@ function create_report_feedback($feedback) {
 }
 
 /**
- * Creates tab navigation and contents for report view
+ * Creates tab navigation and contents for report view.
  *
  * @param array $tabs array containing tab information. key must be id, values must include name and content
+ *
+ * @return string - tab navigation and content
  */
 function create_tabs($tabs) {
     $first = true;
@@ -437,11 +497,13 @@ function create_tabs($tabs) {
 }
 
 /**
- * Creates tab navigation and contents for report view
+ * Creates tab navigation and contents for report view.
  *
- * @param string $gradings html content of gradings shown
- * @param string $holistic html content of holistic shown
- * @param string $information html content of more information shown
+ * @param string $gradings - html content of gradings shown
+ * @param string $holistic - html content of holistic shown
+ * @param string $information - html content of more information shown
+ *
+ * @return mixed - tab navigation and contents
  */
 function create_report_tabs($gradings, $holistic, $information) {
     $tabs = array('report-grades' => array('name' => get_string('task_grades', 'digitala'), 'content' => $gradings),
@@ -454,10 +516,12 @@ function create_report_tabs($gradings, $holistic, $information) {
 }
 
 /**
- * Creates tab navigation and contents for short assignment
+ * Creates tab navigation and contents for short assignment.
  *
- * @param string $assignment html content of assignment shown
- * @param string $resources html content of resources shown
+ * @param string $assignment - html content of assignment shown
+ * @param string $resources - html content of resources shown
+ *
+ * @return mixed - tab navigation and contents
  */
 function create_short_assignment_tabs($assignment, $resources) {
     $tabs = array('assignment-assignment' => array('name' => get_string('assignment', 'digitala'), 'content' => $assignment),
@@ -468,10 +532,12 @@ function create_short_assignment_tabs($assignment, $resources) {
 }
 
 /**
- * Creates pills navigation between plain and corrected transcription
+ * Creates pills navigation between plain and corrected transcription.
  *
- * @param string $transcript content of transcript shown
- * @param string $feedback content of corrected transcription shown
+ * @param string $transcript - content of transcript shown
+ * @param string $feedback - content of corrected transcription shown
+ *
+ * @return mixed - pills navigation and contents
  */
 function create_transcript_toggle($transcript, $feedback) {
     $transcript = create_report_transcription($transcript);
@@ -486,14 +552,14 @@ function create_transcript_toggle($transcript, $feedback) {
 }
 
 /**
- * Creates a button with identical id and
- * Send user audio file to Aalto ASR for evaluation.
+ * Creates a button.
  *
- * @param string $id of the button
- * @param string $class of the button
- * @param string $text of the button
- * @param bool $disabled value of the button
+ * @param string $id - of the button
+ * @param string $class - of the button
+ * @param string $text - of the button
+ * @param bool $disabled - value of the button
  *
+ * @return string - button
  */
 function create_button($id, $class, $text, $disabled = false) {
     $options = array('id' => $id, 'class' => $class);
@@ -506,10 +572,12 @@ function create_button($id, $class, $text, $disabled = false) {
 }
 
 /**
- * Creates navigation buttons with identical id and class
+ * Creates navigation buttons.
  *
- * @param string $buttonlocation location (info, assignmentprev, assignmentnext report) of the step
- * @param number $remaining remaining number of attempts used in report page
+ * @param mixed $buttonlocation - location (info, assignmentprev, assignmentnext report) of the step
+ * @param int $remaining - remaining number of attempts used in report page
+ *
+ * @return string - navigation buttons
  */
 function create_nav_buttons($buttonlocation, $remaining = 0) {
     if ($buttonlocation == 'info') {
@@ -542,9 +610,11 @@ function create_nav_buttons($buttonlocation, $remaining = 0) {
 }
 
 /**
- * Creates an instance of microphone with start and stop button
+ * Creates an instance of microphone with start and listen button.
  *
- * @param number $maxlength maximum length of recording in seconds
+ * @param int $maxlength - maximum length of recording in seconds
+ *
+ * @return string - microphone, start and listen button.
  */
 function create_microphone($maxlength = 0) {
     $starticon = html_writer::start_tag('svg', array('width' => 16, 'height' => 16, 'fill' => 'currentColor',
@@ -583,7 +653,10 @@ function create_microphone($maxlength = 0) {
 }
 
 /**
- * Creates the microphone icon for the microphone view
+ * Creates the microphone icon for the microphone view.
+ *
+ *
+ * @return string - microphone icon
  */
 function create_microphone_icon() {
     $out = html_writer::div('', '', array('id' => 'microphoneIconBox'));
@@ -628,6 +701,8 @@ function create_microphone_icon() {
  *
  * @param array $formdata - form data includes file information
  * @param digitala_assignment $assignment - assignment includes needed identifications
+ *
+ * @return mixed - redirect link or error
  */
 function save_answerrecording($formdata, $assignment) {
     $audiofile = json_decode($formdata->audiostring);
@@ -657,8 +732,8 @@ function save_answerrecording($formdata, $assignment) {
 /**
  * Send user audio file to Aalto ASR for evaluation.
  *
- * @param any $fileinfo - audio file to be sent for evaluation
- * @param string $assignment - assignment which we get information from
+ * @param mixed $fileinfo - audio file to be sent for evaluation
+ * @param digitala_assignment $assignment - assignment which we get information from
  * @param string $length - length of the recording
  */
 function send_answerrecording_for_evaluation($fileinfo, $assignment, $length) {
@@ -677,6 +752,8 @@ function send_answerrecording_for_evaluation($fileinfo, $assignment, $length) {
  *
  * @param int $grading - grading to be validated
  * @param int $max - maximum value for this grading
+ *
+ * @return int - validated grade
  */
 function validate_grading($grading, $max = 3) {
     $grading = $grading > $max ? 0 : $grading;
@@ -722,7 +799,7 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
 /**
  * Set attempt status in database.
  *
- * @param mixed $attempt - object containing attempt information
+ * @param digitala_attempt $attempt - object containing attempt information
  * @param string $status - status of the attempt
  */
 function set_attempt_status($attempt, $status) {
@@ -737,8 +814,8 @@ function set_attempt_status($attempt, $status) {
 /**
  * Save attempt as failed in database.
  *
- * @param mixed $attempt - object containing attempt information
- * @param digitala_assignment $assignment - assignment includes needed identifications
+ * @param digitala_attempt $attempt - object containing attempt information
+ * @param mixed $assignment - assignment includes needed identifications
  */
 function save_failed_attempt($attempt, $assignment) {
     global $DB;
@@ -764,7 +841,7 @@ function save_failed_attempt($attempt, $assignment) {
  * Save the attempt to the database.
  *
  * @param digitala_assignment $assignment - assignment includes needed identifications
- * @param mixed $evaluation - mixed object containing evaluation info
+ * @param digitala_evaluation $evaluation - mixed object containing evaluation info
  */
 function save_attempt($assignment, $evaluation) {
     global $DB;
@@ -835,7 +912,8 @@ function save_report_feedback($attempttype, $fromform, $oldattempt) {
  *
  * @param int $instanceid - instance id of this digitala activity
  * @param int $userid - user id of this user or student
- * @return mixed $attempt - object containing attempt information
+ *
+ * @return digitala_attempt $attempt - object containing attempt information
  */
 function get_attempt($instanceid, $userid) {
     global $DB;
@@ -853,7 +931,8 @@ function get_attempt($instanceid, $userid) {
  * Load all attempts from the database.
  *
  * @param int $instanceid - instance id of this digitala activity
- * @return $attempts - object containing all attempt information
+ *
+ * @return digitala_attempt - object containing all attempt information
  */
 function get_all_attempts($instanceid) {
     global $DB;
@@ -892,7 +971,8 @@ function delete_all_attempts($instanceid) {
 /**
  * Add button to open deletion modal for deleting all attempts.
  *
- * @return $button - button containing delete url
+ *
+ * @return string $button - button to open deletion modal
  */
 function add_delete_all_attempts_button() {
     return html_writer::tag('button', get_string('results_delete-all', 'digitala'),
@@ -904,7 +984,8 @@ function add_delete_all_attempts_button() {
  * Add delete button to redirect and delete all attempts from the database.
  *
  * @param int $id - id of digitala instance
- * @return $button - button containing delete url
+ *
+ * @return string $button - button containing delete url for redirect
  */
 function add_delete_all_redirect_button($id) {
     $deleteurl = delete_url($id);
@@ -915,8 +996,9 @@ function add_delete_all_redirect_button($id) {
 /**
  * Add button to open deletion modal for deleting single attempt.
  *
- * @param mixed $user - user object
- * @return $button - button that opens deletion modal
+ * @param digitala_user $user - object containing user information
+ *
+ * @return string $button - button to open deletion modal
  */
 function add_delete_attempt_button($user) {
     return html_writer::tag('button', get_string('results_delete', 'digitala'),
@@ -928,8 +1010,9 @@ function add_delete_attempt_button($user) {
  * Add delete button to redirect and delete given attempt from the database.
  *
  * @param int $id - id of digitala instance
- * @param mixed $user - user object
- * @return $button - button containing delete url
+ * @param digitala_user $user - object containing user information
+ *
+ * @return string $button - button containing delete url for redirect
  */
 function add_delete_redirect_button($id, $user) {
     $deleteurl = delete_url($id, $user->id);
@@ -940,7 +1023,8 @@ function add_delete_redirect_button($id, $user) {
 /**
  * Load current users latest feedback from the database.
  *
- * @param int $attempt - attempt object
+ * @param digitala_attempt $attempt - object containing attempt information
+ *
  * @return mixed $feedback - object containing latest feedback information
  */
 function get_feedback($attempt) {
@@ -960,7 +1044,8 @@ function get_feedback($attempt) {
  * Load users name based on their id.
  *
  * @param int $id - id of the user
- * @return $user - user object
+ *
+ * @return mixed $user - object containing user information
  */
 function get_user($id) {
     global $DB;
@@ -972,10 +1057,11 @@ function get_user($id) {
 /**
  * Load all attempts from the database.
  *
- * @param mixed $attempt - object containing attempt information
+ * @param digitala_attempt $attempt - object containing attempt information
  * @param int $id - activity id
- * @param mixed $user - user info from database
- * @return $cells - cells containing table data
+ * @param digitala_user $user - object containing user information
+ *
+ * @return array $cells - cells containing table data
  */
 function create_result_row($attempt, $id, $user) {
     $username = $user->firstname . ' ' . $user->lastname;
@@ -1003,18 +1089,22 @@ function create_result_row($attempt, $id, $user) {
 }
 
 /**
- * Handles answer recording form's actions
+ * Handles answerrecording forms creation.
  *
  * @param digitala_assignment $assignment - assignment includes needed identifications
+ *
+ * @return mixed - render form.
  */
 function create_answerrecording_form($assignment) {
     return $assignment->form->render();
 }
 
 /**
- * Handles saving answer recording form
+ * Handles saving answerrecording form.
  *
  * @param digitala_assignment $assignment - assignment includes needed identifications
+ *
+ * @return string - saves answerrecording form
  */
 function save_answerrecording_form($assignment) {
     $out = html_writer::tag('p', '', array('id' => 'submitErrors'));
@@ -1030,6 +1120,8 @@ function save_answerrecording_form($assignment) {
  * @param string $name of the chart
  * @param mixed $grade of the chart
  * @param mixed $maxgrade of the chart
+ *
+ * @return string - chart
  */
 function create_chart($name, $grade, $maxgrade) {
     $out = html_writer::start_div('digitala-chart-container');
@@ -1041,6 +1133,9 @@ function create_chart($name, $grade, $maxgrade) {
 
 /**
  * Creates a fixed feedback box.
+ *
+ *
+ * @return string - feedback box
  */
 function create_fixed_box() {
     $out = html_writer::div(get_string('feedback', 'digitala'), 'feedbackcontainer',
@@ -1062,8 +1157,11 @@ function create_fixed_box() {
 }
 
 /**
- * Converts seconds to formatted time string
- * @param number $secs seconds set by teacher when creating activity
+ * Converts seconds to formatted time string.
+ *
+ * @param int $secs - seconds set by teacher when creating activity
+ *
+ * @return mixed - seconds formatted into H.M:S
  */
 function convertsecondstostring($secs) {
     $hours = floor($secs / 3600);
@@ -1109,6 +1207,8 @@ function timestampformatter($time) {
  *
  * @param digitala_assignment $assignment - assignment containing id information
  * @param int $userid - id of the user
+ *
+ * @return int $remaining - remaining attempts
  */
 function get_remaining_number($assignment, $userid) {
     $remaining = $assignment->attemptlimit;
@@ -1126,8 +1226,10 @@ function get_remaining_number($assignment, $userid) {
 /**
  * Creates attempt number visualization for assignment view.
  *
- * @param digitala_assignment $assignment - assignment containing id information
+ * @param mixed $assignment - assignment object containing id information
  * @param int $userid - id of the user
+ *
+ * @return string - attempt number visualization
  */
 function create_attempt_number($assignment, $userid) {
     $remaining = get_remaining_number($assignment, $userid);
@@ -1144,6 +1246,8 @@ function create_attempt_number($assignment, $userid) {
  * Creates html audio controls.
  *
  * @param string $url - url of the audio source
+ *
+ * @return string - html audio controls
  */
 function create_audio_controls($url) {
     $out = html_writer::start_tag('audio controls', array('title' => 'attempt_recording'));
@@ -1154,12 +1258,14 @@ function create_audio_controls($url) {
 }
 
 /**
- * Creates modal with content
+ * Creates modal with content.
  *
- * @param string $id id of the modal
- * @param string $title title to be added to the modal
- * @param string $body text to be added to the body of the modal
- * @param string $buttons html objects to be added to the buttons section of the modal
+ * @param string $id - id of the modal
+ * @param string $title - title to be added to the modal
+ * @param string $body - text to be added to the body of the modal
+ * @param string $buttons - html objects to be added to the buttons section of the modal
+ *
+ * @return string - modal with content
  */
 function create_modal($id, $title, $body, $buttons) {
     $out = html_writer::start_div('modal', array('id' => $id, 'tabindex' => '-1', 'role' => 'dialog'));
@@ -1189,6 +1295,8 @@ function create_modal($id, $title, $body, $buttons) {
  * Creates attempt modal.
  *
  * @param digitala_assignment $assignment - assignment that this object is created for
+ *
+ * @return string - attempt modal
  */
 function create_attempt_modal($assignment) {
     $out = html_writer::tag('button', get_string('submit', 'mod_digitala'),
@@ -1211,10 +1319,12 @@ function create_attempt_modal($assignment) {
 }
 
 /**
- * Creates attempt modal.
+ * Creates delete modal.
  *
  * @param int $id - id of the activity
  * @param mixed $user - the user whose attempt ought to be deleted or null if deleting all attempts
+ *
+ * @return string - delete modal
  */
 function create_delete_modal($id, $user = null) {
     if (isset($user)) {
@@ -1241,11 +1351,12 @@ function create_delete_modal($id, $user = null) {
 }
 
 /**
- * Generates csv of activitys attempts
+ * Generates CSV of the given activity's attempts.
  *
  * @param int $id - id of the activity
  * @param string $mode - mode of the url
- * @return string $data - data of the array
+ *
+ * @return mixed - nothing or data array
  */
 function generate_attempts_csv($id, $mode) {
     $attempts = get_all_attempts($id);
@@ -1295,7 +1406,8 @@ function generate_attempts_csv($id, $mode) {
  * Load all feedbacks from the database.
  *
  * @param int $id - id of the activity
- * @return $feedbacks - object containing all feedback information
+ *
+ * @return mixed $feedbacks - object containing all feedback information
  */
 function get_all_feedbacks($id) {
     global $DB;
@@ -1305,11 +1417,12 @@ function get_all_feedbacks($id) {
 }
 
 /**
- * Generates csv of activitys attempts
+ * Generates CSV of given activity's attempts.
  *
  * @param int $id - id of the activity
  * @param string $mode - mode of the url
- * @return string $data - data of the array
+ *
+ * @return string $data - array data
  */
 function generate_report_feedback_csv($id, $mode) {
     $feedbacks = get_all_feedbacks($id);
@@ -1358,9 +1471,11 @@ function generate_report_feedback_csv($id, $mode) {
 }
 
 /**
- * Create export buttons
+ * Create export buttons.
  *
  * @param int $id - id of the activity
+ *
+ * @return string - export buttons
  */
 function create_export_buttons($id) {
     $out = html_writer::tag('a', get_string('export_attempts', 'digitala'),

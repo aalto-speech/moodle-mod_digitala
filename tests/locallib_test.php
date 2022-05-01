@@ -26,13 +26,14 @@ require_once($CFG->dirroot . '/mod/digitala/renderable.php');
 require_once($CFG->dirroot . '/mod/digitala/answerrecording_form.php');
 
 /**
- * Unit tests for view creation helpers: container, card and column.
+ * Unit tests for locallib functions.
  *
  * @group       mod_digitala
  * @covers      \mod_digitala
  * @package     mod_digitala
  * @category    test
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class locallib_test extends \advanced_testcase {
@@ -112,14 +113,12 @@ class locallib_test extends \advanced_testcase {
         $infoactive = create_progress_bar_step('info', 0, 0);
         $assignmentactive = create_progress_bar_step('assignment', 1, 1);
         $reportactive = create_progress_bar_step('report', 2, 2);
-
         $this->assertEquals($info, '<div class="pb-step first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
         $this->assertEquals($assignment, '<div class="pb-step"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
         $this->assertEquals($report, '<div class="pb-step last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
         $this->assertEquals($infoactive, '<div class="pb-step active first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
         $this->assertEquals($assignmentactive, '<div class="pb-step active"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
         $this->assertEquals($reportactive, '<div class="pb-step active last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
-
     }
 
     /**
@@ -154,7 +153,6 @@ class locallib_test extends \advanced_testcase {
     public function test_navbuttons_html_output() {
         $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&d=2&page=0';
         $result = create_nav_buttons('info');
-
         $this->assertEquals('<div class="navbuttons"><a id="nextButton" class="btn btn-primary" href="/mod/digitala/view.php?id=1&amp;d=2&amp;page=1">Next ></a></div>',
             $result);
         $result = create_nav_buttons('assignmentprev');
@@ -169,7 +167,6 @@ class locallib_test extends \advanced_testcase {
         $result = create_nav_buttons('report', 1);
         $this->assertEquals('<div class="navbuttons"><a id="tryAgainButton" class="btn btn-primary" href="/mod/digitala/view.php?id=1&amp;d=2&amp;page=1">Try again</a></div>',
             $result);
-
     }
 
     /**
@@ -247,7 +244,7 @@ class locallib_test extends \advanced_testcase {
     public function test_create_report_waiting() {
         $_SERVER['REQUEST_URI'] = 'toot';
         $result = create_report_waiting();
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation in progress</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Evaluation is in progress, please do not leave the page. This may take some time.</p><a id="nextButton" class="btn btn-primary" href="toot">Press here to check if evaluation is completed.</a></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation in progress</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Evaluation is in progress, please do not leave the page. This may take some time.</p><a id="nextButton" class="btn btn-primary" href="toot">Press here to check if evaluation is completed.</a></div></div></div>', $result);
     }
 
     /**
@@ -255,7 +252,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_report_retry() {
         $result = create_report_retry();
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation failed</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time.</p></div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation failed</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time.</p></div></div></div>', $result);
     }
 
     /**
@@ -268,12 +265,12 @@ class locallib_test extends \advanced_testcase {
         $report = new \digitala_report($this->digitala->id, $context->id, 5, $this->digitala->attempttype, $this->digitala->attemptlang, $this->digitala->attemptlimit, 'testinformation', $USER->id);
 
         $result = create_report_information($report);
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">testinformation</div></div></div>', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">More information</h5><div class="card-text">testinformation</div></div></div>', $result);
 
-        $report = new \digitala_report($this->digitala->id, $context->id, 5, $this->digitala->attempttype, $this->digitala->attemptlang, $this->digitala->attemptlimit, '', $USER->id); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $report = new \digitala_report($this->digitala->id, $context->id, 5, $this->digitala->attempttype, $this->digitala->attemptlang, $this->digitala->attemptlimit, '', $USER->id);
 
         $result = create_report_information($report);
-        $this->assertEquals('', $result); // phpcs:ignore moodle.Files.LineLength.MaxExceeded
+        $this->assertEquals('', $result);
     }
 
     /**
@@ -648,7 +645,9 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals($attempt->fluency, $result->fluency);
     }
 
-
+    /**
+     * Test creating microphone.
+     */
     public function test_create_microphone() {
         $result = create_microphone();
         $this->assertEquals('<p id="recordTimer"><span id="recordingLength">00:00</span></p><span id="startIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></span><span id="stopIcon" style="display: none;"><svg width="16" height="16" fill="currentColor" class="bi bi-stop-fill"><path d="M5 4h6a2 2 0 0 1 2 1v6a2 2 0 0 1-2 2H5a2 2 0 0 1-1-2V5a2 2 0 0 1 1-1z" /></svg></span><button id="record" class="btn btn-primary record-btn">Record <svg width="16" height="16" fill="currentColor" class="bi bi-play-fill"><path d="m12 9-7 3H4V4h1l7 3a1 1 0 0 1 0 2z" /></svg></button><button id="listen" class="btn btn-primary listen-btn" disabled="true">Listen to your recording <svg width="16" height="16" fill="currentColor" class="bi bi-volume-down-fill"><path d="M9 4a.5.5 0 0 0-.8-.4L5.8 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.3l2.4 1.9A.5.5 0 0 0 9 12V4zm3 4a4.5 4.5 0 0 1-1.3 3.2l-.7-.7A3.5 3.5 0 0 0 11 8a3.5 3.5 0 0 0-1-2.5l.7-.7A4.5 4.5 0 0 1 12 8z" /></svg></button>', $result);
@@ -809,7 +808,6 @@ class locallib_test extends \advanced_testcase {
         $this->assertStringEndsWith('</form></div></div></div></div>', $result);
     }
 
-
     /**
      * Tests creating the results url.
      */
@@ -948,7 +946,7 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
-     * Tests convertsecondstostring for making time strings from seconds
+     * Tests convertsecondstostring for making time strings from seconds.
      */
     public function test_convertsecondstostring() {
         $result = convertsecondstostring(5);
@@ -1259,11 +1257,11 @@ class locallib_test extends \advanced_testcase {
 
         $result = create_delete_modal(1, $USER);
         $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
-
-        $result = create_delete_modal(1);
-        $this->assertEquals($result, '<div class="modal" id="deleteAllModal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from all users?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteAllRedirectButton" class="btn btn-danger" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student">Confirm delete</a></div></div></div></div>');
     }
-
+    
+    /**
+     * Test generating attempts csv.
+     */
     public function test_generate_attempts_csv() {
         $assignment = new \stdClass();
         $assignment->instanceid = 500;
@@ -1293,6 +1291,9 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(str_contains($result, 501), true);
     }
 
+    /**
+     * Test getting all feedbacks.
+     */
     public function test_get_all_feedbacks() {
         $fromform = new \stdClass();
         $fromform->fluency = 1;
@@ -1335,6 +1336,9 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(count($result), 2);
     }
 
+    /**
+     * Test generating report feedback csv.
+     */
     public function test_generate_report_feedback_csv() {
         $fromform = new \stdClass();
         $fromform->fluency = 1;
@@ -1357,6 +1361,9 @@ class locallib_test extends \advanced_testcase {
         $this->assertEquals(str_contains($result, 'did you know'), true);
     }
 
+    /**
+     * Test creating export buttons.
+     */
     public function test_create_export_buttons() {
         $result = create_export_buttons(2);
         $this->assertEquals($result, '<a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=attempts" id="export_attempts" class="btn btn-primary">Export all attempts as CSV</a><a href="https://www.example.com/moodle/mod/digitala/export.php?id=2&amp;mode=feedback" id="export_attempts_feedback" class="btn btn-primary">Export all teacher feedback for attempts as CSV</a>');

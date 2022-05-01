@@ -18,7 +18,8 @@
  * This file contains a custom form for sending a recorded audiofile to Moodle database
  *
  * @package     mod_digitala
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,9 +29,10 @@ require_once("$CFG->libdir/formslib.php");
 /**
  * A custom form class for saving an audiofile that extends the moodleform and is used by the digitala module.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class answerrecording_form extends moodleform {
 
@@ -43,7 +45,6 @@ class answerrecording_form extends moodleform {
 
     /**
      * Definition of audioform fields, types and buttons.
-     *
      */
     public function definition() {
         $mform = $this->_form;
