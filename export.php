@@ -72,6 +72,5 @@ if (has_capability('mod/digitala:exportreports', $modulecontext)) {
         generate_report_feedback_csv($moduleinstance->id, $mode);
     }
 } else {
-    $content = get_string('results_denied', 'digitala');
-    redirect($CFG->wwwroot.'/mod/digitala/export.php?id='.$moduleinstance->id.'&mode='.$mode);
+    redirect('view.php?id='.$id);
 }
