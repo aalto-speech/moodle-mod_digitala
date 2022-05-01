@@ -1,48 +1,65 @@
+## Automated testing
 
-Installing the PHPUnit test environment:
+### PHPUnit
 
-For detailed installation instructions, please see:
-https://docs.moodle.org/dev/PHPUnit
-or the Docker version:
-https://github.com/moodlehq/moodle-docker
+For unittesting, this plugin uses PHPUnit, which is a unittesting framework for PHP.
 
-Initializing the PHPUnit test environment:
+#### Installing the PHPUnit test environment:
 
-php admin/tool/phpunit/cli/init.php
+For detailed installation instructions, please see:   
+https://docs.moodle.org/dev/PHPUnit   
+or the Docker version:   
+https://github.com/moodlehq/moodle-docker   
 
-Running all the PHPUnit tests from the Digitala Activity module:
+#### Initializing the PHPUnit test environment:
 
-vendor/bin/phpunit --group mod_digitala
+`php admin/tool/phpunit/cli/init.php`
 
-Installing, initializing and running the Behat-test framework.
+#### Running all the PHPUnit tests from the Digitala Activity module:
 
-For detailed installation instructions, please see:
-https://docs.moodle.org/dev/Running_acceptance_test
-or the Docker version:
-https://github.com/moodlehq/moodle-docker
+`vendor/bin/phpunit --group mod_digitala`
+
+### Behat
 
 For acceptance testing, this plugin uses Behat, which is a PHP framework for automated functional testing. 
 
-Initializing the Behat-test framework.
+#### Installing the Behat-test framework:
 
-php admin/tool/behat/cli/init.php
+For detailed installation instructions, please see:   
+https://docs.moodle.org/dev/Running_acceptance_test   
+or the Docker version:   
+https://github.com/moodlehq/moodle-docker   
 
-Running all the Behat-tests from the Digitala Activity module:
+#### Initializing the Behat-test framework:
 
-php admin/tool/behat/cli/run.php --tags=@mod_digitala
+`php admin/tool/behat/cli/init.php`
 
-Manual testing
+#### Running all the Behat-tests from the Digitala Activity module:
 
-All changes are reviewed by developers other than the makers before manually before merging into main.
-All code must adhere to the coding guidelines.
+`php admin/tool/behat/cli/run.php --tags=@mod_digitala`
 
-Automated testing
+During development phase, the Continuous Integration pipeline ran the following checks for all incoming code changes:
 
-For the Continuous Integration pipeline, we have automated checks for all the following 
-CI-pipeline:
-- PHP Lint
-- PHP Copy/Paste detector
-- PHP Mess detector
-- Moodle Code Checker
-- Moodle PHPDoc Checker
-- Codecov
+- **PHP Lint**: checks for any PHP coding errors.
+- **PHP Copy/Paste detector**: checks for PHP copy/paste.
+- **PHP Mess detector**: checks for any PHP coding errors.
+- **Moodle Code Checker**: checks for any Moodle Code violations.
+- **Moodle PHPDoc Checker**: checks PHP Documentation for any errors.
+- **Grunt**: runs Grunt (Javascript task runner) and checks for any errors.
+- **PHPUnit**: sets up a PHPUnit container to run all current PHPUnit-tests.
+- **Behat**: sets up a Behat container to run all current Behat-tests.
+- **Codecov**: upload into Codecov to check code coverage changes.
+
+## Manual testing
+
+All changes are reviewed by developers other than the original creators manually before merging into the main branch.  
+This involves checking for bugs and making sure the functionality works.  
+All code merged into the main branch must adhere to the Definition of Done.
+
+Definition of Done:  
+* kaikki muutokset tehdään omaan branchiin, josta tehdään pull request ja toisen kehittäjän tulee hyväksyä se
+* yksikkö- ja integraatiotestit ominaisuudelle on tehty
+* tyyli noudattaa yhdessä sovittuja muotoilusääntöjä
+
+
+
