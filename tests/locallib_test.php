@@ -26,12 +26,13 @@ require_once($CFG->dirroot . '/mod/digitala/renderable.php');
 require_once($CFG->dirroot . '/mod/digitala/answerrecording_form.php');
 
 /**
- * Unit tests for view creation helpers: container, card and column.
+ * Unit tests for locallib functions.
  *
  * @group       mod_digitala
  * @package     mod_digitala
  * @category    test
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class locallib_test extends \advanced_testcase {
@@ -116,14 +117,12 @@ class locallib_test extends \advanced_testcase {
         $infoactive = create_progress_bar_step('info', 0, 0);
         $assignmentactive = create_progress_bar_step('assignment', 1, 1);
         $reportactive = create_progress_bar_step('report', 2, 2);
-
         $this->assertEquals($info, '<div class="pb-step first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
         $this->assertEquals($assignment, '<div class="pb-step"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
         $this->assertEquals($report, '<div class="pb-step last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
         $this->assertEquals($infoactive, '<div class="pb-step active first"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=0"><span class="pb-num">1</span><span class="pb-phase-name">Begin</span></a></div>');
         $this->assertEquals($assignmentactive, '<div class="pb-step active"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=1"><span class="pb-num">2</span><span class="pb-phase-name">Assignment</span></a></div>');
         $this->assertEquals($reportactive, '<div class="pb-step active last"><a class="display-6" href="/mod/digitala/view.php?id=1&amp;d=1&amp;page=2"><span class="pb-num">3</span><span class="pb-phase-name">Evaluation</span></a></div>');
-
     }
 
     /**
@@ -161,7 +160,6 @@ class locallib_test extends \advanced_testcase {
     public function test_create_nav_buttons() {
         $_SERVER['REQUEST_URI'] = '/mod/digitala/view.php?id=1&d=2&page=0';
         $result = create_nav_buttons('info');
-
         $this->assertEquals('<div class="navbuttons"><a id="nextButton" class="btn btn-primary" href="/mod/digitala/view.php?id=1&amp;d=2&amp;page=1">Next ></a></div>',
             $result);
         $result = create_nav_buttons('assignmentprev');
@@ -176,7 +174,6 @@ class locallib_test extends \advanced_testcase {
         $result = create_nav_buttons('report', 1);
         $this->assertEquals('<div class="navbuttons"><a id="tryAgainButton" class="btn btn-primary" href="/mod/digitala/view.php?id=1&amp;d=2&amp;page=1">Try again</a></div>',
             $result);
-
     }
 
     /**
@@ -914,7 +911,6 @@ class locallib_test extends \advanced_testcase {
         $this->assertStringEndsWith('</form></div></div></div></div>', $result);
     }
 
-
     /**
      * Tests creating the results url.
      * @covers ::results_url
@@ -1426,9 +1422,6 @@ class locallib_test extends \advanced_testcase {
 
         $result = create_delete_modal(1, $USER);
         $this->assertEquals($result, '<div class="modal" id="deleteModal2" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from user Admin User?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteRedirectButtonadmin" class="btn btn-warning" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student=2">Confirm delete</a></div></div></div></div>');
-
-        $result = create_delete_modal(1);
-        $this->assertEquals($result, '<div class="modal" id="deleteAllModal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Note!</h5><button class="close" data-dismiss="modal" aria-label="close-cross"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><p>Are you sure you want to delete and reset attempts from all users?</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><a id="deleteAllRedirectButton" class="btn btn-danger" href="https://www.example.com/moodle/mod/digitala/report.php?id=1&amp;mode=delete&amp;student">Confirm delete</a></div></div></div></div>');
     }
 
     /**
@@ -1465,7 +1458,7 @@ class locallib_test extends \advanced_testcase {
     }
 
     /**
-     * Tests getting all feedback.
+     * Tests getting all feedbacks.
      * @covers ::save_report_feedback
      */
     public function test_get_all_feedbacks() {

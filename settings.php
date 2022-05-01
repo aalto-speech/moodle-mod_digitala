@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Resource module admin settings and defaults
+ * Resource module admin settings and defaults.
  *
- * @package    mod_digitala
- * @copyright  2022 Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
@@ -30,4 +31,9 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext('digitala/key',
         get_string('key', 'mod_digitala'), get_string('key_help', 'mod_digitala'), 'digitala', PARAM_TEXT, 64));
+
+    $settings->add(new admin_setting_configtext('digitala/feedback',
+        get_string('feedbacklink', 'mod_digitala'), get_string('feedbacklink_help', 'mod_digitala'),
+            'https://link.webropolsurveys.com/Participation/Public/2c1ccd52-6e23-436e-af51-f8f8c259ffbb?displayId=Fin2500048',
+            PARAM_TEXT, 128));
 }

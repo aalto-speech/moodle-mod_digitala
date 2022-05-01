@@ -19,7 +19,8 @@
  *
  * @package     mod_digitala
  * @category    string
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -148,6 +149,8 @@ $string['api'] = 'API-palvelimen osoite';
 $string['api_help'] = 'Anna API-palvelimen osoite.';
 $string['key'] = 'API-palvelimen avain';
 $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
+$string['feedbacklink'] = 'Anna palautesivun osoite';
+$string['feedbacklink_help'] = 'Anna verkkosivun osoite, johon käyttäjät voivat antaa palautetta arviointisivulla.';
 
 $string['edit_report'] = 'Muokkaa arviointiraporttia';
 $string['holistic-reason'] = 'Palaute Taitotasosta';

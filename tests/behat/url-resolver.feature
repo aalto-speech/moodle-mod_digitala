@@ -4,15 +4,17 @@ Feature: URL resolver works in behats
   Background:
     Given the following "users" exist:
       | username | firstname | lastname   | email                    |
+      | mauno    | Mauno     | Manager    | mauno.manager@koulu.fi   |
       | ossi     | Ossi      | Opettaja   | ossi.opettaja@koulu.fi   |
       | olli     | Olli      | Opiskelija | olli.opiskelija@koulu.fi |
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user | course | role    |
-      | ossi | C1     | manager |
-      | olli | C1     | student |
+      | user  | course | role           |
+      | mauno | C1     | manager        |
+      | ossi  | C1     | editingteacher |
+      | olli  | C1     | student        |
     And the following "activities" exist:
       | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit | information     | informationformat |
       | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            | testinformation | 1                 |
@@ -59,3 +61,4 @@ Feature: URL resolver works in behats
       | activity  | student | teacher | reportpage | transcript  | reason                |
       | Freeform  | olli    | ossi    | Range      | transcript1 | freeform_fluency_syy  |
       | Readaloud | olli    | ossi    | Fluency    | transcript2 | readaloud_fluency_syy |
+      | Freeform  | olli    | mauno   | Range      | transcript1 | freeform_fluency_syy  |

@@ -18,14 +18,15 @@
  * Plugin version and other meta-data are defined here.
  *
  * @package     mod_digitala
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_digitala';
-$plugin->release = '0.1.30';
-$plugin->version = 2022042906;
+$plugin->release = '0.1.34';
+$plugin->version = 2022050101;
 $plugin->requires = 2020061500;
 $plugin->maturity = MATURITY_ALPHA;

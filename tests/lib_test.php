@@ -21,12 +21,13 @@ defined('MOODLE_INTERNAL') || die('Direct Access is forbidden!');
 global $CFG;
 
 /**
- * Unit tests for adding a digitala plugin
+ * Unit tests for adding a digitala plugin.
  *
  * @group       mod_digitala
  * @package     mod_digitala
  * @category    test
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class lib_test extends \advanced_testcase {

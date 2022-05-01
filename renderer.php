@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains a renderer for the digitala class
+ * This file contains renderers for the digitala class.
  *
- * @package   mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/locallib.php');
 require_once(__DIR__.'/reporteditor_form.php');
@@ -29,9 +29,10 @@ require_once(__DIR__.'/reporteditor_form.php');
 /**
  * A custom renderer class that extends the plugin_renderer_base and is used by the digitala module.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_digitala_renderer extends plugin_renderer_base {
 
@@ -39,7 +40,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * Renders the progress bar.
      *
      * @param digitala_progress_bar $progressbar - An instance of digitala_progress_bar to render.
-     * @return $out - HTML string to output.
+     * @return string $out - HTML string to output.
      */
     protected function render_digitala_progress_bar(digitala_progress_bar $progressbar) {
         $spacers = calculate_progress_bar_spacers($progressbar->currpage);
@@ -57,7 +58,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * Renders the info panel.
      *
      * @param digitala_info $info - An instance of digitala_info to render.
-     * @return $out - HTML string to output.
+     * @return string $out - HTML string to output.
      */
     protected function render_digitala_info(digitala_info $info) {
         $out = start_container('digitala-info');
@@ -76,7 +77,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * Renders the assignment panel.
      *
      * @param digitala_assignment $assignment - An instance of digitala_assignment to render.
-     * @return $out - HTML string to output.
+     * @return string $out - HTML string to output.
      */
     protected function render_digitala_assignment(digitala_assignment $assignment) {
         global $USER;
@@ -122,7 +123,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * Renders the report panel.
      *
      * @param digitala_report $report - An instance of digitala_report to render.
-     * @return $out - HTML string to output.
+     * @return string $out - HTML string to output.
      */
     protected function render_digitala_report(digitala_report $report) {
         global $USER, $CFG;
@@ -213,7 +214,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * Renders the results panel for teacher.
      *
      * @param digitala_results $result - An instance of digitala_results to render.
-     * @return $out - HTML string to output.
+     * @return string $out - HTML string to output.
      */
     protected function render_digitala_results(digitala_results $result) {
         $out = html_writer::tag('h5', get_string('results_title', 'digitala'));
@@ -294,7 +295,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * Renders the report editor panel.
      *
      * @param digitala_report_editor $reporteditor - An instance of digitala_report_editor to render.
-     * @return $out - HTML string to output.
+     * @return string $out - HTML string to output.
      */
     protected function render_digitala_report_editor(digitala_report_editor $reporteditor) {
         global $CFG;
@@ -327,6 +328,7 @@ class mod_digitala_renderer extends plugin_renderer_base {
 
         return $out;
     }
+
     /**
      * Renders digitala attempt deletion.
      *

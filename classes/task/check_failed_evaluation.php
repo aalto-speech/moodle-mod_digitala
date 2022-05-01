@@ -17,9 +17,10 @@
 /**
  * The mod_digitala task for sending attempt to evaluation.
  *
- * @package    mod_digitala
- * @copyright  2022 Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_digitala\task;
@@ -28,13 +29,18 @@ require_once(__DIR__.'/../../locallib.php');
 
 /**
  * An example of a scheduled task.
+ *
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class check_failed_evaluation extends \core\task\scheduled_task {
 
     /**
      * Return the task's name as shown in admin screens.
      *
-     * @return string
+     * @return string - task's name
      */
     public function get_name() {
         return get_string('task-check_failed_evaluation', 'digitala');

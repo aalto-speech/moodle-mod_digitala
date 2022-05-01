@@ -5,6 +5,7 @@ Feature: Teacher can give feedback on ASR evaluation
   Background:
     Given the following "users" exist:
       | username | firstname | lastname   | email                     |
+      | mauno    | Mauno     | Manager    | mauno.manager@koulu.fi    |
       | ossi     | Ossi      | Opettaja   | ossi.opettaja@koulu.fi    |
       | olli     | Olli      | Opiskelija | olli.opiskelija@koulu.fi  |
       | essi     | Essi      | Opiskelija | essi.opiskelija@koulu.fi  |
@@ -14,12 +15,13 @@ Feature: Teacher can give feedback on ASR evaluation
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user  | course | role    |
-      | ossi  | C1     | manager |
-      | olli  | C1     | student |
-      | essi  | C1     | student |
-      | seppo | C1     | student |
-      | milla | C1     | student |
+      | user  | course | role           |
+      | mauno | C1     | manager        |
+      | ossi  | C1     | editingteacher |
+      | olli  | C1     | student        |
+      | essi  | C1     | student        |
+      | seppo | C1     | student        |
+      | milla | C1     | student        |
     And the following "activities" exist:
       | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit | information     | informationformat |
       | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 0            | testinformation | 1                 |
@@ -47,8 +49,8 @@ Feature: Teacher can give feedback on ASR evaluation
     And I click on "Suggest changes to automatic evaluation report" "link"
     And I should see "Feedback on Fluency"
 
-  Scenario: Feedback can be given on Freeform and student can see it on their report
-    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
+  Scenario Outline: Feedback can be given on Freeform and student can see it on their report
+    When I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "<user>"
     Then I set the following fields to these values:
       | Fluency                     | 2.00                              |
       | Feedback on Fluency         | Evaluation was too high.          |
@@ -70,6 +72,11 @@ Feature: Teacher can give feedback on ASR evaluation
     And I should see "Evaluation was too high."
     And I should see "Teacher's grade suggestion: 3.0"
     And I should see "Evaluation was too low."
+
+    Examples:
+      | user  |
+      | mauno |
+      | ossi  |
 
   Scenario: Feedback can be given on Readaloud and student can see it on their report
     When I am on the "Readaloud > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"

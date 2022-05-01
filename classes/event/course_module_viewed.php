@@ -17,9 +17,10 @@
 /**
  * The mod_digitala course module viewed event.
  *
- * @package    mod_digitala
- * @copyright  2022 Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_digitala\event;
@@ -27,9 +28,10 @@ namespace mod_digitala\event;
 /**
  * The mod_digitala course module viewed event class.
  *
- * @package    mod_digitala
- * @copyright  2022 Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_viewed extends \core\event\course_module_viewed {
     /**

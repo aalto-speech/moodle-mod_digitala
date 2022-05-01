@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains renderables for the digitala class
+ * This file contains renderables for the digitala class.
  *
- * @package   mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -28,9 +29,10 @@ require_once(__DIR__.'/answerrecording_form.php');
 /**
  * A custom renderable class that implements the renderable and is used by the digitala module with the progress bar.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_progress_bar implements renderable {
 
@@ -46,9 +48,10 @@ class digitala_progress_bar implements renderable {
 /**
  * Implements a renderable info panel used on the first page of the activity.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_info implements renderable {
     /**
@@ -61,9 +64,10 @@ class digitala_info implements renderable {
 /**
  * Implements a renderable assignment panel used on the second page of the activity.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_assignment implements renderable {
     /**
@@ -104,9 +108,10 @@ class digitala_assignment implements renderable {
 /**
  * Implements a renderable report panel used on the last page of the activity.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_report implements renderable {
     /**
@@ -136,9 +141,10 @@ class digitala_report implements renderable {
 /**
  * Implements a renderable short version of assignment panel used on the teacher detail report page.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_short_assignment implements renderable {
     /**
@@ -159,11 +165,12 @@ class digitala_short_assignment implements renderable {
 }
 
 /**
- * Implements a renderable report panel used on the last page of the activity.
+ * Implements a renderable report editor for changing grading manually.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_report_editor implements renderable {
     /**
@@ -182,12 +189,12 @@ class digitala_report_editor implements renderable {
 }
 
 /**
- * Implements a renderable report panel used on the last page of the activity.
+ * Implements a renderable results view for the teacher.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_results implements renderable {
     /**
@@ -202,12 +209,12 @@ class digitala_results implements renderable {
 }
 
 /**
- * Implements a renderable report panel used on the last page of the activity.
+ * Implements a renderable delete view for deleting submission data.
  *
- * @package mod_digitala
- * @copyright 2022 Name
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @package     mod_digitala
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class digitala_delete implements renderable {
     /**

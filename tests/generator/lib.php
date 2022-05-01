@@ -19,7 +19,8 @@
  *
  * @package     mod_digitala
  * @category    test
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_digitala_generator extends testing_module_generator {

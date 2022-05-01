@@ -19,7 +19,8 @@
  *
  * @package     mod_digitala
  * @category    string
- * @copyright   2022 Name
+ * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
+ * @copyright   2022 Helsingin Yliopisto
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -148,6 +149,8 @@ $string['api'] = 'Address for API-server';
 $string['api_help'] = 'Give address to the API-server.';
 $string['key'] = 'Key for the API-server';
 $string['key_help'] = 'Give a valid key for the API-server authentication';
+$string['feedbacklink'] = 'Give address to feedback site';
+$string['feedbacklink_help'] = 'Give the address of the site where users can send feedback to on evaluation page.';
 
 $string['edit_report'] = 'Edit the evaluation report';
 $string['holistic-reason'] = 'Feedback on Proficiency';
