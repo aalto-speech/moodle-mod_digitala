@@ -75,4 +75,3 @@ if (has_capability('mod/digitala:exportreports', $modulecontext)) {
     redirect('view.php?id='.$id);
 }
 
-
