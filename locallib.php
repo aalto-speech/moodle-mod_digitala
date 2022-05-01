@@ -1436,19 +1436,25 @@ function generate_report_feedback_csv($id, $mode) {
  */
 function export_all_recordings($id, $contextid) {
     $fs = get_file_storage();
-    $zipwriter = \core_files\archive_writer::get_stream_writer('digitala-recordings-'.$id.'-'.date('Ymd_Hm').'.zip',
-                                                               \core_files\archive_writer::ZIP_WRITER);
     $attempts = get_all_attempts($id);
+
+    $zipper = get_file_packer('application/zip');
+    $filename = 'digitala-recordings-'.$id.'-'.date('Ymd_Hm').'.zip';
+    $temppath = make_request_directory() . $filename;
+
+    $files = array();
 
     foreach ($attempts as $attempt) {
         $fileinfo = get_recording_fileinfo($attempt->id, $attempt->attemptnumber,
                                            $contextid, $attempt->file);
         $file = $fs->get_file($fileinfo->contextid, $fileinfo->component, $fileinfo->filearea,
                               $fileinfo->itemid, $fileinfo->filepath, $fileinfo->filename);
-        $zipwriter->add_file_from_stored_file($file->get_filename(), $file);
+        $files[$file->get_filename()] = $file;
     }
 
-    $zipwriter->finish();
+    if ($zipper->archive_to_pathname($files, $temppath)) {
+        send_temp_file($temppath, $filename);
+    }
 }
 
 /**
