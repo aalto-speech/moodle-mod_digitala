@@ -24,7 +24,6 @@ global $CFG;
  * Unit tests for adding a digitala plugin.
  *
  * @group       mod_digitala
- * @covers      \mod_digitala
  * @package     mod_digitala
  * @category    test
  * @author      Alanen, Tuomas; Erkkilä, Joona; Harjunpää, Topi; Heijala, Maikki.
@@ -32,13 +31,6 @@ global $CFG;
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class lib_test extends \advanced_testcase {
-
-    /**
-     * A test to test testing.
-     */
-    public function test_dummy() {
-        $this->assertEquals(2, 1 + 1);
-    }
 
     /**
      * Setup for unit test.
@@ -66,6 +58,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test creating a digitala instance.
+     * @covers ::digitala_add_instance
      */
     public function test_digitala_add_instance() {
         $digitala = $this->create_digitala();
@@ -112,6 +105,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test deleting a digitala instance.
+     * @covers ::digitala_delete_instance
      */
     public function test_digitala_delete_instance() {
         $result = digitala_delete_instance(0);
@@ -128,6 +122,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test updating a digitala instance.
+     * @covers ::digitala_update_instance
      */
     public function test_digitala_update_instance() {
         // Get the created digitala course.
@@ -176,6 +171,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test digitala grade item delete dummy function.
+     * @covers ::digitala_grade_item_delete
      */
     public function test_digitala_grade_item_delete() {
         $digitala = $this->create_digitala();
@@ -184,6 +180,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test digitala update grades dummy function.
+     * @covers ::digitala_update_grades
      */
     public function test_digitala_update_grades() {
         $digitala = $this->create_digitala();
@@ -191,14 +188,16 @@ class lib_test extends \advanced_testcase {
     }
 
     /**
-     * Test digitala file areas dummy function.
+     * Test digitala file areas.
+     * @covers ::digitala_get_file_areas
      */
     public function test_digitala_get_file_areas() {
-        $this->assertEquals(array(), digitala_get_file_areas(null, null, null));
+        $this->assertEquals(array('recordings', 'files', 'info'), digitala_get_file_areas(null, null, null));
     }
 
     /**
      * Test digitala get file info dummy function.
+     * @covers ::digitala_get_file_info
      */
     public function test_digitala_get_file_info() {
         $this->assertEquals(null, digitala_get_file_info(null, null, null, null, null, null, null, null, null));
@@ -206,6 +205,7 @@ class lib_test extends \advanced_testcase {
 
     /**
      * Test digitala get editor options function.
+     * @covers ::digitala_get_editor_options
      */
     public function test_digitala_get_editor_options() {
         $result = digitala_get_editor_options(null);

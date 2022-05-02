@@ -376,5 +376,31 @@ function xmldb_digitala_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022042702, 'digitala');
     }
 
+    if ($oldversion < 2022042906) {
+
+        $table = new xmldb_table('digitala_attempts');
+        $field = new xmldb_field('gop_score');
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        $table = new xmldb_table('digitala_report_feedback');
+        $field = new xmldb_field('gop_score');
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        $field = new xmldb_field('old_gop_score');
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        $field = new xmldb_field('gop_score_reason');
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+        upgrade_mod_savepoint(true, 2022042906, 'digitala');
+    }
+
     return true;
 }

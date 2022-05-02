@@ -55,6 +55,7 @@ class check_failed_evaluation extends \core\task\scheduled_task {
         $waiting = $DB->get_records_select('digitala_attempts', "status='waiting' AND timemodified < ".$time);
         foreach ($waiting as $attempt) {
             set_attempt_status($attempt, 'retry');
+            mtrace('Setting attempt '.$attempt->id.' to status retry');
         }
 
         $attempts = $DB->get_records('digitala_attempts', array('status' => 'retry'));
@@ -82,10 +83,11 @@ class check_failed_evaluation extends \core\task\scheduled_task {
                 $fileinfo->contextid = $modulecontext->id;
                 $fileinfo->component = 'mod_digitala';
                 $fileinfo->filearea = 'recordings';
-                $fileinfo->itemid = 0;
+                $fileinfo->itemid = get_file_item_id($attempt->id, $attempt->attemptnumber);
                 $fileinfo->filepath = '/';
                 $fileinfo->filename = $attempt->file;
 
+                mtrace('Creating send to evaluation task for attempt '.$attempt->id);
                 send_answerrecording_for_evaluation($fileinfo, $assignment, $attempt->recordinglength);
             }
         }

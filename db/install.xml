@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/digitala/db" VERSION="2022042702" COMMENT="XMLDB file for Moodle mod_digitala"
+<XMLDB PATH="mod/digitala/db" VERSION="2022042906" COMMENT="XMLDB file for Moodle mod_digitala"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -46,7 +46,6 @@
         <FIELD NAME="lexicogrammatical" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Lexical profile score of the attempt."/>
         <FIELD NAME="lexicogrammatical_features" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
-        <FIELD NAME="gop_score" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="recordinglength" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
@@ -77,9 +76,6 @@
         <FIELD NAME="old_holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
         <FIELD NAME="holistic" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2" COMMENT="Holistic score of the attempt."/>
         <FIELD NAME="holistic_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="old_gop_score" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
-        <FIELD NAME="gop_score" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
-        <FIELD NAME="gop_score_reason" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>

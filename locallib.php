@@ -697,6 +697,57 @@ function create_microphone_icon() {
 }
 
 /**
+ * Create file item id from attemptid and attemptnumber. Supports up to 999 attempts.
+ *
+ * @param int $attemptid - id of the attempt
+ * @param int $attemptnumber - attempt number of this attempt
+ */
+function get_file_item_id($attemptid, $attemptnumber) {
+    if ($attemptnumber < 100 && $attemptnumber > 9) {
+        $number = "0".$attemptnumber;
+    } else if ($attemptnumber < 10) {
+        $number = "00".$attemptnumber;
+    } else {
+        $number = $attemptnumber;
+    }
+    return intval($attemptid.$number);
+}
+
+/**
+ * Get recording files file information.
+ *
+ * @param int $attemptid - id of the attempt
+ * @param int $attemptnumber - attempt number of this attempt
+ * @param int $contextid - contextid of this activity
+ * @param string $filename - recording file name
+ */
+function get_recording_fileinfo($attemptid, $attemptnumber, $contextid, $filename) {
+    $fileinfo = new stdClass();
+    $fileinfo->contextid = $contextid;
+    $fileinfo->component = 'mod_digitala';
+    $fileinfo->filearea = 'recordings';
+    $fileinfo->filepath = '/';
+    $fileinfo->filename = $filename;
+    $fileinfo->itemid = get_file_item_id($attemptid, $attemptnumber);
+
+    return $fileinfo;
+}
+
+/**
+ * Delete recording file.
+ *
+ * @param array $fileinfo - file info to identify the file
+ */
+function delete_recording($fileinfo) {
+    $fs = get_file_storage();
+    $file = $fs->get_file($fileinfo->contextid, $fileinfo->component, $fileinfo->filearea,
+                          $fileinfo->itemid, $fileinfo->filepath, $fileinfo->filename);
+    if ($file) {
+        $file->delete();
+    }
+}
+
+/**
  * Save user recored audio to server and send it to Aalto ASR for evaluation.
  *
  * @param array $formdata - form data includes file information
@@ -708,18 +759,12 @@ function save_answerrecording($formdata, $assignment) {
     $audiofile = json_decode($formdata->audiostring);
     $recordinglength = $formdata->recordinglength;
 
-    $fileinfo = new stdClass();
-    $fileinfo->contextid = $assignment->contextid;
-    $fileinfo->component = 'mod_digitala';
-    $fileinfo->filearea = 'recordings';
-    $fileinfo->itemid = 0;
-    $fileinfo->filepath = '/';
-    $fileinfo->filename = $audiofile->file;
+    $waiting = create_waiting_attempt($assignment, $audiofile->file, $recordinglength);
+    $fileinfo = get_recording_fileinfo($waiting['id'], $waiting['attemptnumber'], $assignment->contextid, $audiofile->file);
 
     file_save_draft_area_files($audiofile->id, $fileinfo->contextid, $fileinfo->component,
                                 $fileinfo->filearea, $fileinfo->itemid);
 
-    create_waiting_attempt($assignment, $fileinfo->filename, $recordinglength);
     send_answerrecording_for_evaluation($fileinfo, $assignment, $recordinglength);
 
     if (!empty($_SERVER['REQUEST_URI'])) {
@@ -774,9 +819,19 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
     $attempt = get_attempt($assignment->instanceid, $assignment->userid);
 
     if (isset($attempt)) {
-        $attempt->attemptnumber++;
+        $old = true;
+        $fileinfo = get_recording_fileinfo($attempt->id, $attempt->attemptnumber,
+                                           $assignment->contextid, $attempt->file);
+        delete_recording($fileinfo);
+        delete_attempt_feedbacks($attempt->id);
+
+        if ($attempt->status == 'evaluated') {
+            $attempt->attemptnumber++;
+        }
     } else {
+        $old = false;
         $attempt = new stdClass();
+        $attempt->attemptnumber = 1;
     }
 
     $attempt->digitala = $assignment->instanceid;
@@ -786,14 +841,17 @@ function create_waiting_attempt($assignment, $filename, $recordinglength) {
     $attempt->recordinglength = $recordinglength;
 
     $timenow = time();
+    $attempt->timecreated = $timenow;
     $attempt->timemodified = $timenow;
 
-    if (isset($attempt->attemptnumber)) {
+    if ($old) {
         $DB->update_record('digitala_attempts', $attempt);
+        $id = $attempt->id;
     } else {
-        $attempt->timecreated = $timenow;
-        $DB->insert_record('digitala_attempts', $attempt);
+        $id = $DB->insert_record('digitala_attempts', $attempt);
     }
+
+    return array('id' => $id, 'attemptnumber' => $attempt->attemptnumber);
 }
 
 /**
@@ -822,7 +880,6 @@ function save_failed_attempt($attempt, $assignment) {
 
     $attempt->status = 'failed';
     $attempt->transcript = '';
-    $attempt->attemptnumber--;
     $attempt->fluency = 0;
     $attempt->pronunciation = 0;
     if ($assignment->attempttype == 'freeform') {
@@ -942,15 +999,32 @@ function get_all_attempts($instanceid) {
 }
 
 /**
+ * Delete teachers feedback related to specific student's submission from the database.
+ *
+ * @param int $attemptid - id of the attempt to delete feedback from
+ */
+function delete_attempt_feedbacks($attemptid) {
+    global $DB;
+
+    $DB->delete_records('digitala_report_feedback', array('attempt' => $attemptid));
+}
+
+/**
  * Delete students attempt from the database.
  *
  * @param int $instanceid - instance id of this digitala activity
  * @param int $userid - id of the student
+ * @param int $contextid - context id of the activity
  */
-function delete_attempt($instanceid, $userid) {
+function delete_attempt($instanceid, $userid, $contextid) {
     global $DB;
 
     if ($DB->record_exists('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid))) {
+        $attempt = get_attempt($instanceid, $userid);
+        $fileinfo = get_recording_fileinfo($attempt->id, $attempt->attemptnumber,
+                                           $contextid, $attempt->file);
+        delete_recording($fileinfo);
+        delete_attempt_feedbacks($attempt->id);
         $DB->delete_records('digitala_attempts', array('digitala' => $instanceid, 'userid' => $userid));
     }
 }
@@ -959,13 +1033,14 @@ function delete_attempt($instanceid, $userid) {
  * Delete all attempts from the database.
  *
  * @param int $instanceid - instance id of this digitala activity
+ * @param int $contextid - context id of the activity
  */
-function delete_all_attempts($instanceid) {
-    global $DB;
-
-    if ($DB->record_exists('digitala_attempts', array('digitala' => $instanceid))) {
-        $DB->delete_records('digitala_attempts', array('digitala' => $instanceid));
+function delete_all_attempts($instanceid, $contextid) {
+    $attempts = get_all_attempts($instanceid);
+    foreach ($attempts as $attempt) {
+        delete_attempt($instanceid, $attempt->userid, $contextid);
     }
+
 }
 
 /**
@@ -1365,7 +1440,7 @@ function generate_attempts_csv($id, $mode) {
 
     $header = 'id;digitala;userid;attemptnumber;file;transcript;feedback;'
            .'fluency;fluency_features;taskcompletion;pronunciation;pronunciation_features;'
-           .'lexicogrammatical;lexicogrammatical_features;holistic;gop_score;timecreated;'
+           .'lexicogrammatical;lexicogrammatical_features;holistic;timecreated;'
            .'timemodified;recordinglength;status';
     $writer->add_data(explode(';', $header));
     foreach ($attempts as $attempt) {
@@ -1385,7 +1460,6 @@ function generate_attempts_csv($id, $mode) {
             $attempt->lexicogrammatical,
             $attempt->lexicogrammatical_features,
             $attempt->holistic,
-            $attempt->gop_score,
             $attempt->timecreated,
             $attempt->timemodified,
             $attempt->recordinglength,
@@ -1393,7 +1467,7 @@ function generate_attempts_csv($id, $mode) {
         ];
         $writer->add_data($arr);
     }
-    $writer->set_filename('digitala-attempts');
+    $writer->set_filename('digitala-attempts-'.$id);
     if ($mode == 'attempts') {
         $writer->download_file();
     } else {
@@ -1429,8 +1503,7 @@ function generate_report_feedback_csv($id, $mode) {
     $header = 'id;attempt;digitala;old_fluency;fluency;fluency_reason;old_taskcompletion;'
            .'taskcompletion;taskcompletion_reason;old_lexicogrammatical;lexicogrammatical;'
            .'lexicogrammatical_reason;old_pronunciation;pronunciation;pronunciation_reason;'
-           .'old_holistic;holistic;holistic_reason;old_gop_score;gop_score;'
-           .'gop_score_reason;timecreated';
+           .'old_holistic;holistic;holistic_reason;timecreated';
     $writer = new \csv_export_writer();
     $writer->add_data(explode(';', $header));
 
@@ -1454,19 +1527,46 @@ function generate_report_feedback_csv($id, $mode) {
             $feedback->old_holistic,
             $feedback->holistic,
             $feedback->holistic_reason,
-            $feedback->old_gop_score,
-            $feedback->gop_score,
-            $feedback->gop_score_reason,
             $feedback->timecreated
         ];
         $writer->add_data($arr);
     }
-    $writer->set_filename('digitala-attempts-feedback');
+    $writer->set_filename('digitala-attempts-feedback-'.$id);
     if ($mode == 'feedback') {
         $writer->download_file();
     } else {
         $data = $writer->print_csv_data(true);
         return $data;
+    }
+}
+
+
+/**
+ * Create export buttons
+ *
+ * @param int $id - id of the activity
+ * @param int $contextid - context id of the activity
+ */
+function export_all_recordings($id, $contextid) {
+    $fs = get_file_storage();
+    $attempts = get_all_attempts($id);
+
+    $zipper = get_file_packer('application/zip');
+    $filename = 'digitala-recordings-'.$id.'-'.date('Ymd_Hm').'.zip';
+    $temppath = make_request_directory() . $filename;
+
+    $files = array();
+
+    foreach ($attempts as $attempt) {
+        $fileinfo = get_recording_fileinfo($attempt->id, $attempt->attemptnumber,
+                                           $contextid, $attempt->file);
+        $file = $fs->get_file($fileinfo->contextid, $fileinfo->component, $fileinfo->filearea,
+                              $fileinfo->itemid, $fileinfo->filepath, $fileinfo->filename);
+        $files[$file->get_filename()] = $file;
+    }
+
+    if ($zipper->archive_to_pathname($files, $temppath)) {
+        send_temp_file($temppath, $filename);
     }
 }
 
@@ -1478,9 +1578,11 @@ function generate_report_feedback_csv($id, $mode) {
  * @return string - export buttons
  */
 function create_export_buttons($id) {
-    $out = html_writer::tag('a', get_string('export_attempts', 'digitala'),
-                array('href' => export_url($id, 'attempts'), 'id' => 'export_attempts', 'class' => 'btn btn-primary'));
-    $out .= html_writer::tag('a', get_string('export_attempts_feedback', 'digitala'),
-                array('href' => export_url($id, 'feedback'), 'id' => 'export_attempts_feedback', 'class' => 'btn btn-primary'));
+    $out = html_writer::link(export_url($id, 'attempts'), get_string('export_attempts', 'digitala'),
+                array('id' => 'export_attempts', 'class' => 'btn btn-primary'));
+    $out .= html_writer::link(export_url($id, 'feedback'), get_string('export_attempts_feedback', 'digitala'),
+                array('id' => 'export_attempts_feedback', 'class' => 'btn btn-primary'));
+    $out .= html_writer::link(export_url($id, 'recordings'), get_string('export_recordings', 'digitala'),
+                array('id' => 'export_recordings', 'class' => 'btn btn-primary'));
     return $out;
 }
