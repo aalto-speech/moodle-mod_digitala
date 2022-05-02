@@ -11,9 +11,9 @@ The basic usage of Digitala is shown in a [short introduction video](/).
 
 Download the latest release from the GitHub [releases](https://github.com/aalto-speech/moodle-puheentunnistus/releases). As an admin in Moodle, navigate to *Site administration -> Plugins -> Install plugins* page and place the downloaded zip-file in the given field.
 
-If you're running Moodle locally or have otherwise access to the Moodle file system, you can navigate to *moodle/mod/* and clone this project via command line with ```git clone https://github.com/aalto-speech/moodle-puheentunnistus.git```. Change the project name to "digitala".
+If you're running Moodle locally or have otherwise access to the Moodle file system, you can navigate to *moodle/mod/* and clone this project via command line with ```git clone https://github.com/aalto-speech/moodle-puheentunnistus.git digitala```.
 
-After installation you'll be prompted to give the address and key to the evaluation API which can be received from Aalto. These are defaulted to a mock server which will always give the same evaluations. You can also provide a link for users of the activity for gathering user axperiences.
+After installation you'll be prompted to give the address and key to the evaluation API which can be received from Aalto. These are defaulted to a [mock server](./docs/manuals/localapi.md) which will always give the same evaluations. You can also provide a link for users of the activity for gathering user experiences.
 
 ## Upgrade
 
@@ -28,8 +28,8 @@ Manuals can be found in [documentation folder](/docs/manuals/user_roles.md).
 Tested with
 * Moodle: 3.9, 3.11, 4.0
 * PHP: 7.3, 7.4, 8.0
-* Batabase: PostgreSQL
-* Browsers: Chrome. Firefox and Safari have been tested manually.
+* Database: PostgreSQL
+* Browsers: Chrome. Firefox and Safari have been tested manually. All modern browsers should work.
 
 ## License
 
