@@ -80,11 +80,11 @@ $PAGE->requires->js_amd_inline($requirejs);
 
 if ($pagenum == 0) {
     $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
-                                array($pagenum, $id, $USER->id, $USER->username, $moduleinstance->maxlength));
+                                array($pagenum, $id, $USER->id, $USER->username,
+                                      $moduleinstance->maxlength, file_get_unused_draft_itemid()));
     $content .= $OUTPUT->render(new digitala_info());
 } else if ($pagenum == 1) {
-    $PAGE->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
-                                array($pagenum, $id, $USER->id, $USER->username, $moduleinstance->maxlength));
+
     $content .= $OUTPUT->render(new digitala_assignment($moduleinstance->id, $modulecontext->id, $USER->id, $id,
                                 $moduleinstance->assignment, $moduleinstance->resources, $moduleinstance->attempttype,
                                 $moduleinstance->attemptlang, $moduleinstance->maxlength, $moduleinstance->attemptlimit));

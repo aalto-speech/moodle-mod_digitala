@@ -70,9 +70,19 @@ if (has_capability('mod/digitala:exportreports', $modulecontext)) {
         generate_attempts_csv($moduleinstance->id, $mode);
     } else if ($mode == 'feedback') {
         generate_report_feedback_csv($moduleinstance->id, $mode);
+    } else if ($mode == 'recordings') {
+        export_all_recordings($moduleinstance->id, $modulecontext->id);
+    } else {
+        redirect($CFG->wwwroot.'/mod/digitala/export.php?id='.$moduleinstance->id.'&mode='.$mode,
+        get_string('results_denied', 'digitala'),
+        null, \core\output\notification::NOTIFY_ERROR);
     }
 } else {
+<<<<<<< HEAD
     redirect($CFG->wwwroot.'/mod/digitala/view.php?id='.$moduleinstance->id,
+=======
+    redirect($CFG->wwwroot.'/mod/digitala/export.php?id='.$moduleinstance->id.'&mode='.$mode,
+>>>>>>> origin
              get_string('results_denied', 'digitala'),
              null, \core\output\notification::NOTIFY_ERROR);
 }

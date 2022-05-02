@@ -80,12 +80,15 @@ class mod_digitala_renderer extends plugin_renderer_base {
      * @return string $out - HTML string to output.
      */
     protected function render_digitala_assignment(digitala_assignment $assignment) {
+        global $USER;
+
         $out = start_container('digitala-assignment');
 
         $out .= start_column('-4');
         $out .= create_card('assignment', create_assignment($assignment->assignmenttext));
 
         $attempt = get_attempt($assignment->instanceid, $assignment->userid);
+
         if (isset($attempt) && ($attempt->status == 'waiting' || $attempt->status == 'retry')) {
             $url = str_replace('page=1', 'page=2', $_SERVER['REQUEST_URI']);
             $out .= create_card('assignmentrecord', get_string('results_waiting-info', 'digitala'));
@@ -95,6 +98,17 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext');
         } else {
+            global $CFG;
+            require_once($CFG->dirroot . '/repository/lib.php');
+            $modulecontext = context::instance_by_id($assignment->contextid);
+            $repos = repository::get_instances(
+                ['type' => 'upload', 'currentcontext' => $modulecontext]);
+            $repoid = reset($repos)->id;
+            $attemptnumber = isset($attempt->attemptnumber) ? $attempt->attemptnumber : 1;
+            $this->page->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
+                                     array(1, $assignment->id, $USER->id, $USER->username,
+                                           $assignment->maxlength, file_get_unused_draft_itemid(),
+                                           $attemptnumber, $repoid));
             $out .= create_card('assignmentrecord', create_attempt_number($assignment, $assignment->userid).
                                                     save_answerrecording_form($assignment).
                                                     create_microphone($assignment->maxlength).
@@ -138,7 +152,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
         } else if ($attempt->status == 'evaluated' || $attempt->status == 'failed') {
             $remaining -= $attempt->attemptnumber;
             $feedback = get_feedback($attempt);
-            $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings', 0, '/',
+            $audiourl = moodle_url::make_pluginfile_url($report->contextid, 'mod_digitala', 'recordings',
+                                                        get_file_item_id($attempt->id, $attempt->attemptnumber), '/',
                                                         $attempt->file, false);
             if (isset($feedback)) {
                 $reporttitle = 'report-title-feedback';
@@ -184,7 +199,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
             }
             if ($report->student != $USER->id && $attempt->status == 'evaluated') {
                 $out .= html_writer::link(str_replace('report.php', 'reporteditor.php', $_SERVER['REQUEST_URI']),
-                                          get_string('teacher-feedback', 'digitala'), array('class' => 'btn btn-primary'));
+                                          get_string('teacher-feedback', 'digitala'),
+                                          array('class' => 'btn btn-primary digitala-tabs'));
             }
         } else {
             $out .= create_card('report-title', get_string('reportnotavailable', 'digitala'));
@@ -328,9 +344,9 @@ class mod_digitala_renderer extends plugin_renderer_base {
     protected function render_digitala_delete(digitala_delete $delete) {
         global $CFG;
         if ($delete->studentid) {
-            delete_attempt($delete->instanceid, $delete->studentid);
+            delete_attempt($delete->instanceid, $delete->studentid, $delete->contextid);
         } else {
-            delete_all_attempts($delete->instanceid);
+            delete_all_attempts($delete->instanceid, $delete->contextid);
         }
 
         redirect($CFG->wwwroot.'/mod/digitala/report.php?id='.$delete->id.'&mode=overview');

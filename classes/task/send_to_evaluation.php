@@ -57,6 +57,9 @@ class send_to_evaluation extends \core\task\adhoc_task {
         $fileinfo = $data->fileinfo;
         $file = $fs->get_file($fileinfo->contextid, $fileinfo->component, $fileinfo->filearea,
                           $fileinfo->itemid, $fileinfo->filepath, $fileinfo->filename);
+
+        mtrace('File in evaluation: '.$file->get_filename().' - '.$file->get_itemid());
+
         $url = get_config('digitala', 'api');
         $key = get_config('digitala', 'key');
         $add = '?prompt=' . rawurlencode($data->assignment->servertext) . '&lang=' .
@@ -67,10 +70,13 @@ class send_to_evaluation extends \core\task\adhoc_task {
         $c->setopt(array('CURLOPT_CONNECTTIMEOUT' => 0, 'CURLOPT_TIMEOUT' => 1800));
 
         $evaluation = json_decode($c->post($url . $add, $params));
+        mtrace('Evaluation answer from Aalto:');
         if (isset($evaluation->transcript)) {
+            mtrace(json_encode($evaluation));
             save_attempt($data->assignment, $evaluation);
             mtrace('Evaluation done');
         } else {
+            mtrace($evaluation);
             $attempt = get_attempt($data->assignment->instanceid, $data->assignment->userid);
             if ($attempt->status == 'waiting') {
                 set_attempt_status($attempt, 'retry');

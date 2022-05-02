@@ -127,12 +127,18 @@ function digitala_update_instance($moduleinstance, $mform = null) {
  * @return bool True if successful, false on failure.
  */
 function digitala_delete_instance($id) {
+    require_once(__DIR__ . '/locallib.php');
     global $DB;
 
-    $exists = $DB->get_record('digitala', array('id' => $id));
-    if (!$exists) {
+    $moduleinstance = $DB->get_record('digitala', array('id' => $id));
+    if (!$moduleinstance) {
         return false;
     }
+
+    $course = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
+    $cm = get_coursemodule_from_instance('digitala', $moduleinstance->id, $course->id, false, MUST_EXIST);
+    $context = context_module::instance($cm->id);
+    delete_all_attempts($id, $context->id);
 
     $DB->delete_records('digitala', array('id' => $id));
 
@@ -257,7 +263,7 @@ function digitala_update_grades($moduleinstance, $userid = 0) {
  * @return array
  */
 function digitala_get_file_areas($course, $cm, $context) {
-    return array();
+    return array('recordings', 'files', 'info');
 }
 
 /**
@@ -296,11 +302,12 @@ function digitala_get_file_info($browser, $areas, $course, $cm, $context, $filea
  * @param array $options Additional options affecting the file serving.
  */
 function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = array()) {
+    global $USER;
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
 
-    if ($filearea !== 'recordings' && $filearea !== 'files' && $filearea !== 'info') {
+    if (!in_array($filearea, digitala_get_file_areas($course, $cm, $context))) {
         return false;
     }
 
@@ -320,7 +327,20 @@ function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedow
     if (!$file) {
         return false;
     }
-    send_stored_file($file, 86400, 0, $forcedownload, $options);
+
+    if ($filearea == 'recordings') {
+        if (has_capability('mod/digitala:viewdetailreport', $context)) {
+            send_stored_file($file, 86400, 0, $forcedownload, $options);
+            return;
+        } else if ($USER->id == $file->get_userid()) {
+            send_stored_file($file, 86400, 0, $forcedownload, $options);
+            return;
+        } else {
+            return false;
+        }
+    } else {
+        send_stored_file($file, 86400, 0, $forcedownload, $options);
+    }
 }
 
 /**

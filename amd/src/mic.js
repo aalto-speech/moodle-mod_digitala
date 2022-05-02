@@ -22,6 +22,9 @@ let assignmentId;
 let userId;
 let username;
 let maxLength;
+let draftItemId;
+let attemptNumber;
+let repoId;
 let timeout;
 let interval;
 let sec;
@@ -113,16 +116,15 @@ const stopRecording = () => {
             const audioBlob = recorder.getBlob();
             const audioUrl = URL.createObjectURL(audioBlob);
             audio = new Audio(audioUrl);
-
             if (pagenum === 1) {
                 const form = new FormData();
-                form.append('repo_id', '5');
+                form.append('repo_id', repoId);
                 form.append('ctx_id', mdlcfg.contextid);
-                form.append('itemid', '0');
+                form.append('itemid', draftItemId);
                 form.append('savepath', '/');
                 form.append('sesskey', mdlcfg.sesskey);
                 form.append('repo_upload_file', audioBlob,
-                    `ans-${assignmentId}-${userId}-${username}-${new Date().valueOf()}.wav`);
+                    `ans-${assignmentId}-${userId}-${username}-${attemptNumber}.wav`);
                 form.append('overwrite', '1');
 
                 const req = new XMLHttpRequest();
@@ -162,12 +164,16 @@ const listenRecording = () => {
     }
 };
 
-export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, usernameIn, maxLengthIn) => {
+export const initializeMicrophone = async(pagenumIn, assignmentIdIn, userIdIn, usernameIn,
+                                          maxLengthIn, draftItemIdIn, attemptNumberIn, repoIdIn) => {
     pagenum = pagenumIn;
     assignmentId = assignmentIdIn;
     userId = userIdIn;
     username = usernameIn;
     maxLength = maxLengthIn;
+    draftItemId = draftItemIdIn;
+    attemptNumber = attemptNumberIn;
+    repoId = repoIdIn;
     langStrings = await getStrings(
         [
             {

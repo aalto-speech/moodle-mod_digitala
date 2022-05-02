@@ -86,7 +86,7 @@ if (has_capability('mod/digitala:viewdetailreport', $modulecontext)) {
                                                         $moduleinstance->attempttype, $moduleinstance->attemptlang,
                                                         $moduleinstance->attemptlimit, $moduleinstance->information, $studentid));
     } else if ($mode == 'delete') {
-        $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $id, $studentid));
+        $content = $OUTPUT->render(new digitala_delete($moduleinstance->id, $modulecontext->id, $id, $studentid));
     } else {
         $content = get_string('results_denied', 'digitala');
     }
