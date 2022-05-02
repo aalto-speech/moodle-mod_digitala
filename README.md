@@ -28,7 +28,7 @@ Manuals can be found in [documentation folder](/docs/manuals/user_roles.md).
 Tested with
 * Moodle: 3.9, 3.11, 4.0
 * PHP: 7.3, 7.4, 8.0
-* Database: PostgreSQL
+* Database: PostgreSQL, MariaDB
 * Browsers: Chrome. Firefox and Safari have been tested manually. All modern browsers should work.
 
 ## License

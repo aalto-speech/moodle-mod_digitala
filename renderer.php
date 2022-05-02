@@ -98,11 +98,17 @@ class mod_digitala_renderer extends plugin_renderer_base {
             $out .= create_card('assignmentrecord', get_string('alreadysubmitted', 'digitala'));
             $out .= create_nav_buttons('assignmentnext');
         } else {
+            global $CFG;
+            require_once($CFG->dirroot . '/repository/lib.php');
+            $modulecontext = context::instance_by_id($assignment->contextid);
+            $repos = repository::get_instances(
+                ['type' => 'upload', 'currentcontext' => $modulecontext]);
+            $repoid = reset($repos)->id;
             $attemptnumber = isset($attempt->attemptnumber) ? $attempt->attemptnumber : 1;
             $this->page->requires->js_call_amd('mod_digitala/mic', 'initializeMicrophone',
                                      array(1, $assignment->id, $USER->id, $USER->username,
                                            $assignment->maxlength, file_get_unused_draft_itemid(),
-                                           $attemptnumber));
+                                           $attemptnumber, $repoid));
             $out .= create_card('assignmentrecord', create_attempt_number($assignment, $assignment->userid).
                                                     save_answerrecording_form($assignment).
                                                     create_microphone($assignment->maxlength).
@@ -193,7 +199,8 @@ class mod_digitala_renderer extends plugin_renderer_base {
             }
             if ($report->student != $USER->id && $attempt->status == 'evaluated') {
                 $out .= html_writer::link(str_replace('report.php', 'reporteditor.php', $_SERVER['REQUEST_URI']),
-                                          get_string('teacher-feedback', 'digitala'), array('class' => 'btn btn-primary'));
+                                          get_string('teacher-feedback', 'digitala'),
+                                          array('class' => 'btn btn-primary digitala-tabs'));
             }
         } else {
             $out .= create_card('report-title', get_string('reportnotavailable', 'digitala'));
