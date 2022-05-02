@@ -78,7 +78,8 @@ if (has_capability('mod/digitala:exportreports', $modulecontext)) {
         null, \core\output\notification::NOTIFY_ERROR);
     }
 } else {
-    redirect($CFG->wwwroot.'/mod/digitala/export.php?id='.$moduleinstance->id.'&mode='.$mode,
+    redirect($CFG->wwwroot.'/mod/digitala/view.php?id='.$moduleinstance->id,
              get_string('results_denied', 'digitala'),
              null, \core\output\notification::NOTIFY_ERROR);
 }
+
