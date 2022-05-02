@@ -54,7 +54,7 @@ $string['assignmentresource'] = 'Material';
 $string['assignmentresource_help'] = 'Material placeras här. I uppgiften "Högläsning" placeras texten här. I uppgiften "Fri produktion" kan man placera här t.ex. text, bilder och figurer som utnyttjas i uppgiften.';
 $string['maxlength'] = 'Maxlängd';
 $string['maxlength_error'] = 'Inspelningen får inte överstiga 5 minuter';
-$string['maxlength_help'] = 'Inspelningen måste vara mindre än 5 minuter eller 300 sekunder lång.';
+$string['maxlength_help'] = 'Inspelningen måste vara kortare än 5 minuter eller 300 sekunder';
 
 $string['navnext'] = 'Nästa >';
 $string['navprevious'] = '< Föregående';
@@ -89,7 +89,7 @@ $string['reportinformation'] = 'Den här feedbacken gäller endast den uppgift s
 $string['transcription'] = 'Ditt tal som text';
 $string['server-feedback'] = 'Feedback på högläsningen';
 $string['teacher-feedback'] = 'Föreslå förändringar I bedömningsrapporten';
-$string['transcription_tab-plain'] = 'Originaltext';
+$string['transcription_tab-plain'] = 'Ditt tal som text';
 $string['transcription_tab-corrected'] = 'Visa korrigeringar';
 
 $string['task_grades'] = 'Analytisk bedömning';
@@ -143,14 +143,14 @@ $string['lexicogrammatical_score-2'] = 'Du använder vanliga ord och du kan skap
 $string['lexicogrammatical_score-3'] = 'Du använder mångsidigt olika typer av ord och meningskonstruktioner.';
 
 $string['moreinformation'] = 'Mer information';
-$string['moreinformation_help'] = 'Information to provide to the student after they have made an attempt.';
+$string['moreinformation_help'] = 'Ytterligare information att ge studenten om uppgiftet eller bedömningen.';
 
 $string['api'] = 'Adressen till API-servern.';
 $string['api_help'] = 'Ge adressen till API-servern';
 $string['key'] = 'Nyckeln till API-servern.';
 $string['key_help'] = 'Ge nyckeln till API-servern för identifiering.';
 $string['feedbacklink'] = 'Ge adress till feedbackwebbplatsen';
-$string['feedbacklink_help'] = 'Ange adressen till webbplatsen där användare kan skicka feedback till på utvärderingssidan.';
+$string['feedbacklink_help'] = 'Ange adressen till webbplatsen som visas som ett feedbackformulär på bedömningssidan.';
 
 $string['edit_report'] = 'Bearbeta bedömningsrapporten';
 $string['holistic-reason'] = 'Feedback på Färdighetsnivå';
@@ -195,7 +195,7 @@ $string['results_no-show'] = 'Inga resultat ännu.';
 $string['results_title'] = 'Användarnas resultat';
 $string['results_delete-title'] = 'Obs!';
 $string['results_waiting-title'] = 'Bedömning pågår';
-$string['results_waiting-info'] = 'Bedömning pågår, lämna inte sidan. Var god vänta, bedömningen kan ta en stund.';
+$string['results_waiting-info'] = 'Bedömning pågår. Var god vänta, bedömningen kan ta en stund.';
 $string['results_waiting-refresh'] = 'Kolla här om bedömningen är färdig.';
 $string['results_waiting-loading'] = 'Laddar upp bedömningsrapporten...';
 $string['results_retry-title'] = 'Bedömningen misslyckades';
@@ -203,7 +203,7 @@ $string['results_retry-info'] = 'Bedömningen misslyckades och ett nytt försök
 
 $string['export_attempts'] = 'Ladda ner alla försök i CSV-format';
 $string['export_attempts_feedback'] = 'Ladda ner lärarens feedback för alla försök i CSV-format';
-$string['export_recordings'] = 'Ladda ner alla inspelningar';
+$string['export_recordings'] = 'Exportera alla inspelningar';
 $string['export_success'] = 'CSV-filen har skapats';
 
 $string['teachergrade'] = 'Lärarens betygsförslag: ';

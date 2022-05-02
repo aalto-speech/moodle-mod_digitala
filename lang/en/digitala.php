@@ -52,9 +52,9 @@ $string['assignmenttext'] = 'Assignment text';
 $string['assignmenttext_help'] = 'The assignment that the user will need to complete.';
 $string['assignmentresource'] = 'Material';
 $string['assignmentresource_help'] = 'The material can be added here. In "Read-aloud" type, place the text to be read here. In "Freeform" type, you can add text, images, charts, and videos, which the user should utilize in their response.';
-$string['maxlength'] = 'Maximum length';
+$string['maxlength'] = 'Maximum duration';
 $string['maxlength_error'] = 'The recording can be at most 5 minutes long';
-$string['maxlength_help'] = 'The recording must be under 5 minutes or 300 seconds in length';
+$string['maxlength_help'] = 'The recording must be shorter than 5 minutes or 300 seconds';
 
 $string['navnext'] = 'Next >';
 $string['navprevious'] = '< Previous';
@@ -89,7 +89,7 @@ $string['reportinformation'] = 'This feedback concerns only the speech sample yo
 $string['transcription'] = 'A transcript of your speech sample';
 $string['server-feedback'] = 'Read-aloud feedback';
 $string['teacher-feedback'] = 'Suggest changes to automatic evaluation report';
-$string['transcription_tab-plain'] = 'Original text';
+$string['transcription_tab-plain'] = 'A transcript of your speech sample';
 $string['transcription_tab-corrected'] = 'Show corrections';
 
 $string['task_grades'] = 'Analytic grading';
@@ -143,14 +143,14 @@ $string['lexicogrammatical_score-2'] = 'You use basic words and are able to form
 $string['lexicogrammatical_score-3'] = 'You have comprehensive vocabulary and use a variety of sentence structures.';
 
 $string['moreinformation'] = 'More information';
-$string['moreinformation_help'] = 'Information to provide to the student after they have made an attempt.';
+$string['moreinformation_help'] = 'Additional information to provide to the student about the assignment or evaluation.';
 
 $string['api'] = 'Address for API-server';
 $string['api_help'] = 'Give address to the API-server.';
 $string['key'] = 'Key for the API-server';
 $string['key_help'] = 'Give a valid key for the API-server authentication';
 $string['feedbacklink'] = 'Give address to feedback site';
-$string['feedbacklink_help'] = 'Give the address of the site where users can send feedback to on evaluation page.';
+$string['feedbacklink_help'] = 'Give the address of the site that shows as a feedback form on the evaluation page.';
 
 $string['edit_report'] = 'Edit the evaluation report';
 $string['holistic-reason'] = 'Feedback on Proficiency';
@@ -195,7 +195,7 @@ $string['results_no-show'] = 'No results to show yet.';
 $string['results_title'] = 'User results';
 $string['results_delete-title'] = 'Note!';
 $string['results_waiting-title'] = 'Evaluation in progress';
-$string['results_waiting-info'] = 'Evaluation is in progress, please do not leave the page. This may take some time.';
+$string['results_waiting-info'] = 'Evaluation is in progress. This may take some time.';
 $string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
 $string['results_waiting-loading'] = 'Loading evaluation report...';
 $string['results_retry-title'] = 'Evaluation failed';
