@@ -332,7 +332,7 @@ function digitala_pluginfile($course, $cm, $context, $filearea, $args, $forcedow
         if (has_capability('mod/digitala:viewdetailreport', $context)) {
             send_stored_file($file, 86400, 0, $forcedownload, $options);
             return;
-        } else if ($USER->id != $file->get_userid()) {
+        } else if ($USER->id == $file->get_userid()) {
             send_stored_file($file, 86400, 0, $forcedownload, $options);
             return;
         } else {
