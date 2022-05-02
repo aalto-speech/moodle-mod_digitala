@@ -45,6 +45,10 @@ Feature: Teacher can see students overview report
       | Readaloud | seppo    | 7001        | 7002    | readaloud_seppo_fluency_syy | 7003              | 7004          | readaloud_seppo_pronunciation_syy |
       | Readaloud | milla    | 8001        | 8002    | readaloud_milla_fluency_syy | 8003              | 8004          | readaloud_milla_pronunciation_syy |
 
+  Scenario: Overview report doesn't show for student
+    When I am on the "Freeform" "mod_digitala > Teacher Reports Overview" page logged in as "olli"
+    And I should see "Access denied"
+
   Scenario: Overview report link shows for teacher on actions menu
     When I am on the "Freeform" "mod_digitala > Info" page logged in as "ossi"
     Then I navigate to "View student results" in current page administration
