@@ -25,6 +25,12 @@ Feature: URL resolver works in behats
     And I add readaloud attempt to database:
       | name      | username | attemptnumber | file  | transcript  | feedback | fluency | pronunciation | recordinglength | status    |
       | Readaloud | olli     | 1             | file2 | transcript2 | feedback | 0.7     | 1.5           | 2               | evaluated |
+    And I add freeform feedback to database:
+      | name     | username | old_fluency | fluency | fluency_reason       | old_pronunciation | pronunciation | pronunciation_reason | old_taskcompletion | taskcompletion | taskcompletion_reason | old_lexicogrammatical | lexicogrammatical | lexicogrammatical_reason | old_holistic | holistic | holistic_reason |
+      | Freeform | olli     | 111         | 222     | freeform_fluency_syy | 333               | 444           | pronunciation_syy    | 555                | 666            | taskcompletion_syy    | 777                   | 888               | lexicogrammatical_syy    | 999          | 420      | holistic_syy    |
+    And I add readaloud feedback to database:
+      | name      | username | old_fluency | fluency | fluency_reason        | old_pronunciation | pronunciation | pronunciation_reason |
+      | Readaloud | olli     | 111         | 222     | readaloud_fluency_syy | 333               | 444           | pronunciation_syy    |
 
   Scenario Outline: Page URL resolver works
     When I am on the "<activity>" "mod_digitala > Invalid" page logged in as "<student>"
@@ -42,9 +48,17 @@ Feature: URL resolver works in behats
     And I should see "<reportpage>"
     Then I am on the "<activity> > <student>" "mod_digitala > Teacher Report Feedback" page logged in as "<teacher>"
     And I should see "Edit the evaluation report"
+    Then I am on the "<activity> > attempts" "mod_digitala > Export" page logged in as "<teacher>"
+    And I should see "id,digitala,userid,attemptnumber,file,transcript,feedback,fluency,fluency_features,taskcompletion,pronunciation,pronunciation_features,lexicogrammatical,lexicogrammatical_features,holistic,timecreated,timemodified,recordinglength,status"
+    And I should see "<transcript>"
+    Then I am on the "<activity> > feedback" "mod_digitala > Export" page logged in as "<teacher>"
+    And I should see "id,attempt,digitala,old_fluency,fluency,fluency_reason,old_taskcompletion,taskcompletion,taskcompletion_reason,old_lexicogrammatical,lexicogrammatical,lexicogrammatical_reason,old_pronunciation,pronunciation,pronunciation_reason,old_holistic,holistic,holistic_reason,timecreated"
+    And I should see "<reason>"
+    Then I am on the "<activity> > recordings" "mod_digitala > Export" page logged in as "<teacher>"
+    And I should not see "See report"
 
     Examples:
-      | activity  | student | teacher | reportpage |
-      | Freeform  | olli    | ossi    | Range      |
-      | Readaloud | olli    | ossi    | Fluency    |
-      | Freeform  | olli    | mauno   | Range      |
+      | activity  | student | teacher | reportpage | transcript  | reason                |
+      | Freeform  | olli    | ossi    | Range      | transcript1 | freeform_fluency_syy  |
+      | Readaloud | olli    | ossi    | Fluency    | transcript2 | readaloud_fluency_syy |
+      | Freeform  | olli    | mauno   | Range      | transcript1 | freeform_fluency_syy  |

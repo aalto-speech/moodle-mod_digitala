@@ -5,17 +5,26 @@ Feature: Student can see assignment text and resources
 
   Background:
     Given the following "users" exist:
-      | username | firstname | lastname   | email                    |
-      | olli     | Olli      | Opiskelija | olli.opiskelija@koulu.fi |
+      | username | firstname | lastname   | email                     |
+      | ossi     | Ossi      | Opettaja   | ossi.opettaja@koulu.fi    |
+      | olli     | Olli      | Opiskelija | olli.opiskelija@koulu.fi  |
+      | essi     | Essi      | Opiskelija | essi.opiskelija@koulu.fi  |
+      | seppo    | Seppo     | Opiskelija | seppo.opiskelija@koulu.fi |
+      | milla    | Milla     | Opiskelija | milla.opiskelja@koulu.fi  |
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user | course | role    |
-      | olli | C1     | student |
+      | user  | course | role    |
+      | ossi  | C1     | manager |
+      | olli  | C1     | student |
+      | essi  | C1     | student |
+      | seppo | C1     | student |
+      | milla | C1     | student |
     And the following "activities" exist:
-      | activity | name     | intro               | course | idnumber | attemptlang | attempttype | assignment            | resources               | resourcesformat | attemptlimit | maxlength | information     | informationformat |
-      | digitala | Freeform | This is a freeform. | C1     | freeform | sv          | freeform    | Berätta om Tigerjakt. | Här är filmen om tiger. | 1               | 2            | 5         | testinformation | 1                 |
+      | activity | name      | intro                | course | idnumber  | attemptlang | attempttype | assignment                 | resources                                  | resourcesformat | attemptlimit | maxlength | information     | informationformat |
+      | digitala | Freeform  | This is a freeform.  | C1     | freeform  | sv          | freeform    | Berätta om Tigerjakt.      | Här är filmen om tiger.                    | 1               | 2            | 5         | testinformation | 1                 |
+      | digitala | Readaloud | This is a readaloud. | C1     | readaloud | fi          | readaloud   | Lue seuraava lause ääneen. | Tämä on liikennevalojen perusteet -kurssi. | 1               | 2            | 5         | testinformation | 1                 |
 
   Scenario: On assignment page the assignment text, resources text, timer and number of attempts are shown
     When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
@@ -66,6 +75,42 @@ Feature: Student can see assignment text and resources
     Then I should see "Your answer has already been submitted."
     And I should not see "Listen recording"
 
+  Scenario: Feedback is deleted when student creates a new attempt
+    When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    And I click on "id_submitbutton" "button"
+    Then I should see "Evaluation in progress"
+    And I run all adhoc tasks
+    Then I click on "Press here to check if evaluation is completed." "link"
+    Then I should see "Fluency"
+    Then I am on the "Freeform > olli" "mod_digitala > Teacher Report Feedback" page logged in as "ossi"
+    Then I set the following fields to these values:
+      | Fluency                     | 2.00                              |
+      | Feedback on Fluency         | Evaluation was too high.          |
+      | Task completion             | 3.00                              |
+      | Feedback on Task completion | Evaluation was too low.           |
+      | Range                       | 2.34                              |
+      | Feedback on Range           | Evaluation was out of boundaries. |
+      | Pronunciation               | 2.37                              |
+      | Feedback on Pronunciation   | Sounds like pro finn.             |
+      | Proficiency                 | 6.50                              |
+      | Feedback on Proficiency     | This meets all values for this.   |
+    And I press "Save changes"
+    Then I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
+    Then I should see "Teacher's grade suggestion:"
+    Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    And I click on "id_submitbutton" "button"
+    Then I should see "Evaluation in progress"
+    And I run all adhoc tasks
+    Then I click on "Press here to check if evaluation is completed." "link"
+    Then I should see "Fluency"
+    And I should not see "Teacher's grade suggestion:"
+
   Scenario: Attempt in status retry gets re-evaluated
     When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
     And I click on "record" "button"
@@ -104,3 +149,166 @@ Feature: Student can see assignment text and resources
     And I run all adhoc tasks
     Then I am on the "Freeform" "mod_digitala > Report" page logged in as "olli"
     Then I should see "Analytic grading"
+
+  Scenario: If multiple students answer to same assignment, recording of all students is preserved
+    When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "essi"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "seppo"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "milla"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+
+    Then I check if recording exists:
+      | name     | username |
+      | Freeform | olli     |
+      | Freeform | essi     |
+      | Freeform | seppo    |
+      | Freeform | milla    |
+
+    And I run all adhoc tasks
+
+    Then I check if recording exists:
+      | name     | username |
+      | Freeform | olli     |
+      | Freeform | essi     |
+      | Freeform | seppo    |
+      | Freeform | milla    |
+
+    When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 1 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "essi"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 1 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+
+    Then I check if recording exists:
+      | name     | username |
+      | Freeform | olli     |
+      | Freeform | essi     |
+      | Freeform | seppo    |
+      | Freeform | milla    |
+
+    And I run all adhoc tasks
+
+    Then I check if recording exists:
+      | name     | username |
+      | Freeform | olli     |
+      | Freeform | essi     |
+      | Freeform | seppo    |
+      | Freeform | milla    |
+
+  @onlyone
+  Scenario: If multiple students answer to multiple assignment, recording of all students is preserved
+    When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "essi"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Readaloud" "mod_digitala > Assignment" page logged in as "seppo"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Readaloud" "mod_digitala > Assignment" page logged in as "milla"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+
+    Then I check if recording exists:
+      | name      | username |
+      | Freeform  | olli     |
+      | Freeform  | essi     |
+      | Readaloud | seppo    |
+      | Readaloud | milla    |
+
+    And I run all adhoc tasks
+
+    Then I check if recording exists:
+      | name      | username |
+      | Freeform  | olli     |
+      | Freeform  | essi     |
+      | Readaloud | seppo    |
+      | Readaloud | milla    |
+
+    When I am on the "Readaloud" "mod_digitala > Assignment" page logged in as "olli"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Readaloud" "mod_digitala > Assignment" page logged in as "essi"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "seppo"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+    Then I am on the "Freeform" "mod_digitala > Assignment" page logged in as "milla"
+    And I click on "record" "button"
+    And I wait "6" seconds
+    And I click on "submitModalButton" "button"
+    Then I should see "You still have 2 attempts remaining on this assignment."
+    And I click on "id_submitbutton" "button"
+
+    Then I check if recording exists:
+      | name      | username |
+      | Freeform  | olli     |
+      | Freeform  | essi     |
+      | Freeform  | seppo    |
+      | Freeform  | milla    |
+      | Readaloud | olli     |
+      | Readaloud | essi     |
+      | Readaloud | seppo    |
+      | Readaloud | milla    |
+
+    And I run all adhoc tasks
+
+    Then I check if recording exists:
+      | name      | username |
+      | Freeform  | olli     |
+      | Freeform  | essi     |
+      | Freeform  | seppo    |
+      | Freeform  | milla    |
+      | Readaloud | olli     |
+      | Readaloud | essi     |
+      | Readaloud | seppo    |
+      | Readaloud | milla    |

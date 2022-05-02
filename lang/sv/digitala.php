@@ -203,6 +203,7 @@ $string['results_retry-info'] = 'Bedömningen misslyckades och ett nytt försök
 
 $string['export_attempts'] = 'Ladda ner alla försök i CSV-format';
 $string['export_attempts_feedback'] = 'Ladda ner lärarens feedback för alla försök i CSV-format';
+$string['export_recordings'] = 'Ladda ner alla inspelningar';
 $string['export_success'] = 'CSV-filen har skapats';
 
 $string['teachergrade'] = 'Lärarens betygsförslag: ';

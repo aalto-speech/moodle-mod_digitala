@@ -203,6 +203,7 @@ $string['results_retry-info'] = 'Automaattinen arviointi epäonnistui ja sitä y
 
 $string['export_attempts'] = 'Lataa kaikki suoritukset CSV-muodossa';
 $string['export_attempts_feedback'] = 'Lataa kaikki opettajan palautteet suorituksille CSV-muodossa';
+$string['export_recordings'] = 'Lataa kaikki tallennukset';
 $string['export_success'] = 'CSV-tiedoston luonti onnistui.';
 
 $string['teachergrade'] = 'Opettajan arvosanaehdotus: ';
