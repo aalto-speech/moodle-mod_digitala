@@ -1,23 +1,26 @@
 # User roles in Digitala
 
-The user roles in Digitala follow the roles given in the Moodle environment. There are some basic differences between admin, teacher and student in Digitala, which will be demonstrated in this manual.
+The user roles in Digitala follow the roles given in the Moodle environment. There are some basic differences between admin, teacher and student roles in Digitala. These differences will be demonstrated in this manual.
+
+See figures among the text by clicking on them.
 
 * An [administrator](#admin-usage) can
-    * change the address and key of the API server
-    * change the address of the feedback site popping up on report view
+    * change the address and the key of the API server
+    * change the address of the feedback site popping up on the report view
+up on report view
 * A [teacher](#teacher-usage) can
-    * [create a new Digitala](#creating-a-new-Digitala-on-a-course) instance on a course page
-    * [edit and delete the Digitala](#editing-and-deleting-a-Digitala) instance afterwards
-    * [see student results](#see-student-results) on the Digitala instance
-    * [give suggestions to correct automated assessment](#give-suggestions-to-correct-automated-assessment) on a student evaluation report
-    * [download database reports](#download-database-reports) from the Digitala instance.
-* A [student](#student-usage) student can
-    * [test their microphone on the first view](#testing-microphone)
+    * [create a new Digitala](#creating-a-new-Digitala-on-a-course) activity (=assignment) on a course page
+    * [edit and delete the Digitala](#editing-and-deleting-a-Digitala) activity afterwards
+    * [see student results](#see-student-results) on the Digitala activity
+    * [suggest changes and add feedback](#suggest-changes-or-add-feedback-to-automated-assessment) to the automated assessment on a student evaluation report
+    * [download database reports](#download-database-reports) from the Digitala activity.
+* A [student](#student-usage) can
+    * [test their microphone on the begin view](#testing-microphone)
     * [see the assignment](#the-assignment-and-materials) prompt and materials on the assignment view
     * [record, listen and submit](#recording-and-submitting-speech) their speech performance on the assignment view
     * [receive an automated evaluation](#evaluation-report-of-speech) of their performance on the evaluation view
     * [see teacher's feedback](#teachers-grading-suggestions) about the automated evaluation
-    * [give feedback on the Digitala](#give-feedback-on-digitala)
+    * [give feedback on the Digitala plugin](#give-feedback-on-digitala)
 
 ## Admin usage
 
@@ -40,15 +43,15 @@ These settings can be changed in Moodle in *Site administration -> Plugins -> Di
 A teacher is allowed to do all the same things as a [student](#student-usage).
 
 Teacher can also
-* [create a new Digitala](#creating-a-new-Digitala-on-a-course) instance on a course page
-* [edit and delete the Digitala](#editing-and-deleting-a-Digitala) instance afterwards
-* [see student results](#see-student-results) on the Digitala instance
-* [give suggestions to correct automated assessment](#give-suggestions-to-correct-automated-assessment) on a student evaluation report
-* [download database reports](#download-database-reports) from the Digitala instance.
+* [create a new Digitala](#creating-a-new-Digitala-on-a-course) activity (= assignment) on a course page
+* [edit and delete the Digitala](#editing-and-deleting-a-Digitala) activity afterwards
+* [see student results](#see-student-results) on the Digitala activity
+* [suggest changes and add feedback](#suggest-changes-or-add-feedback-to-automated-assessment) to automated assessment on a student evaluation report
+* [download database reports](#download-database-reports) from the Digitala activity.
 
 ### Creating a new Digitala on a course
 
-A teacher with editing permissions can add a Digitala activity on a course page by turning the editing on on a course front page and then adding a new activity called "Digitala".
+A teacher with editing permissions can add a Digitala activity (= assignment) on a course page by turning the editing on on a course front page and then adding a new activity called "Digitala".
 
 <details>
   <summary>Figure: Adding Digitala on course</summary>
@@ -58,12 +61,13 @@ A teacher with editing permissions can add a Digitala activity on a course page 
 
 On the adding page the teacher has the option to give the activity a **name** which will be shown on the course page. Other options include:
 
-* **Language** - if the assignment if for Finnish or Swedish speech performance
+* **Language** - whether the assignment is for evaluating/practicing L2 Finnish or Swedish speech
 * **Type** - whether the assignment is to read a given text aloud or to talk more freely about the topic of the assignment
-* **Time limit** - A time limit for student speech performance which maxes up and defaults to 5 minutes.
+* **Time limit** - A time limit for student's speech performance which maxes up and defaults to 5 minutes.
 * **Attempt limit** - Optional limit for how many times students can submit their answer for evaluation. Defaults to unlimited.
 * **Assignment** - The assignment that the user should complete. This prompt will be sent to the evaluation API in the Freeform type of assignment, so if the API is trained with these kinds of tasks, it should also give a reasonable evaluation for "Task completion".
-* **Material** - If using Readaloud type of assignment, the text to be read should be provided here, preferrably in plain text. In Readaloud type this text will be sent to the evaluation API and the speech performance will be compared to this text. In Freeform type this field can be used to provide additional material such as helper questions or different media snippets.
+* **Material** - If using Read-aloud type of assignment, the text to be read should be provided here, preferably in plain text. In Read-aloud type this text will be sent to the evaluation API and the speech performance will be compared to this text. In Freeform type this field can be used to provide additional material such as guiding questions or different media snippets.
+* **More information** Information provided to the student on evaluation page. Could include for example audio examples of different levels of speech performances.
 * **Description** - This description won't be shown anywhere at the moment so there's no need for the use of it.
 
 <details>
@@ -74,7 +78,7 @@ On the adding page the teacher has the option to give the activity a **name** wh
 
 ### Editing and deleting a Digitala
 
-The Digitala setup can be edited from the activity wheel inside the Digitala instance.
+The Digitala setup can be edited from the activity wheel inside the Digitala activity.
 
 <details>
   <summary>Figure: Editing Digitala inside the activity</summary>
@@ -83,7 +87,7 @@ The Digitala setup can be edited from the activity wheel inside the Digitala ins
 </details>
 
 
-Also the editing mode on the course front page allows both editing and deleting the Digitala instance.
+Also the editing mode on the course front page allows both editing and deleting the Digitala activity.
 
 <details>
   <summary>Figure: Editing Digitala from course front page</summary>
@@ -102,7 +106,7 @@ A teacher can access the overview of the student results by choosing "View stude
   ![Navigate to overview](./../UI_views/teacher_overview_navigate.png)
 </details>
 
-Here the teacher can see the main grade of the students' speech performance, the length of the recording, the number of tries the student has made and the status of the evaluation. Here the teacher can also delete the attempts from one or all students, which will result in resetting the student's attempts to zero. From the link "See report" the teacher can see a detailed version of the student's evaluation report.
+Here the teacher can see the proficiency or pronunciation grade of the students' speech performance, the duration of the recording, the number of tries the student has made and the status of the evaluation. Here the teacher can also delete the attempts from one or all students, which will result in resetting the student's attempts to zero. From the link "See report" the teacher can see a detailed version of the student's evaluation report.
 
 <details>
   <summary>Figure: Overview of student results</summary>
@@ -110,7 +114,7 @@ Here the teacher can see the main grade of the students' speech performance, the
   ![Overview of student results](./../UI_views/teacher_overview.png)
 </details>
 
-### Give suggestions to correct automated assessment
+### Suggest changes or add feedback to automated assessment
 
 On the overview of the student results the teacher can see a detailed version of the student's performance by clicking the link "See report".
 
@@ -120,7 +124,7 @@ On the overview of the student results the teacher can see a detailed version of
   ![Detailed report](./../UI_views/teacher_detail_report.png)
 </details>
 
-On the bottom right of this view the teacher can also give feedback to the address set by the admin and on the bottom left also suggest changes to the automatic assessment.
+On the bottom right of this view the teacher can give feedback on the Digitala plugin to the address set by the admin. On the bottom left the teacher can suggest changes and add feedback to the automatic assessment.
 
 <details>
   <summary>Figure: Buttons for changing grades or giving feedback</summary>
@@ -129,7 +133,7 @@ On the bottom right of this view the teacher can also give feedback to the addre
 </details>
 
 <details>
-  <summary>Figure: Suggesting changes to automatic grades</summary>
+  <summary>Figure: Suggesting changes/adding feedback to automatic grades</summary>
 
   ![Suggest changes to grades](./../UI_views/teacher_edit_report2.png)
 </details>
@@ -144,7 +148,7 @@ The most recent teacher suggestions will be shown on the student report page bot
 
 ### Download database reports
 
-On the overview of the student results the teacher can download the database information in a CSV-form for both the attempts and the teacher suggestions for the grade changes.
+In the overview of the student results, the teacher can download the database information of both the student attempts and the teacher suggestions and feedback in a CSV-form. They can also download all the students' recordings as a zipped folder of wav-files.
 
 <details>
   <summary>Figure: Downloading database reports</summary>
@@ -162,7 +166,7 @@ A student can
 * [record, listen and submit](#recording-and-submitting-speech) their speech performance on the assignment view
 * [receive an automated evaluation](#evaluation-report-of-speech) of their performance on the evaluation view
 * [see teacher's feedback](#teachers-grading-suggestions) about the automated evaluation
-* [give feedback on the Digitala](#give-feedback-on-digitala)
+* [give feedback on the Digitala plugin](#give-feedback-on-digitala)
 
 ### Testing microphone
 
@@ -206,7 +210,7 @@ The student can record their answer to the assignment multiple times by clicking
   ![Submit answer](./../UI_views/student_submit.png)
 </details>
 
-If the student chooses to submit, the Digitala will redirect to the report page and show a loading symbol and text during the automated assessment. The evaluation can take from seconds to minutes depending on the recording length and other variables. On the page student can check if the evaluation is done, but if moving to other pages and returning when the evaluation is done, it will show automatically.
+If the student chooses to submit, the Digitala will redirect to the report page and show a loading symbol and text during the automated assessment. The evaluation can take from seconds to minutes depending on the recording duration and other variables. On the page student can check if the evaluation is done, but if moving to other pages and returning when the evaluation is done, it will show automatically.
 
 <details>
   <summary>Figure: Evaluation in progress</summary>
@@ -226,7 +230,7 @@ After the automated evaluation a report of the speech performance can be shown o
   ![Evaluation report view](./../UI_views/student_evaluation_report.png)
 </details>
 
-In the Readaloud type includes also a transcript showing missing parts in orange underline and incorrect parts in skyblue.
+The Readaloud type includes a transcript showing missing parts in orange underline and incorrect parts in skyblue.
 
 <details>
   <summary>Figure: Readaloud corrections</summary>
@@ -234,7 +238,7 @@ In the Readaloud type includes also a transcript showing missing parts in orange
   ![Readaloud corrections](./../UI_views/student_readaloud_corrections.png)
 </details>
 
-Charts show where the studen score is in a linear line and the black dots on charts hold the descriptions of different grades.
+Charts show the student's score with an orange vertical line and the black dots on charts hold the descriptions of different grades.
 
 <details>
   <summary>Figure: Charts</summary>
