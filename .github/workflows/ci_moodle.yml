@@ -85,7 +85,7 @@ jobs:
       fail-fast: false
       matrix:
         php: ['7.3', '7.4', '8.0']
-        moodle-branch: ['MOODLE_39_STABLE', 'MOODLE_311_STABLE', 'MOODLE_400_STABLE', 'master']
+        moodle-branch: ['MOODLE_311_STABLE', 'MOODLE_400_STABLE', 'master']
         database: [pgsql, mariadb]
         include:
           - php: '7.3'
@@ -133,7 +133,7 @@ jobs:
       - name: Print out API-containers logs
         run: echo $(docker logs digitala-api)
 
-      - name: Setup PHP ${{ matrix.php }}
+      - name: Setup PHP ${{ matrix.php }} != 8.0
         if: ${{ matrix.php != '8.0' }}
         uses: shivammathur/setup-php@v2
         with:
@@ -142,7 +142,7 @@ jobs:
           ini-values: max_input_vars=5000, memory_limit=-1, zend_enable_gc=0, max_file_size=100G, post_max_size=100G, upload_max_filesize=100G, tideways.log_segfaults=1
           coverage: none
 
-      - name: Setup PHP ${{ matrix.php }}
+      - name: Setup PHP ${{ matrix.php }} == 8.0
         if: ${{ matrix.php == '8.0' }}
         uses: shivammathur/setup-php@v2
         with:
@@ -231,7 +231,7 @@ jobs:
           vendor/bin/phpunit --testsuite mod_digitala_testsuite --debug --coverage-clover $(pwd)/../coverage/coverage.xml
           cd ..
 
-      - name: Codecov upload
+      - name: Codecov upload != 8.0
         uses: codecov/codecov-action@v2
         if: ${{ matrix.php != '8.0' }}
         with:
@@ -240,7 +240,7 @@ jobs:
           root_dir: ./moodle/mod/digitala/
           name: ${{ matrix.moodle-branch }} (${{ matrix.php }})
 
-      - name: Codecov upload
+      - name: Codecov upload == 8.0
         uses: codecov/codecov-action@v2
         if: ${{ matrix.php == '8.0' }}
         with:
