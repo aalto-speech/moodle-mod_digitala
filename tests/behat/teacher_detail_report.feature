@@ -94,7 +94,7 @@ Feature: Teacher can see students detailed report
     And I should see "Tämä on liikennevalojen perusteet -kurssi."
     And I should see "Number of attempts remaining: 1"
     And "//audio[@title='attempt_recording']" "xpath_element" should exist
-    And I should see "Original text"
+    And I should see "A transcript of your speech sample"
     And I should see "Show corrections"
     And I should see "A transcript of your speech sample"
     And I should see "transcript5"
@@ -123,7 +123,7 @@ Feature: Teacher can see students detailed report
     And I should see "Material"
     And I should see "Här är filmen om tiger."
     And I should see "Evaluation in progress"
-    And I should see "Evaluation is in progress, please do not leave the page. This may take some time."
+    And I should see "Evaluation is in progress. This may take some time."
     And I should see "Press here to check if evaluation is completed."
 
   Scenario: After sending to evaluation, waiting prompt is shown in readaloud
@@ -136,7 +136,7 @@ Feature: Teacher can see students detailed report
     And I should see "Material"
     And I should see "Tämä on liikennevalojen perusteet -kurssi."
     And I should see "Evaluation in progress"
-    And I should see "Evaluation is in progress, please do not leave the page. This may take some time."
+    And I should see "Evaluation is in progress. This may take some time."
     And I should see "Press here to check if evaluation is completed."
 
   Scenario: If evaluation failed, retry prompt is shown in freeform
