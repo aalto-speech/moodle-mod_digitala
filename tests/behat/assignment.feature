@@ -221,7 +221,6 @@ Feature: Student can see assignment text and resources
       | Freeform | seppo    |
       | Freeform | milla    |
 
-  @onlyone
   Scenario: If multiple students answer to multiple assignment, recording of all students is preserved
     When I am on the "Freeform" "mod_digitala > Assignment" page logged in as "olli"
     And I click on "record" "button"

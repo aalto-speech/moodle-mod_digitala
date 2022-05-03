@@ -52,9 +52,9 @@ $string['assignmenttext'] = 'Tehtävä';
 $string['assignmenttext_help'] = 'Tehtävänanto, jonka mukaan tulee tehdä puhesuoritus.';
 $string['assignmentresource'] = 'Aineisto';
 $string['assignmentresource_help'] = 'Tehtävän aineisto voidaan liittää tähän. Lue ääneen -tehtävän luettava teksti tulee tähän. Vapaa tuotto -tehtävässä tähän voidaan lisätä tekstiä, kuvia, kaavioita ja videoita, joita suorituksessa tulee hyödyntää.';
-$string['maxlength'] = 'Maksimipituus';
+$string['maxlength'] = 'Maksimikesto';
 $string['maxlength_error'] = 'Nauhoite saa olla maksimissaan 5 minuuttia pitkä';
-$string['maxlength_help'] = 'Nauhoitteen täytyy olla alle 5 minuuttia tai 300 sekuntia pituudessa.';
+$string['maxlength_help'] = 'Nauhoitteen keston täytyy olla alle 5 minuuttia tai 300 sekuntia.';
 
 $string['navnext'] = 'Seuraava >';
 $string['navprevious'] = '< Edellinen';
@@ -143,14 +143,14 @@ $string['lexicogrammatical_score-2'] = 'Käytät tavallisia sanoja ja osaat tehd
 $string['lexicogrammatical_score-3'] = 'Käytät monipuolisesti eri sanoja ja lauserakenteita.';
 
 $string['moreinformation'] = 'Lisätietoja';
-$string['moreinformation_help'] = 'Information to provide to the student after they have made an attempt.';
+$string['moreinformation_help'] = 'Opiskelijalle näytettävä lisätieto, joka liittyy tehtävän suorittamiseen tai arviointiin.';
 
 $string['api'] = 'API-palvelimen osoite';
 $string['api_help'] = 'Anna API-palvelimen osoite.';
 $string['key'] = 'API-palvelimen avain';
 $string['key_help'] = 'Anna API-palvelimen tunnistautumiseen käytettävä avain.';
 $string['feedbacklink'] = 'Anna palautesivun osoite';
-$string['feedbacklink_help'] = 'Anna verkkosivun osoite, johon käyttäjät voivat antaa palautetta arviointisivulla.';
+$string['feedbacklink_help'] = 'Anna osoite verkkosivulle, joka näkyy palautelomakkeena käyttäjille arviointisivulla.';
 
 $string['edit_report'] = 'Muokkaa arviointiraporttia';
 $string['holistic-reason'] = 'Palaute Taitotasosta';
@@ -195,7 +195,7 @@ $string['results_no-show'] = 'Ei vielä suorituksia.';
 $string['results_title'] = 'Käyttäjien suoritukset';
 $string['results_delete-title'] = 'Huom!';
 $string['results_waiting-title'] = 'Arviointi käynnissä';
-$string['results_waiting-info'] = 'Arviointi käynnissä, ethän poistu sivulta. Ole hyvä odota, arviointi voi viedä hetken.';
+$string['results_waiting-info'] = 'Arviointi käynnissä. Ole hyvä odota, arviointi voi viedä hetken.';
 $string['results_waiting-refresh'] = 'Tarkista tästä, onko arviointi valmis.';
 $string['results_waiting-loading'] = 'Ladataan arviointiraporttia...';
 $string['results_retry-title'] = 'Arviointi epäonnistui';
@@ -203,7 +203,7 @@ $string['results_retry-info'] = 'Automaattinen arviointi epäonnistui ja sitä y
 
 $string['export_attempts'] = 'Lataa kaikki suoritukset CSV-muodossa';
 $string['export_attempts_feedback'] = 'Lataa kaikki opettajan palautteet suorituksille CSV-muodossa';
-$string['export_recordings'] = 'Lataa kaikki tallennukset';
+$string['export_recordings'] = 'Lataa kaikki äänitteet';
 $string['export_success'] = 'CSV-tiedoston luonti onnistui.';
 
 $string['teachergrade'] = 'Opettajan arvosanaehdotus: ';

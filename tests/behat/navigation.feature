@@ -1,7 +1,5 @@
 @mod @mod_digitala @javascript
 Feature: Student can see all the phases and curren progress of the assignment
-  Student can send answer for evaluation to Aalto ASR
-  Student can receive assessment from Aalto ASR
 
   Background:
     Given the following "users" exist:
