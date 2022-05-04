@@ -5,7 +5,9 @@
 
 DigiTala is a Moodle plugin for assessing L2 Finnish and Swedish speech automatically. Students' speech performances are sent from the plugin to an evaluation API designed and built by Aalto University. Digitala-plugin is a part of the [DigiTala research project](https://www2.helsinki.fi/fi/unitube/video/3275014c-49bf-4583-befc-840128521998) and is constructed by Bachelor level Computer Science students during spring 2022 in the University of Helsinki (documentation and files related solely to the university project can be found in the [project docs](/docs/project_docs/)).
 
-The basic usage of Digitala is shown in a [short introduction video](/).
+The basic usage of Digitala is shown in a short introduction video.
+
+https://user-images.githubusercontent.com/6292793/166821590-056ffd35-d4ff-4f5f-bdf2-77006ba32a5c.mp4
 
 ## Installation
 
