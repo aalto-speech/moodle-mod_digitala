@@ -199,7 +199,7 @@ $string['results_waiting-info'] = 'Evaluation is in progress. This may take some
 $string['results_waiting-refresh'] = 'Press here to check if evaluation is completed.';
 $string['results_waiting-loading'] = 'Loading evaluation report...';
 $string['results_retry-title'] = 'Evaluation failed';
-$string['results_retry-info'] = 'Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time.';
+$string['results_retry-info'] = 'Automated evaluation failed and will be run again in couple of hours. The new evaluation attempt can take some time.';
 
 $string['export_attempts'] = 'Export all attempts as CSV';
 $string['export_attempts_feedback'] = 'Export all teacher feedback for attempts as CSV';

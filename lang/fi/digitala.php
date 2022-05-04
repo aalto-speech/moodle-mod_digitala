@@ -199,7 +199,7 @@ $string['results_waiting-info'] = 'Arviointi käynnissä. Ole hyvä odota, arvio
 $string['results_waiting-refresh'] = 'Tarkista tästä, onko arviointi valmis.';
 $string['results_waiting-loading'] = 'Ladataan arviointiraporttia...';
 $string['results_retry-title'] = 'Arviointi epäonnistui';
-$string['results_retry-info'] = 'Automaattinen arviointi epäonnistui ja sitä yritetään uudestaan tunnin kuluttua. Uusi arviointi voi kestää hetken.';
+$string['results_retry-info'] = 'Automaattinen arviointi epäonnistui ja sitä yritetään uudestaan muutaman tunnin kuluttua. Uusi arviointi voi kestää hetken.';
 
 $string['export_attempts'] = 'Lataa kaikki suoritukset CSV-muodossa';
 $string['export_attempts_feedback'] = 'Lataa kaikki opettajan palautteet suorituksille CSV-muodossa';
