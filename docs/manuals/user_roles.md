@@ -53,6 +53,8 @@ Teacher can also
 
 A teacher with editing permissions can add a Digitala activity (= assignment) on a course page by turning the editing on on a course front page and then adding a new activity called "Digitala".
 
+https://user-images.githubusercontent.com/6292793/166822139-507da7e6-8112-40de-905e-21ea563adc66.mp4
+
 <details>
   <summary>Figure: Adding Digitala on course</summary>
 
@@ -80,12 +82,13 @@ On the adding page the teacher has the option to give the activity a **name** wh
 
 The Digitala setup can be edited from the activity wheel inside the Digitala activity.
 
+https://user-images.githubusercontent.com/6292793/166821889-c483e54d-e87b-4c41-88e2-a6e2b558779a.mp4
+
 <details>
   <summary>Figure: Editing Digitala inside the activity</summary>
 
   ![Edit in digitala](./../UI_views/teacher_edit_delete_digitala2.png)
 </details>
-
 
 Also the editing mode on the course front page allows both editing and deleting the Digitala activity.
 
@@ -100,6 +103,8 @@ Also the editing mode on the course front page allows both editing and deleting 
 
 A teacher can access the overview of the student results by choosing "View student results" on the activity wheel in the Digitala.
 
+https://user-images.githubusercontent.com/6292793/166822414-f16d9742-1304-404e-8a36-e39894d15a6b.mp4
+
 <details>
   <summary>Figure: Navigating to student results overview</summary>
 
@@ -107,6 +112,8 @@ A teacher can access the overview of the student results by choosing "View stude
 </details>
 
 Here the teacher can see the proficiency or pronunciation grade of the students' speech performance, the duration of the recording, the number of tries the student has made and the status of the evaluation. Here the teacher can also delete the attempts from one or all students, which will result in resetting the student's attempts to zero. From the link "See report" the teacher can see a detailed version of the student's evaluation report.
+
+https://user-images.githubusercontent.com/6292793/166822489-a1c4f6a7-79a9-4e3e-b1ef-71951b53f780.mp4
 
 <details>
   <summary>Figure: Overview of student results</summary>
@@ -172,6 +179,8 @@ A student can
 
 On the first view the student can test if their microphone works. The browser may ask to give permissions to use the microphone. The student can record a speech snippet and try to playback the sound. If everything sounds right and the microphone icon shows a green circle behind it, the settings are fine for the assignment. If there's something to correct with the microphone permissions, the play button will prompt to check settings.
 
+https://user-images.githubusercontent.com/6292793/166822300-d0f5d656-5e74-4fb9-8ea1-b5108ce5bfa7.mp4
+
 <details>
   <summary>Figure: Microphone testing view</summary>
 
@@ -204,6 +213,8 @@ Bottom left there's a box for the recording. This box also shows if there's a ti
 
 The student can record their answer to the assignment multiple times by clicking the start and stop buttons on the recording box. After stopping a submission button is shown.
 
+https://user-images.githubusercontent.com/6292793/166822260-c2c4116b-d82c-41e0-afbc-093f985a711b.mp4
+
 <details>
   <summary>Figure: Submit answer</summary>
 
@@ -223,6 +234,8 @@ At this point the student is free to move in the Moodle and come later to check 
 ### Evaluation report of speech
 
 After the automated evaluation a report of the speech performance can be shown on the third phase. This includes the recording and a transcript of the speech.
+
+https://user-images.githubusercontent.com/6292793/166822351-c6498be2-4a0a-4257-9cad-9ce13cd5c0e1.mp4
 
 <details>
   <summary>Figure: Evaluation report</summary>
