@@ -117,7 +117,7 @@ Feature: Student can see report with transcript, numeric gradings and verbal fee
   Scenario Outline: If evaluation failed, retry prompt is shown
     When I am on the "<activity>" "mod_digitala > Report" page logged in as "<student>"
     And I should see "Evaluation failed"
-    And I should see "Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time."
+    And I should see "Automated evaluation failed and will be run again in couple of hours. The new evaluation attempt can take some time."
     Then I am on the "<activity>" "mod_digitala > Assignment" page logged in as "<student>"
     And I should see "Evaluation is in progress. This may take some time."
     And I should see "Press here to check if evaluation is completed."

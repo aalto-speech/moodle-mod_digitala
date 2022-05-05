@@ -269,7 +269,7 @@ class locallib_test extends \advanced_testcase {
      */
     public function test_create_report_retry() {
         $result = create_report_retry();
-        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation failed</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time.</p></div></div></div>', $result);
+        $this->assertEquals('<div class="card row digitala-card"><div class="card-body"><h5 class="card-title">Evaluation failed</h5><div class="card-text"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading evaluation report...</span></div><p>Automated evaluation failed and will be run again in couple of hours. The new evaluation attempt can take some time.</p></div></div></div>', $result);
     }
 
     /**
