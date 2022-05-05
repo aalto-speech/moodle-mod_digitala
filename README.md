@@ -13,7 +13,7 @@ https://user-images.githubusercontent.com/6292793/166821590-056ffd35-d4ff-4f5f-b
 
 Download the latest release from the GitHub [releases](https://github.com/aalto-speech/moodle-puheentunnistus/releases). As an admin in Moodle, navigate to *Site administration -> Plugins -> Install plugins* page and place the downloaded zip-file in the given field.
 
-If you're running Moodle locally or have otherwise access to the Moodle file system, you can navigate to *moodle/mod/* and clone this project via command line with ```git clone https://github.com/aalto-speech/moodle-puheentunnistus.git digitala```.
+If you're running Moodle locally or have otherwise access to the Moodle file system, you can navigate to *moodle/mod/* and clone this project via command line with ```git clone https://github.com/aalto-speech/moodle-mod_digitala.git digitala```.
 
 After installation you'll be prompted to give the address and key to the evaluation API which can be received from Aalto. These are defaulted to a [mock server](./docs/manuals/localapi.md) which will always give the same evaluations. You can also provide a link for users of the activity for gathering user experiences.
 
