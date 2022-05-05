@@ -149,7 +149,7 @@ Feature: Teacher can see students detailed report
     And I should see "Material"
     And I should see "Här är filmen om tiger."
     And I should see "Evaluation failed"
-    And I should see "Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time."
+    And I should see "Automated evaluation failed and will be run again in couple of hours. The new evaluation attempt can take some time."
 
   Scenario: If evaluation failed, retry prompt is shown in readaloud
     When I am on the "Readaloud > seppo" "mod_digitala > Teacher Report Details" page logged in as "ossi"
@@ -161,7 +161,7 @@ Feature: Teacher can see students detailed report
     And I should see "Material"
     And I should see "Tämä on liikennevalojen perusteet -kurssi."
     And I should see "Evaluation failed"
-    And I should see "Automated evaluation failed and will be run again in an hour. The new evaluation attempt can take some time."
+    And I should see "Automated evaluation failed and will be run again in couple of hours. The new evaluation attempt can take some time."
 
   Scenario: Detailed report shows correctly for freeform if failed to evaluate
     When I am on the "Freeform > milla" "mod_digitala > Teacher Report Details" page logged in as "ossi"
