@@ -199,7 +199,7 @@ $string['results_waiting-info'] = 'Bedömning pågår. Var god vänta, bedömnin
 $string['results_waiting-refresh'] = 'Kolla här om bedömningen är färdig.';
 $string['results_waiting-loading'] = 'Laddar upp bedömningsrapporten...';
 $string['results_retry-title'] = 'Bedömningen misslyckades';
-$string['results_retry-info'] = 'Bedömningen misslyckades och ett nytt försök görs om en par timme. Den nya bedömningen kan ta lite tid.';
+$string['results_retry-info'] = 'Bedömningen misslyckades och ett nytt försök görs om några timmar. Den nya bedömningen kan ta lite tid.';
 
 $string['export_attempts'] = 'Ladda ner alla försök i CSV-format';
 $string['export_attempts_feedback'] = 'Ladda ner lärarens feedback för alla försök i CSV-format';
